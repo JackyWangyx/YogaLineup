@@ -36,12 +36,12 @@ namespace Aya.EditorScript
             win.Show();
         }
 
-        static AndroidKeyStoreEditor()
+        public void OnEnable()
         {
-            keystoreName = EditorPrefs.GetString(Application.productName + KEY_STORE_NAME_PREFS, Application.dataPath + "/../AyaGameStudio.keystore");
-            keystorePass = EditorPrefs.GetString(Application.productName + KEY_STORE_PASS_PREFS, "AyaGame@AyaGame9512");
-            keyaliasName = EditorPrefs.GetString(Application.productName + KEY_ALIAS_NAME_PREFS, "ayagamestudio.keystore");
-            keyaliasPass = EditorPrefs.GetString(Application.productName + KEY_ALIAS_PASS_PREFS, "AyaGame@AyaGame9512");
+            keystoreName = EditorPrefs.GetString(Application.productName + KEY_STORE_NAME_PREFS, Application.dataPath + "/Plugins/signKey.keystore");
+            keystorePass = EditorPrefs.GetString(Application.productName + KEY_STORE_PASS_PREFS, "gamelastic5566");
+            keyaliasName = EditorPrefs.GetString(Application.productName + KEY_ALIAS_NAME_PREFS, "gamelastic");
+            keyaliasPass = EditorPrefs.GetString(Application.productName + KEY_ALIAS_PASS_PREFS, "gamelastic5566");
         }
 
         private static bool _alreadySign = false;

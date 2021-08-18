@@ -34,9 +34,6 @@ namespace Aya.TweenPro
         public bool SingleMode => Data != null && Data.SingleMode;
         public float TotalDuration => Delay + Duration;
 
-        public bool CanMoveDown => Index < Data.TweenerList.Count - 1;
-        public bool CanMoveUp => Index > 0;
-
         #region Cache
 
         public float DurationFrom
@@ -200,28 +197,6 @@ namespace Aya.TweenPro
         {
 
         }
-
-        public void MoveUp()
-        {
-            if (!CanMoveUp) return;
-#if UNITY_EDITOR
-            Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Move Up");
-#endif
-            var swapTemp = Data.TweenerList[Index - 1];
-            Data.TweenerList[Index - 1] = Data.TweenerList[Index];
-            Data.TweenerList[Index] = swapTemp;
-        }
-
-        public void MoveDown()
-        {
-            if (!CanMoveDown) return;
-#if UNITY_EDITOR
-            Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Move Down");
-#endif
-            var swapTemp = Data.TweenerList[Index + 1];
-            Data.TweenerList[Index + 1] = Data.TweenerList[Index];
-            Data.TweenerList[Index] = swapTemp;
-        }
     }
 
 #if UNITY_EDITOR
@@ -250,6 +225,9 @@ namespace Aya.TweenPro
         [SerializeField] internal bool FoldOut = true;
         // [SerializeField] internal bool ShowEvent = false;
         [SerializeField] internal TweenDurationMode DurationMode = TweenDurationMode.DurationDelay;
+
+        public bool CanMoveDown => Index < Data.TweenerList.Count - 1;
+        public bool CanMoveUp => Index > 0;
 
         public string DisplayName
         {
@@ -579,6 +557,24 @@ namespace Aya.TweenPro
         }
 
         #region Context Menu
+
+        public void MoveUp()
+        {
+            if (!CanMoveUp) return;
+            Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Move Up");
+            var swapTemp = Data.TweenerList[Index - 1];
+            Data.TweenerList[Index - 1] = Data.TweenerList[Index];
+            Data.TweenerList[Index] = swapTemp;
+        }
+
+        public void MoveDown()
+        {
+            if (!CanMoveDown) return;
+            Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Move Down");
+            var swapTemp = Data.TweenerList[Index + 1];
+            Data.TweenerList[Index + 1] = Data.TweenerList[Index];
+            Data.TweenerList[Index] = swapTemp;
+        }
 
         public virtual GenericMenu CreateContextMenu()
         {
