@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemGameOver : BaseItem<Player>
+public class ItemGameLose : BaseItem<Player>
 {
     public override bool IsUseful => false;
     public override void OnTargetEnter(Player target)

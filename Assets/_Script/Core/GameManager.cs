@@ -17,15 +17,23 @@ public enum GamePhase
     Waiting,
 }
 
+[Serializable]
+public class PlayerData
+{
+    public int Point;
+    public GameObject Player;
+}
 
 public class GameManager : MonoSingleton<GameManager>
 {
     public int LevelIndex = 1;
     public int LevelCount;
 
+    public List<PlayerData> PlayerDatas;
+
     public Level Level { get; set; }
 
-    public Player Player { get; set; }
+    public Player Player;
     public GamePhase Phase { get; set; }
 
     public virtual void Start()
@@ -71,7 +79,7 @@ public class GameManager : MonoSingleton<GameManager>
         Phase = GamePhase.Gaming;
         CameraManager.Ins.SwitchCamera("Game");
         UIController.Ins.Show<UIGame>();
-        // CameraManager.Ins.Current.Camera.Follow = Player.transform;
+        Player.StartRun();
     }
 
     public void Update()

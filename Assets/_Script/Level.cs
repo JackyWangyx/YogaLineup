@@ -2,13 +2,15 @@
 using UnityEngine;
 using Aya.Extension;
 using Aya.Simplify;
+using Dreamteck.Splines;
 
 public class Level : MonoBehaviour
 {
-    public Transform StartPoint;
+    public SplineComputer Path;
+    public float Width;
 
     public void Init()
     {
-
+        GameManager.Ins.Player.Init();
     }
 }

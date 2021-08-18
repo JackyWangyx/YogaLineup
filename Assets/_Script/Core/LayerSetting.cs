@@ -7,4 +7,5 @@ public class LayerSetting : MonoSingleton<GameManager>
 {
     public LayerMask Player;
     public LayerMask Item;
+    public LayerMask Road;
 }

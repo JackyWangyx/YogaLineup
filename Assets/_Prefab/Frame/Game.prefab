@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3260612145767445437}
   - component: {fileID: 3260612145767445436}
-  - component: {fileID: 3260612145767445379}
   - component: {fileID: 3260612145861153374}
+  - component: {fileID: 3260612145767445379}
+  - component: {fileID: 4482811855038543948}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -47,18 +48,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelIndex: 1
   LevelCount: 1
---- !u!114 &3260612145767445379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3260612145767445378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fffc50ec9b31ce947b8ee8fbe74cf471, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  PlayerDatas:
+  - Point: 0
+    Player: {fileID: 998857136664910943, guid: fd6114c19d595e543a2887a7b5ac2258, type: 3}
+  - Point: 10
+    Player: {fileID: 7282428935734915358, guid: c6b75fdf9362a454a96d6ce0ba1aa39d,
+      type: 3}
+  - Point: 20
+    Player: {fileID: 9059259257126383091, guid: aaf5b1bfd41bf394f9a3989d718cadb2,
+      type: 3}
+  - Point: 30
+    Player: {fileID: 6079163831003310490, guid: dabce3aa03851ac4faf8f156e2f722a4,
+      type: 3}
+  Player: {fileID: 0}
 --- !u!114 &3260612145861153374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,7 +75,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   Item:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
+  Road:
+    serializedVersion: 2
+    m_Bits: 8192
+--- !u!114 &3260612145767445379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3260612145767445378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fffc50ec9b31ce947b8ee8fbe74cf471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4482811855038543948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3260612145767445378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93fb937556de5054f9aaa39c10d560a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Context: Default
+  Key: Level
+  Direction: 0
+  UpdateType: 0
+  Target: {fileID: 3260612145767445436}
+  Property: LevelIndex

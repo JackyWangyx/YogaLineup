@@ -11,20 +11,28 @@ public abstract class BaseItem<T> : MonoBehaviour where T : Component
     public Transform Render { get; set; }
     public List<Collider> ColliderList { get; set; }
     public List<ColliderListener> ColliderListeners { get; set; }
+    public Animator Animator { get; set; }
+
+    [Header("Pram")]
     public LayerMask LayerMask;
     public bool DeSpawnAfterEffect = true;
     public bool DeActiveRender;
     public bool EffectiveOnce = true;
+    [Header("Effect")]
     public GameObject EffectFx;
+    [Header("Animator")] 
+    public string DefaultClip;
+    public string EffectClip;
 
     public bool Active { get; set; }
 
-    public abstract bool IsUseful { get; }
+    public virtual bool IsUseful => true;
     public T Target { get; set; } 
 
     public virtual void Awake()
     {
         Render = transform.Find("Render");
+        Animator = GetComponentInChildren<Animator>();
         ColliderList = GetComponentsInChildren<Collider>().ToList();
         ColliderListeners = new List<ColliderListener>();
         foreach (var col in ColliderList)
@@ -35,6 +43,11 @@ public abstract class BaseItem<T> : MonoBehaviour where T : Component
             listener.onTriggerEnter.Add<T>(LayerMask, OnEnter);
             listener.onTriggerExit.Add<T>(LayerMask, OnExit);
             ColliderListeners.Add(listener);
+        }
+
+        if (Animator != null && !string.IsNullOrEmpty(DefaultClip))
+        {
+            Animator.Play(DefaultClip);
         }
 
         Active = true;
@@ -62,6 +75,11 @@ public abstract class BaseItem<T> : MonoBehaviour where T : Component
         if (EffectFx != null)
         {
             ParticleSpawner.Spawn(EffectFx, PoolManager.Ins.transform, transform.position);
+        }
+
+        if (Animator != null && !string.IsNullOrEmpty(EffectClip))
+        {
+            Animator.Play(EffectClip);
         }
 
         if (DeSpawnAfterEffect)
