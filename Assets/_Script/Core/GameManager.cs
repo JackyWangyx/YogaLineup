@@ -1,0 +1,104 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Aya.Extension;
+using Aya.Particle;
+using Aya.Singleton;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public enum GamePhase
+{
+    Ready,
+    Gaming,
+    Win,
+    Fail,
+
+    Waiting,
+}
+
+
+public class GameManager : MonoSingleton<GameManager>
+{
+    public int LevelIndex = 1;
+    public int LevelCount;
+
+    public Level Level { get; set; }
+
+    public Player Player { get; set; }
+    public GamePhase Phase { get; set; }
+
+    public virtual void Start()
+    {
+        LevelStart();
+    }
+
+    public virtual void NextLevel()
+    {
+        LevelIndex++;
+        if (LevelIndex > LevelCount) LevelIndex = 1;
+
+        LevelStart();
+    }
+
+    public virtual void LevelStart()
+    {
+        UIController.Ins.HideAll();
+        ParticleSpawner.EntityPool.DeSpawnAll();
+        var index = LevelIndex;
+
+        if (Level != null)
+        {
+            DestroyImmediate(Level.gameObject);
+            Level = null;
+        }
+
+        Level = Instantiate(Resources.Load<Level>("Level/Level_" + index.ToString("D2")), Vector3.zero, Quaternion.identity);
+        Level.Init();
+
+        GameReady();
+    }
+
+    public virtual void GameReady()
+    {
+        Phase = GamePhase.Ready;
+        CameraManager.Ins.SwitchCamera("Ready");
+        GameStart();
+    }
+
+    public virtual void GameStart()
+    {
+        Phase = GamePhase.Gaming;
+        CameraManager.Ins.SwitchCamera("Game");
+        UIController.Ins.Show<UIGame>();
+        // CameraManager.Ins.Current.Camera.Follow = Player.transform;
+    }
+
+    public void Update()
+    {
+        GameUpdate();
+    }
+
+    public virtual void GameUpdate()
+    {
+        if (Phase == GamePhase.Gaming)
+        {
+
+        }
+    }
+
+    public virtual void GameWin()
+    {
+        Phase = GamePhase.Win;
+        // CameraManager.Ins.SwitchCamera("Finish");
+        UIController.Ins.Show<UIWin>();
+        Player.Win();
+    }
+
+    public virtual void GameLose()
+    {
+        Phase = GamePhase.Fail;
+        // CameraManager.Ins.SwitchCamera("Finish");
+        UIController.Ins.Show<UILose>();
+    }
+}

@@ -1,0 +1,209 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+namespace Aya.TweenPro
+{
+    [ExecuteInEditMode]
+    [AddComponentMenu("UTween Pro/UTween Animation")]
+    public partial class UTweenAnimation : MonoBehaviour
+    {
+        public TweenData Data = new TweenData();
+
+        public virtual void Awake()
+        {
+            Data.TweenAnimation = this;
+            Data.ControlMode = TweenControlMode.Component;
+            if (Application.isPlaying) Data.Awake();
+        }
+
+        public virtual void OnEnable()
+        {
+            if (Application.isPlaying) Data.OnEnable();
+        }
+
+        public virtual void Start()
+        {
+            if (Application.isPlaying) Data.Start();
+        }
+
+        public virtual void OnDisable()
+        {
+            if (Application.isPlaying) Data.OnDisable();
+        }
+
+        public virtual void Reset()
+        {
+            Data.Reset();
+        }
+
+#if UNITY_EDITOR
+        public virtual void OnDrawGizmos()
+        {
+            if (Selection.activeObject != gameObject) return;
+            Data.OnDrawGizmos();
+        }
+#endif
+    }
+
+#if UNITY_EDITOR
+
+    public partial class UTweenAnimation
+    {
+        #region Editor Preview
+
+        internal double LastTimeSinceStartup = -1f;
+
+        internal void PreviewStart()
+        {
+            LastTimeSinceStartup = -1f;
+            EditorApplication.update += EditorUpdate;
+        }
+
+        internal void PreviewEnd()
+        {
+            EditorApplication.update -= EditorUpdate;
+        }
+
+        internal void EditorUpdate()
+        {
+            var currentTime = EditorApplication.timeSinceStartup;
+            if (LastTimeSinceStartup < 0f)
+            {
+                LastTimeSinceStartup = currentTime;
+            }
+
+            var deltaTime = (float)(currentTime - LastTimeSinceStartup);
+            LastTimeSinceStartup = currentTime;
+
+            var smoothDeltaTime = deltaTime;
+            var scaledDeltaTime = deltaTime;
+            var unscaledDeltaTime = deltaTime;
+
+            EditorUpdateImpl(scaledDeltaTime, unscaledDeltaTime, smoothDeltaTime);
+        }
+
+        internal void EditorUpdateImpl(float scaledDeltaTime, float unscaledDeltaTime, float smoothDeltaTime)
+        {
+            try
+            {
+                Data.UpdateInternal(scaledDeltaTime, unscaledDeltaTime, smoothDeltaTime);
+            }
+            catch (Exception exception)
+            {
+                UTweenCallback.OnException(exception);
+            }
+        }
+
+        #endregion
+
+        #region Context Menu
+       
+        [ContextMenu("Expand All Tweener")]
+        public void ExpandAllTweener()
+        {
+            Undo.RegisterCompleteObjectUndo(this, "Expand All Tweener");
+            foreach (var tweener in Data.TweenerList)
+            {
+                tweener.FoldOut = true;
+            }
+        }
+
+        [ContextMenu("Shrink All Tweener")]
+        public void ShrinkAllTweener()
+        {
+            Undo.RegisterCompleteObjectUndo(this, "Shrink All Tweener");
+            foreach (var tweener in Data.TweenerList)
+            {
+                tweener.FoldOut = false;
+            }
+        }
+
+        [ContextMenu("Active All Tweener")]
+        public void ActiveAllTweener()
+        {
+            Undo.RegisterCompleteObjectUndo(this, "Active All Tweener");
+            foreach (var tweener in Data.TweenerList)
+            {
+                tweener.Active = true;
+            }
+        }
+
+        [ContextMenu("DeActive All Tweener")]
+        public void DeActiveAllTweener()
+        {
+            Undo.RegisterCompleteObjectUndo(this, "DeActive All Tweener");
+            foreach (var tweener in Data.TweenerList)
+            {
+                tweener.Active = false;
+            }
+        } 
+
+        #endregion
+    }
+
+    [CustomEditor(typeof(UTweenAnimation))]
+    [CanEditMultipleObjects]
+    public class UTweenAnimationEditor : Editor
+    {
+        public virtual UTweenAnimation Target => target as UTweenAnimation;
+        public UTweenAnimation TweenAnimation => Target;
+        public TweenData Data => Target.Data;
+        public List<Tweener> TweenerList => Data.TweenerList;
+
+        [NonSerialized] public SerializedProperty TweenParamProperty;
+        [NonSerialized] public SerializedProperty TweenerListProperty;
+
+        public virtual void OnEnable()
+        {
+            InitEditor();
+            Data.RecordObject();
+        }
+
+        public virtual void OnDisable()
+        {
+        }
+
+        public virtual void OnDestroy()
+        {
+#if UNITY_EDITOR
+            if (Data.PreviewSampled)
+            {
+                Data.RestoreObject();
+                if (Data.IsPlaying)
+                {
+                    Data.Stop();
+                }
+            }
+#endif
+        }
+
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+            Data.OnInspectorGUI();
+            serializedObject.ApplyModifiedProperties();
+
+            if (Data.IsInProgress)
+            {
+                Repaint();
+            }
+        }
+
+        public virtual void InitEditor()
+        {
+            Data.EditorNormalizedProgress = 0f;
+            Data.TweenAnimation = Target;
+
+            TweenParamProperty = serializedObject.FindProperty(nameof(Data));
+            TweenerListProperty = TweenParamProperty.FindPropertyRelative(nameof(Data.TweenerList));
+
+            Data.InitEditor(TweenEditorMode.Component, this);
+        }
+    }
+
+#endif
+}
