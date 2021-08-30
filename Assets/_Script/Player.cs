@@ -1,4 +1,5 @@
 ﻿using Aya.Extension;
+using Aya.Particle;
 using Aya.Physical;
 using Dreamteck.Splines;
 using Sirenix.OdinInspector;
@@ -11,6 +12,10 @@ public class Player : MonoBehaviour
     public float RunSpeed;
     public float RotateSpeed;
     public float TurnSpeed;
+
+    [Header("Fx")]
+    public GameObject AddPointFx;
+    public GameObject ReducePointFx;
 
     public int Point { get; set; }
     public int Rank { get; set; }
@@ -28,6 +33,23 @@ public class Player : MonoBehaviour
     public void Awake()
     {
         CacheComponent();
+    }
+
+    public void ChangePoint(int diff)
+    {
+        Point += diff;
+        if (Point < 0) Point = 0;
+        RefreshRender(Point);
+
+        if (diff > 0)
+        {
+            if (AddPointFx != null) ParticleSpawner.Spawn(AddPointFx, RenderTrans, RenderTrans.position);
+
+        }
+        else
+        {
+            if (ReducePointFx != null) ParticleSpawner.Spawn(ReducePointFx, RenderTrans, RenderTrans.position);
+        }
     }
 
     public void CacheComponent()
