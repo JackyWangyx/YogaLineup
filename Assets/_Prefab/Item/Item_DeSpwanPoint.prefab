@@ -227,3 +227,6 @@ MonoBehaviour:
   AddValue: -5
   MultiplyValue: 1
   Text: {fileID: 0}
+  ShowTip: 1
+  GoodTipColor: {r: 0.29992044, g: 1, b: 0, a: 1}
+  BadTipColor: {r: 1, g: 0, b: 0, a: 1}

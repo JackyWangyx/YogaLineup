@@ -9,30 +9,37 @@ public class ItemPoint : BaseItem<Player>
     public int AddValue;
     public float MultiplyValue = 1f;
     public TMP_Text Text;
+    public bool ShowTip;
+    public Color GoodTipColor;
+    public Color BadTipColor;
+
+    public string TextValue { get; set; }
 
     public override void Awake()
     {
         base.Awake();
 
-        if (Text != null)
+        if (AddValue != 0)
         {
-            if (AddValue != 0)
+            if (AddValue > 0) TextValue = "＋" + AddValue;
+            else TextValue = "－" + Mathf.Abs(AddValue);
+        }
+        else
+        {
+            if (MultiplyValue > 1f)
             {
-                if (AddValue > 0) Text.text = "＋" + AddValue;
-                else Text.text = "－" + Mathf.Abs(AddValue);
+                TextValue = "×" + MultiplyValue;
             }
             else
             {
-                if (MultiplyValue > 1f)
-                {
-                    Text.text = "×" + MultiplyValue;
-                }
-                else
-                {
-                    var value = 1f / MultiplyValue;
-                    Text.text = "÷" + value;
-                }
+                var value = 1f / MultiplyValue;
+                TextValue = "÷" + value;
             }
+        }
+
+        if (Text != null)
+        {
+            Text.text = TextValue;
         }
     }
 
@@ -46,12 +53,16 @@ public class ItemPoint : BaseItem<Player>
         }
         else
         {
-            diff = -diff;
-            target.Point -= diff;
+            target.Point -= -diff;
         }
 
         if (target.Point < 0) target.Point = 0;
         target.RefreshRender(target.Point);
+
+        if (ShowTip)
+        {
+            UITip.Ins.ShowTipWithWorldPos(TextValue, diff > 0 ? GoodTipColor : BadTipColor, transform.position);
+        }
     }
 
     public override void OnTargetExit(Player target)
