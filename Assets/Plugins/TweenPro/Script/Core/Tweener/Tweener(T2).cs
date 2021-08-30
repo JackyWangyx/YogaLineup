@@ -186,10 +186,10 @@ namespace Aya.TweenPro
                 using (GUILabelWidthArea.Create(EditorStyle.CharacterWidth))
                 {
                     var toggleAxises = new bool[4];
-                    if (AxisCount >= 1) toggleAxises[0] = EditorGUILayout.Toggle(AxisXName, AxisX);
-                    if (AxisCount >= 2) toggleAxises[1] = EditorGUILayout.Toggle(AxisYName, AxisY);
-                    if (AxisCount >= 3) toggleAxises[2] = EditorGUILayout.Toggle(AxisZName, AxisZ);
-                    if (AxisCount >= 4) toggleAxises[3] = EditorGUILayout.Toggle(AxisWName, AxisW);
+                    if (AxisCount >= 1) toggleAxises[0] = GUIUtil.ToggleButton(AxisXName, AxisX, Color.white, EditorStyle.DisableColor);
+                    if (AxisCount >= 2) toggleAxises[1] = GUIUtil.ToggleButton(AxisYName, AxisY, Color.white, EditorStyle.DisableColor);
+                    if (AxisCount >= 3) toggleAxises[2] = GUIUtil.ToggleButton(AxisZName, AxisZ, Color.white, EditorStyle.DisableColor);
+                    if (AxisCount >= 4) toggleAxises[3] = GUIUtil.ToggleButton(AxisWName, AxisW, Color.white, EditorStyle.DisableColor);
                     var axis = 0;
                     for (var i = 0; i < 4; i++)
                     {

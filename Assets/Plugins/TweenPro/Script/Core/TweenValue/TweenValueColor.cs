@@ -59,7 +59,7 @@ namespace Aya.TweenPro
 
         [NonSerialized] public SerializedProperty ColorModeProperty;
         [NonSerialized] public SerializedProperty GradientProperty;
-         
+
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);

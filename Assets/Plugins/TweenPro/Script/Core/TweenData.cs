@@ -226,8 +226,8 @@ namespace Aya.TweenPro
             if (TweenerList.Contains(tweener)) return;
             if (tweener.Data != null)
             {
-                if (tweener.Data == this) return;
                 tweener.Data.RemoveTweener(tweener);
+                tweener.Data = null;
             }
 
             TweenerList.Add(tweener);

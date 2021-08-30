@@ -70,15 +70,26 @@ namespace Aya.TweenPro
 
         public static void ToggleButton(SerializedProperty property, string propertyName)
         {
+            property.boolValue = ToggleButton(propertyName, property.boolValue);
+        }
+
+        public static bool ToggleButton(string propertyName, bool value)
+        {
+            return ToggleButton(propertyName, value, EditorStyle.EnableColor, EditorStyle.DisableColor);
+        }
+
+        public static bool ToggleButton(string propertyName, bool value, Color enableColor, Color disableColor)
+        {
             using (GUIHorizontal.Create())
             {
                 var btnStyle = EditorStyles.miniButton;
                 btnStyle.margin = new RectOffset();
 
                 var rect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight, EditorStyles.miniButton);
-                using (GUIColorArea.Create(EditorStyle.EnableColor, EditorStyle.DisableColor, property.boolValue))
+                using (GUIColorArea.Create(enableColor, disableColor, value))
                 {
-                    property.boolValue = GUI.Toggle(rect, property.boolValue, propertyName, btnStyle);
+                    var result = GUI.Toggle(rect, value, propertyName, btnStyle);
+                    return result;
                 }
             }
         }

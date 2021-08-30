@@ -262,6 +262,11 @@ namespace Aya.TweenPro
             base.OnInspectorGUI();
             DrawPlayStats();
             DrawPoolStats();
+
+            if (Application.isPlaying)
+            {
+                Repaint();
+            }
         }
 
         public void DrawPlayStats()
@@ -279,7 +284,7 @@ namespace Aya.TweenPro
                     var poolList = kv.Value;
 
                     GUILayout.Label(type.Name);
-                    GUILayout.Label($"{poolList.ActiveCount}/{poolList.DeActiveCount}/{poolList.Count}");
+                    GUILayout.Label($"<color=green>{poolList.ActiveCount}</color>/<color=yellow>{poolList.DeActiveCount}</color>/<color=white>{poolList.Count}</color>", EditorStyle.RichLabel);
                 }
             }
         }

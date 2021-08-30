@@ -21,12 +21,6 @@ namespace Aya.TweenPro
             return instance;
         }
 
-        public static void DeSpawn<T>(T instance)
-        {
-            var poolList = GetPoolList<T>();
-            poolList.DeSpawn(instance);
-        }
-
         public static void DeSpawn(object instance)
         {
             if (instance == null) return;

@@ -90,6 +90,11 @@ namespace Aya.Particle
         {
             var spawnerPrefab = Resources.Load<ParticleSpawner>("ParticleSpawner");
             var spawner = EntityPool.Spawn(spawnerPrefab, transform);
+            if (spawner.Instance != null)
+            {
+                spawner.DeSpawn(false);
+            }
+
             return spawner;
         }
 
@@ -165,7 +170,10 @@ namespace Aya.Particle
             {
                 var scale = new Vector3(data.BeginScale.x * ScaleVector.x, data.BeginScale.y * ScaleVector.y, data.BeginScale.z * ScaleVector.z);
                 scale *= ScaleValue;
-                data.Transform.localScale = scale;
+                if (data.Transform != null)
+                {
+                    data.Transform.localScale = scale;
+                }
             }
         }
 
@@ -249,7 +257,7 @@ namespace Aya.Particle
             Instance.SetActive(false);
         }
 
-        public void DeSpawn()
+        public void DeSpawn(bool deSpawnSpawaner = true)
         {
             if (Instance != null)
             {
@@ -262,7 +270,7 @@ namespace Aya.Particle
                 Particles = null;
             }
 
-            if (AutoDeSpawnParticleSpawner)
+            if (deSpawnSpawaner)
             {
                 Prefab = null;
                 EntityPool.DeSpawn(this);
@@ -283,6 +291,15 @@ namespace Aya.Particle
                 gameObject.SetActive(true);
             }
 
+            // 粒子特效位于UI上，则需要处理排序和UI缩放适配
+            // var uiBehaviour = Instance.FindComponentInParents<UIBehaviour>();
+            // if (uiBehaviour != null)
+            // {
+            //     UISortingOrder.Sort(Instance);
+            //     var uiParticleScaler = Instance.GetOrAddComponent<UIParticleAdapter>();
+            //     uiParticleScaler.SetDesignSize(UIController.Ins.DesignWidth, UIController.Ins.DesignHeight);
+            // }
+
             Instance.transform.localPosition = Vector3.zero;
             Instance.SetActive(false);
             Instance.SetActive(true);
@@ -294,7 +311,7 @@ namespace Aya.Particle
                     StopCoroutine(_deSpawnCoroutine);
                 }
 
-                _deSpawnCoroutine = this.ExecuteDelay(DeSpawn, ParticleDuration + 0.1f);
+                _deSpawnCoroutine = this.ExecuteDelay(() => DeSpawn(AutoDeSpawnParticleSpawner), ParticleDuration + 0.1f);
             }
         }
 
@@ -305,7 +322,7 @@ namespace Aya.Particle
                 StopCoroutine(_deSpawnCoroutine);
             }
 
-            DeSpawn();
+            DeSpawn(AutoDeSpawnParticleSpawner);
         }
 
         public void Clear()

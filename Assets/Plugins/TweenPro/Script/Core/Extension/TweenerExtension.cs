@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Aya.TweenPro
 {
@@ -279,6 +280,58 @@ namespace Aya.TweenPro
         public static TTweener Insert<TTweener>(this TTweener tweener, float delay, Tweener otherTweener) where TTweener : Tweener
         {
             tweener.Data.Insert(delay, otherTweener);
+            return tweener;
+        }
+
+        #endregion
+
+        #region Set Data Event
+
+        public static TTweener SetOnPlay<TTweener>(this TTweener tweener, Action onPlay) where TTweener : Tweener
+        {
+            tweener.Data.OnPlay.AddListener(onPlay);
+            return tweener;
+        }
+
+        public static TTweener SetOnUpdate<TTweener>(this TTweener tweener, Action onPlay) where TTweener : Tweener
+        {
+            tweener.Data.OnUpdate.AddListener(onPlay);
+            return tweener;
+        }
+
+        public static TTweener SetOnLoopStart<TTweener>(this TTweener tweener, Action onLoopStart) where TTweener : Tweener
+        {
+            tweener.Data.OnLoopStart.AddListener(onLoopStart);
+            return tweener;
+        }
+
+        public static TTweener SetOnLoopEnd<TTweener>(this TTweener tweener, Action onLoopEnd) where TTweener : Tweener
+        {
+            tweener.Data.OnLoopEnd.AddListener(onLoopEnd);
+            return tweener;
+        }
+
+        public static TTweener SetOnPause<TTweener>(this TTweener tweener, Action onPlay) where TTweener : Tweener
+        {
+            tweener.Data.OnPause.AddListener(onPlay);
+            return tweener;
+        }
+
+        public static TTweener SetOnResume<TTweener>(this TTweener tweener, Action onPlay) where TTweener : Tweener
+        {
+            tweener.Data.OnResume.AddListener(onPlay);
+            return tweener;
+        }
+
+        public static TTweener SetOnStop<TTweener>(this TTweener tweener, Action onPlay) where TTweener : Tweener
+        {
+            tweener.Data.OnStop.AddListener(onPlay);
+            return tweener;
+        }
+
+        public static TTweener SetOnComplete<TTweener>(this TTweener tweener, Action onPlay) where TTweener : Tweener
+        {
+            tweener.Data.OnComplete.AddListener(onPlay);
             return tweener;
         }
 

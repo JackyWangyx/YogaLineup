@@ -109,12 +109,18 @@ namespace Aya.TweenPro
             return this;
         }
 
-        public Tweener<TTarget, TValue> SetAllAxis(bool enable)
+        public Tweener<TTarget, TValue> SetAxis(bool enable)
         {
             AxisX = enable;
             AxisY = enable;
             AxisZ = enable;
             AxisW = enable;
+            return this;
+        }
+
+        public Tweener<TTarget, TValue> SetAxis(AxisConstraint axis)
+        {
+            Axis = axis;
             return this;
         }
 
