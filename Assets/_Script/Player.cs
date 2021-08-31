@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     public PlayerData Data { get; set; }
     public int Point { get; set; }
     public int Rank { get; set; }
+    public bool PointChanged { get; set; }
 
     public Animator Animator { get; set; }
     public Rigidbody Rigidbody { get; set; }
@@ -30,9 +31,7 @@ public class Player : MonoBehaviour
     public GameObject RenderInstance { get; set; }
 
     public string CurrentClip { get; set; }
-
     public bool EnableRun { get; set; }
-
     public bool EnableInput { get; set; }
 
     public void Awake()
@@ -42,6 +41,7 @@ public class Player : MonoBehaviour
 
     public void ChangePoint(int diff)
     {
+        PointChanged = true;
         Point += diff;
         if (Point < 0) Point = 0;
         RefreshRender(Point);
@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
 
     public void Init()
     {
+        PointChanged = false;
         Point = 0;
         RefreshRender(Point);
         Play("Idle");
@@ -110,7 +111,7 @@ public class Player : MonoBehaviour
             CacheComponent();
             Play(CurrentClip);
 
-            if (Data.ChangeFx != null)
+            if (Data.ChangeFx != null && PointChanged)
             {
                 ParticleSpawner.Spawn(Data.ChangeFx, RenderTrans, RenderTrans.position);
             }

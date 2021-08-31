@@ -93,7 +93,10 @@ public class GameManager : MonoSingleton<GameManager>
     {
         if (Phase == GamePhase.Gaming)
         {
-
+            if (Player.Point == 0 && Player.PointChanged)
+            {
+                GameLose();
+            }
         }
     }
 

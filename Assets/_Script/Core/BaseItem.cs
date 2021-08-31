@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Aya.Particle;
 using UnityEngine;
@@ -58,8 +59,15 @@ public abstract class BaseItem<T> : MonoBehaviour where T : Component
         if (!Active) return;
         if (Active)
         {
-            Target = target;
-            OnTargetEnter(target);
+            try
+            {
+                Target = target;
+                OnTargetEnter(target);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            } 
         }
 
         if (EffectiveOnce)
