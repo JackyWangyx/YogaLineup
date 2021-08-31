@@ -67,14 +67,20 @@ public class Player : MonoBehaviour
     public void Play(string animationName)
     {
         CurrentClip = animationName;
-        Animator?.Play(animationName);
+        if (Animator == null) Animator = GetComponentInChildren<Animator>(true);
+        if (Animator != null)
+        {
+            Animator.Play(animationName);
+        }
     }
 
     public void Init()
     {
         PointChanged = false;
         Point = 0;
+        Rank = -1;
         RefreshRender(Point);
+
         Play("Idle");
         Path = GameManager.Ins.Level.Path;
         transform.position = Path.EvaluatePosition(0);
@@ -83,40 +89,40 @@ public class Player : MonoBehaviour
 
     public void RefreshRender(int point)
     {
-        if (RenderInstance != null)
-        {
-            Destroy(RenderInstance);
-        }
-
         var datas = GameManager.Ins.PlayerDatas;
         var rank = 0;
         var data = datas[0];
-        Rank = 0;
-        for (var i = datas.Count - 1; i >= 0; i--)
+        for (var i = 0; i < datas.Count; i++)
         {
-            data = datas[i];
-            if (point >= data.Point)
+            if (point >= datas[i].Point)
             {
-                RenderInstance = Instantiate(data.Player, RenderTrans);
-                RenderInstance.transform.ResetLocal();
-                rank = i + 1;
-                break;
+                data = datas[i];
+                rank = i;
             }
         }
 
-        if (rank != Rank)
+        if (Rank != rank)
         {
             Rank = rank;
             Data = data;
+
+            if (RenderInstance != null)
+            {
+                Destroy(RenderInstance);
+            }
+
+            RenderInstance = Instantiate(data.Player, RenderTrans);
+            RenderInstance.transform.ResetLocal();
+
             CacheComponent();
             Play(CurrentClip);
 
-            if (Data.ChangeFx != null && PointChanged)
+            if (data.ChangeFx != null)
             {
-                ParticleSpawner.Spawn(Data.ChangeFx, RenderTrans, RenderTrans.position);
+                ParticleSpawner.Spawn(data.ChangeFx, RenderTrans, RenderTrans.position);
             }
+
         }
-       
     }
 
     public void Start()
