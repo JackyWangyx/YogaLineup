@@ -184,8 +184,14 @@ namespace Aya.TweenPro
 
         public TweenData Stop()
         {
-            if (!IsInProgress) return this;
             State = PlayState.Stopped;
+
+            RuntimeNormalizedProgress = 0f;
+#if UNITY_EDITOR
+            EditorNormalizedProgress = 0f;
+#endif
+            OnStop.Invoke();
+
             if (Application.isPlaying)
             {
                 UTweenManager.Ins.RemoveTweenData(this);
@@ -197,11 +203,6 @@ namespace Aya.TweenPro
 #endif
             }
 
-            RuntimeNormalizedProgress = 0f;
-#if UNITY_EDITOR
-            EditorNormalizedProgress = 0f;
-#endif
-            OnStop.Invoke();
             return this;
         }
 
@@ -338,14 +339,14 @@ namespace Aya.TweenPro
                 Sample(RuntimeNormalizedProgress);
                 OnUpdate.Invoke();
             }
-            else 
+            else
             {
                 if (PlayMode == PlayMode.Once)
                 {
                     RuntimeNormalizedProgress = 1f;
                     Sample(RuntimeNormalizedProgress);
-                    Stop();
                     Complete();
+                    Stop();
                 }
                 else if (PlayMode == PlayMode.Loop)
                 {
@@ -356,8 +357,8 @@ namespace Aya.TweenPro
                         OnLoopEnd.Invoke();
                         RuntimeNormalizedProgress = 1f;
                         Sample(RuntimeNormalizedProgress);
-                        Stop();
                         Complete();
+                        Stop();
                     }
                     else
                     {
@@ -383,8 +384,8 @@ namespace Aya.TweenPro
                         OnLoopEnd.Invoke();
                         RuntimeNormalizedProgress = StartForward ? 0f : 1f;
                         Sample(RuntimeNormalizedProgress);
-                        Stop();
                         Complete();
+                        Stop();
                     }
                     else
                     {
@@ -744,7 +745,7 @@ namespace Aya.TweenPro
         }
 
         #region Draw TweenData
-        
+
         public void DrawTweenData()
         {
             using (GUIGroup.Create())
@@ -1021,7 +1022,7 @@ namespace Aya.TweenPro
         }
 
         #region Draw Add Tweener
-        
+
         public virtual void DrawAddTweener()
         {
             using (GUIGroup.Create())
@@ -1113,7 +1114,7 @@ namespace Aya.TweenPro
             });
 
             return menu;
-        } 
+        }
 
         #endregion
     }
