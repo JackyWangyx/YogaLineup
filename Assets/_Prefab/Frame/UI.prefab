@@ -684,9 +684,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 0}
-  TipPrefab: {fileID: 8697321745958351376, guid: 2747b466dd559424e96373a39bd481ca,
+  DefaultTipPrefab: {fileID: 8697321745958351376, guid: 2747b466dd559424e96373a39bd481ca,
     type: 3}
-  DeSpawnDuration: 2
 --- !u!1 &7094514242539313164
 GameObject:
   m_ObjectHideFlags: 0

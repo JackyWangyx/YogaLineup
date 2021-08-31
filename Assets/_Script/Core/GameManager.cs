@@ -22,6 +22,8 @@ public class PlayerData
 {
     public int Point;
     public GameObject Player;
+    public GameObject ChangeFx;
+    public Color Color;
 }
 
 public class GameManager : MonoSingleton<GameManager>

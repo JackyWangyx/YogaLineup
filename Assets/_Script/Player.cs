@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
     public GameObject AddPointFx;
     public GameObject ReducePointFx;
 
+    public GameManager Game => GameManager.Ins;
+    public Level Level => Game.Level;
+
+    public PlayerData Data { get; set; }
     public int Point { get; set; }
     public int Rank { get; set; }
 
@@ -24,6 +28,7 @@ public class Player : MonoBehaviour
     public Rigidbody Rigidbody { get; set; }
     public Renderer Renderer { get; set; }
     public GameObject RenderInstance { get; set; }
+
     public string CurrentClip { get; set; }
 
     public bool EnableRun { get; set; }
@@ -83,21 +88,34 @@ public class Player : MonoBehaviour
         }
 
         var datas = GameManager.Ins.PlayerDatas;
+        var rank = 0;
+        var data = datas[0];
         Rank = 0;
         for (var i = datas.Count - 1; i >= 0; i--)
         {
-            var data = datas[i];
+            data = datas[i];
             if (point >= data.Point)
             {
                 RenderInstance = Instantiate(data.Player, RenderTrans);
                 RenderInstance.transform.ResetLocal();
-                Rank = i + 1;
+                rank = i + 1;
                 break;
             }
         }
 
-        CacheComponent();
-        Play(CurrentClip);
+        if (rank != Rank)
+        {
+            Rank = rank;
+            Data = data;
+            CacheComponent();
+            Play(CurrentClip);
+
+            if (Data.ChangeFx != null)
+            {
+                ParticleSpawner.Spawn(Data.ChangeFx, RenderTrans, RenderTrans.position);
+            }
+        }
+       
     }
 
     public void Start()

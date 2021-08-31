@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class UITipItem : MonoBehaviour
 {
     public Text Text;
+    public float Duration;
+
+    public UITip UiTip => UITip.Ins;
     public RectTransform Rect { get; set; }
 
     public void Awake()
@@ -24,9 +27,9 @@ public class UITipItem : MonoBehaviour
     {
         Text.color = color;
         Show(text);
-        UITip.Ins.ExecuteDelay(() =>
+        UiTip.ExecuteDelay(() =>
         {
-            UITip.Ins.Pool.DeSpawn(this);
-        }, UITip.Ins.DeSpawnDuration);
+            UiTip.Pool.DeSpawn(this);
+        }, Duration);
     }
 }

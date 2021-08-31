@@ -7,8 +7,7 @@ using UnityEngine.UI;
 public class UITip : MonoSingleton<UITip>
 {
     public Camera Camera;
-    public UITipItem TipPrefab;
-    public float DeSpawnDuration;
+    public UITipItem DefaultTipPrefab;
 
     public EntityPool Pool => PoolManager.Ins["Tip"];
     public RectTransform Rect { get; set; }
@@ -19,10 +18,27 @@ public class UITip : MonoSingleton<UITip>
         Rect = GetComponent<RectTransform>();
     }
 
+    public void ShowTipWithWorldPos(UITipItem tipPrefab, string text, Vector3 worldPosition)
+    {
+        var pos = WorldPointToUiLocalPoint(worldPosition, Camera, Rect);
+        var tip = Pool.Spawn(tipPrefab, transform);
+        tip.Rect.anchoredPosition = pos;
+        tip.Show(text);
+    }
+
+    public void ShowTipWithWorldPos(UITipItem tipPrefab, string text, Color color, Vector3 worldPosition)
+    {
+        var pos = WorldPointToUiLocalPoint(worldPosition, Camera, Rect);
+        var tip = Pool.Spawn(tipPrefab, transform);
+        tip.Rect.anchoredPosition = pos;
+        tip.Show(text, color);
+    }
+
+
     public void ShowTipWithWorldPos(string text, Vector3 worldPosition)
     {
         var pos = WorldPointToUiLocalPoint(worldPosition, Camera, Rect);
-        var tip = Pool.Spawn(TipPrefab, transform);
+        var tip = Pool.Spawn(DefaultTipPrefab, transform);
         tip.Rect.anchoredPosition = pos;
         tip.Show(text);
     }
@@ -30,20 +46,32 @@ public class UITip : MonoSingleton<UITip>
     public void ShowTipWithWorldPos(string text, Color color, Vector3 worldPosition)
     {
         var pos = WorldPointToUiLocalPoint(worldPosition, Camera, Rect);
-        var tip = Pool.Spawn(TipPrefab, transform);
+        var tip = Pool.Spawn(DefaultTipPrefab, transform);
         tip.Rect.anchoredPosition = pos;
+        tip.Show(text, color);
+    }
+
+    public void ShowTip(UITipItem tipPrefab, string text, Vector3 uiPosition)
+    {
+        var tip = Pool.Spawn(tipPrefab, transform, uiPosition);
+        tip.Show(text);
+    }
+
+    public void ShowTip(UITipItem tipPrefab, string text, Color color, Vector3 uiPosition)
+    {
+        var tip = Pool.Spawn(tipPrefab, transform, uiPosition);
         tip.Show(text, color);
     }
 
     public void ShowTip(string text, Vector3 uiPosition)
     {
-        var tip = Pool.Spawn(TipPrefab, transform, uiPosition);
+        var tip = Pool.Spawn(DefaultTipPrefab, transform, uiPosition);
         tip.Show(text);
     }
 
     public void ShowTip(string text, Color color, Vector3 uiPosition)
     {
-        var tip = Pool.Spawn(TipPrefab, transform, uiPosition);
+        var tip = Pool.Spawn(DefaultTipPrefab, transform, uiPosition);
         tip.Show(text, color);
     }
 

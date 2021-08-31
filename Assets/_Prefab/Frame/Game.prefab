@@ -51,15 +51,23 @@ MonoBehaviour:
   PlayerDatas:
   - Point: 0
     Player: {fileID: 998857136664910943, guid: fd6114c19d595e543a2887a7b5ac2258, type: 3}
+    ChangeFx: {fileID: 0}
+    Color: {r: 1, g: 0, b: 0.009601116, a: 1}
   - Point: 10
     Player: {fileID: 7282428935734915358, guid: c6b75fdf9362a454a96d6ce0ba1aa39d,
       type: 3}
+    ChangeFx: {fileID: 0}
+    Color: {r: 1, g: 0.8411184, b: 0, a: 1}
   - Point: 20
     Player: {fileID: 9059259257126383091, guid: aaf5b1bfd41bf394f9a3989d718cadb2,
       type: 3}
+    ChangeFx: {fileID: 0}
+    Color: {r: 0, g: 1, b: 0.7880776, a: 1}
   - Point: 30
     Player: {fileID: 6079163831003310490, guid: dabce3aa03851ac4faf8f156e2f722a4,
       type: 3}
+    ChangeFx: {fileID: 0}
+    Color: {r: 0.08675194, g: 1, b: 0, a: 1}
   Player: {fileID: 0}
 --- !u!114 &3260612145861153374
 MonoBehaviour:
