@@ -131,7 +131,10 @@ namespace Aya.TweenPro
 
         public virtual void OnDisable()
         {
-
+            if (IsPlaying)
+            {
+                Stop();
+            }
         }
 
         #endregion
@@ -194,7 +197,7 @@ namespace Aya.TweenPro
 
             if (Application.isPlaying)
             {
-                UTweenManager.Ins.RemoveTweenData(this);
+                UTweenManager.Ins?.RemoveTweenData(this);
             }
             else
             {

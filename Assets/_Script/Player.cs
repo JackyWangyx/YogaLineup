@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     public string CurrentClip { get; set; }
     public bool EnableRun { get; set; }
     public bool EnableInput { get; set; }
+    public Vector2 TurnRange { get; set; }
 
     public void Awake()
     {
@@ -173,8 +174,7 @@ public class Player : MonoBehaviour
             {
                 var offset = Input.mousePosition - _startMousePos;
                 var x = _startX + offset.x * TurnSpeed / 200f;
-                var range = GameManager.Ins.Level.Width / 2f;
-                x = Mathf.Clamp(x, -range, range);
+                x = Mathf.Clamp(x, TurnRange.x, TurnRange.y);
                 RenderTrans.SetLocalPositionX(x);
             }
         }
