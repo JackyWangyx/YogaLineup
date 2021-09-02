@@ -6,13 +6,13 @@ using UnityEngine;
 using Aya.Physical;
 using Aya.Pool;
 
-
-public abstract class BaseItem<T> : MonoBehaviour where T : Component
+public abstract class BaseItem : MonoBehaviour
 {
     public Transform Render { get; set; }
     public List<Collider> ColliderList { get; set; }
     public List<ColliderListener> ColliderListeners { get; set; }
     public Animator Animator { get; set; }
+    public virtual Type TargetType { get; set; }
 
     [Header("Pram")]
     public LayerMask LayerMask;
@@ -21,14 +21,14 @@ public abstract class BaseItem<T> : MonoBehaviour where T : Component
     public bool EffectiveOnce = true;
     [Header("Effect")]
     public GameObject EffectFx;
-    [Header("Animator")] 
+    [Header("Animator")]
     public string DefaultClip;
     public string EffectClip;
+    [Header("Exclude")]
+    public List<BaseItem> ExcludeItems;
 
     public bool Active { get; set; }
-
     public virtual bool IsUseful => true;
-    public T Target { get; set; } 
 
     public virtual void Awake()
     {
@@ -36,6 +36,27 @@ public abstract class BaseItem<T> : MonoBehaviour where T : Component
         Animator = GetComponentInChildren<Animator>();
         ColliderList = GetComponentsInChildren<Collider>().ToList();
         ColliderListeners = new List<ColliderListener>();
+
+        if (Animator != null && !string.IsNullOrEmpty(DefaultClip))
+        {
+            Animator.Play(DefaultClip);
+        }
+
+        Active = true;
+    }
+}
+
+public abstract class BaseItem<T> : BaseItem where T: Component
+{
+    public override Type TargetType => typeof(T);
+
+    public T Target { get; set; } 
+
+
+    public override void Awake()
+    {
+        base.Awake();
+      
         foreach (var col in ColliderList)
         {
             var listener = col.gameObject.GetComponent<ColliderListener>();
@@ -45,13 +66,6 @@ public abstract class BaseItem<T> : MonoBehaviour where T : Component
             listener.onTriggerExit.Add<T>(LayerMask, OnExit);
             ColliderListeners.Add(listener);
         }
-
-        if (Animator != null && !string.IsNullOrEmpty(DefaultClip))
-        {
-            Animator.Play(DefaultClip);
-        }
-
-        Active = true;
     }
 
     public virtual void OnEnter(T target)
@@ -62,6 +76,11 @@ public abstract class BaseItem<T> : MonoBehaviour where T : Component
             try
             {
                 Target = target;
+                foreach (var item in ExcludeItems)
+                {
+                    item.Active = false;
+                }
+
                 OnTargetEnter(target);
             }
             catch (Exception e)

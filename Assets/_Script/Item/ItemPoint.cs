@@ -13,7 +13,6 @@ public class ItemPoint : BaseItem<Player>
     public Color GoodTipColor;
     public Color BadTipColor;
 
-    public List<ItemPoint> ExcludeItems;
     public string TextValue { get; set; }
 
     public override void Awake()
@@ -46,11 +45,6 @@ public class ItemPoint : BaseItem<Player>
 
     public override void OnTargetEnter(Player target)
     {
-        foreach (var item in ExcludeItems)
-        {
-            item.Active = false;
-        }
-
         var value = (int)(target.Point * MultiplyValue + AddValue);
         var diff = value - target.Point;
         target.ChangePoint(diff);
