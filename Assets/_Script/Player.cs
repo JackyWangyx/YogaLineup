@@ -15,9 +15,6 @@ public class Player : GameEntity
     public GameObject AddPointFx;
     public GameObject ReducePointFx;
 
-    public GameManager Game => GameManager.Ins;
-    public Level Level => Game.Level;
-
     public PlayerData Data { get; set; }
     public int Point { get; set; }
     public int Rank { get; set; }
@@ -82,14 +79,15 @@ public class Player : GameEntity
         RefreshRender(Point);
 
         Play("Idle");
-        Path = GameManager.Ins.Level.Path;
+        TurnRange = Level.TurnRange;
+        Path = Level.Path;
         transform.position = Path.EvaluatePosition(0);
         transform.forward = Vector3.forward;
     }
 
     public void RefreshRender(int point)
     {
-        var datas = GameManager.Ins.PlayerDatas;
+        var datas = Game.PlayerDatas;
         var rank = 0;
         var data = datas[0];
         for (var i = 0; i < datas.Count; i++)
@@ -154,7 +152,7 @@ public class Player : GameEntity
             }
         }
 
-        var canInput = GameManager.Ins.Phase == GamePhase.Gaming && EnableInput;
+        var canInput = Game.Phase == GamePhase.Gaming && EnableInput;
         if (canInput)
         {
             if (Input.GetMouseButtonDown(0) || (!EnableInput && Input.GetMouseButton(0)))

@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 4018262653214767049}
   - component: {fileID: 4597256130931379379}
   m_Layer: 11
-  m_Name: ItemGameLose
+  m_Name: Item_GameLose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,3 +111,7 @@ MonoBehaviour:
   DeActiveRender: 0
   EffectiveOnce: 1
   EffectFx: {fileID: 0}
+  DefaultClip: 
+  EffectClip: 
+  ExcludeItems: []
+  VibrationType: -1

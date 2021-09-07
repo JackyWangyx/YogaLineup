@@ -5,6 +5,8 @@ using Aya.Particle;
 using UnityEngine;
 using Aya.Physical;
 using Aya.Pool;
+using Fishtail.PlayTheBall.Vibration;
+using MoreMountains.NiceVibrations;
 
 public abstract class BaseItem : GameEntity
 {
@@ -26,6 +28,9 @@ public abstract class BaseItem : GameEntity
     public string EffectClip;
     [Header("Exclude")]
     public List<BaseItem> ExcludeItems;
+
+    [Header("Vibration")]
+    public HapticTypes VibrationType = HapticTypes.None;
 
     public bool Active { get; set; }
     public virtual bool IsUseful => true;
@@ -90,6 +95,8 @@ public abstract class BaseItem<T> : BaseItem where T: Component
                 Debug.LogError(e);
             } 
         }
+
+        VibrationController.Instance.Impact(VibrationType);
 
         if (EffectiveOnce)
         {

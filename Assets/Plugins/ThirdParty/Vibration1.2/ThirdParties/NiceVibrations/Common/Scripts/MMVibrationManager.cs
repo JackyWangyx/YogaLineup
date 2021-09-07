@@ -9,7 +9,17 @@ using System.Runtime.InteropServices;
 
 namespace MoreMountains.NiceVibrations
 {
-	public enum HapticTypes { Selection, Success, Warning, Failure, LightImpact, MediumImpact, HeavyImpact }
+    public enum HapticTypes
+    {
+        None = -1, 
+        Selection = 0, 
+        Success = 1, 
+        Warning = 2,
+        Failure = 3,
+        LightImpact = 4, 
+        MediumImpact = 5, 
+        HeavyImpact = 6
+    }
 
 	/// <summary>
 	/// This class will allow you to trigger vibrations and haptic feedbacks on both iOS and Android, 
@@ -99,6 +109,8 @@ namespace MoreMountains.NiceVibrations
 			{
 				switch (type)
 				{
+					case HapticTypes.None:
+						break;
 					case HapticTypes.Selection:
 						AndroidVibrate (LightDuration, LightAmplitude);
 						break;
@@ -386,6 +398,8 @@ namespace MoreMountains.NiceVibrations
 			{
 				switch (type)
 				{
+					case HapticTypes.None:
+						break;
 					case HapticTypes.Selection:
 						SelectionHaptic ();
 						break;

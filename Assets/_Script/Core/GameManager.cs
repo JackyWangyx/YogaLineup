@@ -33,9 +33,9 @@ public class GameManager : GameEntity<GameManager>
 
     public List<PlayerData> PlayerDatas;
 
-    public Level Level { get; set; }
+    public new Level Level { get; set; }
 
-    public Player Player;
+    public new Player Player;
     public GamePhase Phase { get; set; }
 
     public virtual void Start()
