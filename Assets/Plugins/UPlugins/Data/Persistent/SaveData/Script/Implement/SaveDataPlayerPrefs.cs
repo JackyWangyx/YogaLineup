@@ -117,7 +117,7 @@ namespace Aya.Data.Persistent
 
         public T GetValue<T>(string key, T defaultValue = default(T))
         {
-            return GetValue<T>(SaveData.DefaultModuleName, key);
+            return GetValue<T>(SaveData.DefaultModuleName, key, defaultValue);
         }
 
         public T GetObject<T>(string module, string key, T defaultValue = default(T))

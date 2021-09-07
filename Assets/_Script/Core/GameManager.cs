@@ -26,7 +26,7 @@ public class PlayerData
     public Color Color;
 }
 
-public class GameManager : MonoSingleton<GameManager>
+public class GameManager : GameEntity<GameManager>
 {
     public int LevelIndex = 1;
     public int LevelCount;

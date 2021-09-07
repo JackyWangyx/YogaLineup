@@ -12,7 +12,7 @@ public class CameraData
     public CinemachineVirtualCamera Camera;
 }
 
-public class CameraManager : MonoSingleton<CameraManager>
+public class CameraManager : GameEntity<CameraManager>
 {
     public string DefaultCamera;
     public Camera Camera;

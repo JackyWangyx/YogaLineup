@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UILose : UIBase
+public class UILose : UIBase<UILose>
 {
     public void Retry()
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Aya.Singleton;
 using UnityEngine;
 
-public class UIController : MonoSingleton<UIController>
+public class UIController : GameEntity<UIController>
 {
     public Dictionary<Type, UIBase> UIDic= new Dictionary<Type, UIBase>();
     public UIBase Current { get; set; }

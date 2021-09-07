@@ -4,7 +4,7 @@ using Aya.Singleton;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UITip : MonoSingleton<UITip>
+public class UITip : GameEntity<UITip>
 {
     public Camera Camera;
     public UITipItem DefaultTipPrefab;

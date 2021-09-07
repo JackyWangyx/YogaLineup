@@ -5,7 +5,7 @@ using Aya.TweenPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UITipItem : MonoBehaviour
+public class UITipItem : GameEntity
 {
     public Text Text;
     public float Duration;
@@ -13,8 +13,9 @@ public class UITipItem : MonoBehaviour
     public UITip UiTip => UITip.Ins;
     public RectTransform Rect { get; set; }
 
-    public void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         Rect = GetComponent<RectTransform>();
     }
 

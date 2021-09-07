@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIFollow : MonoBehaviour
+public class UIFollow : GameEntity
 {
     public Camera Camera;
     public Transform Target;

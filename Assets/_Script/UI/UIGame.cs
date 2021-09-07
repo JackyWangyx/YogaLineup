@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIGame : UIBase
+public class UIGame : UIBase<UIGame>
 {
     public void Update()
     {

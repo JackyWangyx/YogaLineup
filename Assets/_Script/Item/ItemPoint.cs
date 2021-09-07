@@ -15,7 +15,7 @@ public class ItemPoint : BaseItem<Player>
 
     public string TextValue { get; set; }
 
-    public override void Awake()
+    protected override void Awake()
     {
         base.Awake();
 

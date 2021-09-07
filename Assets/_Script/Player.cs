@@ -1,11 +1,9 @@
 ﻿using Aya.Extension;
 using Aya.Particle;
-using Aya.Physical;
 using Dreamteck.Splines;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : GameEntity
 {
     protected SplineComputer Path;
     public Transform RenderTrans;
@@ -35,8 +33,9 @@ public class Player : MonoBehaviour
     public bool EnableInput { get; set; }
     public Vector2 TurnRange { get; set; }
 
-    public void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         CacheComponent();
     }
 

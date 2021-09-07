@@ -6,7 +6,7 @@ using UnityEngine;
 using Aya.Physical;
 using Aya.Pool;
 
-public abstract class BaseItem : MonoBehaviour
+public abstract class BaseItem : GameEntity
 {
     public Transform Render { get; set; }
     public List<Collider> ColliderList { get; set; }
@@ -30,8 +30,10 @@ public abstract class BaseItem : MonoBehaviour
     public bool Active { get; set; }
     public virtual bool IsUseful => true;
 
-    public virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         Render = transform.Find("Render");
         Animator = GetComponentInChildren<Animator>();
         ColliderList = GetComponentsInChildren<Collider>().ToList();
@@ -50,11 +52,11 @@ public abstract class BaseItem<T> : BaseItem where T: Component
 {
     public override Type TargetType => typeof(T);
 
-    public T Target { get; set; } 
+    public T Target { get; set; }
 
-
-    public override void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         base.Awake();
       
         foreach (var col in ColliderList)

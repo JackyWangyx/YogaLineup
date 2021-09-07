@@ -4,7 +4,7 @@ using Aya.Extension;
 using Aya.Simplify;
 using Dreamteck.Splines;
 
-public class Level : MonoBehaviour
+public class Level : GameEntity
 {
     public SplineComputer Path;
     public float Width;
