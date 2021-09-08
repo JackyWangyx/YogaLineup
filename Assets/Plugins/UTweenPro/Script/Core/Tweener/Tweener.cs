@@ -217,6 +217,9 @@ namespace Aya.TweenPro
         [NonSerialized] public SerializedProperty CurveProperty;
         [NonSerialized] public SerializedProperty SpaceProperty;
 
+        [NonSerialized] internal SerializedProperty FoldOutProperty;
+        [NonSerialized] internal SerializedProperty DurationModeProperty;
+
         public Editor Editor => Data.Editor;
         public Object EditorTarget => Data.EditorTarget;
         public MonoBehaviour MonoBehaviour => Data.MonoBehaviour;
@@ -265,6 +268,9 @@ namespace Aya.TweenPro
             StrengthProperty = TweenerProperty.FindPropertyRelative(nameof(Strength));
             CurveProperty = TweenerProperty.FindPropertyRelative(nameof(Curve));
             SpaceProperty = TweenerProperty.FindPropertyRelative(nameof(Space));
+
+            FoldOutProperty = TweenerProperty.FindPropertyRelative(nameof(FoldOut));
+            DurationModeProperty = TweenerProperty.FindPropertyRelative(nameof(DurationMode));
 
             _clearEaseCurvePreview();
         }
@@ -324,7 +330,7 @@ namespace Aya.TweenPro
                 var btnFlexibleSpace = GUILayout.Button(GUIContent.none, EditorStyles.label);
                 if (btnTitle || btnFlexibleSpace)
                 {
-                    FoldOut = !FoldOut;
+                    FoldOutProperty.boolValue = !FoldOutProperty.boolValue;
                 }
 
                 // Menu Button
@@ -627,8 +633,9 @@ namespace Aya.TweenPro
             menu.AddItem("Switch Duration Mode", false, () =>
             {
                 Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Switch Duration Mode");
-                if (DurationMode == TweenDurationMode.DurationDelay) DurationMode = TweenDurationMode.FromTo;
-                else if (DurationMode == TweenDurationMode.FromTo) DurationMode = TweenDurationMode.DurationDelay;
+                if (DurationMode == TweenDurationMode.DurationDelay) DurationModeProperty.intValue = (int)TweenDurationMode.FromTo;
+                else if (DurationMode == TweenDurationMode.FromTo) DurationModeProperty.intValue = (int)TweenDurationMode.DurationDelay;
+                SerializedObject.ApplyModifiedProperties();
             });
 
             // Show / Hide Event

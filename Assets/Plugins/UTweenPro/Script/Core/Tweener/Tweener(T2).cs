@@ -164,6 +164,8 @@ namespace Aya.TweenPro
         [NonSerialized] public SerializedProperty AxisProperty;
         [NonSerialized] public SerializedProperty OnUpdateEventProperty;
 
+        [NonSerialized] internal SerializedProperty EnableAxisProperty;
+
         public virtual string AxisXName => nameof(AxisConstraint.X);
         public virtual string AxisYName => nameof(AxisConstraint.Y);
         public virtual string AxisZName => nameof(AxisConstraint.Z);
@@ -175,6 +177,7 @@ namespace Aya.TweenPro
             FromProperty = TweenerProperty.FindPropertyRelative(nameof(From));
             ToProperty = TweenerProperty.FindPropertyRelative(nameof(To));
             AxisProperty = TweenerProperty.FindPropertyRelative(nameof(Axis));
+            EnableAxisProperty = TweenerProperty.FindPropertyRelative(nameof(EnableAxis));
         }
 
         public override void DrawIndependentAxis()
@@ -230,8 +233,9 @@ namespace Aya.TweenPro
                     menu.AddItem(new GUIContent("Disable Independent Axis"), false, () =>
                     {
                         Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Disable Independent Axis");
-                        EnableAxis = !EnableAxis;
+                        EnableAxisProperty.boolValue = !EnableAxisProperty.boolValue;
                         DisableIndependentAxis();
+                        SerializedObject.ApplyModifiedProperties();
                     });
                 }
                 else
@@ -239,7 +243,8 @@ namespace Aya.TweenPro
                     menu.AddItem(new GUIContent("Enable Independent Axis"), false, () =>
                     {
                         Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Enable Independent Axis");
-                        EnableAxis = !EnableAxis;
+                        EnableAxisProperty.boolValue = !EnableAxisProperty.boolValue;
+                        SerializedObject.ApplyModifiedProperties();
                     });
                 }
             }
@@ -285,6 +290,8 @@ namespace Aya.TweenPro
                     if (tweener == this) continue;
                     tweener.FoldOut = true;
                 }
+
+                SerializedObject.ApplyModifiedProperties();
             });
             menu.AddItem("Shrink Others", false, () =>
             {
@@ -294,6 +301,8 @@ namespace Aya.TweenPro
                     if (tweener == this) continue;
                     tweener.FoldOut = false;
                 }
+
+                SerializedObject.ApplyModifiedProperties();
             });
 
             // Active / DeActive
@@ -306,6 +315,8 @@ namespace Aya.TweenPro
                     if (tweener == this) continue;
                     tweener.Active = true;
                 }
+
+                SerializedObject.ApplyModifiedProperties();
             });
             menu.AddItem("DeActive Others", false, () =>
             {
@@ -315,6 +326,8 @@ namespace Aya.TweenPro
                     if (tweener == this) continue;
                     tweener.Active = false;
                 }
+
+                SerializedObject.ApplyModifiedProperties();
             });
 
             return menu;

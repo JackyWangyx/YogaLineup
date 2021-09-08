@@ -108,7 +108,8 @@ namespace Aya.TweenPro
             Undo.RegisterCompleteObjectUndo(this, "Expand All Tweener");
             foreach (var tweener in Data.TweenerList)
             {
-                tweener.FoldOut = true;
+                tweener.FoldOut= true;
+                tweener.SerializedObject.ApplyModifiedProperties();
             }
         }
 
@@ -119,6 +120,7 @@ namespace Aya.TweenPro
             foreach (var tweener in Data.TweenerList)
             {
                 tweener.FoldOut = false;
+                tweener.SerializedObject.ApplyModifiedProperties();
             }
         }
 
@@ -129,6 +131,7 @@ namespace Aya.TweenPro
             foreach (var tweener in Data.TweenerList)
             {
                 tweener.Active = true;
+                tweener.SerializedObject.ApplyModifiedProperties();
             }
         }
 
@@ -139,6 +142,7 @@ namespace Aya.TweenPro
             foreach (var tweener in Data.TweenerList)
             {
                 tweener.Active = false;
+                tweener.SerializedObject.ApplyModifiedProperties();
             }
         } 
 

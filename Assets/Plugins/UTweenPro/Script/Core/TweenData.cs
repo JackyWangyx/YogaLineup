@@ -602,6 +602,11 @@ namespace Aya.TweenPro
         [NonSerialized] public SerializedProperty OnStopProperty;
         [NonSerialized] public SerializedProperty OnCompleteProperty;
 
+        [NonSerialized] internal SerializedProperty FoldOutProperty;
+        [NonSerialized] internal SerializedProperty FoldOutEventProperty;
+        [NonSerialized] internal SerializedProperty EnableIdentifierProperty;
+        [NonSerialized] internal SerializedProperty EventTypeProperty;
+
         [NonSerialized] public float EditorNormalizedProgress;
         [NonSerialized] public bool PreviewSampled = false;
 
@@ -615,6 +620,7 @@ namespace Aya.TweenPro
             Mode = mode;
             Editor = editor;
             PreviewSampled = false;
+
             TweenDataProperty = SerializedObject.FindProperty("Data");
             IdentifierProperty = TweenDataProperty.FindPropertyRelative(nameof(Identifier));
             TweenerListProperty = TweenDataProperty.FindPropertyRelative(nameof(TweenerList));
@@ -641,6 +647,11 @@ namespace Aya.TweenPro
             OnResumeProperty = TweenDataProperty.FindPropertyRelative(nameof(OnResume));
             OnStopProperty = TweenDataProperty.FindPropertyRelative(nameof(OnStop));
             OnCompleteProperty = TweenDataProperty.FindPropertyRelative(nameof(OnComplete));
+
+            FoldOutProperty = TweenDataProperty.FindPropertyRelative(nameof(FoldOut));
+            FoldOutEventProperty = TweenDataProperty.FindPropertyRelative(nameof(FoldOutEvent));
+            EnableIdentifierProperty = TweenDataProperty.FindPropertyRelative(nameof(EnableIdentifier));
+            EventTypeProperty = TweenDataProperty.FindPropertyRelative(nameof(EventType));
 
             foreach (var tweener in TweenerList)
             {
@@ -763,7 +774,7 @@ namespace Aya.TweenPro
                     var btnFlexibleSpace = GUILayout.Button(GUIContent.none, EditorStyles.label);
                     if (btnTitle || btnFlexibleSpace)
                     {
-                        FoldOut = !FoldOut;
+                        FoldOutProperty.boolValue = !FoldOutProperty.boolValue;
                     }
 
                     using (GUIEnableArea.Create(!IsInProgress))
