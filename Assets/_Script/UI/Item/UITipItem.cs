@@ -15,7 +15,7 @@ public class UITipItem : GameEntity
     protected override void Awake()
     {
         base.Awake();
-        Rect = GetComponent<RectTransform>();
+
     }
 
     public void Show(string text)

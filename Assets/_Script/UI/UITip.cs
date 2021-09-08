@@ -6,16 +6,15 @@ using UnityEngine.UI;
 
 public class UITip : GameEntity<UITip>
 {
-    public Camera Camera;
+    public new Camera Camera;
     public UITipItem DefaultTipPrefab;
 
     public EntityPool Pool => PoolManager.Ins["Tip"];
-    public RectTransform Rect { get; set; }
 
     protected override void Awake()
     {
         base.Awake();
-        Rect = GetComponent<RectTransform>();
+
     }
 
     public void ShowTipWithWorldPos(UITipItem tipPrefab, string text, Vector3 worldPosition)
