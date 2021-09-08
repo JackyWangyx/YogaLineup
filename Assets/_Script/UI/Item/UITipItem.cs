@@ -11,7 +11,6 @@ public class UITipItem : GameEntity
     public float Duration;
 
     public UITip UiTip => UITip.Ins;
-    public RectTransform Rect { get; set; }
 
     protected override void Awake()
     {

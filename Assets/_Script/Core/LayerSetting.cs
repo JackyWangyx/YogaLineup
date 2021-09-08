@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LayerSetting : GameEntity<LayerSetting>
 {
-    public LayerMask Player;
+    public new LayerMask Player;
     public LayerMask Item;
     public LayerMask Road;
 }

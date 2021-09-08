@@ -45,12 +45,11 @@ public class Player : GameEntity
 
         if (diff > 0)
         {
-            if (AddPointFx != null) ParticleSpawner.Spawn(AddPointFx, RenderTrans, RenderTrans.position);
-
+            if (AddPointFx != null) SpawnFx(AddPointFx, RenderTrans);
         }
         else
         {
-            if (ReducePointFx != null) ParticleSpawner.Spawn(ReducePointFx, RenderTrans, RenderTrans.position);
+            if (ReducePointFx != null) SpawnFx(ReducePointFx, RenderTrans);
         }
     }
 
@@ -106,20 +105,19 @@ public class Player : GameEntity
 
             if (RenderInstance != null)
             {
-                Destroy(RenderInstance);
+                GamePool.DeSpawn(RenderInstance);
+                RenderInstance = null;
             }
 
-            RenderInstance = Instantiate(data.Player, RenderTrans);
-            RenderInstance.transform.ResetLocal();
+            RenderInstance = GamePool.Spawn(data.Player, RenderTrans);
 
             CacheComponent();
             Play(CurrentClip);
 
             if (data.ChangeFx != null)
             {
-                ParticleSpawner.Spawn(data.ChangeFx, RenderTrans, RenderTrans.position);
+                SpawnFx(data.ChangeFx, RenderTrans);
             }
-
         }
     }
 
@@ -143,7 +141,7 @@ public class Player : GameEntity
         if (EnableRun)
         {
             var p = Path.Project(transform.position);
-            var nextPercent = Path.Travel(p.percent, RunSpeed * Time.deltaTime, direction: Spline.Direction.Forward);
+            var nextPercent = Path.Travel(p.percent, RunSpeed * Time.deltaTime);
             var nextPos = Path.EvaluatePosition(nextPercent);
             if (nextPos != transform.position)
             {

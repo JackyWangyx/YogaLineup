@@ -6,6 +6,7 @@ using UnityEngine;
 
 public abstract class GameEntity : MonoListener
 {
+    public RectTransform Rect { get; set; }
     public GameManager Game => GameManager.Ins;
     public LayerSetting Layer => LayerSetting.Ins;
     public CameraManager Camera => CameraManager.Ins;
@@ -19,6 +20,12 @@ public abstract class GameEntity : MonoListener
 
     public EntityPool GamePool => PoolManager.Ins["Game"];
     public EntityPool EffectPool => ParticleSpawner.EntityPool;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Rect = GetComponent<RectTransform>();
+    }
 
     #region Fx
     

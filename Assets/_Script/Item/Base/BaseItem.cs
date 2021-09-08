@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Aya.Particle;
 using UnityEngine;
 using Aya.Physical;
-using Aya.Pool;
+using Aya.Extension;
 using Fishtail.PlayTheBall.Vibration;
 using MoreMountains.NiceVibrations;
 
 public abstract class BaseItem : GameEntity
 {
-    public Transform Render { get; set; }
+    public Transform Renderer { get; set; }
     public List<Collider> ColliderList { get; set; }
     public List<ColliderListener> ColliderListeners { get; set; }
     public Animator Animator { get; set; }
@@ -22,7 +20,8 @@ public abstract class BaseItem : GameEntity
     public bool DeActiveRender;
     public bool EffectiveOnce = true;
     [Header("Effect")]
-    public GameObject EffectFx;
+    public GameObject EffectSelfFx;
+    public GameObject EffectTargetFx;
     [Header("Animator")]
     public string DefaultClip;
     public string EffectClip;
@@ -39,11 +38,16 @@ public abstract class BaseItem : GameEntity
     {
         base.Awake();
 
-        Render = transform.Find("Render");
+        Renderer = transform.FindInAllChild("Renderer");
         Animator = GetComponentInChildren<Animator>();
         ColliderList = GetComponentsInChildren<Collider>().ToList();
         ColliderListeners = new List<ColliderListener>();
+    }
 
+    public virtual void Init()
+    {
+        gameObject.SetActive(true);
+        Renderer?.gameObject.SetActive(true);
         if (Animator != null && !string.IsNullOrEmpty(DefaultClip))
         {
             Animator.Play(DefaultClip);
@@ -62,8 +66,7 @@ public abstract class BaseItem<T> : BaseItem where T: Component
     protected override void Awake()
     {
         base.Awake();
-        base.Awake();
-      
+
         foreach (var col in ColliderList)
         {
             var listener = col.gameObject.GetComponent<ColliderListener>();
@@ -105,12 +108,17 @@ public abstract class BaseItem<T> : BaseItem where T: Component
         
         if (DeActiveRender)
         {
-            Render.gameObject.SetActive(false);
+            Renderer?.gameObject.SetActive(false);
         }
 
-        if (EffectFx != null)
+        if (EffectSelfFx != null)
         {
-            ParticleSpawner.Spawn(EffectFx, PoolManager.Ins.transform, transform.position);
+            SpawnFx(EffectSelfFx);
+        }
+
+        if (EffectTargetFx != null)
+        {
+            SpawnFx(EffectTargetFx, target.transform);
         }
 
         if (Animator != null && !string.IsNullOrEmpty(EffectClip))
@@ -120,7 +128,7 @@ public abstract class BaseItem<T> : BaseItem where T: Component
 
         if (DeSpawnAfterEffect)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 

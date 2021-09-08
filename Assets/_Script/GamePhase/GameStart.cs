@@ -10,7 +10,6 @@ public class GameStart : GamePhaseHandler
     {
         Camera.Switch("Game");
         UI.Show<UIGame>();
-        Player.StartRun();
         Game.Enter<GamePlay>();
         Dispatch(GameEvent.Start);
     }

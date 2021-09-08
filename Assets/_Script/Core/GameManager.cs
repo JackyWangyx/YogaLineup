@@ -35,6 +35,8 @@ public class GameManager : GameEntity<GameManager>
     protected override void Awake()
     {
         base.Awake();
+        Phase = PhaseType.None;
+        CurrentPhase = null;
 
         PhaseList = PhaseHandler.GetComponents<GamePhaseHandler>().ToList();
         PhaseDic = PhaseList.ToDictionary(p => p.Type);
@@ -56,17 +58,17 @@ public class GameManager : GameEntity<GameManager>
 
     public virtual void LevelStart()
     {
-        UIController.Ins.HideAll();
-        ParticleSpawner.EntityPool.DeSpawnAll();
+        UI.HideAll();
+        GamePool.DeSpawnAll();
+        EffectPool.DeSpawnAll();
         var index = LevelIndex;
 
         if (Level != null)
         {
-            DestroyImmediate(Level.gameObject);
             Level = null;
         }
 
-        Level = Instantiate(Resources.Load<Level>("Level/Level_" + index.ToString("D2")), Vector3.zero, Quaternion.identity);
+        Level = GamePool.Spawn(Resources.Load<Level>("Level/Level_" + index.ToString("D2")));
         Level.Init();
 
         Enter<GameReady>();

@@ -1,6 +1,7 @@
 ﻿
 public enum PhaseType
 {
+    None = -1,
     Ready,
     Start,
     Gaming,
