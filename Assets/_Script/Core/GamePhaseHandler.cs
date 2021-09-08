@@ -1,0 +1,30 @@
+﻿
+public enum PhaseType
+{
+    Ready,
+    Start,
+    Gaming,
+    Pause,
+    Win,
+    Lose,
+}
+
+public abstract class GamePhaseHandler : GameEntity<GamePhaseHandler>
+{
+    public abstract PhaseType Type { get; }
+
+    public virtual void Enter()
+    {
+
+    }
+
+    public virtual void UpdateImpl()
+    {
+
+    }
+
+    public virtual void Exit()
+    {
+
+    }
+}

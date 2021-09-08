@@ -1,21 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Aya.Extension;
 using Aya.Particle;
-using Aya.Singleton;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public enum GamePhase
-{
-    Ready,
-    Gaming,
-    Win,
-    Fail,
-
-    Waiting,
-}
 
 [Serializable]
 public class PlayerData
@@ -28,15 +15,31 @@ public class PlayerData
 
 public class GameManager : GameEntity<GameManager>
 {
+    [Header("Level")]
     public int LevelIndex = 1;
     public int LevelCount;
 
     public List<PlayerData> PlayerDatas;
-
     public new Level Level { get; set; }
-
     public new Player Player;
-    public GamePhase Phase { get; set; }
+
+    [Header("Option")] 
+    public Transform PhaseHandler;
+
+    public PhaseType Phase { get; set; }
+    public GamePhaseHandler CurrentPhase { get; set; }
+    public Dictionary<PhaseType, GamePhaseHandler> PhaseDic { get; protected set; }
+    public Dictionary<Type, GamePhaseHandler> PhaseTypeDic { get; protected set; }
+    public List<GamePhaseHandler> PhaseList { get; protected set; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        PhaseList = PhaseHandler.GetComponents<GamePhaseHandler>().ToList();
+        PhaseDic = PhaseList.ToDictionary(p => p.Type);
+        PhaseTypeDic = PhaseList.ToDictionary(p => p.GetType());
+    }
 
     public virtual void Start()
     {
@@ -66,52 +69,32 @@ public class GameManager : GameEntity<GameManager>
         Level = Instantiate(Resources.Load<Level>("Level/Level_" + index.ToString("D2")), Vector3.zero, Quaternion.identity);
         Level.Init();
 
-        GameReady();
+        Enter<GameReady>();
     }
 
-    public virtual void GameReady()
+    public void Enter<T>() where T : GamePhaseHandler
     {
-        Phase = GamePhase.Ready;
-        CameraManager.Ins.SwitchCamera("Ready");
-        GameStart();
+        var nextPhase = PhaseTypeDic[typeof(T)];
+        Enter(nextPhase);
     }
 
-    public virtual void GameStart()
+    public void Enter(PhaseType phaseType)
     {
-        Phase = GamePhase.Gaming;
-        CameraManager.Ins.SwitchCamera("Game");
-        UIController.Ins.Show<UIGame>();
-        Player.StartRun();
+        var nextPhase = PhaseDic[phaseType];
+        Enter(nextPhase);
+    }
+
+    public void Enter(GamePhaseHandler nextPhase)
+    {
+        if (CurrentPhase != null) CurrentPhase.Exit();
+        if (CurrentPhase != null && CurrentPhase.Type == nextPhase.Type) return;
+        Phase = nextPhase.Type;
+        nextPhase.Enter();
+        CurrentPhase = nextPhase;
     }
 
     public void Update()
     {
-        GameUpdate();
-    }
-
-    public virtual void GameUpdate()
-    {
-        if (Phase == GamePhase.Gaming)
-        {
-            if (Player.Point == 0 && Player.PointChanged)
-            {
-                GameLose();
-            }
-        }
-    }
-
-    public virtual void GameWin()
-    {
-        Phase = GamePhase.Win;
-        // CameraManager.Ins.SwitchCamera("Finish");
-        UIController.Ins.Show<UIWin>();
-        Player.Win();
-    }
-
-    public virtual void GameLose()
-    {
-        Phase = GamePhase.Fail;
-        // CameraManager.Ins.SwitchCamera("Finish");
-        UIController.Ins.Show<UILose>();
+        CurrentPhase.UpdateImpl();
     }
 }

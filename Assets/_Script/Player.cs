@@ -152,7 +152,7 @@ public class Player : GameEntity
             }
         }
 
-        var canInput = Game.Phase == GamePhase.Gaming && EnableInput;
+        var canInput = Game.Phase == PhaseType.Gaming && EnableInput;
         if (canInput)
         {
             if (Input.GetMouseButtonDown(0) || (!EnableInput && Input.GetMouseButton(0)))

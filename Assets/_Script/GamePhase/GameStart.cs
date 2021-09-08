@@ -1,0 +1,27 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameStart : GamePhaseHandler
+{
+    public override PhaseType Type => PhaseType.Start;
+
+    public override void Enter()
+    {
+        Camera.Switch("Game");
+        UI.Show<UIGame>();
+        Player.StartRun();
+        Game.Enter<GamePlay>();
+        Dispatch(GameEvent.Start);
+    }
+
+    public override void UpdateImpl()
+    {
+
+    }
+
+    public override void Exit()
+    {
+
+    }
+}

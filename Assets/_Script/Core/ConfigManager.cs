@@ -79,7 +79,7 @@ public class Config<T> : Config where T : Data
     public bool Upgrade()
     {
         if (IsMaxLevel) return false;
-        Level += 1;
+        Level.Value += 1;
         return true;
     }
 }

@@ -21,28 +21,24 @@ namespace Aya.Data.Persistent
         }
 
         #region Override operator
-        public static sFloat operator +(sFloat lhs, float rhs)
+        public static float operator +(sFloat lhs, float rhs)
         {
-            lhs.Value += rhs;
-            return lhs;
+            return lhs.Value + rhs;
         }
 
-        public static sFloat operator -(sFloat lhs, float rhs)
+        public static float operator -(sFloat lhs, float rhs)
         {
-            lhs.Value -= rhs;
-            return lhs;
+            return lhs.Value - rhs;
         }
 
-        public static sFloat operator *(sFloat lhs, float rhs)
+        public static float operator *(sFloat lhs, float rhs)
         {
-            lhs.Value *= rhs;
-            return lhs;
+            return lhs.Value * rhs;
         }
 
-        public static sFloat operator /(sFloat lhs, float rhs)
+        public static float operator /(sFloat lhs, float rhs)
         {
-            lhs.Value /= rhs;
-            return lhs;
+            return lhs.Value / rhs;
         }
 
         public static sFloat operator ++(sFloat lhs)

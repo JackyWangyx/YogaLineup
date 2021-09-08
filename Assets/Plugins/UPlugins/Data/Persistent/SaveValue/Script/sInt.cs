@@ -21,28 +21,24 @@ namespace Aya.Data.Persistent
         }
 
         #region Override operator
-        public static sInt operator +(sInt lhs, int rhs)
+        public static int operator +(sInt lhs, int rhs)
         {
-            lhs.Value += rhs;
-            return lhs;
+            return lhs.Value + rhs;
         }
 
-        public static sInt operator -(sInt lhs, int rhs)
+        public static int operator -(sInt lhs, int rhs)
         {
-            lhs.Value -= rhs;
-            return lhs;
+            return lhs.Value - rhs;
         }
 
-        public static sInt operator *(sInt lhs, int rhs)
+        public static int operator *(sInt lhs, int rhs)
         {
-            lhs.Value *= rhs;
-            return lhs;
+            return lhs.Value = rhs;
         }
 
-        public static sInt operator /(sInt lhs, int rhs)
+        public static int operator /(sInt lhs, int rhs)
         {
-            lhs.Value /= rhs;
-            return lhs;
+            return lhs.Value / rhs;
         }
 
         public static sInt operator ++(sInt lhs)

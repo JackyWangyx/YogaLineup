@@ -7,7 +7,7 @@ public class ItemGameWin : BaseItem<Player>
     public override bool IsUseful => false;
     public override void OnTargetEnter(Player target)
     {
-        GameManager.Ins.GameWin();
+        Game.Enter<GameWin>();
     }
 
     public override void OnTargetExit(Player target)

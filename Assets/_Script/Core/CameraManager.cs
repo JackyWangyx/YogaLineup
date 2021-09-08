@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Aya.Singleton;
 using Cinemachine;
 using UnityEngine;
 
@@ -15,7 +13,7 @@ public class CameraData
 public class CameraManager : GameEntity<CameraManager>
 {
     public string DefaultCamera;
-    public Camera Camera;
+    public new Camera Camera;
     public List<CameraData> Cameras;
 
     public string CurrentKey { get; set; }
@@ -24,7 +22,7 @@ public class CameraManager : GameEntity<CameraManager>
     protected override void Awake()
     {
         base.Awake();
-        SwitchCamera(DefaultCamera);
+        Switch(DefaultCamera);
     }
 
     public CameraData GetCamera(string key)
@@ -52,7 +50,7 @@ public class CameraManager : GameEntity<CameraManager>
         Current.Camera.LookAt = target;
     }
 
-    public void SwitchCamera(string key, Transform follow = null, Transform lookAt = null)
+    public void Switch(string key, Transform follow = null, Transform lookAt = null)
     {
         if (CurrentKey == key) return;
         var cam = GetCamera(key);
