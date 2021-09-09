@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Aya.Extension;
-using Aya.TweenPro;
+﻿using Aya.Extension;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,21 +12,36 @@ public class UITipItem : GameEntity
     protected override void Awake()
     {
         base.Awake();
-
     }
 
-    public void Show(string text)
+    public UITipItem Show()
     {
-        Text.text = text;
-    }
-
-    public void Show(string text, Color color)
-    {
-        Text.color = color;
-        Show(text);
         UiTip.ExecuteDelay(() =>
         {
             UiTip.Pool.DeSpawn(this);
         }, Duration);
+
+        return this;
+    }
+
+    public UITipItem Set(string text)
+    {
+        if (Text != null)
+        {
+            Text.text = text;
+        }
+
+        return this;
+    }
+
+    public UITipItem Set(string text, Color color)
+    {
+        if (Text != null)
+        {
+            Text.text = text;
+            Text.color = color;
+        }
+
+        return this;
     }
 }

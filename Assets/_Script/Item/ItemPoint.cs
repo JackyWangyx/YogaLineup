@@ -51,7 +51,7 @@ public class ItemPoint : BaseItem<Player>
 
         if (ShowTip)
         {
-            UITip.Ins.ShowTipWithWorldPos(TextValue, diff > 0 ? GoodTipColor : BadTipColor, transform.position);
+            UITip.Ins.ShowTip(transform.position).Set(TextValue, diff > 0 ? GoodTipColor : BadTipColor);
         }
     }
 

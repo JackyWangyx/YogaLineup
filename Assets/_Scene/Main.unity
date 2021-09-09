@@ -277,7 +277,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 11543
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
-    m_Time: 2
+    m_Time: 1
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -553,7 +553,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2219806461125320495, guid: df89a96bc3873ac4ca51912432173105,
         type: 3}
-      propertyPath: Camera
+      propertyPath: TargetCamera
       value: 
       objectReference: {fileID: 99150909}
     - target: {fileID: 2863483065888243390, guid: df89a96bc3873ac4ca51912432173105,

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using Aya.Data.Persistent;
 using Aya.Extension;
-using Aya.Singleton;
 using UnityEngine;
 
 public abstract class Data
@@ -164,6 +163,7 @@ public class ConfigManager : GameEntity<ConfigManager>
         }
 
         var config = new Config<T> {DataList = dataList};
+        config.Init();
         return config;
     }
 }
