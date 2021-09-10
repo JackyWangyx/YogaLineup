@@ -51,6 +51,8 @@ MonoBehaviour:
   RunSpeed: 20
   RotateSpeed: 10
   TurnSpeed: 5
+  AddPointFx: {fileID: 0}
+  ReducePointFx: {fileID: 0}
 --- !u!54 &3302741275602008440
 Rigidbody:
   m_ObjectHideFlags: 0

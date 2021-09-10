@@ -9,7 +9,6 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 using System.Reflection;
-using Sirenix.Utilities;
 using UnityEngine;
 
 namespace Aya.Extension

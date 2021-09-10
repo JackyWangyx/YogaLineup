@@ -119,8 +119,7 @@ public class ConfigManager : GameEntity<ConfigManager>
         var text = Resources.Load<TextAsset>(path).text;
         var lines = text.Split('\n');
         var dataList = new List<T>();
-        var fieldNames = new List<string>();
-        var filedInfos = new List<FieldInfo>();
+        var fieldDic = new Dictionary<string, FieldInfo>();
         for (var i = 0; i < lines.Length; i++)
         {
             var line = lines[i];
@@ -132,17 +131,16 @@ public class ConfigManager : GameEntity<ConfigManager>
             {
                 foreach (var fieldName in strArray)
                 {
-                    fieldNames.Add(fieldName);
                     var fieldInfo = typeof(T).GetField(fieldName);
-                    filedInfos.Add(fieldInfo);
+                    fieldDic.Add(fieldName, fieldInfo);
                 }
             }
             else
             {
                 var data = Activator.CreateInstance<T>();
-                for (var index = 0; index < filedInfos.Count; index++)
+                var index = 0;
+                foreach (var filedInfo in fieldDic.Values)
                 {
-                    var filedInfo = filedInfos[index];
                     var value = strArray[index];
                     if (filedInfo.FieldType == typeof(int))
                     {
@@ -156,6 +154,8 @@ public class ConfigManager : GameEntity<ConfigManager>
                     {
                         filedInfo.SetValue(data, value.AsString());
                     }
+
+                    index++;
                 }
 
                 dataList.Add(data);

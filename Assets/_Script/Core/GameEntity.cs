@@ -6,6 +6,7 @@ using UnityEngine;
 
 public abstract class GameEntity : MonoListener
 {
+    public Transform Trans { get; set; }
     public RectTransform Rect { get; set; }
     public GameManager Game => GameManager.Ins;
     public LayerSetting Layer => LayerSetting.Ins;
@@ -24,6 +25,7 @@ public abstract class GameEntity : MonoListener
     protected override void Awake()
     {
         base.Awake();
+        Trans = transform;
         Rect = GetComponent<RectTransform>();
     }
 

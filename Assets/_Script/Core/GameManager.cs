@@ -69,6 +69,7 @@ public class GameManager : GameEntity<GameManager>
         }
 
         Level = GamePool.Spawn(Resources.Load<Level>("Level/Level_" + index.ToString("D2")));
+        Level.Trans.SetParent(null);
         Level.Init();
 
         Enter<GameReady>();

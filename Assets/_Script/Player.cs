@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Player : GameEntity
 {
-    protected SplineComputer Path;
     public Transform RenderTrans;
     public float RunSpeed;
     public float RotateSpeed;
@@ -78,10 +77,6 @@ public class Player : GameEntity
         RefreshRender(Point);
 
         Play("Idle");
-        TurnRange = Level.TurnRange;
-        Path = Level.Path;
-        transform.position = Path.EvaluatePosition(0);
-        transform.forward = Vector3.forward;
     }
 
     public void RefreshRender(int point)
@@ -140,12 +135,12 @@ public class Player : GameEntity
     {
         if (EnableRun)
         {
-            var p = Path.Project(transform.position);
-            var nextPercent = Path.Travel(p.percent, RunSpeed * Time.deltaTime);
-            var nextPos = Path.EvaluatePosition(nextPercent);
+            var nextPos = Level.Move(RunSpeed * Time.deltaTime);
             if (nextPos != transform.position)
             {
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(nextPos - transform.position), Time.deltaTime * RotateSpeed);
+                var rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(nextPos - transform.position), Time.deltaTime * RotateSpeed).eulerAngles;
+                rotation.x = 0f;
+                transform.eulerAngles = rotation;
                 transform.position = nextPos;
             }
         }
@@ -167,6 +162,7 @@ public class Player : GameEntity
 
             if (_isMouseDown)
             {
+                TurnRange = Level.CurrentBlock.TurnRange;
                 var offset = Input.mousePosition - _startMousePos;
                 var x = _startX + offset.x * TurnSpeed / 200f;
                 x = Mathf.Clamp(x, TurnRange.x, TurnRange.y);
