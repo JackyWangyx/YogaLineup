@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Aya.Extension;
-using Aya.Particle;
 using UnityEngine;
 
 [Serializable]

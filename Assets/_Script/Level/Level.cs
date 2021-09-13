@@ -9,7 +9,6 @@ public class Level : GameEntity
 
     public List<LevelBlock> BlockInsList { get; set; } = new List<LevelBlock>();
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -27,6 +26,7 @@ public class Level : GameEntity
         SpawnBlocks();
         EnterBlock(0);
         Player.Init();
+        Player.transform.position = Move(0f);
     }
 
     public void SpawnBlocks()
@@ -56,7 +56,7 @@ public class Level : GameEntity
 
     public int CurrentBlockIndex { get; set; }
     public LevelBlock CurrentBlock { get; set; }
-    public LevelPath CurrentPath => CurrentBlock.Path;
+    public LevelPath CurrentPath { get; set; }
     public bool Finish { get; set; }
     
     public bool EnterBlock(int index, float initDistance = 0f)
@@ -69,12 +69,16 @@ public class Level : GameEntity
 
         CurrentBlockIndex = index;
         CurrentBlock = BlockInsList[index];
+        CurrentPath = CurrentBlock.Path;
         CurrentPath.Enter(initDistance);
+        Player.TurnRange = CurrentBlock.TurnRange;
+
         return true;
     }
 
     public Vector3 Move(float distance)
     {
+        if (Finish) return CurrentPath.GetPosition(1f);
         Vector3 result;
 
         while (true)
@@ -85,7 +89,11 @@ public class Level : GameEntity
             if (finish)
             {
                 var enterResult = EnterBlock(CurrentBlockIndex + 1, overDistance);
-                if (!enterResult) break;
+                if (!enterResult)
+                {
+                    Finish = true;
+                    break;
+                }
                 distance = 0f;
             }
             else

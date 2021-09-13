@@ -1,6 +1,5 @@
-﻿using Aya.Extension;
-using Aya.Particle;
-using Dreamteck.Splines;
+﻿using System;
+using Aya.Extension;
 using UnityEngine;
 
 public class Player : GameEntity
@@ -9,6 +8,7 @@ public class Player : GameEntity
     public float RunSpeed;
     public float RotateSpeed;
     public float TurnSpeed;
+    public float TurnLerpSpeed;
 
     [Header("Fx")]
     public GameObject AddPointFx;
@@ -146,6 +146,7 @@ public class Player : GameEntity
         }
 
         var canInput = Game.Phase == PhaseType.Gaming && EnableInput;
+        var turnX = RenderTrans.localPosition.x;
         if (canInput)
         {
             if (Input.GetMouseButtonDown(0) || (!EnableInput && Input.GetMouseButton(0)))
@@ -162,13 +163,14 @@ public class Player : GameEntity
 
             if (_isMouseDown)
             {
-                TurnRange = Level.CurrentBlock.TurnRange;
                 var offset = Input.mousePosition - _startMousePos;
-                var x = _startX + offset.x * TurnSpeed / 200f;
-                x = Mathf.Clamp(x, TurnRange.x, TurnRange.y);
-                RenderTrans.SetLocalPositionX(x);
+                turnX = _startX + offset.x * TurnSpeed / 200f;
             }
         }
+
+        turnX = Mathf.Clamp(turnX, TurnRange.x, TurnRange.y);
+        turnX = Mathf.Lerp(RenderTrans.localPosition.x, turnX, TurnLerpSpeed * Time.deltaTime);
+        RenderTrans.SetLocalPositionX(turnX);
     }
 
 

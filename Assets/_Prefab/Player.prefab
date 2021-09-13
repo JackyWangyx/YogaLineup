@@ -48,9 +48,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RenderTrans: {fileID: 4905476629042704939}
-  RunSpeed: 20
-  RotateSpeed: 10
+  RunSpeed: 10
+  RotateSpeed: 20
   TurnSpeed: 5
+  TurnLerpSpeed: 10
   AddPointFx: {fileID: 0}
   ReducePointFx: {fileID: 0}
 --- !u!54 &3302741275602008440
