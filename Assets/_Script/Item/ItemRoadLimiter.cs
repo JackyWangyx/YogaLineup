@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ItemRoadLimiter : BaseItem<Player>
+public class ItemRoadLimiter : ItemBase<Player>
 {
     [Header("Limit")]
     public Vector2 Width;

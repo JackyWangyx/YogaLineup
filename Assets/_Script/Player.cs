@@ -15,10 +15,8 @@ public class Player : GameEntity
     public GameObject ReducePointFx;
 
     public PlayerData Data { get; set; }
-    public int Point { get; set; }
-    public int Rank { get; set; }
-    public bool PointChanged { get; set; }
-
+    public PlayerState State { get; set; } = new PlayerState();
+    public BuffManager Buff { get; set; } = new BuffManager();
     public Animator Animator { get; set; }
     public Rigidbody Rigidbody { get; set; }
     public Renderer Renderer { get; set; }
@@ -37,10 +35,10 @@ public class Player : GameEntity
 
     public void ChangePoint(int diff)
     {
-        PointChanged = true;
-        Point += diff;
-        if (Point < 0) Point = 0;
-        RefreshRender(Point);
+        State.PointChanged = true;
+        State.Point += diff;
+        if (State.Point < 0) State.Point = 0;
+        RefreshRender(State.Point);
 
         if (diff > 0)
         {
@@ -71,11 +69,9 @@ public class Player : GameEntity
 
     public void Init()
     {
-        PointChanged = false;
-        Point = 0;
-        Rank = -1;
-        RefreshRender(Point);
-
+        State.Init();
+        Buff.Init(this);
+        RefreshRender(State.Point);
         Play("Idle");
     }
 
@@ -93,9 +89,9 @@ public class Player : GameEntity
             }
         }
 
-        if (Rank != rank)
+        if (State.Rank != rank)
         {
-            Rank = rank;
+            State.Rank = rank;
             Data = data;
 
             if (RenderInstance != null)
@@ -133,12 +129,15 @@ public class Player : GameEntity
 
     public void Update()
     {
+        var deltaTime = DeltaTime;
+        if (Game.Phase != PhaseType.Gaming) return;
+        Buff.Update(deltaTime);
         if (EnableRun)
         {
-            var nextPos = Level.Move(RunSpeed * Time.deltaTime);
+            var nextPos = Level.Move(RunSpeed * State.SpeedMultiply * deltaTime);
             if (nextPos != transform.position)
             {
-                var rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(nextPos - transform.position), Time.deltaTime * RotateSpeed).eulerAngles;
+                var rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(nextPos - transform.position), deltaTime * RotateSpeed).eulerAngles;
                 rotation.x = 0f;
                 transform.eulerAngles = rotation;
                 transform.position = nextPos;
@@ -169,7 +168,7 @@ public class Player : GameEntity
         }
 
         turnX = Mathf.Clamp(turnX, TurnRange.x, TurnRange.y);
-        turnX = Mathf.Lerp(RenderTrans.localPosition.x, turnX, TurnLerpSpeed * Time.deltaTime);
+        turnX = Mathf.Lerp(RenderTrans.localPosition.x, turnX, TurnLerpSpeed * deltaTime);
         RenderTrans.SetLocalPositionX(turnX);
     }
 

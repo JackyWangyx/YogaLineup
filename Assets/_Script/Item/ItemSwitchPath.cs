@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSwitchPath : BaseItem<Player>
+public class ItemSwitchPath : ItemBase<Player>
 {
     public LevelPath Path;
 

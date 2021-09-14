@@ -1,5 +1,6 @@
 ﻿using System;
 using Aya.Events;
+using Aya.Extension;
 using Aya.Particle;
 using Aya.Pool;
 using UnityEngine;
@@ -14,6 +15,7 @@ public abstract class GameEntity : MonoListener
     public UIController UI => UIController.Ins;
     public ConfigManager Config => ConfigManager.Ins;
     public SaveManager Save => SaveManager.Ins;
+    public Transform RendererTrans { get; set; }
 
     public Level Level => Game.Level;
     public Player Player => Game.Player;
@@ -22,11 +24,15 @@ public abstract class GameEntity : MonoListener
     public EntityPool GamePool => PoolManager.Ins["Game"];
     public EntityPool EffectPool => ParticleSpawner.EntityPool;
 
+    public virtual float DeltaTime => Time.deltaTime * SelfScale;
+    public virtual float SelfScale { get; set; } = 1f;
+
     protected override void Awake()
     {
         base.Awake();
         Trans = transform;
         Rect = GetComponent<RectTransform>();
+        RendererTrans = transform.FindInAllChild("Renderer");
     }
 
     #region Fx

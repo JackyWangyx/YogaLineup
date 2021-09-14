@@ -13,7 +13,7 @@ public class GamePlay : GamePhaseHandler
 
     public override void UpdateImpl()
     {
-        if (Player.Point == 0 && Player.PointChanged)
+        if (Player.State.Point == 0 && Player.State.PointChanged)
         {
             Game.Enter<GameLose>();
         }

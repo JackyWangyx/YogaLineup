@@ -5,14 +5,14 @@ using Aya.Extension;
 public class Level : GameEntity
 { 
     public List<LevelBlock> BlockList;
-    public List<BaseItem> ItemList { get; set; }
+    public List<ItemBase> ItemList { get; set; }
 
     public List<LevelBlock> BlockInsList { get; set; } = new List<LevelBlock>();
 
     protected override void Awake()
     {
         base.Awake();
-        ItemList = transform.GetComponentsInChildren<BaseItem>().ToList();
+        ItemList = transform.GetComponentsInChildren<ItemBase>().ToList();
     }
 
     public void Init()

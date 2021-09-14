@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ItemPoint : BaseItem<Player>
+public class ItemPoint : ItemBase<Player>
 {
     [Header("Point")]
     public int AddValue;
@@ -45,8 +45,10 @@ public class ItemPoint : BaseItem<Player>
 
     public override void OnTargetEnter(Player target)
     {
-        var value = (int)(target.Point * MultiplyValue + AddValue);
-        var diff = value - target.Point;
+        var value = (int)(target.State.Point * MultiplyValue + AddValue);
+        var diff = value - target.State.Point;
+
+        if (diff < 0 && target.State.IsInvincible) return;
         target.ChangePoint(diff);
 
         if (ShowTip)

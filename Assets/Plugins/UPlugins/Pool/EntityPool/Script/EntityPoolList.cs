@@ -215,6 +215,7 @@ namespace Aya.Pool
         /// <param name="destroy">是否销毁</param>
         public void DeSpawn(GameObject ins, bool destroy = false)
         {
+            if (!_spawnList.Contains(ins)) return;
             if (destroy)
             {
                 Object.Destroy(ins);

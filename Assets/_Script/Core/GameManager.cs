@@ -76,7 +76,12 @@ public class GameManager : GameEntity<GameManager>
 
     public void Enter<T>() where T : GamePhaseHandler
     {
-        var nextPhase = PhaseTypeDic[typeof(T)];
+        Enter(typeof(T));
+    }
+
+    public void Enter(Type phaseType) 
+    {
+        var nextPhase = PhaseTypeDic[phaseType];
         Enter(nextPhase);
     }
 
