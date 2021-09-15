@@ -21,19 +21,11 @@ public class GameManager : GameEntity<GameManager>
     [FoldoutGroup("Misc")]
     public Transform PhaseHandler;
 
-    public int LevelIndex => Save.LevelIndex;
-
     public PhaseType Phase { get; set; }
     public GamePhaseHandler CurrentPhase { get; set; }
     public Dictionary<PhaseType, GamePhaseHandler> PhaseDic { get; protected set; }
     public Dictionary<Type, GamePhaseHandler> PhaseTypeDic { get; protected set; }
     public List<GamePhaseHandler> PhaseList { get; protected set; }
-
-    [Button("Clear Save Data"), GUIColor(1f, 0.5f, 0.5f)]
-    public void ClearSaveData()
-    {
-        PlayerPrefs.DeleteAll();
-    }
 
     protected override void Awake()
     {
@@ -79,6 +71,13 @@ public class GameManager : GameEntity<GameManager>
 
     public void Update()
     {
+        if (CurrentPhase == null) return;
         CurrentPhase.UpdateImpl();
+    }
+
+    [Button("Clear Save Data"), GUIColor(1f, 0.5f, 0.5f)]
+    public void ClearSaveData()
+    {
+        PlayerPrefs.DeleteAll();
     }
 }
