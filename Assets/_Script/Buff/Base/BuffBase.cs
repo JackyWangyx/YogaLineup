@@ -4,16 +4,20 @@ public abstract class BuffBase
 {
     public Player Target;
     public float Duration;
-    public float Timer;
     public float[] Args;
+    public GameObject[] Assets;
+    public AnimationCurve[] Curves;
 
-    public bool Active { get; set; }
+    public bool Active;
+    public float Timer;
 
-    public virtual void Start(float duration, params float[] args)
+    public virtual void Start(float duration, float[] args, GameObject[] assets = null, AnimationCurve[] curves = null)
     {
         Duration = duration;
         Timer = 0f;
         Args = args;
+        Assets = assets;
+        Curves = curves;
         Active = true;
         StartImpl();
     }

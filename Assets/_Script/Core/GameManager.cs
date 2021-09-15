@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Aya.Extension;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [Serializable]
@@ -14,15 +15,10 @@ public class PlayerData
 
 public class GameManager : GameEntity<GameManager>
 {
-    [Header("Level")]
-    public int LevelIndex = 1;
-    public int LevelCount;
+    [FoldoutGroup("Player")] public new Player Player;
+    [FoldoutGroup("Player")] public List<PlayerData> PlayerDatas;
 
-    public List<PlayerData> PlayerDatas;
-    public new Level Level { get; set; }
-    public new Player Player;
-
-    [Header("Option")] 
+    [FoldoutGroup("Misc")]
     public Transform PhaseHandler;
 
     public PhaseType Phase { get; set; }
@@ -30,6 +26,12 @@ public class GameManager : GameEntity<GameManager>
     public Dictionary<PhaseType, GamePhaseHandler> PhaseDic { get; protected set; }
     public Dictionary<Type, GamePhaseHandler> PhaseTypeDic { get; protected set; }
     public List<GamePhaseHandler> PhaseList { get; protected set; }
+
+    [Button("Clear Save Data"), GUIColor(1f, 0.5f, 0.5f)]
+    public void ClearSaveData()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 
     protected override void Awake()
     {
@@ -44,34 +46,7 @@ public class GameManager : GameEntity<GameManager>
 
     public virtual void Start()
     {
-        LevelStart();
-    }
-
-    public virtual void NextLevel()
-    {
-        LevelIndex++;
-        if (LevelIndex > LevelCount) LevelIndex = 1;
-
-        LevelStart();
-    }
-
-    public virtual void LevelStart()
-    {
-        UI.HideAll();
-        GamePool.DeSpawnAll();
-        EffectPool.DeSpawnAll();
-        var index = LevelIndex;
-
-        if (Level != null)
-        {
-            Level = null;
-        }
-
-        Level = GamePool.Spawn(Resources.Load<Level>("Level/Level_" + index.ToString("D2")));
-        Level.Trans.SetParent(null);
-        Level.Init();
-
-        Enter<GameReady>();
+        Level.LevelStart();
     }
 
     public void Enter<T>() where T : GamePhaseHandler
@@ -79,7 +54,7 @@ public class GameManager : GameEntity<GameManager>
         Enter(typeof(T));
     }
 
-    public void Enter(Type phaseType) 
+    public void Enter(Type phaseType)
     {
         var nextPhase = PhaseTypeDic[phaseType];
         Enter(nextPhase);

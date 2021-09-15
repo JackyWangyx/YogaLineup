@@ -10,6 +10,7 @@ public abstract class GameEntity : MonoListener
     public Transform Trans { get; set; }
     public RectTransform Rect { get; set; }
     public GameManager Game => GameManager.Ins;
+    public LevelManager Level => LevelManager.Ins;
     public LayerSetting Layer => LayerSetting.Ins;
     public CameraManager Camera => CameraManager.Ins;
     public UIController UI => UIController.Ins;
@@ -17,7 +18,7 @@ public abstract class GameEntity : MonoListener
     public SaveManager Save => SaveManager.Ins;
     public Transform RendererTrans { get; set; }
 
-    public Level Level => Game.Level;
+    public Level CurrentLevel => Level.Level;
     public Player Player => Game.Player;
 
 

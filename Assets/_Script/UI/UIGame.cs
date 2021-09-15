@@ -39,6 +39,6 @@ public class UIGame : UIBase<UIGame>
 
     public void Retry()
     {
-        GameManager.Ins.LevelStart();
+        Level.LevelStart();
     }
 }

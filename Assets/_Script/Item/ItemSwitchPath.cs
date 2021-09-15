@@ -8,10 +8,10 @@ public class ItemSwitchPath : ItemBase<Player>
 
     public override void OnTargetEnter(Player target)
     {
-        var lastPath = Level.CurrentPath;
+        var lastPath = CurrentLevel.CurrentPath;
 
-        Level.CurrentPath = Path;
-        Level.CurrentPath.Move(0f);
+        CurrentLevel.CurrentPath = Path;
+        CurrentLevel.CurrentPath.Move(0f);
     }
 
     public override void OnTargetExit(Player target)

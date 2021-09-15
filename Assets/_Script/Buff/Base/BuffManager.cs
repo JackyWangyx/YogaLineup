@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class BuffManager
 {
@@ -16,12 +17,12 @@ public class BuffManager
         }
     }
 
-    public void AddBuff<T>(float duration, params float[] args) where T : BuffBase
+    public void AddBuff<T>(float duration, float[] args, GameObject[] assets = null, AnimationCurve[] curves = null) where T : BuffBase
     {
         AddBuff(typeof(T), duration, args);
     }
 
-    public void AddBuff(Type buffType, float duration, params float[] args)
+    public void AddBuff(Type buffType, float duration, float[] args, GameObject[] assets = null, AnimationCurve[] curves = null)
     {
         if (!BuffDic.TryGetValue(buffType, out var buff))
         {
@@ -38,7 +39,7 @@ public class BuffManager
         }
         else
         {
-            buff.Start(duration, args);
+            buff.Start(duration, args, assets, curves);
         }
     }
 

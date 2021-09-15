@@ -6,6 +6,6 @@ public class UIWin : UIBase<UIWin>
 {
     public void NextLevel()
     {
-        GameManager.Ins.NextLevel();
+        Level.NextLevel();
     }
 }

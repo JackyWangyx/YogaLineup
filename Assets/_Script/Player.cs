@@ -1,21 +1,23 @@
 ﻿using System;
 using Aya.Extension;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class Player : GameEntity
 {
-    public Transform RenderTrans;
-    public float RunSpeed;
-    public float RotateSpeed;
-    public float TurnSpeed;
-    public float TurnLerpSpeed;
+    [FoldoutGroup("Trans")] public Transform RenderTrans;
 
-    [Header("Fx")]
-    public GameObject AddPointFx;
-    public GameObject ReducePointFx;
+    [FoldoutGroup("Param")] public float RunSpeed;
+    [FoldoutGroup("Param")] public float RotateSpeed;
+    [FoldoutGroup("Param")] public float TurnSpeed;
+    [FoldoutGroup("Param")] public float TurnLerpSpeed;
+
+    [FoldoutGroup("Fx")] public GameObject AddPointFx;
+    [FoldoutGroup("Fx")] public GameObject ReducePointFx;
+
+    public PlayerState State { get; set; }
 
     public PlayerData Data { get; set; }
-    public PlayerState State { get; set; } = new PlayerState();
     public BuffManager Buff { get; set; } = new BuffManager();
     public Animator Animator { get; set; }
     public Rigidbody Rigidbody { get; set; }
@@ -30,6 +32,8 @@ public class Player : GameEntity
     protected override void Awake()
     {
         base.Awake();
+        State = GetComponent<PlayerState>();
+
         CacheComponent();
     }
 
@@ -134,7 +138,7 @@ public class Player : GameEntity
         Buff.Update(deltaTime);
         if (EnableRun)
         {
-            var nextPos = Level.Move(RunSpeed * State.SpeedMultiply * deltaTime);
+            var nextPos = CurrentLevel.Move(RunSpeed * State.SpeedMultiply * deltaTime);
             if (nextPos != transform.position)
             {
                 var rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(nextPos - transform.position), deltaTime * RotateSpeed).eulerAngles;

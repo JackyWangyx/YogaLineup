@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
-public class PlayerState
+public class PlayerState : GameEntity
 {
     // General State
-    public int Point;
-    public int Rank;
-    public bool PointChanged;
+    [NonSerialized] public int Point;
+    [NonSerialized] public int Rank;
+    [NonSerialized] public bool PointChanged;
 
     // Buff State
-    public bool IsInvincible;
-    public float SpeedMultiply;
+    [NonSerialized] public bool IsInvincible;
+    [NonSerialized] public float SpeedMultiply;
 
     public void Init()
     {

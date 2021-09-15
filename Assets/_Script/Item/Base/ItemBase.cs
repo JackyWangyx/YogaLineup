@@ -4,6 +4,7 @@ using UnityEngine;
 using Aya.Physical;
 using Aya.Extension;
 using MoreMountains.NiceVibrations;
+using Sirenix.OdinInspector;
 
 public abstract class ItemBase : GameEntity
 {
@@ -12,22 +13,21 @@ public abstract class ItemBase : GameEntity
     public Animator Animator { get; set; }
     public virtual Type TargetType { get; set; }
 
-    [Header("Pram")]
-    public List<GameObject> RenderPrefabs;
-    public LayerMask LayerMask;
-    public bool DeSpawnAfterEffect = true;
-    public bool DeActiveRender;
-    public bool EffectiveOnce = true;
-    [Header("Effect")]
-    public GameObject EffectSelfFx;
-    public GameObject EffectTargetFx;
-    [Header("Animator")]
-    public string DefaultClip;
-    public string EffectClip;
-    [Header("Exclude")]
-    public List<ItemBase> ExcludeItems;
-    [Header("Vibration")]
-    public HapticTypes VibrationType = HapticTypes.None;
+    [FoldoutGroup("Pram")] public LayerMask LayerMask;
+    [FoldoutGroup("Pram")] public bool DeSpawnAfterEffect = true;
+    [FoldoutGroup("Pram")] public bool DeActiveRender;
+    [FoldoutGroup("Pram")] public bool EffectiveOnce = true;
+    [FoldoutGroup("Pram")] public List<GameObject> RenderPrefabs;
+
+    [FoldoutGroup("Effect")] public GameObject EffectSelfFx;
+    [FoldoutGroup("Effect")] public GameObject EffectTargetFx;
+
+    [FoldoutGroup("Animator")] public string DefaultClip;
+    [FoldoutGroup("Animator")] public string EffectClip;
+
+    [FoldoutGroup("Exclude")] public List<ItemBase> ExcludeItems;
+
+    [FoldoutGroup("Vibration")] public HapticTypes VibrationType = HapticTypes.None;
 
     public bool Active { get; set; }
     public GameObject RenderInstance { get; set; }

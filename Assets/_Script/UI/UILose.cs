@@ -6,6 +6,6 @@ public class UILose : UIBase<UILose>
 {
     public void Retry()
     {
-        GameManager.Ins.LevelStart();
+        Level.LevelStart();
     }
 }

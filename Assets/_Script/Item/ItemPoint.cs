@@ -1,17 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
 public class ItemPoint : ItemBase<Player>
 {
-    [Header("Point")]
-    public int AddValue;
-    public float MultiplyValue = 1f;
-    public TMP_Text Text;
-    public bool ShowTip;
-    public Color GoodTipColor;
-    public Color BadTipColor;
+    [BoxGroup("Point")] public int AddValue;
+    [BoxGroup("Point")] public float MultiplyValue = 1f;
+    [BoxGroup("Point")] public TMP_Text Text;
+    [BoxGroup("Point")] public bool ShowTip;
+    [BoxGroup("Point")] public Color GoodTipColor;
+    [BoxGroup("Point")] public Color BadTipColor;
 
     public string TextValue { get; set; }
 
@@ -45,7 +45,7 @@ public class ItemPoint : ItemBase<Player>
 
     public override void OnTargetEnter(Player target)
     {
-        var value = (int)(target.State.Point * MultiplyValue + AddValue);
+        var value = (int) (target.State.Point * MultiplyValue + AddValue);
         var diff = value - target.State.Point;
 
         if (diff < 0 && target.State.IsInvincible) return;
@@ -59,6 +59,6 @@ public class ItemPoint : ItemBase<Player>
 
     public override void OnTargetExit(Player target)
     {
-       
+
     }
 }

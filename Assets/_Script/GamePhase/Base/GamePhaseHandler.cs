@@ -8,6 +8,8 @@ public enum PhaseType
     Pause,
     Win,
     Lose,
+    Endless,
+    Reward,
 }
 
 public abstract class GamePhaseHandler : GameEntity<GamePhaseHandler>

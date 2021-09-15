@@ -1,31 +1,24 @@
-﻿using System.Reflection;
+﻿using Aya.Types;
+using Sirenix.OdinInspector;
 using UnityEngine;
-
-public enum BuffType
-{
-    None = -1,
-    Invincible = 1,
-    Shift = 2,
-}
 
 public class ItemBuff : ItemBase<Player>
 {
-    [Header("Buff")]
-    public BuffType Type = BuffType.None;
-    public float Duration = 1f;
-    public float Arg1;
-    public float Arg2;
-    public float Arg3;
-    public float Arg4;
+    [BoxGroup("Buff"), TypeReference(typeof(BuffBase))] public TypeReference Type;
+    [BoxGroup("Buff")] public float Duration = 1f;
+    [BoxGroup("Buff")] public float[] Args;
+    [BoxGroup("Buff"), AssetsOnly] public GameObject[] Assets;
+    [BoxGroup("Buff")] public AnimationCurve[] Curves;
+
+    [BoxGroup("Tip"), Multiline(10), HideLabel] public string Tip;
 
     public override void OnTargetEnter(Player target)
     {
-        var buffType = Assembly.GetExecutingAssembly().GetType("Buff" + Type);
-        target.Buff.AddBuff(buffType, Duration, new[] {Arg1, Arg2, Arg3, Arg4});
+        target.Buff.AddBuff(Type.Type, Duration, Args, Assets, Curves);
     }
 
     public override void OnTargetExit(Player target)
     {
-        
+
     }
 }

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3146871635660160599}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 4018262653214767049}
   m_RootOrder: 0
@@ -86,7 +86,7 @@ Transform:
   m_GameObject: {fileID: 6255600660655352689}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3976928725840458394}
   m_Father: {fileID: 0}
@@ -110,7 +110,9 @@ MonoBehaviour:
   DeSpawnAfterEffect: 0
   DeActiveRender: 0
   EffectiveOnce: 1
-  EffectFx: {fileID: 0}
+  RenderPrefabs: []
+  EffectSelfFx: {fileID: 0}
+  EffectTargetFx: {fileID: 0}
   DefaultClip: 
   EffectClip: 
   ExcludeItems: []
