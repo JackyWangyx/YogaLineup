@@ -21,6 +21,8 @@ public class GameManager : GameEntity<GameManager>
     [FoldoutGroup("Misc")]
     public Transform PhaseHandler;
 
+    public int LevelIndex => Save.LevelIndex;
+
     public PhaseType Phase { get; set; }
     public GamePhaseHandler CurrentPhase { get; set; }
     public Dictionary<PhaseType, GamePhaseHandler> PhaseDic { get; protected set; }

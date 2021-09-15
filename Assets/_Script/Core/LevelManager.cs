@@ -1,22 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Sirenix.OdinInspector;
+﻿using System.Collections.Generic;
+using Aya.Util;
 using UnityEngine;
 
 public class LevelManager : GameEntity<LevelManager>
 {
-    [FoldoutGroup("Level")] public int LevelIndex = 1;
-    [FoldoutGroup("Level")] public int LevelCount;
-
-    [FoldoutGroup("Random")] public int StartRandIndex = -1;
-    [FoldoutGroup("Random")] public List<Level> RandList;
+    public int TestLevelIndex = 1;
+    public int StartRandIndex = -1;
+    public List<Level> RandList;
 
     public new Level Level { get; set; }
 
     public virtual void NextLevel()
     {
-        LevelIndex++;
-        if (LevelIndex > LevelCount) LevelIndex = 1;
+        Save.LevelIndex++;
+        if (Save.LevelIndex >= StartRandIndex && StartRandIndex > 0)
+        {
+            Save.RandLevelIndex.Value = RandUtil.RandInt(0, RandList.Count);
+        }
 
         LevelStart();
     }
@@ -26,14 +26,24 @@ public class LevelManager : GameEntity<LevelManager>
         UI.HideAll();
         GamePool.DeSpawnAll();
         EffectPool.DeSpawnAll();
-        var index = LevelIndex;
+        var index = Save.LevelIndex.Value;
 
         if (Level != null)
         {
             Level = null;
         }
 
-        Level = GamePool.Spawn(Resources.Load<Level>("Level/Level_" + index.ToString("D2")));
+        if (TestLevelIndex > 0)
+        {
+            index = TestLevelIndex;
+        }
+        else if (index >= StartRandIndex && StartRandIndex > 0)
+        {
+            index = StartRandIndex;
+        }
+
+        var levelPrefab = Resources.Load<Level>("Level/Level_" + index.ToString("D2"));
+        Level = GamePool.Spawn(levelPrefab);
         Level.Trans.SetParent(null);
         Level.Init();
 

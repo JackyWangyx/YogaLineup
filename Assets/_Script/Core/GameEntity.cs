@@ -9,6 +9,8 @@ public abstract class GameEntity : MonoListener
 {
     public Transform Trans { get; set; }
     public RectTransform Rect { get; set; }
+    public Transform RendererTrans { get; set; }
+
     public GameManager Game => GameManager.Ins;
     public LevelManager Level => LevelManager.Ins;
     public LayerSetting Layer => LayerSetting.Ins;
@@ -16,11 +18,9 @@ public abstract class GameEntity : MonoListener
     public UIController UI => UIController.Ins;
     public ConfigManager Config => ConfigManager.Ins;
     public SaveManager Save => SaveManager.Ins;
-    public Transform RendererTrans { get; set; }
 
     public Level CurrentLevel => Level.Level;
     public Player Player => Game.Player;
-
 
     public EntityPool GamePool => PoolManager.Ins["Game"];
     public EntityPool EffectPool => ParticleSpawner.EntityPool;

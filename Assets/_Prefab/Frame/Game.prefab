@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 644717fb5795aa24c918ce5085769c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelIndex: -1
+  LevelIndex: 1
   LevelCount: 1
   StartRandIndex: -1
   RandList: []
