@@ -6,6 +6,14 @@ using Aya.Extension;
 using MoreMountains.NiceVibrations;
 using Sirenix.OdinInspector;
 
+[Serializable]
+public class ItemAnimatorData
+{
+    public Animator Animator;
+    public string Clip;
+    public string DefaultClip;
+}
+
 public abstract class ItemBase : GameEntity
 {
     public List<Collider> ColliderList { get; set; }
@@ -18,19 +26,19 @@ public abstract class ItemBase : GameEntity
     [FoldoutGroup("Pram")] public bool DeActiveRender;
     [FoldoutGroup("Pram")] public bool EffectiveOnce = true;
     [FoldoutGroup("Pram")] public List<GameObject> RenderPrefabs;
+    [FoldoutGroup("Pram")] public List<GameObject> RenderRandomPrefabs;
 
-    [FoldoutGroup("Effect")] public GameObject EffectSelfFx;
-    [FoldoutGroup("Effect")] public GameObject EffectTargetFx;
+    [FoldoutGroup("Effect")] public List<GameObject> SelfFx;
+    [FoldoutGroup("Effect")] public List<GameObject> SelfRandomFx;
+    [FoldoutGroup("Effect")] public List<GameObject> TargetFx;
+    [FoldoutGroup("Effect")] public List<GameObject> TargetRandomFx;
 
-    [FoldoutGroup("Animator")] public string DefaultClip;
-    [FoldoutGroup("Animator")] public string EffectClip;
-
+    [FoldoutGroup("Animator"), TableList] public List<ItemAnimatorData> AnimatorDataList;
     [FoldoutGroup("Exclude")] public List<ItemBase> ExcludeItems;
-
     [FoldoutGroup("Vibration")] public HapticTypes VibrationType = HapticTypes.None;
 
     public bool Active { get; set; }
-    public GameObject RenderInstance { get; set; }
+    public List<GameObject> RenderInstanceList { get; set; }
     public virtual bool IsUseful => true;
 
     protected override void Awake()
@@ -45,9 +53,9 @@ public abstract class ItemBase : GameEntity
 
         gameObject.SetActive(true);
         RendererTrans?.gameObject.SetActive(true);
-        if (Animator != null && !string.IsNullOrEmpty(DefaultClip))
+        foreach (var animatorData in AnimatorDataList)
         {
-            Animator.Play(DefaultClip);
+            animatorData.Animator?.Play(animatorData.DefaultClip);
         }
 
         Active = true;
@@ -55,15 +63,29 @@ public abstract class ItemBase : GameEntity
 
     public virtual void InitRenderPrefab()
     {
-        if (RenderInstance != null)
+        if (RenderInstanceList != null && RenderInstanceList.Count > 0)
         {
-            GamePool.DeSpawn(RenderInstance);
+            foreach (var ins in RenderInstanceList)
+            {
+                GamePool.DeSpawn(ins);
+            }
         }
 
+        RenderInstanceList = new List<GameObject>();
         if (RenderPrefabs != null && RenderPrefabs.Count > 0)
         {
-            var prefab = RenderPrefabs.Random();
-            RenderInstance = GamePool.Spawn(prefab, RendererTrans);
+            foreach (var prefab in RenderPrefabs)
+            {
+                var ins = GamePool.Spawn(prefab, RendererTrans);
+                RenderInstanceList.Add(ins);
+            }
+        }
+
+        if (RenderRandomPrefabs != null && RenderRandomPrefabs.Count > 0)
+        {
+            var prefab = RenderRandomPrefabs.Random();
+            var ins = GamePool.Spawn(prefab, RendererTrans);
+            RenderInstanceList.Add(ins);
         }
     }
 

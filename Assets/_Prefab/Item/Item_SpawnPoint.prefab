@@ -51,9 +51,12 @@ MonoBehaviour:
   DeSpawnAfterEffect: 1
   DeActiveRender: 0
   EffectiveOnce: 1
-  EffectFx: {fileID: 0}
-  DefaultClip: 
-  EffectClip: 
+  RenderPrefabs: []
+  EffectSelfFx: {fileID: 0}
+  EffectTargetFx: {fileID: 0}
+  AnimatorDataList: []
+  ExcludeItems: []
+  VibrationType: -1
   AddValue: 10
   MultiplyValue: 1
   Text: {fileID: 0}

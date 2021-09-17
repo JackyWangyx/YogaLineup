@@ -7,16 +7,16 @@ using UnityEngine;
 [Serializable]
 public class PlayerData
 {
-    public int Point;
-    public GameObject Player;
-    public GameObject ChangeFx;
-    public Color Color;
+    [TableColumnWidth(30)] public int Point;
+    [TableColumnWidth(50)] public GameObject Player;
+    [TableColumnWidth(50)] public GameObject ChangeFx;
+    [TableColumnWidth(30)] public Color Color;
 }
 
 public class GameManager : GameEntity<GameManager>
 {
     [FoldoutGroup("Player")] public new Player Player;
-    [FoldoutGroup("Player")] public List<PlayerData> PlayerDatas;
+    [FoldoutGroup("Player"), TableList] public List<PlayerData> PlayerDatas;
 
     [FoldoutGroup("Misc")]
     public Transform PhaseHandler;

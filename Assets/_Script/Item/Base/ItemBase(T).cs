@@ -1,4 +1,5 @@
 ﻿using System;
+using Aya.Extension;
 using Aya.Physical;
 using Fishtail.PlayTheBall.Vibration;
 using UnityEngine;
@@ -61,19 +62,39 @@ public abstract class ItemBase<T> : ItemBase where T : Component
             RendererTrans?.gameObject.SetActive(false);
         }
 
-        if (EffectSelfFx != null)
+        if (SelfFx != null && SelfFx.Count > 0)
         {
-            SpawnFx(EffectSelfFx);
+            foreach (var fx in SelfFx)
+            {
+                SpawnFx(fx);
+            }
         }
 
-        if (EffectTargetFx != null)
+        if (SelfRandomFx != null && SelfRandomFx.Count > 0)
         {
-            SpawnFx(EffectTargetFx, target.transform);
+            var fx = SelfRandomFx.Random();
+            SpawnFx(fx);
         }
 
-        if (Animator != null && !string.IsNullOrEmpty(EffectClip))
+        var targetFxTrans = target.transform;
+        if (target is Player player) targetFxTrans = player.RenderTrans;
+        if (TargetFx != null && TargetFx.Count > 0)
         {
-            Animator.Play(EffectClip);
+            foreach (var fx in TargetFx)
+            {
+                SpawnFx(fx, targetFxTrans);
+            }
+        }
+
+        if (TargetRandomFx != null && TargetRandomFx.Count > 0)
+        {
+            var fx = TargetRandomFx.Random();
+            SpawnFx(fx, targetFxTrans);
+        }
+
+        foreach (var animatorData in AnimatorDataList)
+        {
+            animatorData.Animator?.Play(animatorData.Clip);
         }
 
         if (DeSpawnAfterEffect)

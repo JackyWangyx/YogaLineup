@@ -21,7 +21,7 @@ public class UIFlyCoin : GameEntity<UIFlyCoin>
             {
                 var flyStartPos = startPos + RandUtil.RandVector3(new Vector3(-RandomStartPos, -RandomStartPos, 0f), new Vector3(RandomStartPos, RandomStartPos, 0f));
                 var flyEndPos = endPos;
-                var instance = GamePool.Spawn(prefab, transform);
+                var instance = GamePool.Spawn(prefab, transform, flyStartPos);
                 UTween.Value(flyStartPos.x, flyEndPos.x, FlyDuration, value =>
                     {
                         instance.transform.SetPositionX(value);

@@ -111,9 +111,11 @@ MonoBehaviour:
   DeActiveRender: 0
   EffectiveOnce: 1
   RenderPrefabs: []
-  EffectSelfFx: {fileID: 0}
-  EffectTargetFx: {fileID: 0}
-  DefaultClip: 
-  EffectClip: 
+  RenderRandomPrefabs: []
+  SelfFx: []
+  SelfRandomFx: []
+  TargetFx: []
+  TargetRandomFx: []
+  AnimatorDataList: []
   ExcludeItems: []
   VibrationType: -1
