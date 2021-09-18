@@ -12,6 +12,7 @@ public class LevelBlock : GameEntity
     public Vector2 TurnRange => new Vector2(-HalfWidth, HalfWidth);
 
     public List<LevelPath> PathList;
+
     public int PathIndex { get; set; }
     public LevelPath Path => PathList[PathIndex];
 
@@ -29,7 +30,10 @@ public class LevelBlock : GameEntity
 
     public void Init()
     {
-        Path.Init();
+        foreach (var path in PathList)
+        {
+            path.Init();
+        }
     }
 
     public void OnDrawGizmos()

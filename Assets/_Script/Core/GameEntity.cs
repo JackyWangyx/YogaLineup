@@ -20,6 +20,8 @@ public abstract class GameEntity : MonoListener
     public SaveManager Save => SaveManager.Ins;
 
     public Level CurrentLevel => Level.Level;
+    public LevelBlock CurrentBlock => CurrentLevel.CurrentBlock;
+    public LevelPath CurrentPath => CurrentLevel.CurrentBlock.Path;
     public Player Player => Game.Player;
 
     public EntityPool GamePool => PoolManager.Ins["Game"];

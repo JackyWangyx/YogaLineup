@@ -14,7 +14,6 @@ public abstract class ItemBase<T> : ItemBase where T : Component
     {
         base.CacheComponents();
 
-        ColliderListeners.Clear();
         foreach (var col in ColliderList)
         {
             var listener = col.gameObject.GetComponent<ColliderListener>();

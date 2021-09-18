@@ -2,13 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Aya.Extension;
-using Sirenix.OdinInspector;
-
-[Serializable]
-public class LevelNode
-{
-
-}
 
 public class Level : GameEntity
 { 
@@ -22,18 +15,18 @@ public class Level : GameEntity
     protected override void Awake()
     {
         base.Awake();
-        ItemList = transform.GetComponentsInChildren<ItemBase>().ToList();
     }
 
     public void Init()
     {
+        Finish = false;
+        SpawnBlocks();
+        ItemList = transform.GetComponentsInChildren<ItemBase>().ToList();
         foreach (var item in ItemList)
         {
             item.Init();
         }
 
-        Finish = false;
-        SpawnBlocks();
         EnterBlock(0);
         Player.Init();
         Player.transform.position = Move(0f);
@@ -82,8 +75,8 @@ public class Level : GameEntity
     }
 
     public int CurrentBlockIndex { get; set; }
-    public LevelBlock CurrentBlock { get; set; }
-    public LevelPath CurrentPath { get; set; }
+    public new LevelBlock CurrentBlock { get; set; }
+
     public bool Finish { get; set; }
     
     public bool EnterBlock(int index, float initDistance = 0f)
@@ -96,7 +89,6 @@ public class Level : GameEntity
 
         CurrentBlockIndex = index;
         CurrentBlock = BlockInsList[index];
-        CurrentPath = CurrentBlock.Path;
         CurrentPath.Enter(initDistance);
         Player.TurnRange = CurrentBlock.TurnRange;
 

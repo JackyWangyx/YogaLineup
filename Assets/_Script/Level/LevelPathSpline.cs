@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LevelPathSpline : LevelPath
 {
-    public SplineComputer Path;
+    public SplineComputer Path { get; set; }
 
     public override Vector3 StartPosition => GetPosition(0f);
     public override Vector3 EndPosition => GetPosition(1f);
@@ -12,6 +12,7 @@ public class LevelPathSpline : LevelPath
 
     public override void Init()
     {
+        Path = GetComponent<SplineComputer>();
         Path.RebuildImmediate(true, true);
         Length = Path.CalculateLength();
     }
