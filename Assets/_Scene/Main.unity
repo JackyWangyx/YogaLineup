@@ -427,6 +427,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4605984562027478683, guid: e070ecc726a31ba49beb988f8b2eecc7,
+        type: 3}
+      propertyPath: Property
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e070ecc726a31ba49beb988f8b2eecc7, type: 3}
 --- !u!1001 &1404391533
@@ -446,6 +451,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 4064127703775737222, guid: 43ec84091dec5cf458512233b541b0a4,
+        type: 3}
+      propertyPath: Camera
+      value: 
+      objectReference: {fileID: 99150909}
     - target: {fileID: 4064127703775737223, guid: 43ec84091dec5cf458512233b541b0a4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -513,70 +523,6 @@ PrefabInstance:
       objectReference: {fileID: 343659867}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43ec84091dec5cf458512233b541b0a4, type: 3}
---- !u!1 &1415421730
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1415421732}
-  - component: {fileID: 1415421731}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1415421731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1415421730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e706656b2506360449d31de848e3f646, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  DeSpawnAfterEffect: 1
-  DeActiveRender: 0
-  EffectiveOnce: 1
-  RenderPrefabs: []
-  EffectSelfFx: {fileID: 0}
-  EffectTargetFx: {fileID: 0}
-  DefaultClip: 
-  EffectClip: 
-  ExcludeItems: []
-  VibrationType: -1
-  Type:
-    AssemblyName: 
-    TypeName: 
-  Duration: 1
-  Args: []
-  Assets: []
-  Curves: []
-  Tip: 
---- !u!4 &1415421732
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1415421730}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.8091087, y: 6.9439487, z: 34.945267}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1535981974
 GameObject:
   m_ObjectHideFlags: 0

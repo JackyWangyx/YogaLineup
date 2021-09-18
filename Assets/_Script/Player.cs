@@ -7,13 +7,11 @@ public class Player : GameEntity
 {
     [FoldoutGroup("Trans")] public Transform RenderTrans;
 
+    [FoldoutGroup("Param")] public int InitPoint;
     [FoldoutGroup("Param")] public float RunSpeed;
     [FoldoutGroup("Param")] public float RotateSpeed;
     [FoldoutGroup("Param")] public float TurnSpeed;
     [FoldoutGroup("Param")] public float TurnLerpSpeed;
-
-    [FoldoutGroup("Fx")] public GameObject AddPointFx;
-    [FoldoutGroup("Fx")] public GameObject ReducePointFx;
 
     public PlayerState State { get; set; }
 
@@ -43,15 +41,6 @@ public class Player : GameEntity
         State.Point += diff;
         if (State.Point < 0) State.Point = 0;
         RefreshRender(State.Point);
-
-        if (diff > 0)
-        {
-            if (AddPointFx != null) SpawnFx(AddPointFx, RenderTrans);
-        }
-        else
-        {
-            if (ReducePointFx != null) SpawnFx(ReducePointFx, RenderTrans);
-        }
     }
 
     public void CacheComponent()
@@ -73,7 +62,7 @@ public class Player : GameEntity
 
     public void Init()
     {
-        State.Init();
+        State.Init(this);
         Buff.Init(this);
         RefreshRender(State.Point);
         Play("Idle");
@@ -106,13 +95,16 @@ public class Player : GameEntity
 
             RenderInstance = GamePool.Spawn(data.Player, RenderTrans);
 
-            CacheComponent();
-            Play(CurrentClip);
-
-            if (data.ChangeFx != null)
+            this.ExecuteNextFrame(() =>
             {
-                SpawnFx(data.ChangeFx, RenderTrans);
-            }
+                CacheComponent();
+                Play(CurrentClip);
+
+                if (data.ChangeFx != null)
+                {
+                    SpawnFx(data.ChangeFx, RenderTrans);
+                }
+            });
         }
     }
 

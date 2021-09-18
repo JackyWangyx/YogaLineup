@@ -66,7 +66,7 @@ namespace Aya.TweenPro
 
         public void DrawShakeData()
         {
-            Mode = (ShakeMode) EditorGUILayout.EnumPopup(nameof(Mode), Mode);
+            GUIUtil.DrawToolbarEnum(ModeProperty, nameof(Mode), typeof(ShakeMode));
             var labelWidth = Tweener.EnableAxis ? EditorGUIUtility.labelWidth - EditorStyle.CharacterWidth : EditorGUIUtility.labelWidth;
             using (GUILabelWidthArea.Create(labelWidth))
             {

@@ -1,11 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Aya.Extension;
+using Sirenix.OdinInspector;
+
+[Serializable]
+public class LevelNode
+{
+
+}
 
 public class Level : GameEntity
 { 
     public List<LevelBlock> BlockList;
+
     public List<ItemBase> ItemList { get; set; }
+    public Dictionary<Type, List<ItemBase>> ItemDic { get; set; }
 
     public List<LevelBlock> BlockInsList { get; set; } = new List<LevelBlock>();
 
@@ -27,6 +37,23 @@ public class Level : GameEntity
         EnterBlock(0);
         Player.Init();
         Player.transform.position = Move(0f);
+    }
+
+    public List<T> GetItems<T>() where T : ItemBase
+    {
+        if (!ItemDic.TryGetValue(typeof(T), out var list))
+        {
+            list = new List<ItemBase>();
+            ItemDic.Add(typeof(T), list);
+        }
+
+        return list as List<T>;
+    }
+
+    public T GetItem<T>() where T : ItemBase
+    {
+        var list = GetItems<T>();
+        return list.First();
     }
 
     public void SpawnBlocks()

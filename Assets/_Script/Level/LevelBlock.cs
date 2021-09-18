@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
+
 
 public class LevelBlock : GameEntity
 {
@@ -8,7 +11,9 @@ public class LevelBlock : GameEntity
     public float HalfWidth => Width / 2f;
     public Vector2 TurnRange => new Vector2(-HalfWidth, HalfWidth);
 
-    public LevelPath Path { get; set; }
+    public List<LevelPath> PathList;
+    public int PathIndex { get; set; }
+    public LevelPath Path => PathList[PathIndex];
 
     public Vector3 StartPosition => Path.StartPosition;
     public Vector3 EndPosition => Path.EndPosition;
@@ -19,7 +24,7 @@ public class LevelBlock : GameEntity
     protected override void Awake()
     {
         base.Awake();
-        Path = GetComponent<LevelPath>();
+
     }
 
     public void Init()

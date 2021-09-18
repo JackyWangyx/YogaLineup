@@ -16,11 +16,6 @@ public class ItemAnimatorData
 
 public abstract class ItemBase : GameEntity
 {
-    public List<Collider> ColliderList { get; set; }
-    public List<ColliderListener> ColliderListeners { get; set; }
-    public Animator Animator { get; set; }
-    public virtual Type TargetType { get; set; }
-
     [FoldoutGroup("Pram")] public LayerMask LayerMask;
     [FoldoutGroup("Pram")] public bool DeSpawnAfterEffect = true;
     [FoldoutGroup("Pram")] public bool DeActiveRender;
@@ -36,6 +31,11 @@ public abstract class ItemBase : GameEntity
     [FoldoutGroup("Animator"), TableList] public List<ItemAnimatorData> AnimatorDataList;
     [FoldoutGroup("Exclude")] public List<ItemBase> ExcludeItems;
     [FoldoutGroup("Vibration")] public HapticTypes VibrationType = HapticTypes.None;
+
+    public List<Collider> ColliderList { get; set; }
+    public List<ColliderListener> ColliderListeners { get; set; }
+    public Animator Animator { get; set; }
+    public virtual Type TargetType { get; set; }
 
     public bool Active { get; set; }
     public List<GameObject> RenderInstanceList { get; set; }

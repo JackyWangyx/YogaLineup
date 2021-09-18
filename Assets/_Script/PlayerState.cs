@@ -2,6 +2,8 @@
 
 public class PlayerState : GameEntity
 {
+    public new Player Player { get; set; }
+
     // General State
     [NonSerialized] public int Point;
     [NonSerialized] public int Rank;
@@ -11,10 +13,12 @@ public class PlayerState : GameEntity
     [NonSerialized] public bool IsInvincible;
     [NonSerialized] public float SpeedMultiply;
 
-    public void Init()
+    public void Init(Player player)
     {
+        Player = player;
+
         PointChanged = false;
-        Point = 0;
+        Point = player.InitPoint;
         Rank = -1;
 
         IsInvincible = false;
