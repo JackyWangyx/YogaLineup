@@ -513,12 +513,19 @@ MonoBehaviour:
       tangent: {x: -0.17434311, y: 10, z: 19.854704}
       tangent2: {x: 0.17434311, y: 10, z: 22.718124}
     - _type: 0
-      position: {x: -1.1367188, y: 0, z: 30}
+      position: {x: 0, y: 0, z: 28.4}
       color: {r: 1, g: 1, b: 1, a: 1}
       normal: {x: 0, y: 1, z: 0}
       size: 2
-      tangent: {x: -1.1367188, y: 0, z: 30}
-      tangent2: {x: -1.1367188, y: 0, z: 30}
+      tangent: {x: 0, y: 0, z: 28.4}
+      tangent2: {x: 0, y: 0, z: 28.4}
+    - _type: 0
+      position: {x: 0, y: 0, z: 30}
+      color: {r: 1, g: 1, b: 1, a: 1}
+      normal: {x: 0, y: 1, z: 0}
+      size: 2
+      tangent: {x: 0, y: 0, z: 30}
+      tangent2: {x: 0, y: 0, z: 30}
     closed: 0
     type: 3
     linearAverageDirection: 1
@@ -547,16 +554,22 @@ MonoBehaviour:
     forward: {x: 0, y: 0.35922664, z: 0.93325037}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 2
-    percent: 0.3333333333333333
+    percent: 0.25
   - position: {x: 0, y: 10, z: 21.286413}
     up: {x: 0, y: 1, z: 0}
-    forward: {x: -0.046940032, y: -0.4129432, z: 0.9095464}
+    forward: {x: 0, y: -0.45844424, z: 0.8887232}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 2
-    percent: 0.6666666666666666
-  - position: {x: -1.1367188, y: 0, z: 30}
+    percent: 0.5
+  - position: {x: 0, y: 0, z: 28.4}
     up: {x: 0, y: 1, z: 0}
-    forward: {x: -0.08538827, y: -0.7511821, z: 0.65454894}
+    forward: {x: 0, y: -0.45844433, z: 0.8887232}
+    color: {r: 1, g: 1, b: 1, a: 1}
+    size: 2
+    percent: 0.75
+  - position: {x: 0, y: 0, z: 30}
+    up: {x: 0, y: 1, z: 0}
+    forward: {x: 0, y: 0, z: 1}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 2
     percent: 1
@@ -572,16 +585,22 @@ MonoBehaviour:
     forward: {x: 0, y: 0.35922664, z: 0.93325037}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 2
-    percent: 0.3333333333333333
+    percent: 0.25
   - position: {x: 0, y: 10, z: 21.286413}
     up: {x: 0, y: 1, z: 0}
-    forward: {x: -0.046940032, y: -0.4129432, z: 0.9095464}
+    forward: {x: 0, y: -0.45844424, z: 0.8887232}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 2
-    percent: 0.6666666666666666
-  - position: {x: -1.1367188, y: 0, z: 30}
+    percent: 0.5
+  - position: {x: 0, y: 0, z: 28.4}
     up: {x: 0, y: 1, z: 0}
-    forward: {x: -0.08538827, y: -0.7511821, z: 0.65454894}
+    forward: {x: 0, y: -0.45844433, z: 0.8887232}
+    color: {r: 1, g: 1, b: 1, a: 1}
+    size: 2
+    percent: 0.75
+  - position: {x: 0, y: 0, z: 30}
+    up: {x: 0, y: 1, z: 0}
+    forward: {x: 0, y: 0, z: 1}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 2
     percent: 1
@@ -598,16 +617,22 @@ MonoBehaviour:
       forward: {x: 0, y: 0.35922664, z: 0.93325037}
       color: {r: 1, g: 1, b: 1, a: 1}
       size: 2
-      percent: 0.3333333333333333
+      percent: 0.25
     - position: {x: 0, y: 10, z: 21.286413}
       up: {x: 0, y: 1, z: 0}
-      forward: {x: -0.046940032, y: -0.4129432, z: 0.9095464}
+      forward: {x: 0, y: -0.45844424, z: 0.8887232}
       color: {r: 1, g: 1, b: 1, a: 1}
       size: 2
-      percent: 0.6666666666666666
-    - position: {x: -1.1367188, y: 0, z: 30}
+      percent: 0.5
+    - position: {x: 0, y: 0, z: 28.4}
       up: {x: 0, y: 1, z: 0}
-      forward: {x: -0.08538827, y: -0.7511821, z: 0.65454894}
+      forward: {x: 0, y: -0.45844433, z: 0.8887232}
+      color: {r: 1, g: 1, b: 1, a: 1}
+      size: 2
+      percent: 0.75
+    - position: {x: 0, y: 0, z: 30}
+      up: {x: 0, y: 1, z: 0}
+      forward: {x: 0, y: 0, z: 1}
       color: {r: 1, g: 1, b: 1, a: 1}
       size: 2
       percent: 1
@@ -617,10 +642,10 @@ MonoBehaviour:
     clipTo: 1
     loopSamples: 0
   originalSamplePercents: []
-  _sampleCount: 4
+  _sampleCount: 5
   _is2D: 0
   hasSamples: 1
-  pointsDirty: 00000000
+  pointsDirty: 0000000000
   _optimizeAngleThreshold: 0.5
   _space: 1
   _sampleMode: 0
@@ -689,6 +714,7 @@ MonoBehaviour:
   SwitchPathIndex: 0
   LimitRange: 1
   Range: {x: -7.5, y: 7.5}
+  KeepDirection: 0
 --- !u!1 &6607010646360770580
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,6 +778,7 @@ MonoBehaviour:
   SwitchPathIndex: 1
   LimitRange: 1
   Range: {x: 0, y: 7.5}
+  KeepDirection: 0
 --- !u!1 &6877194413976876352
 GameObject:
   m_ObjectHideFlags: 0

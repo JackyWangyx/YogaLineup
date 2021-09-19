@@ -7,7 +7,7 @@ public class ItemRoadLimiter : ItemBase<Player>
 
     public override void OnTargetEnter(Player target)
     {
-        target.TurnRange = Width;
+        target.State.TurnRange = Width;
     }
 
     public override void OnTargetExit(Player target)

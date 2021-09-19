@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class ItemPath : ItemBase<Player>
 {
-    [BoxGroup("Path")] public LevelBlock Block;
     [BoxGroup("Path")] public bool SwitchPath;
     [BoxGroup("Path"), ShowIf("SwitchPath")] public int SwitchPathIndex;
 
     [BoxGroup("Path")] public bool LimitRange;
     [BoxGroup("Path"), ShowIf("LimitRange")] public Vector2 Range;
+
+    [BoxGroup("Path")] public bool KeepDirection;
+
+    public LevelBlock Block { get; set; }
 
     protected override void Awake()
     {
@@ -28,8 +31,10 @@ public class ItemPath : ItemBase<Player>
 
         if (LimitRange)
         {
-            Player.TurnRange = Range;
+            Player.State.TurnRange = Range;
         }
+
+        Player.State.KeepDirection = KeepDirection;
     }
 
     public override void OnTargetExit(Player target)

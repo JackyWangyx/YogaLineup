@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public class PlayerState : GameEntity
 {
@@ -9,6 +10,12 @@ public class PlayerState : GameEntity
     [NonSerialized] public int Rank;
     [NonSerialized] public bool PointChanged;
 
+    // Run State
+    [NonSerialized] public bool EnableRun;
+    [NonSerialized] public bool EnableInput;
+    [NonSerialized] public bool KeepDirection;
+    [NonSerialized] public Vector2 TurnRange;
+
     // Buff State
     [NonSerialized] public bool IsInvincible;
     [NonSerialized] public float SpeedMultiply;
@@ -18,6 +25,11 @@ public class PlayerState : GameEntity
         Player = player;
 
         PointChanged = false;
+        KeepDirection = false;
+
+        EnableRun = false;
+        EnableInput = false;
+
         Point = player.InitPoint;
         Rank = -1;
 

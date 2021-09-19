@@ -23,9 +23,6 @@ public class Player : GameEntity
     public GameObject RenderInstance { get; set; }
 
     public string CurrentClip { get; set; }
-    public bool EnableRun { get; set; }
-    public bool EnableInput { get; set; }
-    public Vector2 TurnRange { get; set; }
 
     protected override void Awake()
     {
@@ -115,8 +112,8 @@ public class Player : GameEntity
 
     public void StartRun()
     {
-        EnableRun = true;
-        EnableInput = true;
+        State.EnableRun = true;
+        State.EnableInput = true;
     }
 
     private bool _isMouseDown;
@@ -128,23 +125,27 @@ public class Player : GameEntity
         var deltaTime = DeltaTime;
         if (Game.Phase != PhaseType.Gaming) return;
         Buff.Update(deltaTime);
-        if (EnableRun)
+        if (State.EnableRun)
         {
             var nextPos = CurrentLevel.Move(RunSpeed * State.SpeedMultiply * deltaTime);
             if (nextPos != transform.position)
             {
-                var rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(nextPos - transform.position), deltaTime * RotateSpeed).eulerAngles;
-                rotation.x = 0f;
-                transform.eulerAngles = rotation;
+                if (!State.KeepDirection)
+                {
+                    var rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(nextPos - transform.position), deltaTime * RotateSpeed).eulerAngles;
+                    rotation.x = 0f;
+                    transform.eulerAngles = rotation;
+                }
+
                 transform.position = nextPos;
             }
         }
 
-        var canInput = Game.Phase == PhaseType.Gaming && EnableInput;
+        var canInput = Game.Phase == PhaseType.Gaming && State.EnableInput;
         var turnX = RenderTrans.localPosition.x;
         if (canInput)
         {
-            if (Input.GetMouseButtonDown(0) || (!EnableInput && Input.GetMouseButton(0)))
+            if (Input.GetMouseButtonDown(0) || (!State.EnableInput && Input.GetMouseButton(0)))
             {
                 _isMouseDown = true;
                 _startMousePos = Input.mousePosition;
@@ -163,7 +164,7 @@ public class Player : GameEntity
             }
         }
 
-        turnX = Mathf.Clamp(turnX, TurnRange.x, TurnRange.y);
+        turnX = Mathf.Clamp(turnX, State.TurnRange.x, State.TurnRange.y);
         turnX = Mathf.Lerp(RenderTrans.localPosition.x, turnX, TurnLerpSpeed * deltaTime);
         RenderTrans.SetLocalPositionX(turnX);
     }
@@ -183,14 +184,14 @@ public class Player : GameEntity
     public void Win()
     {
         Play("Win");
-        EnableRun = false;
-        EnableInput = false;
+        State.EnableRun = false;
+        State.EnableInput = false;
     }
 
     public void Die()
     {
         Play("Lose");
-        EnableRun = false;
-        EnableInput = false;
+        State.EnableRun = false;
+        State.EnableInput = false;
     }
 }

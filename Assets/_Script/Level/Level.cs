@@ -90,7 +90,7 @@ public class Level : GameEntity
         CurrentBlockIndex = index;
         CurrentBlock = BlockInsList[index];
         CurrentPath.Enter(initDistance);
-        Player.TurnRange = CurrentBlock.TurnRange;
+        Player.State.TurnRange = CurrentBlock.TurnRange;
 
         return true;
     }
