@@ -26,7 +26,9 @@ public class ItemPath : ItemBase<Player>
         if (SwitchPath)
         {
             Block.PathIndex = SwitchPathIndex;
-            // CurrentLevel.CurrentPath.Move(0f);
+            var (pos, factor) = Block.CurrentPath.GetNearestPos(target.transform.position);
+            
+            // TODO....
         } 
 
         if (LimitRange)

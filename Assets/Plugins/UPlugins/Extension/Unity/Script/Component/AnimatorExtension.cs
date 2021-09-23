@@ -40,5 +40,40 @@ namespace Aya.Extension
                 }
             }
         }
+
+        /// <summary>
+        /// 检查是否存在参数
+        /// </summary>
+        /// <param name="animator">动画状态机</param>
+        /// <param name="parameterName">参数名</param>
+        /// <returns>结果</returns>
+        public static bool CheckParameterExist(this Animator animator, string parameterName)
+        {
+            for (var i = 0; i < animator.parameters.Length; i++)
+            {
+                var parameter = animator.parameters[i];
+                if (parameter.name == parameterName) return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 检查是否存在参数
+        /// </summary>
+        /// <param name="animator">动画状态机</param>
+        /// <param name="parameterName">参数名</param>
+        /// <param name="type">参数类型</param>
+        /// <returns>结果</returns>
+        public static bool CheckParameterExist(this Animator animator, string parameterName, AnimatorControllerParameterType type)
+        {
+            for (var i = 0; i < animator.parameters.Length; i++)
+            {
+                var parameter = animator.parameters[i];
+                if (parameter.name == parameterName && parameter.type == type) return true;
+            }
+
+            return false;
+        }
     }
 }

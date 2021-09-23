@@ -8,6 +8,13 @@ using UnityEngine;
 public abstract class GameEntity : MonoListener
 {
     public Transform Trans { get; set; }
+
+    public Transform Parent
+    {
+        get => Trans.parent;
+        set => Trans.parent = value;
+    }
+
     public RectTransform Rect { get; set; }
     public Transform RendererTrans { get; set; }
 

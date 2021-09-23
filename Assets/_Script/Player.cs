@@ -1,5 +1,6 @@
 ﻿using System;
 using Aya.Extension;
+using Aya.Physical;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -7,7 +8,11 @@ public class Player : GameEntity
 {
     [FoldoutGroup("Trans")] public Transform RenderTrans;
 
+    [FoldoutGroup("Physic Test")] public LayerMask GroundLayer;
+    [FoldoutGroup("Physic Test")] public float KeepHeight;
+
     [FoldoutGroup("Param")] public int InitPoint;
+    [FoldoutGroup("Param")] public bool KeepUp;
     [FoldoutGroup("Param")] public float RunSpeed;
     [FoldoutGroup("Param")] public float RotateSpeed;
     [FoldoutGroup("Param")] public float TurnSpeed;
@@ -32,12 +37,43 @@ public class Player : GameEntity
         CacheComponent();
     }
 
-    public void ChangePoint(int diff)
+    #region Animator
+    
+    private string _lastAnimationClipName;
+    public void Play(string animationClipName)
     {
-        State.PointChanged = true;
-        State.Point += diff;
-        if (State.Point < 0) State.Point = 0;
+        CurrentClip = animationClipName;
+        if (Animator == null) Animator = GetComponentInChildren<Animator>(true);
+        if (Animator != null)
+        {
+            if (Animator.CheckParameterExist(animationClipName, AnimatorControllerParameterType.Bool))
+            {
+                if (!string.IsNullOrEmpty(_lastAnimationClipName))
+                {
+                    Animator.SetBool(_lastAnimationClipName, false);
+                }
+
+                Animator.SetBool(animationClipName, true);
+            }
+            else
+            {
+                Animator.Play(animationClipName);
+            }
+
+            _lastAnimationClipName = animationClipName;
+        }
+    } 
+
+    #endregion
+
+
+    public void Init()
+    {
+        State.Init(this);
+        Buff.Init(this);
         RefreshRender(State.Point);
+        Play("Idle");
+        transform.position = Vector3.up * KeepHeight;
     }
 
     public void CacheComponent()
@@ -47,22 +83,12 @@ public class Player : GameEntity
         Renderer = GetComponentInChildren<Renderer>();
     }
 
-    public void Play(string animationName)
+    public void ChangePoint(int diff)
     {
-        CurrentClip = animationName;
-        if (Animator == null) Animator = GetComponentInChildren<Animator>(true);
-        if (Animator != null)
-        {
-            Animator.Play(animationName);
-        }
-    }
-
-    public void Init()
-    {
-        State.Init(this);
-        Buff.Init(this);
+        State.PointChanged = true;
+        State.Point += diff;
+        if (State.Point < 0) State.Point = 0;
         RefreshRender(State.Point);
-        Play("Idle");
     }
 
     public void RefreshRender(int point)
@@ -127,17 +153,32 @@ public class Player : GameEntity
         Buff.Update(deltaTime);
         if (State.EnableRun)
         {
-            var nextPos = CurrentLevel.Move(RunSpeed * State.SpeedMultiply * deltaTime);
+            var nextPathPos = CurrentLevel.Move(RunSpeed * State.SpeedMultiply * deltaTime);
+            var nextPos = nextPathPos;
+
             if (nextPos != transform.position)
             {
                 if (!State.KeepDirection)
                 {
                     var rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(nextPos - transform.position), deltaTime * RotateSpeed).eulerAngles;
-                    rotation.x = 0f;
+                    if (KeepUp)
+                    {
+                        rotation.x = 0f;
+                    }
+                    
                     transform.eulerAngles = rotation;
                 }
 
                 transform.position = nextPos;
+
+                // 物理接地
+                // var hitStart = RenderTrans.position + Vector3.up * 5;
+                // var hitGroundPos = PhysicsUtil.Raycast(hitStart, Vector3.down, 1000f, GroundLayer);
+                // Debug.DrawLine(hitStart, hitStart + Vector3.down * 1000f, Color.yellow);
+                // if (hitGroundPos != null)
+                // {
+                //     transform.SetPositionY(hitGroundPos.Value.y + KeepHeight);
+                // }
             }
         }
 

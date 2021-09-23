@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Aya.Extension;
+using Sirenix.OdinInspector;
 
 public class Level : GameEntity
 { 
@@ -49,20 +50,16 @@ public class Level : GameEntity
         return list.First();
     }
 
+    [ButtonGroup("Test"), Button("Test Create")]
     public void SpawnBlocks()
     {
-        foreach (var levelBlock in BlockInsList)
-        {
-            GamePool.DeSpawn(levelBlock);
-        }
-
-        BlockInsList.Clear();
+        DeSpawnLevelBlocks();
 
         var currentPos = Vector3.zero;
         var currentForward = Vector3.forward;
-        foreach (var levelBlock in BlockList)
+        foreach (var levelBlockPrefab in BlockList)
         {
-            var blockIns = GamePool.Spawn(levelBlock, transform);
+            var blockIns = Application.isPlaying ? GamePool.Spawn(levelBlockPrefab, transform) : Instantiate(levelBlockPrefab, transform);
             blockIns.transform.position = currentPos;
             blockIns.transform.forward = currentForward;
             blockIns.Init();
@@ -74,9 +71,31 @@ public class Level : GameEntity
         }
     }
 
+    [ButtonGroup("Test"), Button("Destroy"), GUIColor(1f, 0.5f, 0.5f)]
+    public void DeSpawnLevelBlocks()
+    {
+        if (!Application.isPlaying)
+        {
+            BlockInsList = GetComponentsInChildren<LevelBlock>().ToList();
+        }
+
+        foreach (var levelBlock in BlockInsList)
+        {
+            if (Application.isPlaying)
+            {
+                GamePool.DeSpawn(levelBlock);
+            }
+            else
+            {
+                DestroyImmediate(levelBlock.gameObject);
+            }
+        }
+
+        BlockInsList.Clear();
+    }
+
     public int CurrentBlockIndex { get; set; }
     public new LevelBlock CurrentBlock { get; set; }
-
     public bool Finish { get; set; }
     
     public bool EnterBlock(int index, float initDistance = 0f)

@@ -22,6 +22,7 @@ public class LevelBlock : GameEntity
     public Vector3 StartForward => Path.StartForward;
     public Vector3 EndForward => Path.EndForward;
 
+
     protected override void Awake()
     {
         base.Awake();
