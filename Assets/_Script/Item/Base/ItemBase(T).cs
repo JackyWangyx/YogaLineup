@@ -31,11 +31,18 @@ public abstract class ItemBase<T> : ItemBase where T : Component
     public virtual void OnEnter(T target)
     {
         if (!Active) return;
+
         if (Active)
         {
             try
             {
                 Target = target;
+                foreach (var condition in Conditions)
+                {
+                    var check = condition.CheckCondition(target);
+                    if (!check) return;
+                }
+
                 foreach (var item in ExcludeItems)
                 {
                     item.Active = false;
@@ -94,6 +101,11 @@ public abstract class ItemBase<T> : ItemBase where T : Component
         foreach (var animatorData in AnimatorDataList)
         {
             animatorData.Animator?.Play(animatorData.Clip);
+        }
+
+        foreach (var tweenAnimation in TweenAnimationList)
+        {
+            tweenAnimation?.Data.Play();
         }
 
         if (DeSpawnAfterEffect)

@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd9328272c4070449365e1e598bfd39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Width: 15
   Start: {fileID: 5897512678121058222}
   End: {fileID: 3466532176257546455}
 --- !u!1 &887970490681711684
@@ -92,7 +93,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf1a8722bd25a184fb16f7235fa14f00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 15
   PathList:
   - {fileID: 4035587436276441620}
 --- !u!1 &2481628841702182147

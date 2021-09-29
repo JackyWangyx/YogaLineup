@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f3591b0bef6464bbd4284061d8e1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Path: {fileID: 1042821320501192878}
+  Width: 10
 --- !u!114 &1042821320501192878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -886,7 +886,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf1a8722bd25a184fb16f7235fa14f00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 10
   PathList:
   - {fileID: 4136631856295129106}
 --- !u!1 &8905428796485765141

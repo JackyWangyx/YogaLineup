@@ -5,8 +5,8 @@ public class LevelPathSpline : LevelPath
 {
     public SplineComputer Path { get; set; }
 
-    public override Vector3 StartPosition => GetPosition(0f);
-    public override Vector3 EndPosition => GetPosition(1f);
+    public override Vector3 StartPosition => GetPositionByFactor(0f);
+    public override Vector3 EndPosition => GetPositionByFactor(1f);
     public override Vector3 StartForward => GetForward(0f);
     public override Vector3 EndForward => GetForward(1f);
 
@@ -17,11 +17,23 @@ public class LevelPathSpline : LevelPath
         Length = Path.CalculateLength();
     }
 
-    public override Vector3 GetPosition(float factor)
+    public override Vector3 GetPositionByFactor(float factor)
     {
         if (Path == null) return Vector3.zero;
         var position = Path.Evaluate(factor).position;
         return position;
+    }
+
+    public override (bool, Vector3, float) GetPositionByDistance(float distance)
+    {
+        if (distance > Length)
+        {
+            return (true, GetPositionByFactor(1f), distance - Length);
+        }
+        else
+        {
+            return (false, GetPositionByFactor((float) Path.Travel(0f, distance)), 0f);
+        }
     }
 
     public virtual Vector3 GetForward(float factor)
@@ -36,36 +48,7 @@ public class LevelPathSpline : LevelPath
         Gizmos.color = Color.red;
         for (var i = 0; i < 100; i++)
         {
-            Gizmos.DrawLine(GetPosition(i * 1f / 100f), GetPosition((i + 1) * 1f / 100f));
+            Gizmos.DrawLine(GetPositionByFactor(i * 1f / 100f), GetPositionByFactor((i + 1) * 1f / 100f));
         }
-    }
-
-    private double _percent;
-
-    public override void Enter(float initMoveDistance = 0)
-    {
-        _percent = 0f;
-        base.Enter(initMoveDistance);
-    }
-
-    public override (bool, Vector3, float) Move(float distance)
-    {
-        var finish = false;
-        var overDistance = 0f;
-
-        _percent = Path.Travel(_percent, distance);
-        var result = Path.EvaluatePosition(_percent);
-        MoveDistance += distance;
-
-        if (MoveDistance >= Length)
-        {
-            finish = true;
-            overDistance = MoveDistance - Length;
-            MoveDistance = Length;
-        }
-
-        CurrentPosition = result;
-
-        return (finish, result, overDistance);
     }
 }

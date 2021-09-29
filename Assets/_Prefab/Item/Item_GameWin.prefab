@@ -112,10 +112,14 @@ MonoBehaviour:
   EffectiveOnce: 1
   RenderPrefabs: []
   RenderRandomPrefabs: []
+  Conditions: []
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  TweenAnimationList: []
   AnimatorDataList: []
   ExcludeItems: []
   VibrationType: -1
+  references:
+    version: 1

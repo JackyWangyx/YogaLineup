@@ -20,7 +20,6 @@ public class Level : GameEntity
 
     public void Init()
     {
-        Finish = false;
         SpawnBlocks();
         ItemList = transform.GetComponentsInChildren<ItemBase>().ToList();
         foreach (var item in ItemList)
@@ -28,9 +27,7 @@ public class Level : GameEntity
             item.Init();
         }
 
-        EnterBlock(0);
         Player.Init();
-        Player.transform.position = Move(0f);
     }
 
     public List<T> GetItems<T>() where T : ItemBase
@@ -92,54 +89,5 @@ public class Level : GameEntity
         }
 
         BlockInsList.Clear();
-    }
-
-    public int CurrentBlockIndex { get; set; }
-    public new LevelBlock CurrentBlock { get; set; }
-    public bool Finish { get; set; }
-    
-    public bool EnterBlock(int index, float initDistance = 0f)
-    {
-        if (index >= BlockInsList.Count)
-        {
-            Finish = true;
-            return false;
-        }
-
-        CurrentBlockIndex = index;
-        CurrentBlock = BlockInsList[index];
-        CurrentPath.Enter(initDistance);
-        Player.State.TurnRange = CurrentBlock.TurnRange;
-
-        return true;
-    }
-
-    public Vector3 Move(float distance)
-    {
-        if (Finish) return CurrentPath.GetPosition(1f);
-        Vector3 result;
-
-        while (true)
-        {
-            var overDistance = 0f;
-            var finish = false;
-            (finish, result, overDistance) = CurrentPath.Move(distance);
-            if (finish)
-            {
-                var enterResult = EnterBlock(CurrentBlockIndex + 1, overDistance);
-                if (!enterResult)
-                {
-                    Finish = true;
-                    break;
-                }
-                distance = 0f;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        return result;
     }
 }

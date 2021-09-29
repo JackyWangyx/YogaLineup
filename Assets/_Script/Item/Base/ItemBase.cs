@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Aya.Physical;
 using Aya.Extension;
+using Aya.TweenPro;
 using MoreMountains.NiceVibrations;
 using Sirenix.OdinInspector;
 
-[Serializable]
-public class ItemAnimatorData
-{
-    public Animator Animator;
-    public string Clip;
-    public string DefaultClip;
-}
 
 public abstract class ItemBase : GameEntity
 {
@@ -23,12 +17,15 @@ public abstract class ItemBase : GameEntity
     [FoldoutGroup("Pram")] public List<GameObject> RenderPrefabs;
     [FoldoutGroup("Pram")] public List<GameObject> RenderRandomPrefabs;
 
+    [FoldoutGroup("Condition"), SerializeReference] public List<ItemCondition> Conditions = new List<ItemCondition>();
+
     [FoldoutGroup("Effect")] public List<GameObject> SelfFx;
     [FoldoutGroup("Effect")] public List<GameObject> SelfRandomFx;
     [FoldoutGroup("Effect")] public List<GameObject> TargetFx;
     [FoldoutGroup("Effect")] public List<GameObject> TargetRandomFx;
 
-    [FoldoutGroup("Animator"), TableList] public List<ItemAnimatorData> AnimatorDataList;
+    [FoldoutGroup("Animation")] public List<UTweenAnimation> TweenAnimationList;
+    [FoldoutGroup("Animation"), TableList] public List<ItemAnimatorData> AnimatorDataList;
     [FoldoutGroup("Exclude")] public List<ItemBase> ExcludeItems;
     [FoldoutGroup("Vibration")] public HapticTypes VibrationType = HapticTypes.None;
 
@@ -56,6 +53,11 @@ public abstract class ItemBase : GameEntity
         foreach (var animatorData in AnimatorDataList)
         {
             animatorData.Animator?.Play(animatorData.DefaultClip);
+        }
+
+        foreach (var tweenAnimation in TweenAnimationList)
+        {
+            tweenAnimation.Data.Sample(0f);
         }
 
         Active = true;

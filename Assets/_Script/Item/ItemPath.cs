@@ -26,14 +26,16 @@ public class ItemPath : ItemBase<Player>
         if (SwitchPath)
         {
             Block.PathIndex = SwitchPathIndex;
-            var (pos, factor) = Block.CurrentPath.GetNearestPos(target.transform.position);
-            
-            // TODO....
+            // var (pos, factor) = Block.CurrentPath.GetNearestPos(target.transform.position);
         } 
 
         if (LimitRange)
         {
             Player.State.TurnRange = Range;
+        }
+        else
+        {
+            Player.State.TurnRange = CurrentPath.TurnRange;
         }
 
         Player.State.KeepDirection = KeepDirection;

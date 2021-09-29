@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 
 public class LevelBlock : GameEntity
 {
-    public float Width;
-    public float HalfWidth => Width / 2f;
-    public Vector2 TurnRange => new Vector2(-HalfWidth, HalfWidth);
-
     public List<LevelPath> PathList;
+    public float Length => PathList[0].Length;
 
     public int PathIndex { get; set; }
     public LevelPath Path => PathList[PathIndex];
@@ -26,7 +22,6 @@ public class LevelBlock : GameEntity
     protected override void Awake()
     {
         base.Awake();
-
     }
 
     public void Init()

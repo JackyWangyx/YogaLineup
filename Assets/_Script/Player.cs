@@ -8,9 +8,6 @@ public class Player : GameEntity
 {
     [FoldoutGroup("Trans")] public Transform RenderTrans;
 
-    [FoldoutGroup("Physic Test")] public LayerMask GroundLayer;
-    [FoldoutGroup("Physic Test")] public float KeepHeight;
-
     [FoldoutGroup("Param")] public int InitPoint;
     [FoldoutGroup("Param")] public bool KeepUp;
     [FoldoutGroup("Param")] public float RunSpeed;
@@ -18,6 +15,7 @@ public class Player : GameEntity
     [FoldoutGroup("Param")] public float TurnSpeed;
     [FoldoutGroup("Param")] public float TurnLerpSpeed;
 
+    public PathFollower PathFollower { get; set; }
     public PlayerState State { get; set; }
 
     public PlayerData Data { get; set; }
@@ -66,18 +64,21 @@ public class Player : GameEntity
 
     #endregion
 
-
     public void Init()
     {
         State.Init(this);
         Buff.Init(this);
+        PathFollower.Init();
         RefreshRender(State.Point);
         Play("Idle");
-        transform.position = Vector3.up * KeepHeight;
+
+        Trans.position = Vector3.zero;
+        Trans.forward = Vector3.forward;
     }
 
     public void CacheComponent()
     {
+        PathFollower = gameObject.GetOrAddComponent<PathFollower>();
         Animator = GetComponentInChildren<Animator>();
         Rigidbody = GetComponent<Rigidbody>();
         Renderer = GetComponentInChildren<Renderer>();
@@ -123,7 +124,7 @@ public class Player : GameEntity
                 CacheComponent();
                 Play(CurrentClip);
 
-                if (data.ChangeFx != null)
+                if (data.ChangeFx != null && State.PointChanged)
                 {
                     SpawnFx(data.ChangeFx, RenderTrans);
                 }
@@ -153,7 +154,7 @@ public class Player : GameEntity
         Buff.Update(deltaTime);
         if (State.EnableRun)
         {
-            var nextPathPos = CurrentLevel.Move(RunSpeed * State.SpeedMultiply * deltaTime);
+            var nextPathPos = PathFollower.Move(RunSpeed * State.SpeedMultiply * deltaTime);
             var nextPos = nextPathPos;
 
             if (nextPos != transform.position)
@@ -170,15 +171,6 @@ public class Player : GameEntity
                 }
 
                 transform.position = nextPos;
-
-                // 物理接地
-                // var hitStart = RenderTrans.position + Vector3.up * 5;
-                // var hitGroundPos = PhysicsUtil.Raycast(hitStart, Vector3.down, 1000f, GroundLayer);
-                // Debug.DrawLine(hitStart, hitStart + Vector3.down * 1000f, Color.yellow);
-                // if (hitGroundPos != null)
-                // {
-                //     transform.SetPositionY(hitGroundPos.Value.y + KeepHeight);
-                // }
             }
         }
 

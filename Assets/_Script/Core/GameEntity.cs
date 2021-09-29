@@ -35,14 +35,15 @@ public abstract class GameEntity : MonoListener
     public EntityPool EffectPool => ParticleSpawner.EntityPool;
 
     public virtual float DeltaTime => Time.deltaTime * SelfScale;
-    public virtual float SelfScale { get; set; } = 1f;
+    public virtual float SelfScale { get; set; }
 
     protected override void Awake()
     {
         base.Awake();
+        SelfScale = 1f;
         Trans = transform;
         Rect = GetComponent<RectTransform>();
-        RendererTrans = transform.FindInAllChild("Renderer");
+        RendererTrans = transform.FindInAllChild(nameof(Renderer));
     }
 
     #region Fx

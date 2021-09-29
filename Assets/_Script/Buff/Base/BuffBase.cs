@@ -10,6 +10,8 @@ public abstract class BuffBase
 
     public bool Active;
     public float Timer;
+    public float Progress => Timer / Duration;
+    public float RemainTime => Duration - Timer;
 
     public virtual void Start(float duration, float[] args, GameObject[] assets = null, AnimationCurve[] curves = null)
     {
@@ -27,7 +29,12 @@ public abstract class BuffBase
     public virtual void Update(float deltaTime)
     {
         Timer += Time.deltaTime;
-        if (Timer >= Duration) End();
+        if (Timer >= Duration)
+        {
+            Timer = Duration;
+            End();
+        }
+
         else UpdateImpl();
     }
 
