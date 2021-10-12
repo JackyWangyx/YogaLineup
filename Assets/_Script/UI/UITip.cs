@@ -38,6 +38,7 @@ public class UITip : GameEntity<UITip>
     public Vector3 WorldToUiPos(Vector3 worldPosition, Camera targetCamera, Camera uiCamera)
     {
         var uiPosition = targetCamera.WorldToScreenPoint(worldPosition);
+        Content.FormatPosition(ref uiPosition);
         return uiPosition;
     }
 }

@@ -100,3 +100,16 @@ public abstract class GameEntity<T> : GameEntity where T : GameEntity<T>
         Ins = this as T;
     }
 }
+
+public abstract class GameEntity<T, TSetting> : GameEntity 
+    where T : GameEntity<T> 
+    where TSetting : SettingBase<TSetting>
+{
+    public TSetting Setting { get; set; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Setting = SettingBase<TSetting>.Load<TSetting>();
+    }
+}

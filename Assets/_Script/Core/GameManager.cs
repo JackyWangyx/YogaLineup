@@ -4,19 +4,9 @@ using Aya.Extension;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[Serializable]
-public class PlayerData
-{
-    [TableColumnWidth(30)] public int Point;
-    [TableColumnWidth(50)] public GameObject Player;
-    [TableColumnWidth(50)] public GameObject ChangeFx;
-    [TableColumnWidth(30)] public Color Color;
-}
-
 public class GameManager : GameEntity<GameManager>
 {
     [FoldoutGroup("Player")] public new Player Player;
-    [FoldoutGroup("Player"), TableList] public List<PlayerData> PlayerDatas;
 
     [FoldoutGroup("Misc")]
     public Transform PhaseHandler;

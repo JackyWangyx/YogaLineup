@@ -94,7 +94,7 @@ public class Player : GameEntity
 
     public void RefreshRender(int point)
     {
-        var datas = Game.PlayerDatas;
+        var datas = PlayerSetting.Ins.PlayerDatas;
         var rank = 0;
         var data = datas[0];
         for (var i = 0; i < datas.Count; i++)

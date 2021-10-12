@@ -34,11 +34,7 @@ public class UIFollow : GameEntity
     public static Vector3 GetFollowLocalPosition(Camera camera, Transform target)
     {
         var position = camera.WorldToScreenPoint(target.position);
-        position.x -= Content.ScreenWidthHalf;
-        position.y -= Content.ScreenHeightHalf;
-        position.x *= Content.ScreenWidthRatio;
-        position.y *= Content.ScreenHeightRatio;
-        position.z = 0f;
+        Content.FormatPosition(ref position);
         return position;
     }
 }
@@ -53,4 +49,13 @@ public class Content
 
     public static float ScreenWidthRatio = UiWidth / Screen.width;
     public static float ScreenHeightRatio = UiHeight / Screen.height;
+
+    public static void FormatPosition(ref Vector3 pos)
+    {
+        pos.x -= Content.ScreenWidthHalf;
+        pos.y -= Content.ScreenHeightHalf;
+        pos.x *= Content.ScreenWidthRatio;
+        pos.y *= Content.ScreenHeightRatio;
+        pos.z = 0f;
+    }
 }
