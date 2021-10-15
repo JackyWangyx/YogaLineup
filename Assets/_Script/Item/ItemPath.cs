@@ -14,18 +14,20 @@ public class ItemPath : ItemBase<Player>
     [BoxGroup("Path")] public bool KeepDirection;
 
     public LevelBlock Block { get; set; }
+    public int BlockIndex { get; set; }
 
-    protected override void Awake()
+    public override void Init()
     {
-        base.Awake();
+        base.Init();
         Block = GetComponentInParent<LevelBlock>();
+        BlockIndex = CurrentLevel.BlockInsList.IndexOf(Block);
     }
 
     public override void OnTargetEnter(Player target)
     {
         if (SwitchPath)
         {
-            target.PathFollower.SwitchPath(SwitchPathIndex);
+            target.PathFollower.SwitchPath(BlockIndex, SwitchPathIndex);
         } 
 
         if (LimitRange)

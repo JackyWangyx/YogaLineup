@@ -39,11 +39,15 @@ public class PathFollower : GameEntity
         EnterBlock(0);
     }
 
-    public void SwitchPath(int index)
+    public void SwitchPath(int blockIndex, int pathIndex)
     {
-        if (BlockPathIndexes[BlockIndex] == index) return;
-        BlockPathIndexes[BlockIndex] = index;
-        Owner.State.TurnRange = CurrentPath.TurnRange;
+        if (BlockPathIndexes[blockIndex] == pathIndex) return;
+        BlockPathIndexes[blockIndex] = pathIndex;
+        if (blockIndex == BlockIndex)
+        {
+            Owner.State.TurnRange = CurrentPath.TurnRange;
+        }
+        
         RefreshPathInfo();
     }
 

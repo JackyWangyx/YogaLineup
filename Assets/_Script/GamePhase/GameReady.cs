@@ -9,7 +9,7 @@ public class GameReady : GamePhaseHandler
     public override void Enter()
     {
         Camera.Switch("Ready");
-        Game.Enter<GameStart>();
+        UI.Show<UIReady>();
         Dispatch(GameEvent.Ready);
     }
 
