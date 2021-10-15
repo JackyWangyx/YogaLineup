@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Aya.SDK
 {
     [CreateAssetMenu(menuName = "SDK/Setting/SDK Setting")]
-    public class SDKSetting : SettingBase<SDKSetting>
+    public class SDKSetting : SDKSettingBase<SDKSetting>
     {
         [Header("Debug")]
         public bool DebugMode = false;

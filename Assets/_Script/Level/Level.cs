@@ -40,7 +40,7 @@ public class Level : GameEntity
             Background = null;
         }
 
-        var environmentData = EnvironmentSetting.Ins.CurrentEnvironment;
+        var environmentData = GetSetting<EnvironmentSetting>().CurrentEnvironment;
         if (environmentData == null) return;
         RenderSettings.fogColor = environmentData.FogColor;
         RenderSettings.skybox = environmentData.Skybox;

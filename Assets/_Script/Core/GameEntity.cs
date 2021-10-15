@@ -27,8 +27,7 @@ public abstract class GameEntity : MonoListener
     public SaveManager Save => SaveManager.Ins;
 
     public Level CurrentLevel => Level.Level;
-    public LevelBlock CurrentBlock => CurrentLevel.CurrentBlock;
-    public LevelPath CurrentPath => CurrentLevel.CurrentBlock.Path;
+
     public Player Player => Game.Player;
 
     public EntityPool GamePool => PoolManager.Ins["Game"];
@@ -88,6 +87,15 @@ public abstract class GameEntity : MonoListener
     }
 
     #endregion
+
+    #region Setting
+
+    public TSetting GetSetting<TSetting>() where TSetting : SettingBase<TSetting>
+    {
+        return SettingBase<TSetting>.Load<TSetting>();
+    }
+
+    #endregion
 }
 
 public abstract class GameEntity<T> : GameEntity where T : GameEntity<T>
@@ -98,18 +106,5 @@ public abstract class GameEntity<T> : GameEntity where T : GameEntity<T>
     {
         base.Awake();
         Ins = this as T;
-    }
-}
-
-public abstract class GameEntity<T, TSetting> : GameEntity 
-    where T : GameEntity<T> 
-    where TSetting : SettingBase<TSetting>
-{
-    public TSetting Setting { get; set; }
-
-    protected override void Awake()
-    {
-        base.Awake();
-        Setting = SettingBase<TSetting>.Load<TSetting>();
     }
 }

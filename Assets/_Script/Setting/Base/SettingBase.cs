@@ -20,8 +20,14 @@ public abstract class SettingBase<T> : ScriptableObject where T : SettingBase<T>
     public static TSetting Load<TSetting>() where TSetting : SettingBase<TSetting>
     {
         var setting = Resources.Load<TSetting>("Setting/" + typeof(TSetting).Name);
+        setting.Init();
         return setting;
     } 
 
     #endregion
+
+    public virtual void Init()
+    {
+
+    }
 }

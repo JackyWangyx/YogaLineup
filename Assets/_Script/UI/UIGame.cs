@@ -8,6 +8,7 @@ public class UIGame : UIBase<UIGame>
 {
     public GameObject TouchTip;
     public GameObject TouchStartRunArea;
+    public UILevelProgress LevelProgress;
 
     private bool _clickStartRun;
 

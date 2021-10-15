@@ -4,29 +4,65 @@ using UnityEngine;
 
 public class PathFollower : GameEntity
 {
+    public Player Owner { get; set; }
     public float Length { get; set; }
-    public int CurrentBlockIndex { get; set; }
-    public new LevelBlock CurrentBlock { get; set; }
+    public int BlockIndex { get; set; }
+
+    public LevelBlock CurrentBlock => CurrentLevel.BlockInsList[BlockIndex];
+    public LevelPath CurrentPath => CurrentBlock.PathList[BlockPathIndex];
+
     public bool Finish { get; set; }
 
     public float Distance { get; set; }
     public float Factor { get; set; }
 
+    public List<int> BlockPathIndexes { get; set; }
+    public int BlockPathIndex => BlockPathIndexes[BlockIndex];
     public float BlockDistance { get; set; }
     public float BlockFactor { get; set; }
 
-    public void Init()
+    public void Init(Player player)
     {
+        Owner = player;
         Finish = false;
         Distance = 0f;
         Factor = 0f;
         Length = 0f;
+        BlockPathIndexes = new List<int>();
         foreach (var levelBlock in CurrentLevel.BlockList)
         {
             Length += levelBlock.Length;
+            BlockPathIndexes.Add(0);
         }
 
+        RefreshPathInfo();
         EnterBlock(0);
+    }
+
+    public void SwitchPath(int index)
+    {
+        if (BlockPathIndexes[BlockIndex] == index) return;
+        BlockPathIndexes[BlockIndex] = index;
+        Owner.State.TurnRange = CurrentPath.TurnRange;
+        RefreshPathInfo();
+    }
+
+    public void RefreshPathInfo()
+    {
+        Length = 0f;
+        for (var i = 0; i < Level.CurrentLevel.BlockInsList.Count; i++)
+        {
+            var block = Level.CurrentLevel.BlockInsList[i];
+            var pathIndex = BlockPathIndexes[i];
+            var path = block.PathList[pathIndex];
+            Length += path.Length;
+        }
+    }
+
+    public void RefreshFactor()
+    {
+        Factor = Distance / Length;
+        BlockFactor = BlockDistance / CurrentPath.Length;
     }
 
     public Vector3 Move(float distance)
@@ -36,12 +72,23 @@ public class PathFollower : GameEntity
 
         while (true)
         {
-            var overDistance = 0f;
             var finish = false;
-            (finish, result, overDistance) = CurrentPath.GetPositionByDistance(distance);
+            var overDistance = 0f;
+            (finish, result, overDistance) = CurrentPath.GetPositionByDistance(BlockDistance + distance);
             if (finish)
             {
-                var enterResult = EnterBlock(CurrentBlockIndex + 1, overDistance);
+                Distance += distance - overDistance;
+                BlockDistance += distance - overDistance;
+            }
+            else
+            {
+                Distance += distance;
+                BlockDistance += distance;
+            }
+
+            if (finish)
+            {
+                var enterResult = EnterBlock(BlockIndex + 1, overDistance);
                 if (!enterResult)
                 {
                     Finish = true;
@@ -56,6 +103,7 @@ public class PathFollower : GameEntity
             }
         }
 
+        RefreshFactor();
         return result;
     }
 
@@ -67,10 +115,9 @@ public class PathFollower : GameEntity
             return false;
         }
 
-        CurrentBlockIndex = index;
-        CurrentBlock = CurrentLevel.BlockInsList[index];
+        BlockIndex = index;
         EnterPath(initDistance);
-        Player.State.TurnRange = CurrentPath.TurnRange;
+        Owner.State.TurnRange = CurrentPath.TurnRange;
 
         return true;
     }

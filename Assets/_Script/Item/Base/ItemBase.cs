@@ -19,6 +19,9 @@ public abstract class ItemBase : GameEntity
 
     [FoldoutGroup("Condition"), SerializeReference] public List<ItemCondition> Conditions = new List<ItemCondition>();
 
+    [FoldoutGroup("Active")] public List<GameObject> ActiveList;
+    [FoldoutGroup("Active")] public List<GameObject> DeActiveList;
+
     [FoldoutGroup("Effect")] public List<GameObject> SelfFx;
     [FoldoutGroup("Effect")] public List<GameObject> SelfRandomFx;
     [FoldoutGroup("Effect")] public List<GameObject> TargetFx;
@@ -58,6 +61,16 @@ public abstract class ItemBase : GameEntity
         foreach (var tweenAnimation in TweenAnimationList)
         {
             tweenAnimation.Data.Sample(0f);
+        }
+
+        foreach (var go in ActiveList)
+        {
+            go?.SetActive(false);
+        }
+
+        foreach (var go in DeActiveList)
+        {
+            go?.SetActive(true);
         }
 
         Active = true;

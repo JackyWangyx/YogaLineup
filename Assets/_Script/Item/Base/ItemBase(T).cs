@@ -68,6 +68,16 @@ public abstract class ItemBase<T> : ItemBase where T : Component
             RendererTrans?.gameObject.SetActive(false);
         }
 
+        foreach (var go in ActiveList)
+        {
+            go?.SetActive(true);
+        }
+
+        foreach (var go in DeActiveList)
+        {
+            go?.SetActive(false);
+        }
+
         if (SelfFx != null && SelfFx.Count > 0)
         {
             foreach (var fx in SelfFx)

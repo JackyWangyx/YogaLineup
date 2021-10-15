@@ -10,7 +10,7 @@ public class UILevelProgress : GameEntity
     public Text TextNext;
     public Image Progress;
     public Image ProgressIndicator;
-    public Text TextHp;
+    public Text TextPoint;
 
     private RectTransform _barRect;
     private RectTransform _indicatorRect;
@@ -22,17 +22,14 @@ public class UILevelProgress : GameEntity
         _indicatorRect = ProgressIndicator.GetComponent<RectTransform>();
     }
 
-    void Update()
+    public void Update()
     {
-        TextCurrent.text = SaveManager.Ins.LevelIndex.Value.ToString();
-        TextNext.text = (SaveManager.Ins.LevelIndex.Value + 1).ToString();
-        TextHp.text = GameManager.Ins.Player.State.Point.ToString();
-        TextHp.color = GameManager.Ins.Player.Data.Color;
+        TextCurrent.text = Save.LevelIndex.Value.ToString();
+        TextNext.text = (Save.LevelIndex.Value + 1).ToString();
+        TextPoint.text = Game.Player.State.Point.ToString();
+        TextPoint.color = Game.Player.Data.Color;
 
-        var level = CurrentLevel;
-        var blockValue = 1f / level.BlockList.Count;
         var factor = Player.PathFollower.Factor;
-        // var factor = level.CurrentBlockIndex * blockValue + blockValue * level.CurrentBlock.Path.MoveDistance / level.CurrentBlock.Path.Length;
         Progress.fillAmount = factor;
 
         var width = _barRect.GetSize().x;

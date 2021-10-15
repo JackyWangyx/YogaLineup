@@ -9,8 +9,7 @@ public class LevelBlock : GameEntity
     public List<LevelPath> PathList;
     public float Length => PathList[0].Length;
 
-    public int PathIndex { get; set; }
-    public LevelPath Path => PathList[PathIndex];
+    public LevelPath Path => PathList[0];
 
     public Vector3 StartPosition => Path.StartPosition;
     public Vector3 EndPosition => Path.EndPosition;

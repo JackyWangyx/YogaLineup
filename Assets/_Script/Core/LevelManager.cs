@@ -26,6 +26,8 @@ public class LevelManager : GameEntity<LevelManager>
         UI.HideAll();
         GamePool.DeSpawnAll();
         EffectPool.DeSpawnAll();
+
+        Level levelPrefab = null;
         var index = Save.LevelIndex.Value;
 
         if (Level != null)
@@ -33,16 +35,24 @@ public class LevelManager : GameEntity<LevelManager>
             Level = null;
         }
 
+        if (index >= StartRandIndex && StartRandIndex > 0)
+        {
+            index = Save.RandLevelIndex.Value;
+            levelPrefab = RandList[index];
+        }
+
         if (TestLevelIndex > 0)
         {
             index = TestLevelIndex;
-        }
-        else if (index >= StartRandIndex && StartRandIndex > 0)
-        {
-            index = StartRandIndex;
+            Level = null;
         }
 
-        var levelPrefab = Resources.Load<Level>("Level/Level_" + index.ToString("D2"));
+        if (levelPrefab == null)
+        {
+            levelPrefab = Resources.Load<Level>("Level/Level_" + index.ToString("D2"));
+        }
+
+        Level = Instantiate(levelPrefab);
         Level = GamePool.Spawn(levelPrefab);
         Level.Trans.SetParent(null);
         Level.Init();

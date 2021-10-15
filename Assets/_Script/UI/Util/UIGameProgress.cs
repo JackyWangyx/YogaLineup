@@ -34,13 +34,13 @@ public class UIGameProgress : GameEntity
 
     public void Init()
     {
-        var index = EnvironmentSetting.Ins.EnvironmentIndex;
+        var index = GetSetting<EnvironmentSetting>().EnvironmentIndex;
         var level = Save.LevelIndex.Value;
         var start = GameProgressStartLevelIndex;
-        if (EnvironmentSetting.Ins.CurrentLevelEnvironment != null)
+        if (GetSetting<EnvironmentSetting>().CurrentLevelEnvironment != null)
         {
-            Current.sprite = EnvironmentSetting.Ins.CurrentLevelEnvironment.Icon;
-            Next.sprite = EnvironmentSetting.Ins.NextLevelEnvironment.Icon;
+            Current.sprite = GetSetting<EnvironmentSetting>().CurrentLevelEnvironment.Icon;
+            Next.sprite = GetSetting<EnvironmentSetting>().NextLevelEnvironment.Icon;
         }
 
         var current = level - start + 1;

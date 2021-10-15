@@ -11,8 +11,9 @@ public class UIFollow : GameEntity
 
     private Vector3 _position;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (Camera == null)
         {
             Camera = Camera.main;

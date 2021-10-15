@@ -38,10 +38,10 @@ namespace Aya.EditorScript
 
         public void OnEnable()
         {
-            keystoreName = EditorPrefs.GetString(Application.productName + KEY_STORE_NAME_PREFS, Application.dataPath + "/Plugins/signKey.keystore");
-            keystorePass = EditorPrefs.GetString(Application.productName + KEY_STORE_PASS_PREFS, "gamelastic5566");
+            keystoreName = EditorPrefs.GetString(Application.productName + KEY_STORE_NAME_PREFS, Application.dataPath + "/Assets/Plugins/NewSignKey.keystore");
+            keystorePass = EditorPrefs.GetString(Application.productName + KEY_STORE_PASS_PREFS, "Gamelastic&5566");
             keyaliasName = EditorPrefs.GetString(Application.productName + KEY_ALIAS_NAME_PREFS, "gamelastic");
-            keyaliasPass = EditorPrefs.GetString(Application.productName + KEY_ALIAS_PASS_PREFS, "gamelastic5566");
+            keyaliasPass = EditorPrefs.GetString(Application.productName + KEY_ALIAS_PASS_PREFS, "Gamelastic&5566");
         }
 
         private static bool _alreadySign = false;

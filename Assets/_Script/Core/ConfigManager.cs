@@ -5,7 +5,7 @@ using Aya.Data.Persistent;
 using Aya.Extension;
 using UnityEngine;
 
-public abstract class Data
+public abstract class ConfigData
 {
     public int ID;
 }
@@ -18,7 +18,7 @@ public abstract class Config
     }
 }
 
-public class Config<T> : Config where T : Data
+public class Config<T> : Config where T : ConfigData
 {
     public List<T> DataList;
     public Dictionary<int, T> DataDic;
@@ -87,22 +87,22 @@ public class ConfigManager : GameEntity<ConfigManager>
 {
     public static Dictionary<Type, Config> ConfigDic = new Dictionary<Type, Config>();
 
-    public T GetData<T>(int index) where T : Data
+    public T GetData<T>(int index) where T : ConfigData
     {
         return GetConfig<T>().GetData(index);
     }
 
-    public T GetData<T>(Predicate<T> predicate) where T : Data
+    public T GetData<T>(Predicate<T> predicate) where T : ConfigData
     {
         return GetConfig<T>().GetData(predicate);
     }
 
-    public List<T> GetDatas<T>(Predicate<T> predicate = null) where T : Data
+    public List<T> GetDatas<T>(Predicate<T> predicate = null) where T : ConfigData
     {
         return GetConfig<T>().GetDatas(predicate);
     }
 
-    public Config<T> GetConfig<T>() where T : Data
+    public Config<T> GetConfig<T>() where T : ConfigData
     {
         if (!ConfigDic.TryGetValue(typeof(T), out var config))
         {
@@ -113,7 +113,7 @@ public class ConfigManager : GameEntity<ConfigManager>
         return config as Config<T>;
     }
 
-    public Config<T> LoadConfig<T>() where T : Data
+    public Config<T> LoadConfig<T>() where T : ConfigData
     {
         var path = "Config/" + typeof(T).Name;
         var text = Resources.Load<TextAsset>(path).text;

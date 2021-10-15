@@ -68,7 +68,7 @@ public class Player : GameEntity
     {
         State.Init(this);
         Buff.Init(this);
-        PathFollower.Init();
+        PathFollower.Init(this);
         RefreshRender(State.Point);
         Play("Idle");
 

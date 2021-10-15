@@ -10,6 +10,6 @@ public class SaveManager : GameEntity<SaveManager>
     protected override void Awake()
     {
         base.Awake();
-        Coin = new sInt("Coin", GeneralSetting.Ins.DefaultCoin);
+        Coin = new sInt("Coin", GetSetting<GeneralSetting>().DefaultCoin);
     }
 }

@@ -25,20 +25,19 @@ public class ItemPath : ItemBase<Player>
     {
         if (SwitchPath)
         {
-            Block.PathIndex = SwitchPathIndex;
-            // var (pos, factor) = Block.CurrentPath.GetNearestPos(target.transform.position);
+            target.PathFollower.SwitchPath(SwitchPathIndex);
         } 
 
         if (LimitRange)
         {
-            Player.State.TurnRange = Range;
+            target.State.TurnRange = Range;
         }
         else
         {
-            Player.State.TurnRange = CurrentPath.TurnRange;
+            target.State.TurnRange = target.PathFollower.CurrentPath.TurnRange;
         }
 
-        Player.State.KeepDirection = KeepDirection;
+        target.State.KeepDirection = KeepDirection;
     }
 
     public override void OnTargetExit(Player target)
