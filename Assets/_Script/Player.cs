@@ -15,6 +15,7 @@ public class Player : GameEntity
     [FoldoutGroup("Param")] public float TurnSpeed;
     [FoldoutGroup("Param")] public float TurnLerpSpeed;
 
+    public bool IsPlayer => Player == this;
     public PathFollower PathFollower { get; set; }
     public PlayerState State { get; set; }
 

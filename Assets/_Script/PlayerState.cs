@@ -14,6 +14,7 @@ public class PlayerState : GameEntity
     [NonSerialized] public bool EnableRun;
     [NonSerialized] public bool EnableInput;
     [NonSerialized] public bool KeepDirection;
+    [NonSerialized] public bool LimitTurnRange;
     [NonSerialized] public Vector2 TurnRange;
 
     // Buff State
@@ -33,6 +34,7 @@ public class PlayerState : GameEntity
         Point = player.InitPoint;
         Rank = -1;
 
+        LimitTurnRange = false;
         IsInvincible = false;
         SpeedMultiply = 1f;
     }

@@ -121,8 +121,11 @@ public class PathFollower : GameEntity
 
         BlockIndex = index;
         EnterPath(initDistance);
-        Owner.State.TurnRange = CurrentPath.TurnRange;
-
+        if (!Owner.State.LimitTurnRange)
+        {
+            Owner.State.TurnRange = CurrentPath.TurnRange;
+        }
+        
         return true;
     }
 

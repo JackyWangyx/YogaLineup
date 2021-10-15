@@ -110,4 +110,19 @@ public abstract class ItemBase : GameEntity
         ColliderList = GetComponentsInChildren<Collider>().ToList();
         ColliderListeners = new List<ColliderListener>();
     }
+
+    public virtual void OnDrawGizmos()
+    {
+        foreach (var go in ActiveList)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, go.transform.position);
+        }
+
+        foreach (var go in DeActiveList)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, go.transform.position);
+        }
+    }
 }

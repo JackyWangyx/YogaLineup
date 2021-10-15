@@ -52,10 +52,14 @@ MonoBehaviour:
   EffectiveOnce: 1
   RenderPrefabs: []
   RenderRandomPrefabs: []
+  Conditions: []
+  ActiveList: []
+  DeActiveList: []
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  TweenAnimationList: []
   AnimatorDataList: []
   ExcludeItems:
   - {fileID: 5878419804028744260}
@@ -65,6 +69,11 @@ MonoBehaviour:
   LimitRange: 0
   Range: {x: 0, y: 7.5}
   KeepDirection: 1
+  GoToCenter: 0
+  GoToCenterDuration: 0.5
+  EnableInput: 1
+  references:
+    version: 1
 --- !u!1 &1277369057653680126
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,10 +464,14 @@ MonoBehaviour:
   EffectiveOnce: 1
   RenderPrefabs: []
   RenderRandomPrefabs: []
+  Conditions: []
+  ActiveList: []
+  DeActiveList: []
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  TweenAnimationList: []
   AnimatorDataList: []
   ExcludeItems:
   - {fileID: 5878419804028744260}
@@ -468,6 +481,11 @@ MonoBehaviour:
   LimitRange: 0
   Range: {x: 0, y: 7.5}
   KeepDirection: 0
+  GoToCenter: 0
+  GoToCenterDuration: 0.5
+  EnableInput: 1
+  references:
+    version: 1
 --- !u!1 &1909156070063214983
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,10 +631,14 @@ MonoBehaviour:
   EffectiveOnce: 1
   RenderPrefabs: []
   RenderRandomPrefabs: []
+  Conditions: []
+  ActiveList: []
+  DeActiveList: []
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  TweenAnimationList: []
   AnimatorDataList: []
   ExcludeItems:
   - {fileID: 1754715243201104534}
@@ -626,6 +648,11 @@ MonoBehaviour:
   LimitRange: 1
   Range: {x: 0, y: 7.5}
   KeepDirection: 1
+  GoToCenter: 0
+  GoToCenterDuration: 0.5
+  EnableInput: 1
+  references:
+    version: 1
 --- !u!1 &5237517304054406040
 GameObject:
   m_ObjectHideFlags: 0
@@ -1455,10 +1482,14 @@ MonoBehaviour:
   EffectiveOnce: 1
   RenderPrefabs: []
   RenderRandomPrefabs: []
+  Conditions: []
+  ActiveList: []
+  DeActiveList: []
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  TweenAnimationList: []
   AnimatorDataList: []
   ExcludeItems:
   - {fileID: 6153531402424944828}
@@ -1468,6 +1499,11 @@ MonoBehaviour:
   LimitRange: 0
   Range: {x: -7.5, y: 0}
   KeepDirection: 1
+  GoToCenter: 0
+  GoToCenterDuration: 0.5
+  EnableInput: 1
+  references:
+    version: 1
 --- !u!1 &8328362169894176668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1893,10 +1929,14 @@ MonoBehaviour:
   EffectiveOnce: 1
   RenderPrefabs: []
   RenderRandomPrefabs: []
+  Conditions: []
+  ActiveList: []
+  DeActiveList: []
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  TweenAnimationList: []
   AnimatorDataList: []
   ExcludeItems:
   - {fileID: 1700246783068874043}
@@ -1906,6 +1946,11 @@ MonoBehaviour:
   LimitRange: 1
   Range: {x: -7.5, y: 0}
   KeepDirection: 1
+  GoToCenter: 0
+  GoToCenterDuration: 0.5
+  EnableInput: 1
+  references:
+    version: 1
 --- !u!1 &8936009010189641376
 GameObject:
   m_ObjectHideFlags: 0

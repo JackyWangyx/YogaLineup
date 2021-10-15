@@ -9,6 +9,7 @@ public class ItemCoin : ItemBase<Player>
 
     public override void OnTargetEnter(Player target)
     {
+        if (!target.IsPlayer) return;
         Save.Coin.Value += Value;
         if (Save.Coin < 0) Save.Coin.Value = 0;
     }
