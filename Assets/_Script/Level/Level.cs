@@ -6,12 +6,10 @@ using Sirenix.OdinInspector;
 
 public class Level : GameEntity
 {
-    public string RoadTag = "Road";
     public List<LevelBlock> BlockList;
     public List<ItemBase> ItemList { get; set; }
     public Dictionary<Type, List<ItemBase>> ItemDic { get; set; }
 
-    public GameObject Background { get; set; }
     public List<LevelBlock> BlockInsList { get; set; } = new List<LevelBlock>();
 
     protected override void Awake()
@@ -28,29 +26,12 @@ public class Level : GameEntity
             item.Init();
         }
 
-        InitEnvironment();
         Player.Init();
     }
 
-    public void InitEnvironment()
+    public void InitItemsRenderer()
     {
-        if (Background != null)
-        {
-            GamePool.DeSpawn(Background.gameObject);
-            Background = null;
-        }
-
-        var environmentData = GetSetting<EnvironmentSetting>().CurrentEnvironment;
-        if (environmentData == null) return;
-        RenderSettings.fogColor = environmentData.FogColor;
-        RenderSettings.skybox = environmentData.Skybox;
-        var roads = GameObject.FindGameObjectsWithTag(RoadTag);
-        foreach (var road in roads)
-        {
-            road.GetComponent<Renderer>().material = environmentData.RoadMat;
-        }
-
-        Background = Instantiate(environmentData.Background);
+        ItemList.ForEach(item => item.InitRenderer());
     }
 
     public List<T> GetItems<T>() where T : ItemBase

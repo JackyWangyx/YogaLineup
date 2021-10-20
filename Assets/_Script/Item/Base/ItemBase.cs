@@ -7,15 +7,16 @@ using Aya.TweenPro;
 using MoreMountains.NiceVibrations;
 using Sirenix.OdinInspector;
 
-
 public abstract class ItemBase : GameEntity
 {
-    [FoldoutGroup("Pram")] public LayerMask LayerMask;
-    [FoldoutGroup("Pram")] public bool DeSpawnAfterEffect = true;
-    [FoldoutGroup("Pram")] public bool DeActiveRender;
-    [FoldoutGroup("Pram")] public bool EffectiveOnce = true;
-    [FoldoutGroup("Pram")] public List<GameObject> RenderPrefabs;
-    [FoldoutGroup("Pram")] public List<GameObject> RenderRandomPrefabs;
+    [FoldoutGroup("Param")] public LayerMask LayerMask;
+    [FoldoutGroup("Param")] public bool DeSpawnAfterEffect = true;
+    [FoldoutGroup("Param")] public bool DeActiveRender;
+    [FoldoutGroup("Param")] public bool EffectiveOnce = true;
+
+    [FoldoutGroup("Renderer")] public List<GameObject> RenderPrefabs;
+    [FoldoutGroup("Renderer")] public List<GameObject> RenderRandomPrefabs;
+    [FoldoutGroup("Renderer")] public int ItemGroupIndex = -1;
 
     [FoldoutGroup("Condition"), SerializeReference] public List<ItemCondition> Conditions = new List<ItemCondition>();
 
@@ -48,7 +49,7 @@ public abstract class ItemBase : GameEntity
 
     public virtual void Init()
     {
-        InitRenderPrefab();
+        InitRenderer();
         CacheComponents();
 
         gameObject.SetActive(true);
@@ -76,7 +77,7 @@ public abstract class ItemBase : GameEntity
         Active = true;
     }
 
-    public virtual void InitRenderPrefab()
+    public virtual void InitRenderer()
     {
         if (RenderInstanceList != null && RenderInstanceList.Count > 0)
         {
@@ -91,6 +92,7 @@ public abstract class ItemBase : GameEntity
         {
             foreach (var prefab in RenderPrefabs)
             {
+                if (prefab == null) continue;
                 var ins = GamePool.Spawn(prefab, RendererTrans);
                 RenderInstanceList.Add(ins);
             }
@@ -99,8 +101,22 @@ public abstract class ItemBase : GameEntity
         if (RenderRandomPrefabs != null && RenderRandomPrefabs.Count > 0)
         {
             var prefab = RenderRandomPrefabs.Random();
-            var ins = GamePool.Spawn(prefab, RendererTrans);
-            RenderInstanceList.Add(ins);
+            if (prefab != null)
+            {
+                var ins = GamePool.Spawn(prefab, RendererTrans);
+                RenderInstanceList.Add(ins);
+            }
+        }
+
+        if (ItemGroupIndex >= 0)
+        {
+            var itemGroupData = ItemGroupSetting.Ins.CurrentSelectData;
+            var prefab = itemGroupData[ItemGroupIndex];
+            if (prefab != null)
+            {
+                var ins = GamePool.Spawn(prefab, RendererTrans);
+                RenderInstanceList.Add(ins);
+            }
         }
     }
 

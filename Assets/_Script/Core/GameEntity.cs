@@ -31,6 +31,7 @@ public abstract class GameEntity : MonoListener
     public Player Player => Game.Player;
 
     public EntityPool GamePool => PoolManager.Ins["Game"];
+    public EntityPool UIPool => PoolManager.Ins["UI"];
     public EntityPool EffectPool => ParticleSpawner.EntityPool;
 
     public virtual float DeltaTime => Time.deltaTime * SelfScale;

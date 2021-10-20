@@ -9,20 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be1d804c1d4aaf24090c90284593da06, type: 3}
-  m_Name: AvatarSetting
+  m_Script: {fileID: 11500000, guid: 6a632297522806c47930f1dfdef8fe2e, type: 3}
+  m_Name: ItemGroupSetting
   m_EditorClassIdentifier: 
   Datas:
   - Icon: {fileID: 0}
     UnGetIcon: {fileID: 0}
     PreUnlock: 1
     PreBuy: 1
-    Prefab: {fileID: 0}
-    PreviewPrefab: {fileID: 0}
+    Prefabs:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   - Icon: {fileID: 0}
     UnGetIcon: {fileID: 0}
     PreUnlock: 0
     PreBuy: 0
-    Prefab: {fileID: 0}
-    PreviewPrefab: {fileID: 0}
+    Prefabs:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
   Costs: 64000000c8000000

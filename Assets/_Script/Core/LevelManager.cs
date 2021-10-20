@@ -7,9 +7,10 @@ public class LevelManager : GameEntity<LevelManager>
     public int TestLevelIndex = 1;
     public int StartRandIndex = -1;
     public List<Level> RandList;
+    public string RoadTag = "Road";
 
     public new Level Level { get; set; }
-
+    public GameObject Background { get; set; }
     public virtual void NextLevel()
     {
         Save.LevelIndex++;
@@ -56,7 +57,32 @@ public class LevelManager : GameEntity<LevelManager>
         Level = GamePool.Spawn(levelPrefab);
         Level.Trans.SetParent(null);
         Level.Init();
+        InitEnvironment();
 
         Game.Enter<GameReady>();
+    }
+
+    public void InitEnvironment()
+    {
+        if (Background != null)
+        {
+            GamePool.DeSpawn(Background.gameObject);
+            Background = null;
+        }
+
+        var environmentData = GetSetting<EnvironmentSetting>().CurrentEnvironment;
+        if (environmentData == null) return;
+        RenderSettings.fogColor = environmentData.FogColor;
+        RenderSettings.skybox = environmentData.Skybox;
+        var roads = GameObject.FindGameObjectsWithTag(RoadTag);
+        foreach (var road in roads)
+        {
+            road.GetComponent<Renderer>().material = environmentData.RoadMat;
+        }
+
+        if (environmentData.Background != null)
+        {
+            Background = Instantiate(environmentData.Background);
+        }
     }
 }
