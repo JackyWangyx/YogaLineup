@@ -13,6 +13,11 @@ public abstract class UIBase : GameEntity
     {
         gameObject.SetActive(false);
     }
+
+    public virtual void Refresh()
+    {
+
+    }
 }
 
 public abstract class UIBase<T> : UIBase where T : UIBase<T>

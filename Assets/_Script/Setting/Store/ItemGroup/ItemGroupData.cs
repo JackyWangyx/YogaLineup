@@ -9,6 +9,9 @@ using UnityEngine;
 public class ItemGroupData : StoreData
 {
     public new ItemGroupSetting Setting => base.Setting as ItemGroupSetting;
+    public override int Cost => Setting.Costs[Setting.UnlockCount];
+    public override UnlockMode UnlockMode => UnlockMode.ChangeValue;
+    public override int UnlockValue => Setting.UnlockValues[Setting.UnlockCount];
 
     [TableColumnWidth(100)]
     public List<GameObject> Prefabs;

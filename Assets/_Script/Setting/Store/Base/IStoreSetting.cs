@@ -8,7 +8,6 @@ public interface IStoreSetting<out TStoreData>
     string SaveKey { get; }
     TStoreData CurrentSelectData { get; }
     TStoreData CurrentUnlockData { get; }
-    int CurrentCost { get; }
 
     int SelectIndex { get; set; }
     int UnlockIndex { get; set; }

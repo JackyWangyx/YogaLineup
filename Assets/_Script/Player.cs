@@ -118,7 +118,8 @@ public class Player : GameEntity
                 RenderInstance = null;
             }
 
-            RenderInstance = GamePool.Spawn(data.Player, RenderTrans);
+            var playerRendererPrefab = AvatarSetting.Ins.SelectedAvatarList[rank];
+            RenderInstance = GamePool.Spawn(playerRendererPrefab, RenderTrans);
 
             this.ExecuteNextFrame(() =>
             {

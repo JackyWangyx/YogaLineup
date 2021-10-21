@@ -8,7 +8,6 @@ using UnityEngine;
 public class PlayerData
 {
     public int Point;
-    public GameObject Player;
     public GameObject ChangeFx;
     public Color Color;
 }

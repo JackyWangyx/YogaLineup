@@ -6,6 +6,12 @@ public class UIAvatarItem : UIStoreItemBase<AvatarData>
 {
     public override void Refresh()
     {
-        
+        base.Refresh();
+    }
+
+    public override void Select()
+    {
+        base.Select();
+        Player.Init();
     }
 }

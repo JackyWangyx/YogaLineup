@@ -5,14 +5,21 @@ using Aya.Extension;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
+public enum UnlockMode
+{
+    FixedValue = 0,
+    ChangeValue = 1,
+}
+
 public abstract class StoreSetting<TSetting, TStoreData> : SettingBase<TSetting>, IStoreSetting<TStoreData>
     where TSetting : StoreSetting<TSetting, TStoreData>
     where TStoreData : StoreData
 {
     [TableList] public List<TStoreData> Datas;
     public List<int> Costs;
+    public List<int> UnlockValues;
 
-    public virtual string SaveKey => typeof(TStoreData).Name;
+    public virtual string SaveKey => typeof(TStoreData).Name.Replace("Data", "");
 
     public TStoreData CurrentSelectData
     {
@@ -62,8 +69,6 @@ public abstract class StoreSetting<TSetting, TStoreData> : SettingBase<TSetting>
         get => SaveUnlockCount.Value;
         set => SaveUnlockCount.Value = value;
     }
-
-    public int CurrentCost =>  Costs[UnlockIndex];
 
     public override void Init()
     {

@@ -36,7 +36,7 @@ public abstract class UIStoreBase<TUI, TItem, TData> : UIBase<TUI>
         Refresh();
     }
 
-    public virtual void Refresh()
+    public override void Refresh()
     {
         foreach (var item in ItemInsList)
         {
