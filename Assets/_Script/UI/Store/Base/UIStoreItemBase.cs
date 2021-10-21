@@ -13,6 +13,7 @@ public abstract class UIStoreItemBase<TData> : GameEntity
     public Image UnGetIcon;
     public GameObject Locked;
     public GameObject UnBuy;
+    public GameObject Highlight;
     [Header("Button")]
     public Button UnlockBtn;
     public Button RewardUnlockBtn;
@@ -28,6 +29,8 @@ public abstract class UIStoreItemBase<TData> : GameEntity
 
     public virtual void Refresh()
     {
+        Highlight.gameObject.SetActive(false);
+
         Icon.sprite = Data.Icon;
         UnGetIcon.sprite = Data.UnGetIcon;
         Locked?.gameObject.SetActive(!Data.IsUnLock);

@@ -18,6 +18,11 @@ public abstract class UIBase : GameEntity
     {
 
     }
+
+    public virtual void Back()
+    {
+
+    }
 }
 
 public abstract class UIBase<T> : UIBase where T : UIBase<T>
