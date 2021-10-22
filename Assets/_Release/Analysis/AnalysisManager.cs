@@ -98,23 +98,28 @@ namespace Aya.Analysis
 		private static void CreateSdkInstance() 
 		{
 		    if (EnableAnalysis)
-            // if (Client.Config.EnableAnalysis)
             {
 #if UNITY_ANDROID || UNITY_IOS
-                AnalysisDebug.Log("Analysis FB / GA / Firebase.");
+
 				// TODO..
-                // Instance = new AnalysisInstance();
+#if TapNation
+                AnalysisDebug.Log("Analysis TapNation.");
+				Instance = new AnalysisTapNation();
+#endif
+
 #elif UNITY_STANDALONE
 				AnalysisDebug.Log("Analysis not use");
 				Instance = new AnalysisBase();
 #endif
 			}
-			else
-			{
-				AnalysisDebug.Log("Analysis not use.");
-				Instance = new AnalysisBase();
-			}
-			Instance.Init();
+
+			if (Instance == null)
+            {
+                AnalysisDebug.Log("Analysis not use.");
+                Instance = new AnalysisBase();
+            }
+
+            Instance.Init();
 		}
 	}
 }

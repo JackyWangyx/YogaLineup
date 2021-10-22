@@ -41,39 +41,24 @@ namespace Aya.AD
 
     public class ADEditorSourceBanner : ADEditorSourceBase
     {
-        public override ADLocationType Type
-        {
-            get { return ADLocationType.Banner; }
-        }
+        public override ADLocationType Type => ADLocationType.Banner;
     }
 
     public class ADEditorSourceInterstitial : ADEditorSourceBase
     {
-        public override ADLocationType Type
-        {
-            get { return ADLocationType.Interstitial; }
-        }
+        public override ADLocationType Type => ADLocationType.Interstitial;
     }
 
     public class ADEditorSourceRewardedVideo : ADEditorSourceBase
     {
-        public override ADLocationType Type
-        {
-            get { return ADLocationType.RewardedVideo; }
-        }
+        public override ADLocationType Type => ADLocationType.RewardedVideo;
     }
 
     public class ADEditorSourceBase : ADSourceBase
     {
-        public override ADLocationType Type
-        {
-            get { return ADLocationType.None; }
-        }
+        public override ADLocationType Type => ADLocationType.None;
 
-        public override bool IsReady
-        {
-            get { return true; }
-        }
+        public override bool IsReady => true;
 
         public override void Init(params object[] args)
         {
@@ -84,13 +69,13 @@ namespace Aya.AD
         public override void Load(Action<bool> onDone = null)
         {
             OnLoaded(true);
-            if (onDone != null) onDone(true);
+            onDone?.Invoke(true);
         }
 
         public override void Show(Action<bool> onDone = null)
         {
             OnShowed();
-            if (onDone != null) onDone(true);
+            onDone?.Invoke(true);
             OnResult(true);
         }
 

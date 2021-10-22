@@ -156,6 +156,22 @@ namespace Aya.Analysis
 
         #endregion
 
+        #region Level
+
+        public virtual void LevelStart(string level)
+        {
+        }
+
+        public virtual void LevelCompleted(string level)
+        {
+        }
+
+        public virtual void LevelFailed(string level)
+        {
+        }
+
+        #endregion
+
         #region Mission
 
         /// <summary>

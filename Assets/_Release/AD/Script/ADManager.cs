@@ -23,23 +23,31 @@ namespace Aya.AD
 
         private static void CreateSdkInstance()
         {
-#if UNITY_EDITOR
-            SDKDebug.Log("AD", "Init Editor.");
-            Instance = new ADEditor();
-            Instance.Init();
-            return;
-#elif UNITY_ANDROID || UNITY_IOS
-            SDKDebug.Log("AD", "Init AD Mobile.");
 
-            Instance = new ADEditor();
+#if UNITY_ANDROID || UNITY_IOS
+
+            // TODO..
+#if TapNation
+            SDKDebug.Log("AD", "Init AD TapNation.");
+            Instance = new ADTapNation();
 #endif
-            var setting = ADSetting.Load(Instance.GetType().Name);
+
+#endif
+            if (Instance == null)
+            {
+                SDKDebug.Log("AD", "Init Editor.");
+                Instance = new ADEditor();
+            }
+
+            var setting = ADSetting.Ins;
             if (setting == null)
             {
                 Debug.LogError("ADSetting not found!!!");
             }
             else
+            {
                 Instance.Init(setting);
+            }
         }
 
     }
