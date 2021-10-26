@@ -32,6 +32,19 @@ public abstract class ItemBase<T> : ItemBase where T : Component
     {
         if (!Active) return;
 
+        if (EffectMode == ItemEffectMode.Once)
+        {
+            Active = false;
+        }
+        else if (EffectMode == ItemEffectMode.Count && EffectCounter <= EffectCount && EffectCount > 0)
+        {
+            EffectCounter++;
+            if (EffectCounter >= EffectCount)
+            {
+                Active = false;
+            }
+        }
+
         if (Active)
         {
             try
@@ -57,11 +70,6 @@ public abstract class ItemBase<T> : ItemBase where T : Component
         }
 
         VibrationController.Instance.Impact(VibrationType);
-
-        if (EffectiveOnce)
-        {
-            Active = false;
-        }
 
         if (DeActiveRender)
         {
@@ -118,7 +126,7 @@ public abstract class ItemBase<T> : ItemBase where T : Component
             tweenAnimation?.Data.Play();
         }
 
-        if (DeSpawnAfterEffect)
+        if (DeSpawnMode == ItemDeSpawnMode.AfterEffect)
         {
             gameObject.SetActive(false);
         }
@@ -128,6 +136,11 @@ public abstract class ItemBase<T> : ItemBase where T : Component
     {
         OnTargetExit(target);
         Target = null;
+
+        if (DeSpawnMode == ItemDeSpawnMode.AfterExit)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public abstract void OnTargetEnter(T target);

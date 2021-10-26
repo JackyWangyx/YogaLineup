@@ -7,12 +7,28 @@ using Aya.TweenPro;
 using MoreMountains.NiceVibrations;
 using Sirenix.OdinInspector;
 
+public enum ItemDeSpawnMode
+{
+    None = 0,
+    AfterEffect = 1,
+    AfterExit = 2,
+}
+
+public enum ItemEffectMode
+{
+    Once = 0,
+    UnLimit = 1,
+    Count = 2,
+}
+
 public abstract class ItemBase : GameEntity
 {
     [FoldoutGroup("Param")] public LayerMask LayerMask;
-    [FoldoutGroup("Param")] public bool DeSpawnAfterEffect = true;
+    [FoldoutGroup("Param")] public ItemDeSpawnMode DeSpawnMode = ItemDeSpawnMode.None;
     [FoldoutGroup("Param")] public bool DeActiveRender;
-    [FoldoutGroup("Param")] public bool EffectiveOnce = true;
+    [FoldoutGroup("Param")] public ItemEffectMode EffectMode = ItemEffectMode.Once;
+    public bool ShowEffectCount => EffectMode == ItemEffectMode.Count;
+    [FoldoutGroup("Param"), ShowIf("ShowEffectCount")] public int EffectCount = 1;
 
     [FoldoutGroup("Renderer")] public List<GameObject> RenderPrefabs;
     [FoldoutGroup("Renderer")] public List<GameObject> RenderRandomPrefabs;
@@ -41,6 +57,7 @@ public abstract class ItemBase : GameEntity
     public bool Active { get; set; }
     public List<GameObject> RenderInstanceList { get; set; }
     public virtual bool IsUseful => true;
+    public int EffectCounter { get; set; }
 
     protected override void Awake()
     {
@@ -54,6 +71,7 @@ public abstract class ItemBase : GameEntity
 
         gameObject.SetActive(true);
         RendererTrans?.gameObject.SetActive(true);
+
         foreach (var animatorData in AnimatorDataList)
         {
             animatorData.Animator?.Play(animatorData.DefaultClip);
@@ -74,6 +92,7 @@ public abstract class ItemBase : GameEntity
             go?.SetActive(true);
         }
 
+        EffectCounter = 0;
         Active = true;
     }
 

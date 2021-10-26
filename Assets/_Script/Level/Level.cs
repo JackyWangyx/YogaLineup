@@ -26,6 +26,9 @@ public class Level : GameEntity
             item.Init();
         }
 
+        // 可能有嵌套生成道具，重新获取一次列表
+        ItemList = transform.GetComponentsInChildren<ItemBase>().ToList();
+
         Player.Init();
     }
 

@@ -218,9 +218,10 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  DeSpawnAfterEffect: 1
+  DeSpawnMode: 1
   DeActiveRender: 0
-  EffectiveOnce: 1
+  EffectMode: 0
+  EffectCount: 1
   RenderPrefabs: []
   RenderRandomPrefabs: []
   ItemGroupIndex: -1

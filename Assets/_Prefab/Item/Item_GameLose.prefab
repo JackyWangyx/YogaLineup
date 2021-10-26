@@ -107,13 +107,23 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  DeSpawnAfterEffect: 0
+  DeSpawnMode: 1
   DeActiveRender: 0
-  EffectiveOnce: 1
+  EffectMode: 0
+  EffectCount: 1
   RenderPrefabs: []
-  EffectSelfFx: {fileID: 0}
-  EffectTargetFx: {fileID: 0}
-  DefaultClip: 
-  EffectClip: 
+  RenderRandomPrefabs: []
+  ItemGroupIndex: -1
+  Conditions: []
+  ActiveList: []
+  DeActiveList: []
+  SelfFx: []
+  SelfRandomFx: []
+  TargetFx: []
+  TargetRandomFx: []
+  TweenAnimationList: []
+  AnimatorDataList: []
   ExcludeItems: []
   VibrationType: -1
+  references:
+    version: 1

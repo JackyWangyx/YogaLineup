@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Aya.SDK
 {
     [CreateAssetMenu(menuName = "Setting/Share Setting")]
-    public class ShareSetting : SettingBase<ShareSetting>
+    public class ShareSetting : SDKSettingBase<ShareSetting>
     {
         [Header("Share")]
         public string ShareUrl;

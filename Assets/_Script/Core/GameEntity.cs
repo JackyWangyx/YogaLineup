@@ -17,6 +17,7 @@ public abstract class GameEntity : MonoListener
 
     public RectTransform Rect { get; set; }
     public Transform RendererTrans { get; set; }
+    public Renderer Renderer { get; set; }
 
     public GameManager Game => GameManager.Ins;
     public LevelManager Level => LevelManager.Ins;
@@ -43,7 +44,12 @@ public abstract class GameEntity : MonoListener
         SelfScale = 1f;
         Trans = transform;
         Rect = GetComponent<RectTransform>();
-        RendererTrans = transform.FindInAllChild(nameof(Renderer));
+        Renderer = transform.GetComponentInChildren<Renderer>();
+        RendererTrans = transform.FindInAllChildFuzzy("Renderer");
+        if (RendererTrans == null)
+        {
+            RendererTrans = transform;
+        }
     }
 
     #region Fx

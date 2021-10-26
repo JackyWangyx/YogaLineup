@@ -7,7 +7,7 @@ public static class SDKUtil
     public static void Init()
     {
         AnalysisManager.Instance.Init();
-        ADManager.Instance.Init();
+        ADManager.Init();
     }
 
     public static bool IsRewardVideoReady(string key)

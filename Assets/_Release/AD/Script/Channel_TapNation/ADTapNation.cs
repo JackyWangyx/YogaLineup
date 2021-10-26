@@ -21,12 +21,17 @@ namespace Aya.AD
             _lastInterstitialTimer = Time.realtimeSinceStartup;
             OnInterstitialShowed += () =>
             {
-                _lastInterstitialTimer = 0f;
+                _lastInterstitialTimer = Time.realtimeSinceStartup;
             };
 
             OnRewardedVedioShowed += () =>
             {
-                _lastInterstitialTimer = 0f;
+                _lastInterstitialTimer = Time.realtimeSinceStartup;
+            };
+
+            OnRewardedVedioCloseed += () =>
+            {
+                _lastInterstitialTimer = Time.realtimeSinceStartup;
             };
         }
 
@@ -41,7 +46,7 @@ namespace Aya.AD
         }
     }
 
-    #region AD Editor Location
+#region AD Editor Location
 
     public class ADTapNationLocationBanner : ADLocationBase<ADTapNationSourceBanner>
     {
@@ -55,9 +60,9 @@ namespace Aya.AD
     {
     }
 
-    #endregion
+#endregion
 
-    #region AD Editor Source
+#region AD Editor Source
 
     public class ADTapNationSourceBanner : ADTapNationSourceBase
     {

@@ -23,7 +23,6 @@ public class Player : GameEntity
     public BuffManager Buff { get; set; } = new BuffManager();
     public Animator Animator { get; set; }
     public Rigidbody Rigidbody { get; set; }
-    public Renderer Renderer { get; set; }
     public GameObject RenderInstance { get; set; }
 
     public string CurrentClip { get; set; }
