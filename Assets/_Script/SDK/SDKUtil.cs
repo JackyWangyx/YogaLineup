@@ -17,7 +17,7 @@ public static class SDKUtil
         return result;
     }
 
-    public static void RewardVideo(string key, Action onSuccess = null, Action onFail = null)
+    public static void RewardVideo(string key, Action onSuccess = null, Action onFail = null, Action onNoAds = null)
     {
         if (ADManager.Instance.IsRewardedVideoReady())
         {
@@ -35,6 +35,10 @@ public static class SDKUtil
                     onFail?.Invoke();
                 }
             });
+        }
+        else
+        {
+            onNoAds?.Invoke();
         }
     }
 }

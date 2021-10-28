@@ -41,8 +41,11 @@ public abstract class StoreSetting<TSetting, TStoreData> : SettingBase<TSetting>
         }
     }
 
+    public bool ExistLockData => CurrentUnlockData != null && !CurrentUnlockData.IsUnLock;
+    public bool CanUnlock => CurrentUnlockData != null && CurrentUnlockData.CanUnlock;
+
     [NonSerialized] public sInt SaveSelectIndex;
-    [NonSerialized] public sFloat SaveUnlockProgress;
+    [NonSerialized] public sInt SaveUnlockProgress;
     [NonSerialized] public sInt SaveUnlockIndex;
     [NonSerialized] public sInt SaveUnlockCount;
 
@@ -54,14 +57,14 @@ public abstract class StoreSetting<TSetting, TStoreData> : SettingBase<TSetting>
 
     public int UnlockIndex
     {
-        get => SaveSelectIndex.Value;
-        set => SaveSelectIndex.Value = value;
+        get => SaveUnlockIndex.Value;
+        set => SaveUnlockIndex.Value = value;
     }
 
     public int UnlockProgress
     {
-        get => SaveSelectIndex.Value;
-        set => SaveSelectIndex.Value = value;
+        get => SaveUnlockProgress.Value;
+        set => SaveUnlockProgress.Value = value;
     }
 
     public int UnlockCount
@@ -75,7 +78,7 @@ public abstract class StoreSetting<TSetting, TStoreData> : SettingBase<TSetting>
         base.Init();
 
         SaveSelectIndex = new sInt(SaveKey + "_" + nameof(SelectIndex), 0);
-        SaveUnlockProgress = new sFloat(SaveKey + "_" + nameof(UnlockProgress), 0);
+        SaveUnlockProgress = new sInt(SaveKey + "_" + nameof(UnlockProgress), 0);
         SaveUnlockIndex = new sInt(SaveKey + "_" + nameof(UnlockIndex), -1);
         SaveUnlockCount = new sInt(SaveKey + "_" + nameof(UnlockCount), 0);
 

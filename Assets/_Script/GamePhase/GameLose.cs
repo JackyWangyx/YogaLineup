@@ -10,6 +10,7 @@ public class GameLose : GamePhaseHandler
     {
         Camera.Switch("Finish");
         UI.Show<UILose>();
+        Player.Lose();
         Dispatch(GameEvent.Lose);
     }
 

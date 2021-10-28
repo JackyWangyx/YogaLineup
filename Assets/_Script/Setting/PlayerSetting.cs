@@ -15,6 +15,8 @@ public class PlayerData
 [CreateAssetMenu(fileName = "PlayerSetting", menuName = "Setting/Player Setting")]
 public class PlayerSetting : SettingBase<PlayerSetting>
 {
+    public int InitPoint;
+
     [TableList] public List<PlayerData> PlayerDatas;
 
 

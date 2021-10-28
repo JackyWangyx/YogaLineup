@@ -8,7 +8,6 @@ public class Player : GameEntity
 {
     [FoldoutGroup("Trans")] public Transform RenderTrans;
 
-    [FoldoutGroup("Param")] public int InitPoint;
     [FoldoutGroup("Param")] public bool KeepUp;
     [FoldoutGroup("Param")] public float RunSpeed;
     [FoldoutGroup("Param")] public float RotateSpeed;
@@ -218,6 +217,14 @@ public class Player : GameEntity
     public void Win()
     {
         Play("Win");
+        State.EnableRun = false;
+        State.EnableInput = false;
+    }
+
+    public void Lose()
+    {
+        Play("Lose");
+        State.RestoreSave();
         State.EnableRun = false;
         State.EnableInput = false;
     }

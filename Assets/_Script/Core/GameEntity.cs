@@ -45,7 +45,7 @@ public abstract class GameEntity : MonoListener
         Trans = transform;
         Rect = GetComponent<RectTransform>();
         Renderer = transform.GetComponentInChildren<Renderer>();
-        RendererTrans = transform.FindInAllChildFuzzy("Renderer");
+        RendererTrans = transform.FindInAllChildFuzzy(nameof(Renderer));
         if (RendererTrans == null)
         {
             RendererTrans = transform;

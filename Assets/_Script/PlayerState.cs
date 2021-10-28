@@ -21,6 +21,8 @@ public class PlayerState : GameEntity
     [NonSerialized] public bool IsInvincible;
     [NonSerialized] public float SpeedMultiply;
 
+    [NonSerialized] public float EndlessRewardRate;
+
     public void Init(Player player)
     {
         Player = player;
@@ -31,11 +33,27 @@ public class PlayerState : GameEntity
         EnableRun = false;
         EnableInput = false;
 
-        Point = player.InitPoint;
+        Point = PlayerSetting.Ins.InitPoint;
         Rank = -1;
 
         LimitTurnRange = false;
         IsInvincible = false;
         SpeedMultiply = 1f;
+
+        EndlessRewardRate = 1f;
+
+        CacheSave();
+    }
+
+    private int _cacheCoin;
+
+    public void CacheSave()
+    {
+        _cacheCoin = Save.Coin;
+    }
+
+    public void RestoreSave()
+    {
+        Save.Coin.Value = _cacheCoin;
     }
 }

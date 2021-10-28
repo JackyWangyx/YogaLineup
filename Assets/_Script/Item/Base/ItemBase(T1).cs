@@ -4,11 +4,12 @@ using Aya.Physical;
 using Fishtail.PlayTheBall.Vibration;
 using UnityEngine;
 
-public abstract class ItemBase<T> : ItemBase where T : Component
+public abstract class ItemBase<TTarget> : ItemBase 
+    where TTarget : Component
 {
-    public override Type TargetType => typeof(T);
+    public override Type TargetType => typeof(TTarget);
 
-    public T Target { get; set; }
+    public TTarget Target { get; set; }
 
     public override void CacheComponents()
     {
@@ -20,15 +21,15 @@ public abstract class ItemBase<T> : ItemBase where T : Component
             if (listener == null) listener = col.gameObject.AddComponent<ColliderListener>();
 
             listener.onTriggerEnter.Clear();
-            listener.onTriggerEnter.Add<T>(LayerMask, OnEnter);
+            listener.onTriggerEnter.Add<TTarget>(LayerMask, OnEnter);
             listener.onTriggerExit.Clear();
-            listener.onTriggerExit.Add<T>(LayerMask, OnExit);
+            listener.onTriggerExit.Add<TTarget>(LayerMask, OnExit);
 
             ColliderListeners.Add(listener);
         }
     }
 
-    public virtual void OnEnter(T target)
+    public virtual void OnEnter<T>(T target) where T : Component
     {
         if (!Active) return;
 
@@ -49,7 +50,7 @@ public abstract class ItemBase<T> : ItemBase where T : Component
         {
             try
             {
-                Target = target;
+                Target = target as TTarget;
                 foreach (var condition in Conditions)
                 {
                     var check = condition.CheckCondition(target);
@@ -61,7 +62,7 @@ public abstract class ItemBase<T> : ItemBase where T : Component
                     item.Active = false;
                 }
 
-                OnTargetEnter(target);
+                OnTargetEnter(target as TTarget);
             }
             catch (Exception e)
             {
@@ -132,9 +133,9 @@ public abstract class ItemBase<T> : ItemBase where T : Component
         }
     }
 
-    public virtual void OnExit(T target)
+    public virtual void OnExit<T>(T target) where T : Component
     {
-        OnTargetExit(target);
+        OnTargetExit(target as TTarget);
         Target = null;
 
         if (DeSpawnMode == ItemDeSpawnMode.AfterExit)
@@ -143,6 +144,6 @@ public abstract class ItemBase<T> : ItemBase where T : Component
         }
     }
 
-    public abstract void OnTargetEnter(T target);
-    public abstract void OnTargetExit(T target);
+    public abstract void OnTargetEnter(TTarget target);
+    public abstract void OnTargetExit(TTarget target);
 }

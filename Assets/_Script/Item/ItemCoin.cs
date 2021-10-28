@@ -6,12 +6,16 @@ using UnityEngine;
 public class ItemCoin : ItemBase<Player>
 {
     [BoxGroup("Coin")] public int Value = 1;
+    [BoxGroup("Coin")] public GameObject CoinPrefab;
+    [BoxGroup("Coin")] public int FlyIconCount;
 
     public override void OnTargetEnter(Player target)
     {
         if (!target.IsPlayer) return;
-        Save.Coin.Value += Value;
-        if (Save.Coin < 0) Save.Coin.Value = 0;
+        UIGame.Ins.FlyCoin(CoinPrefab, FlyIconCount, () =>
+        {
+            Save.Coin.Value += Value;
+        });
     }
 
     public override void OnTargetExit(Player target)
