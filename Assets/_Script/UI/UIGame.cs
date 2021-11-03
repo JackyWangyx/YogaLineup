@@ -10,7 +10,6 @@ public class UIGame : UIBase<UIGame>
     public UILevelProgress LevelProgress;
 
     public Transform FlyCoinStart;
-    public Transform FlyCoinEnd;
 
     protected override void Awake()
     {
@@ -30,10 +29,5 @@ public class UIGame : UIBase<UIGame>
     public void Retry()
     {
         Level.LevelStart();
-    }
-
-    public void FlyCoin(GameObject prefab, int count, Action action = null)
-    {
-        UIFlyCoin.Ins.Fly(prefab, FlyCoinStart.position, FlyCoinEnd.position, count, action);
     }
 }

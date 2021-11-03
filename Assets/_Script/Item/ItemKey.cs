@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class ItemCoin : ItemBase<Player>
+public class ItemKey : ItemBase<Player>
 {
-    [BoxGroup("Coin")] public int Value = 1;
+    [BoxGroup("Key")] public int Value = 1;
 
     public override void OnTargetEnter(Player target)
     {
         if (!target.IsPlayer) return;
-        UIFlyCoin.Ins.Fly(UIFlyCoin.Coin, UIGame.Ins.FlyCoinStart.position, Value, () =>
+        UIFlyCoin.Ins.Fly(UIFlyCoin.Key, UIGame.Ins.FlyCoinStart.position, Value, () =>
         {
-            Save.Coin.Value += 1;
+            Save.Key.Value += 1;
         });
     }
 

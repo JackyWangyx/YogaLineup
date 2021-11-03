@@ -127,7 +127,7 @@ public abstract class ItemBase<TTarget> : ItemBase
             tweenAnimation?.Data.Play();
         }
 
-        if (DeSpawnMode == ItemDeSpawnMode.AfterEffect)
+        if (DeSpawnMode == ItemDeSpawnMode.Effect)
         {
             gameObject.SetActive(false);
         }
@@ -138,7 +138,7 @@ public abstract class ItemBase<TTarget> : ItemBase
         OnTargetExit(target as TTarget);
         Target = null;
 
-        if (DeSpawnMode == ItemDeSpawnMode.AfterExit)
+        if (DeSpawnMode == ItemDeSpawnMode.Exit)
         {
             gameObject.SetActive(false);
         }

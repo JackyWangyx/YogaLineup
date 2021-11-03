@@ -10,8 +10,8 @@ using Sirenix.OdinInspector;
 public enum ItemDeSpawnMode
 {
     None = 0,
-    AfterEffect = 1,
-    AfterExit = 2,
+    Effect = 1,
+    Exit = 2,
 }
 
 public enum ItemEffectMode
@@ -24,9 +24,9 @@ public enum ItemEffectMode
 public abstract class ItemBase : GameEntity
 {
     [FoldoutGroup("Param")] public LayerMask LayerMask;
-    [FoldoutGroup("Param")] public ItemDeSpawnMode DeSpawnMode = ItemDeSpawnMode.None;
+    [FoldoutGroup("Param"), EnumToggleButtons] public ItemDeSpawnMode DeSpawnMode = ItemDeSpawnMode.None;
     [FoldoutGroup("Param")] public bool DeActiveRender;
-    [FoldoutGroup("Param")] public ItemEffectMode EffectMode = ItemEffectMode.Once;
+    [FoldoutGroup("Param"), EnumToggleButtons] public ItemEffectMode EffectMode = ItemEffectMode.Once;
     public bool ShowEffectCount => EffectMode == ItemEffectMode.Count;
     [FoldoutGroup("Param"), ShowIf("ShowEffectCount")] public int EffectCount = 1;
 

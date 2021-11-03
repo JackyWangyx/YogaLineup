@@ -21,17 +21,20 @@ public abstract class StoreData
 
     [NonSerialized] public sBool IsUnLock;
     [NonSerialized] public sBool IsBuy;
+    [NonSerialized] public sBool IsShow;
 
     public bool CanUnlock => Setting.UnlockProgress >= 100;
     public bool IsSelected => Setting.SelectIndex == ID;
     public bool IsCoinEnough => SaveManager.Ins.Coin >= Cost;
-    
+    public bool NeedShow => IsUnLock && IsBuy && !IsShow;
+
     public virtual string SaveKey => GetType().Name.Replace("Data", "");
 
     public virtual void Init()
     {
         IsUnLock = new sBool(SaveKey + "_" + ID + "_Unlock", PreUnlock);
         IsBuy = new sBool(SaveKey + "_" + ID + "_Buy", PreBuy);
+        IsShow = new sBool(SaveKey + "_" + ID + "_Show", IsUnLock && IsBuy);
     }
 
     public virtual bool Unlock()
@@ -48,6 +51,7 @@ public abstract class StoreData
         if (Setting.SelectIndex == ID) return;
         AnalysisManager.Instance.Event($"Select {SaveKey} {ID}");
         Setting.SelectIndex = ID;
+        if (!IsShow) IsShow.Value = true;
     }
 
     public virtual bool Buy(bool needCost = true)

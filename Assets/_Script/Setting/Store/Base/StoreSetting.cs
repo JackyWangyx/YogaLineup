@@ -43,6 +43,7 @@ public abstract class StoreSetting<TSetting, TStoreData> : SettingBase<TSetting>
 
     public bool ExistLockData => CurrentUnlockData != null && !CurrentUnlockData.IsUnLock;
     public bool CanUnlock => CurrentUnlockData != null && CurrentUnlockData.CanUnlock;
+    public bool ExistNeedShow => Datas.Find(d => d.NeedShow) != null;
 
     [NonSerialized] public sInt SaveSelectIndex;
     [NonSerialized] public sInt SaveUnlockProgress;

@@ -53,7 +53,6 @@ public class LevelManager : GameEntity<LevelManager>
             levelPrefab = Resources.Load<Level>("Level/Level_" + index.ToString("D2"));
         }
 
-        Level = Instantiate(levelPrefab);
         Level = GamePool.Spawn(levelPrefab);
         Level.Trans.SetParent(null);
         Level.Init();

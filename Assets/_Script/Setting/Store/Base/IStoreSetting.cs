@@ -10,6 +10,7 @@ public interface IStoreSetting<out TStoreData>
     TStoreData CurrentUnlockData { get; }
     bool ExistLockData { get; }
     bool CanUnlock { get; }
+    bool ExistNeedShow { get; }
 
     int SelectIndex { get; set; }
     int UnlockIndex { get; set; }
