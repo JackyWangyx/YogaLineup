@@ -121,8 +121,7 @@ MonoBehaviour:
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
-  TweenAnimationList:
-  - {fileID: 0}
+  TweenAnimationList: []
   AnimatorDataList: []
   ExcludeItems: []
   VibrationType: -1

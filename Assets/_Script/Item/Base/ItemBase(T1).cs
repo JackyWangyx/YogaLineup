@@ -33,41 +33,42 @@ public abstract class ItemBase<TTarget> : ItemBase
     {
         if (!Active) return;
 
+        EffectCounter++;
         if (EffectMode == ItemEffectMode.Once)
         {
             Active = false;
         }
-        else if (EffectMode == ItemEffectMode.Count && EffectCounter <= EffectCount && EffectCount > 0)
+        else if (EffectMode == ItemEffectMode.Count && EffectCount > 0)
         {
-            EffectCounter++;
-            if (EffectCounter >= EffectCount)
+            if (EffectCounter > EffectCount)
             {
                 Active = false;
             }
+            else
+            {
+                return;
+            }
         }
 
-        if (Active)
+        try
         {
-            try
+            Target = target as TTarget;
+            foreach (var condition in Conditions)
             {
-                Target = target as TTarget;
-                foreach (var condition in Conditions)
-                {
-                    var check = condition.CheckCondition(target);
-                    if (!check) return;
-                }
-
-                foreach (var item in ExcludeItems)
-                {
-                    item.Active = false;
-                }
-
-                OnTargetEnter(target as TTarget);
+                var check = condition.CheckCondition(target);
+                if (!check) return;
             }
-            catch (Exception e)
+
+            foreach (var item in ExcludeItems)
             {
-                Debug.LogError(e);
+                item.Active = false;
             }
+
+            OnTargetEnter(target as TTarget);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
 
         VibrationController.Instance.Impact(VibrationType);

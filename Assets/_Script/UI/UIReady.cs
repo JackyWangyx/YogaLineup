@@ -20,7 +20,7 @@ public class UIReady : UIBase<UIReady>
             {
                 _clickStartRun = true;
                 Game.Enter<GameStart>();
-                Player.StartRun();
+                Player.EnableMove();
                 TouchTip.gameObject.SetActive(false);
             }
         };

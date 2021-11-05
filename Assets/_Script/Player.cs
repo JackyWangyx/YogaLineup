@@ -137,10 +137,16 @@ public class Player : GameEntity
         
     }
 
-    public void StartRun()
+    public void EnableMove()
     {
         State.EnableRun = true;
         State.EnableInput = true;
+    }
+
+    public void DisableMove()
+    {
+        State.EnableRun = false;
+        State.EnableInput = false;
     }
 
     private bool _isMouseDown;
