@@ -19,6 +19,20 @@ public class ItemPrefabSpawner : ItemBase<Player>
         itemList.ForEach(i => i.Init());
     }
 
+    public override void InitRenderer()
+    {
+        base.InitRenderer();
+
+        var itemList = new List<ItemBase>();
+        foreach (var instance in RenderInstanceList)
+        {
+            var items = instance.GetComponentsInChildren<ItemBase>();
+            itemList.AddRange(items);
+        }
+
+        itemList.ForEach(i => i.InitRenderer());
+    }
+
     public override void OnTargetEnter(Player target)
     {
         

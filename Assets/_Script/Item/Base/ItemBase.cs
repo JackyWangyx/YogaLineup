@@ -56,6 +56,7 @@ public abstract class ItemBase : GameEntity
 
     public bool Active { get; set; }
     public List<GameObject> RenderInstanceList { get; set; }
+    public List<ItemBase> SubItems { get; set; }
     public virtual bool IsUseful => true;
     public int EffectCounter { get; set; }
 

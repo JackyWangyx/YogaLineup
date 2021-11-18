@@ -20,6 +20,7 @@ public abstract class ItemBase<TTarget> : ItemBase
             var listener = col.gameObject.GetComponent<ColliderListener>();
             if (listener == null) listener = col.gameObject.AddComponent<ColliderListener>();
 
+            listener.Clear();
             listener.onTriggerEnter.Clear();
             listener.onTriggerEnter.Add<TTarget>(LayerMask, OnEnter);
             listener.onTriggerExit.Clear();
