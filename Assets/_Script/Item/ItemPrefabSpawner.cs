@@ -33,12 +33,7 @@ public class ItemPrefabSpawner : ItemBase<Player>
         itemList.ForEach(i => i.InitRenderer());
     }
 
-    public override void OnTargetEnter(Player target)
-    {
-        
-    }
-
-    public override void OnTargetExit(Player target)
+    public override void OnTargetEffect(Player target)
     {
         
     }

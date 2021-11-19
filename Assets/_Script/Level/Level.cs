@@ -29,6 +29,19 @@ public class Level : GameEntity
         // 可能有嵌套生成道具，重新获取一次列表
         ItemList = transform.GetComponentsInChildren<ItemBase>().ToList();
 
+        ItemDic = new Dictionary<Type, List<ItemBase>>();
+        foreach (var item in ItemList)
+        {
+            var itemType = item.GetType();
+            if (!ItemDic.TryGetValue(itemType, out var itemList))
+            {
+                itemList = new List<ItemBase>();
+                ItemDic.Add(itemType, itemList);
+            }
+
+            itemList.Add(item);
+        }
+
         Player.Init();
     }
 

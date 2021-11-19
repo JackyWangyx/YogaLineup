@@ -66,6 +66,7 @@ public abstract class GameEntity : MonoListener
 
     public void SpawnFx(GameObject fxPrefab, Transform parent, Vector3 position)
     {
+        if (fxPrefab == null) return;
         ParticleSpawner.Spawn(fxPrefab, parent, position);
     }
 
@@ -100,6 +101,22 @@ public abstract class GameEntity : MonoListener
     public TSetting GetSetting<TSetting>() where TSetting : SettingBase<TSetting>
     {
         return SettingBase<TSetting>.Load<TSetting>();
+    }
+
+    #endregion
+
+    #region Try
+
+    public void TryCatch(Action action, string message)
+    {
+        try
+        {
+            action();
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError(message + "\n" + exception);
+        }
     }
 
     #endregion

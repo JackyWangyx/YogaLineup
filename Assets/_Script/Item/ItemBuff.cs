@@ -12,13 +12,8 @@ public class ItemBuff : ItemBase<Player>
 
     [BoxGroup("Tip"), Multiline(10), HideLabel] public string Tip;
 
-    public override void OnTargetEnter(Player target)
+    public override void OnTargetEffect(Player target)
     {
         target.Buff.AddBuff(Type.Type, Duration, Args, Assets, Curves);
-    }
-
-    public override void OnTargetExit(Player target)
-    {
-
     }
 }

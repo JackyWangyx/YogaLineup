@@ -43,9 +43,9 @@ public class ItemPoint : ItemBase<Player>
         }
     }
 
-    public override void OnTargetEnter(Player target)
+    public override void OnTargetEffect(Player target)
     {
-        var value = (int) (target.State.Point * MultiplyValue + AddValue);
+        var value = (int)(target.State.Point * MultiplyValue + AddValue);
         var diff = value - target.State.Point;
 
         if (diff < 0 && target.State.IsInvincible) return;
@@ -55,10 +55,5 @@ public class ItemPoint : ItemBase<Player>
         {
             UITip.Ins.ShowTip(transform.position).Set(TextValue, diff > 0 ? GoodTipColor : BadTipColor);
         }
-    }
-
-    public override void OnTargetExit(Player target)
-    {
-
     }
 }

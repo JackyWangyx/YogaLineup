@@ -7,17 +7,12 @@ public class ItemCoin : ItemBase<Player>
 {
     [BoxGroup("Coin")] public int Value = 1;
 
-    public override void OnTargetEnter(Player target)
+    public override void OnTargetEffect(Player target)
     {
         if (!target.IsPlayer) return;
         UIFlyCoin.Ins.Fly(UIFlyCoin.Coin, UIGame.Ins.FlyCoinStart.position, Value, () =>
         {
             Save.Coin.Value += 1;
         });
-    }
-
-    public override void OnTargetExit(Player target)
-    {
-        
     }
 }

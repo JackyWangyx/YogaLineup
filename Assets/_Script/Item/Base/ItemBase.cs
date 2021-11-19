@@ -19,6 +19,7 @@ public enum ItemEffectMode
     Once = 0,
     UnLimit = 1,
     Count = 2,
+    Stay = 3,
 }
 
 public abstract class ItemBase : GameEntity
@@ -27,8 +28,10 @@ public abstract class ItemBase : GameEntity
     [FoldoutGroup("Param"), EnumToggleButtons] public ItemDeSpawnMode DeSpawnMode = ItemDeSpawnMode.None;
     [FoldoutGroup("Param")] public bool DeActiveRender;
     [FoldoutGroup("Param"), EnumToggleButtons] public ItemEffectMode EffectMode = ItemEffectMode.Once;
-    public bool ShowEffectCount => EffectMode == ItemEffectMode.Count;
-    [FoldoutGroup("Param"), ShowIf("ShowEffectCount")] public int EffectCount = 1;
+    public bool IsEffectCount => EffectMode == ItemEffectMode.Count;
+    [FoldoutGroup("Param"), ShowIf("IsEffectCount")] public int EffectCount = 1;
+    public bool IsEffectStay => EffectMode == ItemEffectMode.Stay;
+    [FoldoutGroup("Param"), ShowIf("IsEffectStay")] public float EffectInterval = 1f;
 
     [FoldoutGroup("Renderer")] public List<GameObject> RenderPrefabs;
     [FoldoutGroup("Renderer")] public List<GameObject> RenderRandomPrefabs;
@@ -59,6 +62,8 @@ public abstract class ItemBase : GameEntity
     public List<ItemBase> SubItems { get; set; }
     public virtual bool IsUseful => true;
     public int EffectCounter { get; set; }
+    public float EffectTimer { get; set; }
+    public float EffectIntervalTimer { get; set; }
 
     protected override void Awake()
     {
@@ -94,6 +99,8 @@ public abstract class ItemBase : GameEntity
         }
 
         EffectCounter = 0;
+        EffectTimer = 0f;
+        EffectIntervalTimer = 0f;
         Active = true;
     }
 
@@ -147,18 +154,39 @@ public abstract class ItemBase : GameEntity
         ColliderListeners = new List<ColliderListener>();
     }
 
-    public virtual void OnDrawGizmos()
+    public virtual void DeSpawn()
     {
-        foreach (var go in ActiveList)
+        CurrentLevel.ItemList.Remove(this);
+        CurrentLevel.ItemDic[GetType()].Remove(this);
+
+        foreach (var ins in RenderInstanceList)
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, go.transform.position);
+            GamePool.DeSpawn(ins);
         }
 
-        foreach (var go in DeActiveList)
+        gameObject.SetActive(false);
+    }
+
+    public virtual void OnDrawGizmos()
+    {
+        if (ActiveList != null)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, go.transform.position);
+            foreach (var go in ActiveList)
+            {
+                if (go == null) continue;
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(transform.position, go.transform.position);
+            }
+        }
+
+        if (DeActiveList != null)
+        {
+            foreach (var go in DeActiveList)
+            {
+                if (go == null) continue;
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(transform.position, go.transform.position);
+            }
         }
     }
 }

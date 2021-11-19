@@ -11,6 +11,12 @@ public abstract class ItemBase<TTarget> : ItemBase
 
     public TTarget Target { get; set; }
 
+    public override void Init()
+    {
+        base.Init();
+        Target = null;
+    }
+
     public override void CacheComponents()
     {
         base.CacheComponents();
@@ -23,6 +29,8 @@ public abstract class ItemBase<TTarget> : ItemBase
             listener.Clear();
             listener.onTriggerEnter.Clear();
             listener.onTriggerEnter.Add<TTarget>(LayerMask, OnEnter);
+            listener.onTriggerStay.Clear();
+            listener.onTriggerStay.Add<TTarget>(LayerMask, OnStay);
             listener.onTriggerExit.Clear();
             listener.onTriggerExit.Add<TTarget>(LayerMask, OnExit);
 
@@ -32,8 +40,53 @@ public abstract class ItemBase<TTarget> : ItemBase
 
     public virtual void OnEnter<T>(T target) where T : Component
     {
+        TryCatch(()=> { OnTargetEnter(target as TTarget); }, "On Item Enter");
+        OnEffect(target);
+    }
+
+    public virtual void OnStay<T>(T target) where T : Component
+    {
+        if (EffectMode != ItemEffectMode.Stay) return;
+        TryCatch(() => { OnTargetStay(target as TTarget); }, "On Item Stay");
+
+        EffectIntervalTimer += DeltaTime;
+        if (EffectIntervalTimer >= EffectInterval)
+        {
+            EffectIntervalTimer -= EffectInterval;
+            OnEffect(target);
+        }
+    }
+
+    public virtual void OnExit<T>(T target) where T : Component
+    {
+        TryCatch(() => { OnTargetExit(target as TTarget); }, "On Item Exit");
+        Target = null;
+
+        if (DeSpawnMode == ItemDeSpawnMode.Exit)
+        {
+            DeSpawn();
+        }
+    }
+
+    public virtual void OnEffect<T>(T target) where T : Component
+    {
         if (!Active) return;
 
+        if (Target == null)
+        {
+            Target = target as TTarget;
+        }
+
+        if (Target == null) return;
+
+        // Condition
+        foreach (var condition in Conditions)
+        {
+            var check = condition.CheckCondition(target);
+            if (!check) return;
+        }
+
+        // Effect Counter
         EffectCounter++;
         if (EffectMode == ItemEffectMode.Once)
         {
@@ -51,44 +104,47 @@ public abstract class ItemBase<TTarget> : ItemBase
             }
         }
 
+        // Exclude
+        foreach (var item in ExcludeItems)
+        {
+            if (item == null) continue;
+            item.Active = false;
+        }
+
+        // On Effect
         try
         {
-            Target = target as TTarget;
-            foreach (var condition in Conditions)
-            {
-                var check = condition.CheckCondition(target);
-                if (!check) return;
-            }
-
-            foreach (var item in ExcludeItems)
-            {
-                item.Active = false;
-            }
-
-            OnTargetEnter(target as TTarget);
+            TryCatch(() => { OnTargetEffect(target as TTarget); }, "On Item Effect");
         }
         catch (Exception e)
         {
             Debug.LogError(e);
         }
 
+        // Vibrate
         VibrationController.Instance.Impact(VibrationType);
 
+        // DeActive Render
         if (DeActiveRender)
         {
             RendererTrans?.gameObject.SetActive(false);
         }
 
-        foreach (var go in ActiveList)
+        // Active / De Active
+        if (EffectCounter == 1)
         {
-            go?.SetActive(true);
+            foreach (var go in ActiveList)
+            {
+                go?.SetActive(true);
+            }
+
+            foreach (var go in DeActiveList)
+            {
+                go?.SetActive(false);
+            }
         }
 
-        foreach (var go in DeActiveList)
-        {
-            go?.SetActive(false);
-        }
-
+        // Self Fx
         if (SelfFx != null && SelfFx.Count > 0)
         {
             foreach (var fx in SelfFx)
@@ -103,6 +159,7 @@ public abstract class ItemBase<TTarget> : ItemBase
             SpawnFx(fx);
         }
 
+        // Target Fx
         var targetFxTrans = target.transform;
         if (target is Player player) targetFxTrans = player.RenderTrans;
         if (TargetFx != null && TargetFx.Count > 0)
@@ -119,6 +176,7 @@ public abstract class ItemBase<TTarget> : ItemBase
             SpawnFx(fx, targetFxTrans);
         }
 
+        // Animation
         foreach (var animatorData in AnimatorDataList)
         {
             animatorData.Animator?.Play(animatorData.Clip);
@@ -129,23 +187,32 @@ public abstract class ItemBase<TTarget> : ItemBase
             tweenAnimation?.Data.Play();
         }
 
+        // DeSpawn
         if (DeSpawnMode == ItemDeSpawnMode.Effect)
         {
-            gameObject.SetActive(false);
+            DeSpawn();
         }
-    }
 
-    public virtual void OnExit<T>(T target) where T : Component
-    {
-        OnTargetExit(target as TTarget);
-        Target = null;
-
-        if (DeSpawnMode == ItemDeSpawnMode.Exit)
+        if (!Active)
         {
-            gameObject.SetActive(false);
+            DeSpawn();
         }
     }
 
-    public abstract void OnTargetEnter(TTarget target);
-    public abstract void OnTargetExit(TTarget target);
+    public abstract void OnTargetEffect(TTarget target);
+
+    public virtual void OnTargetEnter(TTarget target)
+    {
+
+    }
+
+    public virtual void OnTargetStay(TTarget target)
+    {
+
+    }
+
+    public virtual void OnTargetExit(TTarget target)
+    {
+
+    }
 }

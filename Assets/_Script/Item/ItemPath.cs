@@ -30,7 +30,7 @@ public class ItemPath : ItemBase<Player>
         BlockIndex = CurrentLevel.BlockInsList.IndexOf(Block);
     }
 
-    public override void OnTargetEnter(Player target)
+    public override void OnTargetEffect(Player target)
     {
         target.State.EnableInput = EnableInput;
 
@@ -58,10 +58,5 @@ public class ItemPath : ItemBase<Player>
         }
 
         target.State.KeepDirection = KeepDirection;
-    }
-
-    public override void OnTargetExit(Player target)
-    {
-
     }
 }
