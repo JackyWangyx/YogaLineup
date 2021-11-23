@@ -58,7 +58,7 @@ public class Level : GameEntity
             ItemDic.Add(typeof(T), list);
         }
 
-        return list as List<T>;
+        return list.ToList(i => i as T);
     }
 
     public T GetItem<T>() where T : ItemBase
