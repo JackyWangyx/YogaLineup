@@ -20,6 +20,9 @@ public class ItemPath : ItemBase<Player>
 
     [BoxGroup("Path")] public bool EnableInput = true;
 
+    [BoxGroup("Path")] public bool ChangeSpeed = false;
+    [BoxGroup("Path"), ShowIf("ChangeSpeed")] public float SpeedMultiply = 1f;
+
     public LevelBlock Block { get; set; }
     public int BlockIndex { get; set; }
 
@@ -33,6 +36,11 @@ public class ItemPath : ItemBase<Player>
     public override void OnTargetEffect(Player target)
     {
         target.State.EnableInput = EnableInput;
+
+        if (ChangeSpeed)
+        {
+            target.State.SpeedMultiply = SpeedMultiply;
+        }
 
         if (SwitchPath)
         {

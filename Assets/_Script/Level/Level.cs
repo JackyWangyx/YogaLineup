@@ -20,14 +20,14 @@ public class Level : GameEntity
     public void Init()
     {
         SpawnBlocks();
-        ItemList = transform.GetComponentsInChildren<ItemBase>().ToList();
+        ItemList = transform.GetComponentsInChildren<ItemBase>(true).ToList();
         foreach (var item in ItemList)
         {
             item.Init();
         }
 
         // 可能有嵌套生成道具，重新获取一次列表
-        ItemList = transform.GetComponentsInChildren<ItemBase>().ToList();
+        ItemList = transform.GetComponentsInChildren<ItemBase>(true).ToList();
 
         ItemDic = new Dictionary<Type, List<ItemBase>>();
         foreach (var item in ItemList)

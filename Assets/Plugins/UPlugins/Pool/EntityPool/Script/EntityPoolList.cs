@@ -216,6 +216,8 @@ namespace Aya.Pool
         public void DeSpawn(GameObject ins, bool destroy = false)
         {
             if (!_spawnList.Contains(ins)) return;
+            if (_deSpawnList.Contains(ins)) return;
+            _spawnList.Remove(ins);
             if (destroy)
             {
                 Object.Destroy(ins);

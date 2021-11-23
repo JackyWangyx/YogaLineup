@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Aya.Extension;
 using Aya.Util;
 using UnityEngine;
 
@@ -28,37 +29,40 @@ public class LevelManager : GameEntity<LevelManager>
         GamePool.DeSpawnAll();
         EffectPool.DeSpawnAll();
 
-        Level levelPrefab = null;
-        var index = Save.LevelIndex.Value;
+        this.ExecuteEndOfFrame(() => {
+            Level levelPrefab = null;
+            var index = Save.LevelIndex.Value;
 
-        if (Level != null)
-        {
-            Level = null;
-        }
+            if (Level != null)
+            {
+                GamePool.DeSpawn(Level);
+                Level = null;
+            }
 
-        if (index >= StartRandIndex && StartRandIndex > 0)
-        {
-            index = Save.RandLevelIndex.Value;
-            levelPrefab = RandList[index];
-        }
+            if (index >= StartRandIndex && StartRandIndex > 0)
+            {
+                index = Save.RandLevelIndex.Value;
+                levelPrefab = RandList[index];
+            }
 
-        if (TestLevelIndex > 0)
-        {
-            index = TestLevelIndex;
-            Level = null;
-        }
+            if (TestLevelIndex > 0)
+            {
+                index = TestLevelIndex;
+                Level = null;
+            }
 
-        if (levelPrefab == null)
-        {
-            levelPrefab = Resources.Load<Level>("Level/Level_" + index.ToString("D2"));
-        }
+            if (levelPrefab == null)
+            {
+                levelPrefab = Resources.Load<Level>("Level/Level_" + index.ToString("D2"));
+            }
 
-        Level = GamePool.Spawn(levelPrefab);
-        Level.Trans.SetParent(null);
-        Level.Init();
-        InitEnvironment();
+            Level = GamePool.Spawn(levelPrefab);
+            Level.Trans.SetParent(null);
+            Level.Init();
+            InitEnvironment();
 
-        Game.Enter<GameReady>();
+            Game.Enter<GameReady>();
+        });
     }
 
     public void InitEnvironment()

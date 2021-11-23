@@ -141,12 +141,15 @@ public class Player : GameEntity
     {
         State.EnableRun = true;
         State.EnableInput = true;
+        Play("Run");
     }
 
     public void DisableMove()
     {
         State.EnableRun = false;
         State.EnableInput = false;
+        _isMouseDown = false;
+        Play("Idle");
     }
 
     private bool _isMouseDown;
@@ -184,7 +187,7 @@ public class Player : GameEntity
         var turnX = RenderTrans.localPosition.x;
         if (canInput)
         {
-            if (Input.GetMouseButtonDown(0) || (!State.EnableInput && Input.GetMouseButton(0)))
+            if (Input.GetMouseButtonDown(0) || (!_isMouseDown && Input.GetMouseButton(0)))
             {
                 _isMouseDown = true;
                 _startMousePos = Input.mousePosition;

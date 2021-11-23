@@ -21,12 +21,6 @@ namespace Aya.Extension
 
         #region Set
 
-        /// <summary>
-        /// 设置位置X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="x">x</param>
-        /// <returns>transform</returns>
         public static Transform SetPositionX(this Transform transform, float x)
         {
             var position = transform.position;
@@ -35,12 +29,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置位置Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="y">y</param>
-        ///  <returns>transform</returns>
         public static Transform SetPositionY(this Transform transform, float y)
         {
             var position = transform.position;
@@ -49,15 +37,36 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置位置Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="z">z</param>
-        ///  <returns>transform</returns>
         public static Transform SetPositionZ(this Transform transform, float z)
         {
             var position = transform.position;
+            position.z = z;
+            transform.position = position;
+            return transform;
+        }
+
+        public static Transform SetPositionXY(this Transform transform, float x, float y)
+        {
+            var position = transform.position;
+            position.x = x;
+            position.y = y;
+            transform.position = position;
+            return transform;
+        }
+
+        public static Transform SetPositionXZ(this Transform transform, float x, float z)
+        {
+            var position = transform.position;
+            position.x = x;
+            position.z = z;
+            transform.position = position;
+            return transform;
+        }
+
+        public static Transform SetPositionYZ(this Transform transform, float y, float z)
+        {
+            var position = transform.position;
+            position.y = y;
             position.z = z;
             transform.position = position;
             return transform;
@@ -67,34 +76,37 @@ namespace Aya.Extension
 
         #region Get
 
-        /// <summary>
-        /// 获取位置X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>x</returns>
         public static float GetPositionX(this Transform transform)
         {
             return transform.position.x;
         }
 
-        /// <summary>
-        /// 获取位置Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>y</returns>
         public static float GetPositionY(this Transform transform)
         {
             return transform.position.y;
         }
 
-        /// <summary>
-        /// 获取位置Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>z</returns>
         public static float GetPositionZ(this Transform transform)
         {
             return transform.position.z;
+        }
+
+        public static Vector2 GetPositionXY(this Transform transform)
+        {
+            var position = transform.position;
+            return new Vector2(position.x, position.y);
+        }
+
+        public static Vector2 GetPositionXZ(this Transform transform)
+        {
+            var position = transform.position;
+            return new Vector2(position.x, position.z);
+        }
+
+        public static Vector2 GetPositionYZ(this Transform transform)
+        {
+            var position = transform.position;
+            return new Vector2(position.y, position.z);
         }
 
         #endregion
@@ -105,41 +117,21 @@ namespace Aya.Extension
 
         #region Get
 
-        /// <summary>
-        /// 获取旋转四元数X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>x</returns>
         public static float GetRotationX(this Transform transform)
         {
             return transform.rotation.x;
         }
 
-        /// <summary>
-        /// 获取旋转四元数Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>y</returns>
         public static float GetRotationY(this Transform transform)
         {
             return transform.rotation.y;
         }
 
-        /// <summary>
-        /// 获取旋转四元数Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>z</returns>
         public static float GetRotationZ(this Transform transform)
         {
             return transform.rotation.z;
         }
 
-        /// <summary>
-        /// 获取旋转四元数W
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>w</returns>
         public static float GetRotationW(this Transform transform)
         {
             return transform.rotation.w;
@@ -149,12 +141,6 @@ namespace Aya.Extension
 
         #region Set
 
-        /// <summary>
-        /// 设置旋转四元数X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="x">x</param>
-        ///  <returns>transform</returns>
         public static Transform SetRotationX(this Transform transform, float x)
         {
             var rotation = transform.rotation;
@@ -163,12 +149,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置旋转四元数Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="y">y</param>
-        ///  <returns>transform</returns>
         public static Transform SetRotationY(this Transform transform, float y)
         {
             var rotation = transform.rotation;
@@ -177,12 +157,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置旋转四元数Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="z">z</param>
-        ///  <returns>transform</returns>
         public static Transform SetRotationZ(this Transform transform, float z)
         {
             var rotation = transform.rotation;
@@ -191,12 +165,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置旋转四元数w
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="w">w</param>
-        ///  <returns>transform</returns>
         public static Transform SetRotationW(this Transform transform, float w)
         {
             var rotation = transform.rotation;
@@ -213,12 +181,6 @@ namespace Aya.Extension
 
         #region Set
 
-        /// <summary>
-        /// 设置旋转角度X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="x">x</param>
-        ///  <returns>transform</returns>
         public static Transform SetEulerAnglesX(this Transform transform, float x)
         {
             var eulerAngles = transform.eulerAngles;
@@ -227,12 +189,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置旋转角度Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="y">y</param>
-        ///  <returns>transform</returns>
         public static Transform SetEulerAnglesY(this Transform transform, float y)
         {
             var eulerAngles = transform.eulerAngles;
@@ -241,15 +197,36 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置旋转角度Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="z">z</param>
-        ///  <returns>transform</returns>
         public static Transform SetEulerAnglesZ(this Transform transform, float z)
         {
             var eulerAngles = transform.eulerAngles;
+            eulerAngles.z = z;
+            transform.eulerAngles = eulerAngles;
+            return transform;
+        }
+
+        public static Transform SetEulerAnglesXY(this Transform transform, float x, float y)
+        {
+            var eulerAngles = transform.eulerAngles;
+            eulerAngles.x = x;
+            eulerAngles.y = y;
+            transform.eulerAngles = eulerAngles;
+            return transform;
+        }
+
+        public static Transform SetEulerAnglesXZ(this Transform transform, float x, float z)
+        {
+            var eulerAngles = transform.eulerAngles;
+            eulerAngles.x = x;
+            eulerAngles.z = z;
+            transform.eulerAngles = eulerAngles;
+            return transform;
+        }
+
+        public static Transform SetEulerAnglesYZ(this Transform transform, float y, float z)
+        {
+            var eulerAngles = transform.eulerAngles;
+            eulerAngles.y = y;
             eulerAngles.z = z;
             transform.eulerAngles = eulerAngles;
             return transform;
@@ -259,34 +236,37 @@ namespace Aya.Extension
 
         #region Get
 
-        /// <summary>
-        /// 获取旋转角度X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>x</returns>
         public static float GetEulerAnglesX(this Transform transform)
         {
             return transform.eulerAngles.x;
         }
 
-        /// <summary>
-        /// 获取旋转角度Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>y</returns>
         public static float GetEulerAnglesY(this Transform transform)
         {
             return transform.eulerAngles.y;
         }
 
-        /// <summary>
-        /// 获取旋转角度Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>z</returns>
         public static float GetEulerAnglesZ(this Transform transform)
         {
             return transform.eulerAngles.z;
+        }
+
+        public static Vector2 GetEulerAnglesXY(this Transform transform)
+        {
+            var eulerAngles = transform.eulerAngles;
+            return new Vector2(eulerAngles.x, eulerAngles.y);
+        }
+
+        public static Vector2 GetEulerAnglesXZ(this Transform transform)
+        {
+            var eulerAngles = transform.eulerAngles;
+            return new Vector2(eulerAngles.x, eulerAngles.z);
+        }
+
+        public static Vector2 GetEulerAnglesYZ(this Transform transform)
+        {
+            var eulerAngles = transform.eulerAngles;
+            return new Vector2(eulerAngles.y, eulerAngles.z);
         }
 
         #endregion
@@ -297,12 +277,6 @@ namespace Aya.Extension
 
         #region Set
 
-        /// <summary>
-        /// 设置位置X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="x">x</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalPositionX(this Transform transform, float x)
         {
             var localPosition = transform.localPosition;
@@ -311,12 +285,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置位置Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="y">y</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalPositionY(this Transform transform, float y)
         {
             var localPosition = transform.localPosition;
@@ -325,15 +293,36 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置位置Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="z">z</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalPositionZ(this Transform transform, float z)
         {
             var localPosition = transform.localPosition;
+            localPosition.z = z;
+            transform.localPosition = localPosition;
+            return transform;
+        }
+
+        public static Transform SetLocalPositionXY(this Transform transform, float x, float y)
+        {
+            var localPosition = transform.localPosition;
+            localPosition.x = x;
+            localPosition.y = y;
+            transform.localPosition = localPosition;
+            return transform;
+        }
+
+        public static Transform SetLocalPositionXZ(this Transform transform, float x, float z)
+        {
+            var localPosition = transform.localPosition;
+            localPosition.x = x;
+            localPosition.z = z;
+            transform.localPosition = localPosition;
+            return transform;
+        }
+
+        public static Transform SetLocalPositionYZ(this Transform transform, float y, float z)
+        {
+            var localPosition = transform.localPosition;
+            localPosition.y = y;
             localPosition.z = z;
             transform.localPosition = localPosition;
             return transform;
@@ -343,34 +332,37 @@ namespace Aya.Extension
 
         #region Get
 
-        /// <summary>
-        /// 获取位置X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>x</returns>
         public static float GetLocalPositionX(this Transform transform)
         {
             return transform.localPosition.x;
         }
 
-        /// <summary>
-        /// 获取位置Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>y</returns>
         public static float GetLocalPositionY(this Transform transform)
         {
             return transform.localPosition.y;
         }
 
-        /// <summary>
-        /// 获取位置Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>z</returns>
         public static float GetLocalPositionZ(this Transform transform)
         {
             return transform.localPosition.z;
+        }
+
+        public static Vector2 GetLocalPositionXY(this Transform transform)
+        {
+            var localPosition = transform.localPosition;
+            return new Vector2(localPosition.x, localPosition.y);
+        }
+
+        public static Vector2 GetLocalPositionXZ(this Transform transform)
+        {
+            var localPosition = transform.localPosition;
+            return new Vector2(localPosition.x, localPosition.z);
+        }
+
+        public static Vector2 GetLocalPositionYZ(this Transform transform)
+        {
+            var localPosition = transform.localPosition;
+            return new Vector2(localPosition.y, localPosition.z);
         }
 
         #endregion
@@ -381,12 +373,6 @@ namespace Aya.Extension
 
         #region Set
 
-        /// <summary>
-        /// 设置旋转四元数X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="x">x</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalRotationX(this Transform transform, float x)
         {
             var localRotation = transform.localRotation;
@@ -395,12 +381,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置旋转四元数Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="y">y</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalRotationY(this Transform transform, float y)
         {
             var localRotation = transform.localRotation;
@@ -409,12 +389,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置旋转四元数Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="z">z</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalRotationZ(this Transform transform, float z)
         {
             var localRotation = transform.localRotation;
@@ -423,12 +397,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置旋转四元数w
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="w">w</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalRotationW(this Transform transform, float w)
         {
             var localRotation = transform.localRotation;
@@ -441,41 +409,21 @@ namespace Aya.Extension
 
         #region Get
 
-        /// <summary>
-        /// 获取旋转四元数X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>x</returns>
         public static float GetLocalRotationX(this Transform transform)
         {
             return transform.localRotation.x;
         }
 
-        /// <summary>
-        /// 获取旋转四元数Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>y</returns>
         public static float GetLocalRotationY(this Transform transform)
         {
             return transform.localRotation.y;
         }
 
-        /// <summary>
-        /// 获取旋转四元数Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>z</returns>
         public static float GetLocalRotationZ(this Transform transform)
         {
             return transform.localRotation.z;
         }
 
-        /// <summary>
-        /// 获取旋转四元数W
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>w</returns>
         public static float GetLocalRotationW(this Transform transform)
         {
             return transform.localRotation.w;
@@ -489,12 +437,6 @@ namespace Aya.Extension
 
         #region Set
 
-        /// <summary>
-        /// 设置旋转X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="x">x</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalEulerAnglesX(this Transform transform, float x)
         {
             var localEulerAngles = transform.localEulerAngles;
@@ -503,12 +445,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置旋转Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="y">y</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalEulerAnglesY(this Transform transform, float y)
         {
             var localEulerAngles = transform.localEulerAngles;
@@ -517,15 +453,36 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置旋转Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="z">z</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalEulerAnglesZ(this Transform transform, float z)
         {
             var localEulerAngles = transform.localEulerAngles;
+            localEulerAngles.z = z;
+            transform.localEulerAngles = localEulerAngles;
+            return transform;
+        }
+
+        public static Transform SetLocalEulerAnglesXY(this Transform transform, float x, float y)
+        {
+            var localEulerAngles = transform.localEulerAngles;
+            localEulerAngles.x = x;
+            localEulerAngles.y = y;
+            transform.localEulerAngles = localEulerAngles;
+            return transform;
+        }
+
+        public static Transform SetLocalEulerAnglesXZ(this Transform transform, float x, float z)
+        {
+            var localEulerAngles = transform.localEulerAngles;
+            localEulerAngles.x = x;
+            localEulerAngles.z = z;
+            transform.localEulerAngles = localEulerAngles;
+            return transform;
+        }
+
+        public static Transform SetLocalEulerAnglesYZ(this Transform transform, float y, float z)
+        {
+            var localEulerAngles = transform.localEulerAngles;
+            localEulerAngles.y = y;
             localEulerAngles.z = z;
             transform.localEulerAngles = localEulerAngles;
             return transform;
@@ -535,34 +492,37 @@ namespace Aya.Extension
 
         #region Get
 
-        /// <summary>
-        /// 获取旋转角度X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>x</returns>
         public static float GetLocalEulerAnglesX(this Transform transform)
         {
             return transform.localEulerAngles.x;
         }
 
-        /// <summary>
-        /// 获取旋转角度Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>y</returns>
         public static float GetLocalEulerAnglesY(this Transform transform)
         {
             return transform.localEulerAngles.y;
         }
 
-        /// <summary>
-        /// 获取旋转角度Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>z</returns>
         public static float GetLocalEulerAnglesZ(this Transform transform)
         {
             return transform.localEulerAngles.z;
+        }
+
+        public static Vector2 GetLocalEulerAnglesXY(this Transform transform)
+        {
+            var localEulerAngles = transform.localEulerAngles;
+            return new Vector2(localEulerAngles.x, localEulerAngles.y);
+        }
+
+        public static Vector2 GetLocalEulerAnglesXZ(this Transform transform)
+        {
+            var localEulerAngles = transform.localEulerAngles;
+            return new Vector2(localEulerAngles.x, localEulerAngles.z);
+        }
+
+        public static Vector2 GetLocalEulerAnglesYZ(this Transform transform)
+        {
+            var localEulerAngles = transform.localEulerAngles;
+            return new Vector2(localEulerAngles.y, localEulerAngles.z);
         }
 
         #endregion
@@ -573,12 +533,6 @@ namespace Aya.Extension
 
         #region Set
 
-        /// <summary>
-        /// 设置缩放X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="x">x</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalScaleX(this Transform transform, float x)
         {
             var localScale = transform.localScale;
@@ -587,12 +541,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置缩放Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="y">y</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalScaleY(this Transform transform, float y)
         {
             var localScale = transform.localScale;
@@ -601,12 +549,6 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置缩放Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="z">z</param>
-        ///  <returns>transform</returns>
         public static Transform SetLocalScaleZ(this Transform transform, float z)
         {
             var localScale = transform.localScale;
@@ -615,24 +557,39 @@ namespace Aya.Extension
             return transform;
         }
 
-        /// <summary>
-        /// 设置缩放
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="uniformScale">缩放</param>
-        /// <returns>transform</returns>
+        public static Transform SetLocalScaleXY(this Transform transform, float x, float y)
+        {
+            var localScale = transform.localScale;
+            localScale.x = x;
+            localScale.y = y;
+            transform.localScale = localScale;
+            return transform;
+        }
+
+        public static Transform SetLocalScaleXZ(this Transform transform, float x, float z)
+        {
+            var localScale = transform.localScale;
+            localScale.x = x;
+            localScale.z = z;
+            transform.localScale = localScale;
+            return transform;
+        }
+
+        public static Transform SetLocalScaleYZ(this Transform transform, float y, float z)
+        {
+            var localScale = transform.localScale;
+            localScale.y = y;
+            localScale.z = z;
+            transform.localScale = localScale;
+            return transform;
+        }
+
         public static Transform SetLocalScale(this Transform transform, float uniformScale)
         {
             transform.localScale = new Vector3(uniformScale, uniformScale, uniformScale);
             return transform;
         }
 
-        /// <summary>
-        /// 设置缩放
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <param name="uniformScale">缩放</param>
-        /// <returns>transform</returns>
         public static Transform SetLocalScale(this Transform transform, Vector3 uniformScale)
         {
             transform.localScale = uniformScale;
@@ -643,34 +600,37 @@ namespace Aya.Extension
 
         #region Get
 
-        /// <summary>
-        /// 获取缩放X
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>x</returns>
         public static float GetLocalScaleX(this Transform transform)
         {
             return transform.localScale.x;
         }
 
-        /// <summary>
-        /// 获取缩放Y
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>y</returns>
         public static float GetLocalScaleY(this Transform transform)
         {
             return transform.localScale.y;
         }
 
-        /// <summary>
-        /// 获取缩放Z
-        /// </summary>
-        /// <param name="transform">变换</param>
-        /// <returns>z</returns>
         public static float GetLocalScaleZ(this Transform transform)
         {
             return transform.localScale.z;
+        }
+
+        public static Vector2 GetLocalScaleXY(this Transform transform)
+        {
+            var localScale = transform.localScale;
+            return new Vector2(localScale.x, localScale.y);
+        }
+
+        public static Vector2 GetLocalScaleXZ(this Transform transform)
+        {
+            var localScale = transform.localScale;
+            return new Vector2(localScale.x, localScale.z);
+        }
+
+        public static Vector2 GetLocalScaleYZ(this Transform transform)
+        {
+            var localScale = transform.localScale;
+            return new Vector2(localScale.y, localScale.z);
         }
 
         #endregion
@@ -807,7 +767,7 @@ namespace Aya.Extension
         /// <returns>transform</returns>
         public static Transform DestroyAllChild(this Transform transform)
         {
-            for (var i = transform.childCount - 1; i >= 0 ; i--)
+            for (var i = transform.childCount - 1; i >= 0; i--)
             {
                 var go = transform.GetChild(i).gameObject;
 #if UNITY_EDITOR

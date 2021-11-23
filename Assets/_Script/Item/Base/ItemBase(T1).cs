@@ -94,7 +94,7 @@ public abstract class ItemBase<TTarget> : ItemBase
         }
         else if (EffectMode == ItemEffectMode.Count && EffectCount > 0)
         {
-            if (EffectCounter > EffectCount)
+            if (EffectCounter >= EffectCount)
             {
                 Active = false;
             }
@@ -191,11 +191,13 @@ public abstract class ItemBase<TTarget> : ItemBase
         if (DeSpawnMode == ItemDeSpawnMode.Effect)
         {
             DeSpawn();
+            return;
         }
 
-        if (!Active)
+        if (!Active && DeSpawnMode != ItemDeSpawnMode.None)
         {
             DeSpawn();
+            return;
         }
     }
 

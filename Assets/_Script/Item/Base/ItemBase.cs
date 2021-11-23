@@ -25,7 +25,7 @@ public enum ItemEffectMode
 public abstract class ItemBase : GameEntity
 {
     [FoldoutGroup("Param")] public LayerMask LayerMask;
-    [FoldoutGroup("Param"), EnumToggleButtons] public ItemDeSpawnMode DeSpawnMode = ItemDeSpawnMode.None;
+    [FoldoutGroup("Param"), EnumToggleButtons] public ItemDeSpawnMode DeSpawnMode = ItemDeSpawnMode.Effect;
     [FoldoutGroup("Param")] public bool DeActiveRender;
     [FoldoutGroup("Param"), EnumToggleButtons] public ItemEffectMode EffectMode = ItemEffectMode.Once;
     public bool IsEffectCount => EffectMode == ItemEffectMode.Count;
@@ -110,6 +110,9 @@ public abstract class ItemBase : GameEntity
         {
             foreach (var ins in RenderInstanceList)
             {
+                // 嵌套道具循环回收导致生成出错，需要过滤
+                if (!ins.activeSelf) continue;
+                if (ins.activeSelf && ins.transform.parent != RendererTrans) continue;
                 GamePool.DeSpawn(ins);
             }
         }
@@ -156,6 +159,7 @@ public abstract class ItemBase : GameEntity
 
     public virtual void DeSpawn()
     {
+        Active = false;
         CurrentLevel.ItemList.Remove(this);
         CurrentLevel.ItemDic[GetType()].Remove(this);
 

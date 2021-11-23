@@ -53,7 +53,11 @@ public class GameManager : GameEntity<GameManager>
     public void Enter(GamePhaseHandler nextPhase)
     {
         if (CurrentPhase != null) CurrentPhase.Exit();
-        if (CurrentPhase != null && CurrentPhase.Type == nextPhase.Type) return;
+        if (CurrentPhase != null && CurrentPhase.Type == nextPhase.Type)
+        {
+            CurrentPhase.Exit();
+        }
+
         Phase = nextPhase.Type;
         nextPhase.Enter();
         CurrentPhase = nextPhase;
@@ -63,11 +67,5 @@ public class GameManager : GameEntity<GameManager>
     {
         if (CurrentPhase == null) return;
         CurrentPhase.UpdateImpl();
-    }
-
-    [Button("Clear Save Data"), GUIColor(1f, 0.5f, 0.5f)]
-    public void ClearSaveData()
-    {
-        PlayerPrefs.DeleteAll();
     }
 }
