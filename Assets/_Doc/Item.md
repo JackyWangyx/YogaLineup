@@ -8,6 +8,7 @@
 
 ### De Spawn Mode
 道具回收/关闭模式
+
 |Type   |Description|
 |-|-|
 |None   |始终不回收|

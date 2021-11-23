@@ -42,6 +42,11 @@ public class GameManager : GameEntity<GameManager>
         State.Init();
     }
 
+    public T Get<T>() where T : GamePhaseHandler
+    {
+        return PhaseTypeDic[typeof(T)] as T;
+    }
+
     public void Enter<T>() where T : GamePhaseHandler
     {
         Enter(typeof(T));

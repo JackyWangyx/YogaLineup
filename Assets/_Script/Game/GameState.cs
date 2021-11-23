@@ -6,6 +6,6 @@ public class GameState : GameEntity
 {
     public void Init()
     {
-
+        //
     }
 }
