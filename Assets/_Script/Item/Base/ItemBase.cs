@@ -54,7 +54,6 @@ public abstract class ItemBase : GameEntity
 
     public List<Collider> ColliderList { get; set; }
     public List<ColliderListener> ColliderListeners { get; set; }
-    public Animator Animator { get; set; }
     public virtual Type TargetType { get; set; }
 
     public bool Active { get; set; }

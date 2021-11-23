@@ -20,11 +20,7 @@ public class Player : GameEntity
 
     public PlayerData Data { get; set; }
     public BuffManager Buff { get; set; } = new BuffManager();
-    public Animator Animator { get; set; }
-    public Rigidbody Rigidbody { get; set; }
     public GameObject RenderInstance { get; set; }
-
-    public string CurrentClip { get; set; }
 
     protected override void Awake()
     {
@@ -33,35 +29,6 @@ public class Player : GameEntity
 
         CacheComponent();
     }
-
-    #region Animator
-    
-    private string _lastAnimationClipName;
-    public void Play(string animationClipName)
-    {
-        CurrentClip = animationClipName;
-        if (Animator == null) Animator = GetComponentInChildren<Animator>(true);
-        if (Animator != null)
-        {
-            if (Animator.CheckParameterExist(animationClipName, AnimatorControllerParameterType.Bool))
-            {
-                if (!string.IsNullOrEmpty(_lastAnimationClipName))
-                {
-                    Animator.SetBool(_lastAnimationClipName, false);
-                }
-
-                Animator.SetBool(animationClipName, true);
-            }
-            else
-            {
-                Animator.Play(animationClipName);
-            }
-
-            _lastAnimationClipName = animationClipName;
-        }
-    } 
-
-    #endregion
 
     public void Init()
     {
@@ -75,12 +42,10 @@ public class Player : GameEntity
         Trans.forward = Vector3.forward;
     }
 
-    public void CacheComponent()
+    public override void CacheComponent()
     {
+        base.CacheComponent();
         PathFollower = gameObject.GetOrAddComponent<PathFollower>();
-        Animator = GetComponentInChildren<Animator>();
-        Rigidbody = GetComponent<Rigidbody>();
-        Renderer = GetComponentInChildren<Renderer>();
     }
 
     public void ChangePoint(int diff)

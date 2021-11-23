@@ -18,13 +18,14 @@ public abstract class GameEntity : MonoListener
     public RectTransform Rect { get; set; }
     public Transform RendererTrans { get; set; }
     public Renderer Renderer { get; set; }
+    public Rigidbody Rigidbody { get; set; }
 
     public GameManager Game => GameManager.Ins;
     public LevelManager Level => LevelManager.Ins;
     public LayerSetting Layer => LayerSetting.Ins;
     public CameraManager Camera => CameraManager.Ins;
     public UIController UI => UIController.Ins;
-    public ConfigManager Config => ConfigManager.Ins;
+    public UpgradeManager Upgrade => UpgradeManager.Ins;
     public SaveManager Save => SaveManager.Ins;
 
     public Level CurrentLevel => Level.Level;
@@ -43,17 +44,58 @@ public abstract class GameEntity : MonoListener
         base.Awake();
         SelfScale = 1f;
         Trans = transform;
-        Rect = GetComponent<RectTransform>();
-        Renderer = transform.GetComponentInChildren<Renderer>();
-        RendererTrans = transform.FindInAllChildFuzzy(nameof(Renderer));
+        CacheComponent();
+
         if (RendererTrans == null)
         {
             RendererTrans = transform;
         }
     }
 
+    public virtual void CacheComponent()
+    {
+        Rect = GetComponent<RectTransform>();
+        Renderer = transform.GetComponentInChildren<Renderer>();
+        Animator = GetComponentInChildren<Animator>();
+        Rigidbody = GetComponent<Rigidbody>();
+        RendererTrans = transform.FindInAllChildFuzzy(nameof(Renderer));
+    }
+
+    #region Animator
+
+    public Animator Animator { get; set; }
+    public string CurrentClip { get; set; }
+
+    private string _lastAnimationClipName;
+
+    public void Play(string animationClipName)
+    {
+        CurrentClip = animationClipName;
+        if (Animator == null) Animator = GetComponentInChildren<Animator>(true);
+        if (Animator != null)
+        {
+            if (Animator.CheckParameterExist(animationClipName, AnimatorControllerParameterType.Bool))
+            {
+                if (!string.IsNullOrEmpty(_lastAnimationClipName))
+                {
+                    Animator.SetBool(_lastAnimationClipName, false);
+                }
+
+                Animator.SetBool(animationClipName, true);
+            }
+            else
+            {
+                Animator.Play(animationClipName);
+            }
+
+            _lastAnimationClipName = animationClipName;
+        }
+    }
+
+    #endregion
+
     #region Fx
-    
+
     public void SpawnFx(GameObject fxPrefab)
     {
         SpawnFx(fxPrefab, transform);
