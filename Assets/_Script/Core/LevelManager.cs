@@ -61,6 +61,7 @@ public class LevelManager : GameEntity<LevelManager>
             Level.Init();
             InitEnvironment();
 
+            Game.Init();
             Game.Enter<GameReady>();
         });
     }

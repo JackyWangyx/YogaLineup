@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 4874666060787816208}
   - component: {fileID: 3260612145767445436}
   - component: {fileID: 3260612145861153374}
+  - component: {fileID: 191396714930784931}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -273,6 +274,7 @@ MonoBehaviour:
   TestLevelIndex: 1
   StartRandIndex: -1
   RandList: []
+  RoadTag: Road
 --- !u!114 &3260612145767445436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +310,18 @@ MonoBehaviour:
   Road:
     serializedVersion: 2
     m_Bits: 8192
+--- !u!114 &191396714930784931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3260612145767445378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c2eef0382706747a14e511a3970fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5299686682459060866
 GameObject:
   m_ObjectHideFlags: 0

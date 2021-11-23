@@ -17,11 +17,15 @@ public class GameManager : GameEntity<GameManager>
     public Dictionary<Type, GamePhaseHandler> PhaseTypeDic { get; protected set; }
     public List<GamePhaseHandler> PhaseList { get; protected set; }
 
+    public GameState State { get; set; }
+
     protected override void Awake()
     {
         base.Awake();
         Phase = PhaseType.None;
         CurrentPhase = null;
+
+        State = GetComponent<GameState>();
 
         PhaseList = PhaseHandler.GetComponents<GamePhaseHandler>().ToList();
         PhaseDic = PhaseList.ToDictionary(p => p.Type);
@@ -31,6 +35,11 @@ public class GameManager : GameEntity<GameManager>
     public virtual void Start()
     {
         Level.LevelStart();
+    }
+
+    public void Init()
+    {
+        State.Init();
     }
 
     public void Enter<T>() where T : GamePhaseHandler
