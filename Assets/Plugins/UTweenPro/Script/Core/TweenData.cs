@@ -193,7 +193,10 @@ namespace Aya.TweenPro
 
         public TweenData Stop()
         {
-            State = PlayState.Stopped;
+            if (State != PlayState.Completed)
+            {
+                State = PlayState.Stopped;
+            }
 
             RuntimeNormalizedProgress = 0f;
 #if UNITY_EDITOR
@@ -558,7 +561,6 @@ namespace Aya.TweenPro
                 return;
             }
 
-            Reset();
             foreach (var tweener in TweenerList)
             {
                 Pool.DeSpawn(tweener);

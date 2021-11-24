@@ -7,14 +7,6 @@ using UnityEngine;
 
 public abstract class GameEntity : MonoListener
 {
-    public Transform Trans { get; set; }
-
-    public Transform Parent
-    {
-        get => Trans.parent;
-        set => Trans.parent = value;
-    }
-
     public RectTransform Rect { get; set; }
     public Transform RendererTrans { get; set; }
     public Renderer Renderer { get; set; }
@@ -23,7 +15,6 @@ public abstract class GameEntity : MonoListener
     public GameManager Game => GameManager.Ins;
     public LevelManager Level => LevelManager.Ins;
     public LayerSetting Layer => LayerSetting.Ins;
-    public CameraManager Camera => CameraManager.Ins;
     public UIController UI => UIController.Ins;
     public UpgradeManager Upgrade => UpgradeManager.Ins;
     public SaveManager Save => SaveManager.Ins;
@@ -60,6 +51,57 @@ public abstract class GameEntity : MonoListener
         Rigidbody = GetComponent<Rigidbody>();
         RendererTrans = transform.FindInAllChildFuzzy(nameof(Renderer));
     }
+
+    #region Transform
+
+    public Transform Trans { get; set; }
+
+    public Transform Parent
+    {
+        get => Trans.parent;
+        set => Trans.parent = value;
+    }
+
+    public Vector3 Position
+    {
+        get => Trans.position;
+        set => Trans.position = value;
+    }
+
+    public Vector3 LocalPosition
+    {
+        get => Trans.localPosition;
+        set => Trans.localPosition = value;
+    }
+
+    public Vector3 EulerAngles
+    {
+        get => Trans.eulerAngles;
+        set => Trans.eulerAngles = value;
+    }
+
+    public Vector3 LocalEulerAngles
+    {
+        get => Trans.localEulerAngles;
+        set => Trans.localEulerAngles = value;
+    }
+
+    public Vector3 LocalScale
+    {
+        get => Trans.localScale;
+        set => Trans.localScale = value;
+    }
+
+
+    #endregion
+
+    #region Camera
+
+    public CameraManager Camera => CameraManager.Ins;
+    public Camera MainCamera => Camera.Camera;
+    public Camera UICamera => UI.Camera;
+
+    #endregion
 
     #region Animator
 

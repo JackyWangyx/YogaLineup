@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class UIController : GameEntity<UIController>
 {
+    public new Camera Camera;
     public Dictionary<Type, UIBase> UIDic= new Dictionary<Type, UIBase>();
     public UIBase Current { get; set; }
 
