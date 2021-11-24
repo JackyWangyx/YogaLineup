@@ -22,6 +22,12 @@ public class UILevelProgress : GameEntity
         _indicatorRect = ProgressIndicator.GetComponent<RectTransform>();
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        Progress.fillAmount = 0f;
+    }
+
     public void Update()
     {
         TextCurrent.text = Save.LevelIndex.Value.ToString();
