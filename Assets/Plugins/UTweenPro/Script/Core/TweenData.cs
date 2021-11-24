@@ -27,7 +27,7 @@ namespace Aya.TweenPro
         public bool AutoKill;
         public bool SpeedBased;
 
-        [SerializeReference] 
+        [SerializeReference]
         public List<Tweener> TweenerList = new List<Tweener>();
 
         public OnPlayEvent OnPlay = new OnPlayEvent();
@@ -57,11 +57,11 @@ namespace Aya.TweenPro
         public bool StartForward { get; internal set; }
         public int LoopCounter { get; internal set; }
         public int FrameCounter { get; internal set; }
-        public bool IsDelaying => State == PlayState.Delaying;
+        public bool IsDelaying { get; internal set; }
         public bool IsPlaying => State == PlayState.Playing;
-        public bool IsInterval => State == PlayState.Interval;
+        public bool IsInterval { get; internal set; }
         public bool IsCompleted => State == PlayState.Completed;
-        public bool IsInProgress => State == PlayState.Playing || State == PlayState.Delaying || State == PlayState.Interval || State == PlayState.Paused;
+        public bool IsInProgress => State == PlayState.Playing || State == PlayState.Paused;
         public float CurrentInterval { get; internal set; }
         public bool SingleMode => TweenerList.Count == 1;
         public float DelayTimer { get; internal set; }
@@ -253,7 +253,7 @@ namespace Aya.TweenPro
 
         #endregion
 
-        #region Initialize / Update / Samole
+        #region Initialize / Update / Sample
 
         internal void Initialize()
         {
@@ -277,11 +277,12 @@ namespace Aya.TweenPro
                 tweener.PreSample();
             }
 
-            if (Delay > 0)
+            if (Delay > 0f)
             {
-                State = PlayState.Delaying;
+                IsDelaying = true;
             }
 
+            State = PlayState.Playing;
             IsInitialized = true;
         }
 
@@ -311,17 +312,25 @@ namespace Aya.TweenPro
                 }
             }
 
-            if (State == PlayState.Delaying)
+            if (IsDelaying)
             {
                 DelayTimer += deltaTime;
                 PlayTimer = 0f;
                 if (DelayTimer >= Delay)
                 {
-                    State = PlayState.Playing;
+                    IsDelaying = false;
                 }
             }
-
-            if (State == PlayState.Playing)
+            else if (IsInterval)
+            {
+                IntervalTimer += deltaTime;
+                if (IntervalTimer >= CurrentInterval)
+                {
+                    IsInterval = false;
+                    OnLoopStart.Invoke();
+                }
+            }
+            else if (State == PlayState.Playing)
             {
                 if (FrameCounter == 0)
                 {
@@ -332,23 +341,14 @@ namespace Aya.TweenPro
                 FrameCounter++;
             }
 
-            if (State == PlayState.Interval)
-            {
-                IntervalTimer += deltaTime;
-                if (IntervalTimer >= CurrentInterval)
-                {
-                    State = PlayState.Playing;
-                    OnLoopStart.Invoke();
-                }
-            }
-
             if (PlayTimer < RuntimeDuration)
             {
                 RuntimeNormalizedProgress = Forward ? PlayTimer / RuntimeDuration : (RuntimeDuration - PlayTimer) / RuntimeDuration;
                 Sample(RuntimeNormalizedProgress);
+                // TODO.. 3 ms
                 OnUpdate.Invoke();
             }
-            else 
+            else
             {
                 if (PlayMode == PlayMode.Once)
                 {
@@ -373,7 +373,7 @@ namespace Aya.TweenPro
                     {
                         if (Interval > 0)
                         {
-                            State = PlayState.Interval;
+                            IsInterval = true;
                             IntervalTimer = 0f;
                             CurrentInterval = Interval;
                         }
@@ -401,7 +401,7 @@ namespace Aya.TweenPro
                         CurrentInterval = Forward == StartForward ? Interval : Interval2;
                         if (CurrentInterval > 0)
                         {
-                            State = PlayState.Interval;
+                            IsInterval = true;
                             IntervalTimer = 0f;
                         }
                         else
@@ -438,8 +438,10 @@ namespace Aya.TweenPro
             {
                 if (tweener.Data == null) tweener.Data = this;
                 if (!tweener.Active) continue;
+                // TODO.. 1 ms
                 var factor = tweener.GetFactor(normalizedDuration);
                 if (float.IsNaN(factor)) continue;
+                // TODO.. 7 ms
                 tweener.Sample(factor);
             }
 
@@ -469,6 +471,8 @@ namespace Aya.TweenPro
         }
 
         #endregion
+
+        #region Record / Restore
 
         public void RecordObject()
         {
@@ -500,6 +504,10 @@ namespace Aya.TweenPro
             }
         }
 
+        #endregion
+
+        #region Reset / DeSpawn
+
         public void Reset()
         {
             IsInitialized = false;
@@ -525,8 +533,25 @@ namespace Aya.TweenPro
             ResetCallback();
         }
 
+        public virtual void ResetCallback()
+        {
+            OnPlay.Reset();
+            OnLoopStart.Reset();
+            OnLoopEnd.Reset();
+            OnUpdate.Reset();
+            OnPause.Reset();
+            OnResume.Reset();
+            OnStop.Reset();
+            OnComplete.Reset();
+        }
+
         internal void DeSpawn()
         {
+            foreach (var tweener in TweenerList)
+            {
+                tweener.StopSample();
+            }
+
             if (ControlMode == TweenControlMode.Component)
             {
                 if (Application.isPlaying && AutoKill) Object.Destroy(TweenAnimation.gameObject);
@@ -543,17 +568,7 @@ namespace Aya.TweenPro
             Pool.DeSpawn(this);
         }
 
-        public virtual void ResetCallback()
-        {
-            OnPlay.Reset();
-            OnLoopStart.Reset();
-            OnLoopEnd.Reset();
-            OnUpdate.Reset();
-            OnPause.Reset();
-            OnResume.Reset();
-            OnStop.Reset();
-            OnComplete.Reset();
-        }
+        #endregion
 
 #if UNITY_EDITOR
 
@@ -760,9 +775,15 @@ namespace Aya.TweenPro
         }
 
         #region Draw TweenData
-        
+
+        private float _originalDuration;
+        private bool _durationChanged;
+
         public void DrawTweenData()
         {
+            _originalDuration = DurationProperty.floatValue;
+            _durationChanged = false;
+
             using (GUIGroup.Create())
             {
                 // Header
@@ -800,35 +821,25 @@ namespace Aya.TweenPro
 
                     using (GUIHorizontal.Create())
                     {
-                        EditorGUI.BeginChangeCheck();
-                        var durationName = nameof(Duration);
-                        if (SpeedBased) durationName = "Speed";
-                        EditorGUILayout.PropertyField(DurationProperty, new GUIContent(durationName));
-                        if (Duration < 0) DurationProperty.floatValue = 0f;
-
-                        SerializedObject.ApplyModifiedProperties();
-                        EditorGUI.EndChangeCheck();
-
-                        if (GUI.changed)
+                        using (var check = GUICheckChangeArea.Create())
                         {
-                            foreach (var tweener in TweenerList)
+                            var durationName = nameof(Duration);
+                            if (SpeedBased) durationName = "Speed";
+                            EditorGUILayout.PropertyField(DurationProperty, new GUIContent(durationName));
+                            if (DurationProperty.floatValue < 0) DurationProperty.floatValue = 0f;
+
+                            if (check.Changed)
                             {
-                                if (tweener.Delay + tweener.Duration > Duration)
-                                {
-                                    tweener.Delay = Duration - tweener.Duration;
-                                    if (tweener.Delay < 0) tweener.Delay = 0;
-                                    if (tweener.Duration > Duration) tweener.Duration = Duration;
-                                }
+                                _durationChanged = true;
                             }
                         }
 
                         EditorGUILayout.PropertyField(DelayProperty, new GUIContent(nameof(Delay)));
-                        if (Delay < 0) DelayProperty.floatValue = 0;
+                        if (DelayProperty.floatValue < 0) DelayProperty.floatValue = 0;
                     }
 
                     using (GUIHorizontal.Create())
                     {
-                        // PlayModeProperty.intValue = (int)(PlayMode)EditorGUILayout.EnumPopup("Play", PlayMode);
                         EditorGUILayout.PropertyField(PlayModeProperty, new GUIContent("Play"));
                         using (GUIEnableArea.Create(PlayMode != PlayMode.Once && GUI.enabled))
                         {
@@ -909,6 +920,14 @@ namespace Aya.TweenPro
                 {
                     var tweenerProperty = TweenerListProperty.GetArrayElementAtIndex(i);
                     tweener.InitEditor(i, this, tweenerProperty);
+                }
+
+                // Sync tweeners duration and delay
+                if (_durationChanged)
+                {
+                    var durationChangeRate = DurationProperty.floatValue / _originalDuration;
+                    tweener.DelayProperty.floatValue *= durationChangeRate;
+                    tweener.DurationProperty.floatValue *= durationChangeRate;
                 }
 
                 tweener.DrawTweener();
@@ -1037,7 +1056,7 @@ namespace Aya.TweenPro
         }
 
         #region Draw Add Tweener
-        
+
         public virtual void DrawAddTweener()
         {
             using (GUIGroup.Create())
@@ -1129,7 +1148,7 @@ namespace Aya.TweenPro
             });
 
             return menu;
-        } 
+        }
 
         #endregion
     }

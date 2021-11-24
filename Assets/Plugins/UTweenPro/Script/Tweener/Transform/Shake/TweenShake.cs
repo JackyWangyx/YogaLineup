@@ -21,6 +21,24 @@ namespace Aya.TweenPro
 
         public override float Value { get; set; }
 
+        public bool EnablePosition
+        {
+            get => AxisX;
+            set => AxisX = value;
+        }
+
+        public bool EnableRotation
+        {
+            get => AxisY;
+            set => AxisY = value;
+        }
+
+        public bool EnableScale
+        {
+            get => AxisZ;
+            set => AxisZ = value;
+        }
+
         public Vector3 ValuePosition
         {
             get => Space == SpaceMode.World ? Target.position : Target.localPosition;
@@ -67,11 +85,11 @@ namespace Aya.TweenPro
         private Vector3 _startRotation;
         private Vector3 _startScale;
 
-        public override void RecordObject()
+        public override void PreSample()
         {
-            if (AxisX) _startPosition = ValuePosition;
-            if (AxisY) _startRotation = ValueRotation;
-            if (AxisZ) _startScale = ValueScale;
+            if (EnablePosition) _startPosition = ValuePosition;
+            if (EnableRotation) _startRotation = ValueRotation;
+            if (EnableScale) _startScale = ValueScale;
 
             if (ShakeData.Mode == ShakeMode.Random)
             {
@@ -97,11 +115,11 @@ namespace Aya.TweenPro
             }
         }
 
-        public override void RestoreObject()
+        public override void StopSample()
         {
-            if (AxisX) ValuePosition = _startPosition;
-            if (AxisY) ValueRotation = _startRotation;
-            if (AxisZ) ValueScale = _startScale;
+            if (EnablePosition) ValuePosition = _startPosition;
+            if (EnableRotation) ValueRotation = _startRotation;
+            if (EnableScale) ValueScale = _startScale;
         }
 
         public override void Sample(float factor)
@@ -133,9 +151,9 @@ namespace Aya.TweenPro
         {
             base.Reset();
             ShakeData.Reset();
-            AxisX = true;
-            AxisY = false;
-            AxisZ = false;
+            EnablePosition = true;
+            EnableRotation = false;
+            EnableScale = false;
 #if UNITY_EDITOR
             EnableAxis = true;
 #endif
@@ -170,4 +188,231 @@ namespace Aya.TweenPro
     }
 
 #endif
+
+    #region Extension
+
+    public partial class TweenShake : TweenValueFloat<Transform>
+    {
+        public TweenShake SetAxis(bool enablePosition, bool enableRotation, bool enableScale)
+        {
+            EnablePosition = enablePosition;
+            EnableRotation = enableRotation;
+            EnableScale = enableScale;
+            return this;
+        }
+
+        public TweenShake SetShakeData(TweenShakeData shakeData)
+        {
+            ShakeData = shakeData;
+            return this;
+        }
+
+        public TweenShake SetShakeMode(ShakeMode shakeMode)
+        {
+            ShakeData.Mode = shakeMode;
+            return this;
+        }
+
+        public TweenShake SetShakePosition(Vector3 shakePosition)
+        {
+            ShakeData.Position = shakePosition;
+            EnablePosition = true;
+            return this;
+        }
+
+        public TweenShake SetShakePosition(float shakePosition)
+        {
+            ShakeData.Position = Vector3.one * shakePosition;
+            EnablePosition = true;
+            return this;
+        }
+
+        public TweenShake SetShakeRotation(Vector3 shakeRotation)
+        {
+            ShakeData.Rotation = shakeRotation;
+            EnableRotation = true;
+            return this;
+        }
+
+        public TweenShake SetShakeRotation(float shakeRotation)
+        {
+            ShakeData.Rotation = Vector3.one * shakeRotation;
+            EnableRotation = true;
+            return this;
+        }
+
+        public TweenShake SetShakeScale(Vector3 shakeScale)
+        {
+            ShakeData.Scale = shakeScale;
+            EnableScale = true;
+            return this;
+        }
+
+        public TweenShake SetShakeScale(float shakeScale)
+        {
+            ShakeData.Scale = Vector3.one * shakeScale;
+            EnableScale = true;
+            return this;
+        }
+
+        public TweenShake SetShakeCount(int shakeCount)
+        {
+            ShakeData.Count = shakeCount;
+            return this;
+        }
+
+        public TweenShake SetShakeCurve(AnimationCurve shakeCurve)
+        {
+            ShakeData.Curve = shakeCurve;
+            return this;
+        }
+    }
+
+    public static partial class UTween
+    {
+        public static TweenShake Shake(Transform transform, TweenShakeData shakeData, float duration)
+        {
+            var tweener = Play<TweenShake, Transform, float>(transform, 0f, 1f, duration)
+                .SetShakeData(shakeData)
+                .SetAxis(true, true, true);
+            return tweener;
+        }
+
+        public static TweenShake Shake(Transform transform, ShakeMode shakeMode, Vector3 shakePosition, Vector3 shakeRotation, Vector3 shakeScale, int shakeCount, float duration)
+        {
+            var tweener = Play<TweenShake, Transform, float>(transform, 0f, 1f, duration)
+                .SetShakeMode(shakeMode)
+                .SetShakePosition(shakePosition)
+                .SetShakeRotation(shakeRotation)
+                .SetShakeScale(shakeScale)
+                .SetShakeCount(shakeCount);
+            return tweener;
+        }
+
+        public static TweenShake Shake(Transform transform, ShakeMode shakeMode, float shakePosition, float shakeRotation, float shakeScale, int shakeCount, float duration)
+        {
+            var tweener = Play<TweenShake, Transform, float>(transform, 0f, 1f, duration)
+                .SetShakeMode(shakeMode)
+                .SetShakePosition(shakePosition)
+                .SetShakeRotation(shakeRotation)
+                .SetShakeScale(shakeScale)
+                .SetShakeCount(shakeCount);
+            return tweener;
+        }
+
+        public static TweenShake ShakePosition(Transform transform, Vector3 shakePosition, int shakeCount, float duration)
+        {
+            var tweener = Play<TweenShake, Transform, float>(transform, 0f, 1f, duration)
+                .SetAxis(true, false, false)
+                .SetShakePosition(shakePosition)
+                .SetShakeCount(shakeCount);
+            return tweener;
+        }
+
+
+        public static TweenShake ShakePosition(Transform transform, float shakePosition, int shakeCount, float duration)
+        {
+            var tweener = Play<TweenShake, Transform, float>(transform, 0f, 1f, duration)
+                .SetAxis(true, false, false)
+                .SetShakePosition(shakePosition)
+                .SetShakeCount(shakeCount);
+            return tweener;
+        }
+
+        public static TweenShake ShakeRotation(Transform transform, Vector3 shakeRotation, int shakeCount, float duration)
+        {
+            var tweener = Play<TweenShake, Transform, float>(transform, 0f, 1f, duration)
+                .SetAxis(false, true, false)
+                .SetShakeRotation(shakeRotation)
+                .SetShakeCount(shakeCount);
+            return tweener;
+        }
+
+        public static TweenShake ShakeRotation(Transform transform, float shakeRotation, int shakeCount, float duration)
+        {
+            var tweener = Play<TweenShake, Transform, float>(transform, 0f, 1f, duration)
+                .SetAxis(false, true, false)
+                .SetShakeRotation(shakeRotation)
+                .SetShakeCount(shakeCount);
+            return tweener;
+        }
+
+        public static TweenShake ShakeScale(Transform transform, Vector3 shakeScale, int shakeCount, float duration)
+        {
+            var tweener = Play<TweenShake, Transform, float>(transform, 0f, 1f, duration)
+                .SetAxis(false, false, true)
+                .SetShakeScale(shakeScale)
+                .SetShakeCount(shakeCount);
+            return tweener;
+        }
+
+        public static TweenShake ShakeScale(Transform transform, float shakeScale, int shakeCount, float duration)
+        {
+            var tweener = Play<TweenShake, Transform, float>(transform, 0f, 1f, duration)
+                .SetAxis(false, false, true)
+                .SetShakeScale(shakeScale)
+                .SetShakeCount(shakeCount);
+            return tweener;
+        }
+    }
+
+    public static partial class TransformExtension
+    {
+        public static TweenShake Shake(this Transform transform, TweenShakeData shakeData, float duration)
+        {
+            var tweener = UTween.Shake(transform, shakeData, duration);
+            return tweener;
+        }
+
+        public static TweenShake Shake(this Transform transform, ShakeMode shakeMode, Vector3 shakePosition, Vector3 shakeRotation, Vector3 shakeScale, int shakeCount, float duration)
+        {
+            var tweener = UTween.Shake(transform, shakeMode, shakePosition, shakeRotation, shakeScale, shakeCount, duration);
+            return tweener;
+        }
+
+        public static TweenShake Shake(this Transform transform, ShakeMode shakeMode, float shakePosition, float shakeRotation, float shakeScale, int shakeCount, float duration)
+        {
+            var tweener = UTween.Shake(transform, shakeMode, shakePosition, shakeRotation, shakeScale, shakeCount, duration);
+            return tweener;
+        }
+
+        public static TweenShake ShakePosition(this Transform transform, Vector3 shakePosition, int shakeCount, float duration)
+        {
+            var tweener = UTween.ShakePosition(transform, shakePosition, shakeCount, duration);
+            return tweener;
+        }
+
+
+        public static TweenShake ShakePosition(this Transform transform, float shakePosition, int shakeCount, float duration)
+        {
+            var tweener = UTween.ShakePosition(transform, shakePosition, shakeCount, duration);
+            return tweener;
+        }
+
+        public static TweenShake ShakeRotation(this Transform transform, Vector3 shakeRotation, int shakeCount, float duration)
+        {
+            var tweener = UTween.ShakeRotation(transform, shakeRotation, shakeCount, duration);
+            return tweener;
+        }
+
+        public static TweenShake ShakeRotation(this Transform transform, float shakeRotation, int shakeCount, float duration)
+        {
+            var tweener = UTween.ShakeRotation(transform, shakeRotation, shakeCount, duration);
+            return tweener;
+        }
+
+        public static TweenShake ShakeScale(this Transform transform, Vector3 shakeScale, int shakeCount, float duration)
+        {
+            var tweener = UTween.ShakeScale(transform, shakeScale, shakeCount, duration);
+            return tweener;
+        }
+
+        public static TweenShake ShakeScale(this Transform transform, float shakeScale, int shakeCount, float duration)
+        {
+            var tweener = UTween.ShakeScale(transform, shakeScale, shakeCount, duration);
+            return tweener;
+        }
+    }
+
+    #endregion
 }

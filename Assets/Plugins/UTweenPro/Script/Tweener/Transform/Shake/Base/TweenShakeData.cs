@@ -27,8 +27,8 @@ namespace Aya.TweenPro
             Count = 5;
             var defaultSlope = 5f;
             Curve = new AnimationCurve(
-                new Keyframe(0f, 0f, defaultSlope, defaultSlope), 
-                new Keyframe(0.25f, 1f, 0f, 0f), 
+                new Keyframe(0f, 0f, defaultSlope, defaultSlope),
+                new Keyframe(0.25f, 1f, 0f, 0f),
                 new Keyframe(0.5f, 0f, -defaultSlope, -defaultSlope),
                 new Keyframe(0.75f, -1f, 0f, 0f),
                 new Keyframe(1f, 0f, defaultSlope, defaultSlope));
