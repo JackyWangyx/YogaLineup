@@ -81,6 +81,7 @@ public class UIFlyCoin : GameEntity<UIFlyCoin>
                 var coinStartPos = startPos + RandUtil.RandVector3(-RandomStartPos, RandomStartPos);
                 var coinEndPos = endPos;
                 var coinIns = CoinPool.Spawn(coinPrefab, transform, coinStartPos);
+                coinIns.transform.position = coinStartPos;
                 UTween.Scale(coinIns.transform, Vector3.zero, Vector3.one, FlyDuration).SetCurve(CurveScaleCoin);
                 UTween.Value(0f, 1f, FlyDuration, value =>
                 {

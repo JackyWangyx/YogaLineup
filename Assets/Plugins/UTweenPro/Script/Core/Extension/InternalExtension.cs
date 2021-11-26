@@ -13,7 +13,7 @@ namespace Aya.TweenPro
         public static Material GetMaterial(this Renderer renderer, int materialIndex)
         {
             if (materialIndex < 0 || materialIndex >= renderer.sharedMaterials.Length) return null;
-            return Application.isPlaying ? renderer.materials[materialIndex] : renderer.sharedMaterials[materialIndex];
+            return renderer.sharedMaterials[materialIndex];
         }
 
         #endregion

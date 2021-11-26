@@ -67,14 +67,9 @@ public class GameManager : GameEntity<GameManager>
     public void Enter(GamePhaseHandler nextPhase)
     {
         if (CurrentPhase != null) CurrentPhase.Exit();
-        if (CurrentPhase != null && CurrentPhase.Type == nextPhase.Type)
-        {
-            CurrentPhase.Exit();
-        }
-
         Phase = nextPhase.Type;
-        nextPhase.Enter();
         CurrentPhase = nextPhase;
+        nextPhase.Enter();
     }
 
     public void Update()

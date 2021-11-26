@@ -8,4 +8,5 @@ public class GeneralSetting : SettingBase<GeneralSetting>
 {
     [FoldoutGroup("Game")] public int DefaultCoin;
     [FoldoutGroup("Game")] public int DefaultKey;
+    [FoldoutGroup("Game")] public float LoseWaitDuration;
 }
