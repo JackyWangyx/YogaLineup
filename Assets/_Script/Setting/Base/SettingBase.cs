@@ -2,24 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SettingBase<T> : ScriptableObject where T : SettingBase<T>
+public abstract class SettingBase<TSetting> : ScriptableObject where TSetting : SettingBase<TSetting>
 {
     #region Ins / Load
 
-    public static T Ins
+    public static TSetting Ins
     {
         get
         {
-            if (_instance == null) _instance = Load<T>();
+            if (_instance == null) _instance = Load<TSetting>();
             return _instance;
         }
     }
 
-    private static T _instance;
+    private static TSetting _instance;
 
     public static TSetting Load<TSetting>() where TSetting : SettingBase<TSetting>
     {
-        var setting = Resources.Load<TSetting>("Setting/" + typeof(TSetting).Name);
+        var setting = Instantiate(Resources.Load<TSetting>("Setting/" + typeof(TSetting).Name));
         setting.Init();
         return setting;
     } 

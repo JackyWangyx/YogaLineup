@@ -13,6 +13,7 @@ public abstract class StoreData
 
     public bool PreUnlock;
     public bool PreBuy;
+    public bool Show = true;
 
     public IStoreSetting<StoreData> Setting { get; set; }
     public abstract int Cost { get; }

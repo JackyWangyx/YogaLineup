@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using Aya.Extension;
 using UnityEngine;
 
+public enum GameResult
+{
+    None = -1,
+    Win = 1,
+    Lose = 2,
+}
+
 public class GamePlay : GamePhaseHandler
 {
     public override PhaseType Type => PhaseType.Gaming;
@@ -16,12 +23,27 @@ public class GamePlay : GamePhaseHandler
     public override void UpdateImpl()
     {
         if (_isOver) return;
-        _isOver = true;
-        Player.Die();
-        this.ExecuteDelay(() =>
+        
+        var result = CheckGameResult();
+        if (result == GameResult.Lose)
         {
-            Game.Enter<GameLose>();
-        }, GeneralSetting.Ins.LoseWaitDuration);
+            _isOver = true;
+            Player.Die();
+            this.ExecuteDelay(() =>
+            {
+                Game.Enter<GameLose>();
+            }, GeneralSetting.Ins.LoseWaitDuration);
+        }
+    }
+
+    public virtual GameResult CheckGameResult()
+    {
+        if (Player.State.Point == 0 && Player.State.PointChanged)
+        {
+            return GameResult.Lose;
+        }
+
+        return GameResult.None;
     }
 
     public override void Exit()

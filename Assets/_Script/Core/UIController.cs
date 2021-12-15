@@ -23,6 +23,17 @@ public class UIController : GameEntity<UIController>
         HideAll();
     }
 
+    public T Get<T>() where T : UIBase
+    {
+        var type = typeof(T);
+        if (UIDic.TryGetValue(type, out var ui))
+        {
+            return ui as T;
+        }
+
+        return default;
+    }
+
     public void Show<T>() where T : UIBase
     {
         var type = typeof(T);

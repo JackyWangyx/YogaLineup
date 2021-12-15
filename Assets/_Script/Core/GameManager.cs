@@ -22,6 +22,7 @@ public class GameManager : GameEntity<GameManager>
     protected override void Awake()
     {
         base.Awake();
+        Time.timeScale = 1f;
         Phase = PhaseType.None;
         CurrentPhase = null;
 

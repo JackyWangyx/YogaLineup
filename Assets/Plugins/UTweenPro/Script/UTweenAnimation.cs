@@ -144,7 +144,22 @@ namespace Aya.TweenPro
                 tweener.Active = false;
                 tweener.SerializedObject.ApplyModifiedProperties();
             }
-        } 
+        }
+
+        #endregion
+
+        #region Hierarctry Menu
+
+        [MenuItem("GameObject/Create UTween Animation", false, 0)]
+        public static void CreateUTweenAnimation(MenuCommand menuCommand)
+        {
+            var go = new GameObject(nameof(UTweenAnimation));
+            GameObjectUtility.SetParentAndAlign(go, menuCommand.context as GameObject);
+            go.transform.localPosition = Vector3.zero;
+            Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
+            go.AddComponent<UTweenAnimation>();
+            Selection.activeObject = go;
+        }
 
         #endregion
     }

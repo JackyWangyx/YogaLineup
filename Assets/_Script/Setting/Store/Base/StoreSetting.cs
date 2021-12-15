@@ -45,6 +45,9 @@ public abstract class StoreSetting<TSetting, TStoreData> : SettingBase<TSetting>
     public bool CanUnlock => CurrentUnlockData != null && CurrentUnlockData.CanUnlock;
     public bool ExistNeedShow => Datas.Find(d => d.NeedShow) != null;
 
+    public bool EnoughBuyCost => SaveManager.Ins.Coin >= CurrentBuyCost;
+    public int CurrentBuyCost => ExistLockData ? Costs[UnlockIndex] : -1;
+
     [NonSerialized] public sInt SaveSelectIndex;
     [NonSerialized] public sInt SaveUnlockProgress;
     [NonSerialized] public sInt SaveUnlockIndex;

@@ -35,10 +35,11 @@ public abstract class UIStoreBase<TUI, TItem, TData> : UIBase<TUI>
 
         ItemInsList.Clear();
 
-        foreach (var avatarData in DataSources)
+        foreach (var storeData in DataSources)
         {
+            if (!storeData.Show) continue;
             var item = UIPool.Spawn(ItemPrefab, ItemTrans);
-            item.Init(avatarData);
+            item.Init(storeData);
             ItemInsList.Add(item);
         }
 

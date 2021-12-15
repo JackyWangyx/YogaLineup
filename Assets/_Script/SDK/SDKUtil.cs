@@ -1,13 +1,28 @@
 ﻿using System;
 using Aya.AD;
 using Aya.Analysis;
+#if UNITY_IOS
+using Unity.Advertisement.IosSupport;
+#endif
 
 public static class SDKUtil
 {
     public static void Init()
     {
+        RequestTrackingPermission();
         AnalysisManager.Instance.Init();
         ADManager.Init();
+         ADManager.Instance.ShowBanner();
+    }
+
+    public static void RequestTrackingPermission()
+    {
+#if UNITY_IOS
+        if (ATTrackingStatusBinding.GetAuthorizationTrackingStatus() == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
+        {
+            ATTrackingStatusBinding.RequestAuthorizationTracking();
+        }
+#endif
     }
 
     public static bool IsRewardVideoReady(string key)
