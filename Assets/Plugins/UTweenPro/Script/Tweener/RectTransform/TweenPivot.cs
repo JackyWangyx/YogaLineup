@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Aya.TweenPro
 {
-    [Tweener("RectTransform Pivot", "RectTransform")]
+    [Tweener("Rect Transform Pivot", "RectTransform")]
     [Serializable]
     public class TweenPivot : TweenValueVector2<RectTransform>
     {

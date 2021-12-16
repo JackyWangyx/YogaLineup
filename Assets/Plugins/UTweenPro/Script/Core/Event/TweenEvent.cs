@@ -32,12 +32,13 @@ namespace Aya.TweenPro
         public void Reset()
         {
             Event = null;
-            Action = delegate { };
+            Action = null;
         }
 
         public void InitEvent()
         {
             Event = new UnityEvent();
+            Action = delegate { };
         }
     }
 

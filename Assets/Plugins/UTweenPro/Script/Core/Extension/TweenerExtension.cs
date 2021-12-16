@@ -96,6 +96,11 @@ namespace Aya.TweenPro
             tweener.Data.SetDelay(delay);
             return tweener;
         }
+        public static TTweener SetBackward<TTweener>(this TTweener tweener, bool backward) where TTweener : Tweener
+        {
+            tweener.Data.Backward = backward;
+            return tweener;
+        }
 
         public static TTweener SetPlayMode<TTweener>(this TTweener tweener, PlayMode playMode) where TTweener : Tweener
         {

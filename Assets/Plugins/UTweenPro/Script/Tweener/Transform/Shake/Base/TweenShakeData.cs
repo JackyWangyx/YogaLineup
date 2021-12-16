@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -8,8 +7,7 @@ using UnityEditor;
 namespace Aya.TweenPro
 {
     [Serializable]
-    [StructLayout(LayoutKind.Auto)]
-    public partial struct TweenShakeData
+    public partial class TweenShakeData
     {
         public ShakeMode Mode;
         public Vector3 Position;
@@ -27,8 +25,8 @@ namespace Aya.TweenPro
             Count = 5;
             var defaultSlope = 5f;
             Curve = new AnimationCurve(
-                new Keyframe(0f, 0f, defaultSlope, defaultSlope),
-                new Keyframe(0.25f, 1f, 0f, 0f),
+                new Keyframe(0f, 0f, defaultSlope, defaultSlope), 
+                new Keyframe(0.25f, 1f, 0f, 0f), 
                 new Keyframe(0.5f, 0f, -defaultSlope, -defaultSlope),
                 new Keyframe(0.75f, -1f, 0f, 0f),
                 new Keyframe(1f, 0f, defaultSlope, defaultSlope));
@@ -37,31 +35,26 @@ namespace Aya.TweenPro
 
 #if UNITY_EDITOR
 
-    public partial struct TweenShakeData
+    public partial class TweenShakeData
     {
         [NonSerialized] public TweenShake Tweener;
         [NonSerialized] public SerializedProperty TweenerProperty;
-
         [NonSerialized] public SerializedProperty ShakeDataProperty;
-        [NonSerialized] public SerializedProperty ModeProperty;
-        [NonSerialized] public SerializedProperty PositionProperty;
-        [NonSerialized] public SerializedProperty RotationProperty;
-        [NonSerialized] public SerializedProperty ScaleProperty;
-        [NonSerialized] public SerializedProperty CountProperty;
-        [NonSerialized] public SerializedProperty CurveProperty;
-        [NonSerialized] public SerializedProperty SlopeProperty;
+
+        [TweenerProperty, NonSerialized] public SerializedProperty ModeProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty PositionProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty RotationProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty ScaleProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty CountProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty CurveProperty;
 
         public void InitEditor(TweenShake tweener, SerializedProperty tweenerProperty)
         {
             Tweener = tweener;
             TweenerProperty = tweenerProperty;
             ShakeDataProperty = TweenerProperty.FindPropertyRelative(nameof(Tweener.ShakeData));
-            ModeProperty = ShakeDataProperty.FindPropertyRelative(nameof(Mode));
-            PositionProperty = ShakeDataProperty.FindPropertyRelative(nameof(Position));
-            RotationProperty = ShakeDataProperty.FindPropertyRelative(nameof(Rotation));
-            ScaleProperty = ShakeDataProperty.FindPropertyRelative(nameof(Scale));
-            CountProperty = ShakeDataProperty.FindPropertyRelative(nameof(Count));
-            CurveProperty = ShakeDataProperty.FindPropertyRelative(nameof(Curve));
+
+            TweenerPropertyAttribute.CacheProperty(this, ShakeDataProperty);
         }
 
         public void DrawShakeData()

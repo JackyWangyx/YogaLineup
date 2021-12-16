@@ -103,13 +103,7 @@ namespace Aya.TweenPro
 
     public partial class TweenSelectableColorBlock : TweenValueColor<Selectable>
     {
-        [NonSerialized] public SerializedProperty PropertyProperty;
-
-        public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
-        {
-            base.InitEditor(index, data, tweenerProperty);
-            PropertyProperty = TweenerProperty.FindPropertyRelative(nameof(Property));
-        }
+        [TweenerProperty, NonSerialized] public SerializedProperty PropertyProperty;
 
         public override void DrawTarget()
         {

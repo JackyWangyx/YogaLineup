@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Aya.TweenPro
 {
-    [Tweener("RectTransform Width", "RectTransform")]
+    [Tweener("Rect Transform Width", "RectTransform")]
     [Serializable]
     public class TweenWidth : TweenValueFloat<RectTransform>
     {

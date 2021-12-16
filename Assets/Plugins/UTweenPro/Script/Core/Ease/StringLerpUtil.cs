@@ -13,9 +13,8 @@ namespace Aya.TweenPro
         private static readonly StringBuilder LerpBuilder = new StringBuilder();
         private static readonly List<char> OpenedTags = new List<char>();
 
-        public static string Lerp(string value, float delta, bool richTextEnabled)
+        public static int GetLength(string value, bool richTextEnabled)
         {
-            LerpBuilder.Clear();
             var strLength = value.Length;
             if (richTextEnabled)
             {
@@ -54,6 +53,13 @@ namespace Aya.TweenPro
                 strLength = len;
             }
 
+            return strLength;
+        }
+
+        public static string Lerp(string value, float delta, bool richTextEnabled)
+        {
+            LerpBuilder.Clear();
+            var strLength = GetLength(value, richTextEnabled);
             var startIndex = 0;
             var length = (int)(delta * strLength);
             length = Mathf.Clamp(length, 0, value.Length);

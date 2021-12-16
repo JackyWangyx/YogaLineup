@@ -10,7 +10,7 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenPropertyVector2 : TweenValueVector2<Component>
     {
-        public TweenPropertyData PropertyData;
+        public TweenPropertyData PropertyData = new TweenPropertyData();
 
         public override Vector2 Value
         {

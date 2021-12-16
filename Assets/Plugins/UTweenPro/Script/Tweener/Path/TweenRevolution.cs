@@ -10,7 +10,7 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenRevolution : TweenPathBase
     {
-        public TargetPositionData Center;
+        public TargetPositionData Center = new TargetPositionData();
         public Vector3 Radius;
         public Vector3 Deviation;
 
@@ -52,18 +52,14 @@ namespace Aya.TweenPro
 
     public partial class TweenRevolution : TweenPathBase
     {
-        [NonSerialized] public SerializedProperty CenterProperty;
-        [NonSerialized] public SerializedProperty RadiusProperty;
-        [NonSerialized] public SerializedProperty DeviationProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty CenterProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty RadiusProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty DeviationProperty;
 
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
             Center.InitEditor(this, TweenerProperty, nameof(Center));
-
-            CenterProperty = TweenerProperty.FindPropertyRelative(nameof(Center));
-            RadiusProperty = TweenerProperty.FindPropertyRelative(nameof(Radius));
-            DeviationProperty = TweenerProperty.FindPropertyRelative(nameof(Deviation));
         }
 
         public override void DrawBody()

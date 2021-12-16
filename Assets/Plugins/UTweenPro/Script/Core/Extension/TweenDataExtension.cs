@@ -6,6 +6,52 @@ namespace Aya.TweenPro
 {
     public static partial class TweenDataExtension
     {
+        #region Set Target
+
+        public static TweenData SetTarget<T>(this TweenData tweenData, T target) where T : UnityEngine.Object
+        {
+            foreach (var tweener in tweenData.TweenerList)
+            {
+                if (tweener is Tweener<T> tempTweener)
+                {
+                    tempTweener.SetTarget(target);
+                }
+            }
+
+            return tweenData;
+        }
+
+        public static TweenData SetTarget<T>(this TweenData tweenData, int index, T target) where T : UnityEngine.Object
+        {
+            var tweener = tweenData.TweenerList[index];
+            if (tweener is Tweener<T> tempTweener)
+            {
+                tempTweener.SetTarget(target);
+            }
+
+            return tweenData;
+        }
+
+        public static TweenData SetTarget<T>(this TweenData tweenData, params T[] targets) where T : UnityEngine.Object
+        {
+            var index = 0;
+            foreach (var tweener in tweenData.TweenerList)
+            {
+                if (tweener is Tweener<T> tempTweener)
+                {
+                    if (index >= targets.Length) break;
+                    var target = targets[index];
+                    tempTweener.SetTarget(target);
+                    index++;
+                }
+            }
+
+            return tweenData;
+        }
+
+
+        #endregion
+
         #region Set Property
 
         public static TweenData SetIdentifier(this TweenData tweenData, string identifier)
@@ -23,6 +69,12 @@ namespace Aya.TweenPro
         public static TweenData SetDelay(this TweenData tweenData, float delay)
         {
             tweenData.Delay = delay;
+            return tweenData;
+        }
+
+        public static TweenData SetBackward(this TweenData tweenData, bool backward)
+        {
+            tweenData.Backward = backward;
             return tweenData;
         }
 
@@ -143,7 +195,7 @@ namespace Aya.TweenPro
 
         #endregion
 
-        #region SetStats
+        #region Set Stats
 
         public static TweenData SetProgress(this TweenData tweenData, float progress)
         {

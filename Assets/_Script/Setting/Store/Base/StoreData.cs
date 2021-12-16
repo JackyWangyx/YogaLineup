@@ -63,7 +63,7 @@ public abstract class StoreData
             if (IsCoinEnough)
             {
                 SaveManager.Ins.Coin.Value -= Cost;
-                Setting.UnlockCount++;
+                Setting.BuyCount++;
             }
             else
             {

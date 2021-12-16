@@ -24,12 +24,10 @@ namespace Aya.TweenPro
     public enum PlayState
     {
         None = 0,
-        Delaying = 1,
-        Playing = 2,
-        Paused = 3,
-        Interval = 4,
-        Stopped = 5,
-        Completed = 6,
+        Playing = 1,
+        Paused = 2,
+        Stopped = 3,
+        Completed = 4,
     }
 
     public enum PlayMode
@@ -89,6 +87,12 @@ namespace Aya.TweenPro
         Multiply = 0,
         Add = 1,
         Minus = 2,
+    }
+
+    public enum TextRangeMode
+    {
+        Length = 0,
+        Percent = 1,
     }
 
     public enum CharacterSpaceMode

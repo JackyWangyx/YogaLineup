@@ -7,7 +7,6 @@ using UnityEditor;
 
 namespace Aya.TweenPro
 {
-
     [Serializable]
     public abstract partial class TweenValueFloat<TTarget> : Tweener<TTarget, float>
         where TTarget : UnityEngine.Object

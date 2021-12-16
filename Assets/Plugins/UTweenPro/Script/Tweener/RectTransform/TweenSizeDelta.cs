@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Aya.TweenPro
 {
-    [Tweener("RectTransform Size Delta", "RectTransform")]
+    [Tweener("Rect Transform Size Delta", "RectTransform")]
     [Serializable]
     public class TweenSizeDelta : TweenValueVector2<RectTransform>
     {

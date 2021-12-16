@@ -49,18 +49,17 @@ namespace Aya.TweenPro
     public abstract partial class TweenValueString<TTarget> : Tweener<TTarget, string>
         where TTarget : UnityEngine.Object
     {
-        [NonSerialized] public SerializedProperty RichTextProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty RichTextProperty;
 
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            RichTextProperty = TweenerProperty.FindPropertyRelative(nameof(RichText));
         }
 
         public override void DrawAppend()
         {
             base.DrawAppend();
-            GUIUtil.ToggleOnOffButton(RichTextProperty);
+            GUIUtil.DrawToggleButton(RichTextProperty);
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -15,8 +14,7 @@ namespace Aya.TweenPro
     }
 
     [Serializable]
-    [StructLayout(LayoutKind.Auto)]
-    public partial struct TweenMaterialData
+    public partial class TweenMaterialData
     {
         public TweenMaterialMode Mode;
         public int Index;
@@ -39,6 +37,7 @@ namespace Aya.TweenPro
         public void SetColor(Color value)
         {
             if (Renderer == null) return;
+            if (Index < 0) return;
             switch (Mode)
             {
                 case TweenMaterialMode.Property:
@@ -57,6 +56,7 @@ namespace Aya.TweenPro
         public Color GetColor()
         {
             if (Renderer == null) return default;
+            if (Index < 0) return default;
             switch (Mode)
             {
                 case TweenMaterialMode.Property:
@@ -77,6 +77,7 @@ namespace Aya.TweenPro
         public void SetFloat(float value)
         {
             if (Renderer == null) return;
+            if (Index < 0) return;
             switch (Mode)
             {
                 case TweenMaterialMode.Property:
@@ -95,6 +96,7 @@ namespace Aya.TweenPro
         public float GetFloat()
         {
             if (Renderer == null) return default;
+            if (Index < 0) return default;
             switch (Mode)
             {
                 case TweenMaterialMode.Property:
@@ -115,6 +117,7 @@ namespace Aya.TweenPro
         public void SetVector(Vector4 value)
         {
             if (Renderer == null) return;
+            if (Index < 0) return;
             switch (Mode)
             {
                 case TweenMaterialMode.Property:
@@ -133,6 +136,7 @@ namespace Aya.TweenPro
         public Vector4 GetVector()
         {
             if (Renderer == null) return default;
+            if (Index < 0) return default;
             switch (Mode)
             {
                 case TweenMaterialMode.Property:
@@ -160,24 +164,23 @@ namespace Aya.TweenPro
 
 #if UNITY_EDITOR
 
-    public partial struct TweenMaterialData
+    public partial class TweenMaterialData
     {
         [NonSerialized] public Tweener<Renderer> Tweener;
         [NonSerialized] public SerializedProperty TweenerProperty;
-
         [NonSerialized] public SerializedProperty MaterialDataProperty;
-        [NonSerialized] public SerializedProperty ModeProperty;
-        [NonSerialized] public SerializedProperty MaterialIndexProperty;
-        [NonSerialized] public SerializedProperty PropertyNameProperty;
+
+        [TweenerProperty, NonSerialized] public SerializedProperty ModeProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty MaterialIndexProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty PropertyNameProperty;
 
         public void InitEditor(Tweener<Renderer> tweener, SerializedProperty tweenerProperty)
         {
             Tweener = tweener;
             TweenerProperty = tweenerProperty;
             MaterialDataProperty = TweenerProperty.FindPropertyRelative("MaterialData");
-            ModeProperty = MaterialDataProperty.FindPropertyRelative(nameof(Mode));
-            MaterialIndexProperty = MaterialDataProperty.FindPropertyRelative(nameof(Index));
-            PropertyNameProperty = MaterialDataProperty.FindPropertyRelative(nameof(Property));
+
+            TweenerPropertyAttribute.CacheProperty(this, MaterialDataProperty);
         }
 
         public void DrawMaterialProperty(ShaderUtil.ShaderPropertyType propertyType)
@@ -192,12 +195,12 @@ namespace Aya.TweenPro
                     return;
                 }
 
-                using (GUIColorArea.Create(EditorStyle.ErrorColor, Index < 0))
+                using (GUIErrorColorArea.Create(Index < 0))
                 {
                     GUIMenu.SelectMaterialMenu(Tweener.Target, "Material", MaterialIndexProperty);
                 }
 
-                using (GUIColorArea.Create(EditorStyle.ErrorColor, string.IsNullOrEmpty(Property)))
+                using (GUIErrorColorArea.Create(string.IsNullOrEmpty(Property)))
                 {
                     GUIMenu.SelectMaterialShaderMenu(Tweener.Target, nameof(Property), MaterialIndexProperty.intValue, PropertyNameProperty, propertyType);
                 }

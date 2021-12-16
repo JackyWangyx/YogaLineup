@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -9,12 +8,12 @@ using UnityEditor;
 namespace Aya.TweenPro
 {
     [Serializable]
-    [StructLayout(LayoutKind.Auto)]
-    public partial struct TweenPropertyData
+    public partial class TweenPropertyData
     {
         public string Property;
 
         public BindingFlags Flags => TypeCaches.DefaultBindingFlags;
+
         [NonSerialized] public object CacheTarget;
         [NonSerialized] public string CacheProperty;
         [NonSerialized] public PropertyInfo PropertyInfo;
@@ -54,20 +53,21 @@ namespace Aya.TweenPro
 
 #if UNITY_EDITOR
 
-    public partial struct TweenPropertyData
+    public partial class TweenPropertyData
     {
         [NonSerialized] public Tweener<Component> Tweener;
         [NonSerialized] public SerializedProperty TweenerProperty;
-
         [NonSerialized] public SerializedProperty PropertyDataProperty;
-        [NonSerialized] public SerializedProperty PropertyProperty;
+
+        [TweenerProperty, NonSerialized] public SerializedProperty PropertyProperty;
 
         public void InitEditor(Tweener<Component> tweener, SerializedProperty tweenerProperty)
         {
             Tweener = tweener;
             TweenerProperty = tweenerProperty;
             PropertyDataProperty = TweenerProperty.FindPropertyRelative("PropertyData");
-            PropertyProperty = PropertyDataProperty.FindPropertyRelative(nameof(Property));
+
+            TweenerPropertyAttribute.CacheProperty(this, PropertyDataProperty);
         }
 
         public void DrawPropertyData<TValue>()

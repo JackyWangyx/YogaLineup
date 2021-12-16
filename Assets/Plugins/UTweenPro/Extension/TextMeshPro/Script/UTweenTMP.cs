@@ -14,11 +14,11 @@ namespace Aya.TweenPro
 
     public static partial class UTweenTMP
     {
-        [InitializeOnLoadMethod]
-        public static void InitEditor()
-        {
-            EditorIcon.TweenerGroupIconDic.Add("TextMeshPro", EditorIcon.CreateIcon(IconPath));
-        }
+        // [InitializeOnLoadMethod]
+        // public static void InitEditor()
+        // {
+        //     EditorIcon.TweenerGroupIconDic.Add("TextMeshPro", EditorIcon.CreateIcon(IconPath));
+        // }
     }
 
 #endif

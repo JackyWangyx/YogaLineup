@@ -10,7 +10,7 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenPropertyFloat : TweenValueFloat<Component>
     {
-        public TweenPropertyData PropertyData;
+        public TweenPropertyData PropertyData = new TweenPropertyData();
 
         public override float Value
         {

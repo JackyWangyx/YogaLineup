@@ -11,7 +11,7 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenShake : TweenValueFloat<Transform>
     {
-        public TweenShakeData ShakeData;
+        public TweenShakeData ShakeData = new TweenShakeData();
 
         public override bool SupportIndependentAxis => true;
         public override bool SupportSetCurrentValue => false;

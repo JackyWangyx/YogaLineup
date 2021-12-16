@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Aya.TweenPro
 {
-    [Tweener("RectTransform Offset Min", "RectTransform")]
+    [Tweener("Rect Transform Offset Min", "RectTransform")]
     [Serializable]
     public class TweenOffsetMin : TweenValueVector2<RectTransform>
     {

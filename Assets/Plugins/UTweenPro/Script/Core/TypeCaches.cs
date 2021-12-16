@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
-using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -15,26 +13,26 @@ namespace Aya.TweenPro
 
 #if UNITY_EDITOR
 
-        public static Dictionary<Type, TweenerAttribute> TweenerTypeDic
+        public static Dictionary<Type, TweenerAttribute> TweenerAttributeDic
         {
             get
             {
-                if (_tweenerTypeDic == null)
+                if (_tweenerAttributeDic == null)
                 {
-                    _tweenerTypeDic = new Dictionary<Type, TweenerAttribute>();
+                    _tweenerAttributeDic = new Dictionary<Type, TweenerAttribute>();
                     var tweenerTypes = TypeCache.GetTypesWithAttribute<TweenerAttribute>();
                     foreach (var type in tweenerTypes)
                     {
                         var attribute = type.GetCustomAttribute<TweenerAttribute>();
-                        _tweenerTypeDic.Add(type, attribute);
+                        _tweenerAttributeDic.Add(type, attribute);
                     }
                 }
 
-                return _tweenerTypeDic;
+                return _tweenerAttributeDic;
             }
         }
 
-        private static Dictionary<Type, TweenerAttribute> _tweenerTypeDic;
+        private static Dictionary<Type, TweenerAttribute> _tweenerAttributeDic;
 
 #endif
     }

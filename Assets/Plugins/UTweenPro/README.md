@@ -1,4 +1,4 @@
-# UTween2
+# UTween Pro
 
 # UTween 使用手册
 ## 特性

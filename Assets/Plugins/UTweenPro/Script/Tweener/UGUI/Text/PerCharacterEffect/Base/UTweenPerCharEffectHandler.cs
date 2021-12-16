@@ -11,7 +11,7 @@ namespace Aya.TweenPro
     public partial class UTweenPerCharEffectHandler : BaseMeshEffect
     {
         [NonSerialized]
-        public List<ICharacterModifier> Modifiers = new List<ICharacterModifier>();
+        public List<ITextCharacterModifier> Modifiers = new List<ITextCharacterModifier>();
 
         public void SyncModifiers(TweenData tween)
         {
@@ -19,7 +19,7 @@ namespace Aya.TweenPro
             foreach (var tweener in tween.TweenerList)
             {
                 if (!tweener.Active) continue;
-                if (tweener is ICharacterModifier modifier)
+                if (tweener is ITextCharacterModifier modifier)
                 {
                     Modifiers.Add(modifier);
                 }

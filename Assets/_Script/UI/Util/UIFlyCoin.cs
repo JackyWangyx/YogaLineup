@@ -106,6 +106,7 @@ public class UIFlyCoin : GameEntity<UIFlyCoin>
             yield return new WaitForSeconds(interval);
         }
 
+        yield return new WaitForSeconds(FlyDuration);
         onDone?.Invoke();
         yield return null;
     }

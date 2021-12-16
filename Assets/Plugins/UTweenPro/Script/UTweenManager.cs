@@ -56,13 +56,13 @@ namespace Aya.TweenPro
         internal HashSet<TweenData> RemoveList { get; set; } = new HashSet<TweenData>();
         internal HashSet<TweenData> PlayingList { get; set; } = new HashSet<TweenData>();
 
-        internal Dictionary<UpdateMode, List<TweenData>> UpdateListDic
+        internal Dictionary<UpdateMode, HashSet<TweenData>> UpdateListDic
         {
             get
             {
                 if (_updateListDic == null)
                 {
-                    _updateListDic = new Dictionary<UpdateMode, List<TweenData>>()
+                    _updateListDic = new Dictionary<UpdateMode, HashSet<TweenData>>()
                     {
                         {UpdateMode.Update, UpdateList},
                         {UpdateMode.LateUpdate, LateUpdateList},
@@ -76,13 +76,13 @@ namespace Aya.TweenPro
             }
         }
 
-        private Dictionary<UpdateMode, List<TweenData>> _updateListDic;
+        private Dictionary<UpdateMode, HashSet<TweenData>> _updateListDic;
 
-        internal List<TweenData> UpdateList { get; set; } = new List<TweenData>();
-        internal List<TweenData> LateUpdateList { get; set; } = new List<TweenData>();
-        internal List<TweenData> FixedUpdateList { get; set; } = new List<TweenData>();
-        internal List<TweenData> WaitForFixedUpdateList { get; set; } = new List<TweenData>();
-        internal List<TweenData> WaitForEndOfFrameList { get; set; } = new List<TweenData>();
+        internal HashSet<TweenData> UpdateList { get; set; } = new HashSet<TweenData>();
+        internal HashSet<TweenData> LateUpdateList { get; set; } = new HashSet<TweenData>();
+        internal HashSet<TweenData> FixedUpdateList { get; set; } = new HashSet<TweenData>();
+        internal HashSet<TweenData> WaitForFixedUpdateList { get; set; } = new HashSet<TweenData>();
+        internal HashSet<TweenData> WaitForEndOfFrameList { get; set; } = new HashSet<TweenData>();
 
         #endregion
 
@@ -142,6 +142,17 @@ namespace Aya.TweenPro
             var unscaledDeltaTime = Time.unscaledDeltaTime;
             var smoothDeltaTime = Time.smoothDeltaTime;
             UpdateImpl(UpdateList, scaledDeltaTime, unscaledDeltaTime, smoothDeltaTime);
+            // TODO.. 13 - 15 ms
+        }
+
+        internal void PerformanceTest(Action action)
+        {
+            var start = Time.realtimeSinceStartup;
+            action();
+            var end = Time.realtimeSinceStartup;
+            var total = end - start;
+            var time = total * 1000;
+            Debug.Log("Time : " + time);
         }
 
         protected void LateUpdate()
@@ -232,7 +243,7 @@ namespace Aya.TweenPro
 
         #endregion
 
-        internal void UpdateImpl(List<TweenData> updateList, float scaledDeltaTime, float unscaledDeltaTime, float smoothDeltaTime)
+        internal void UpdateImpl(HashSet<TweenData> updateList, float scaledDeltaTime, float unscaledDeltaTime, float smoothDeltaTime)
         {
             SyncPlayingList();
             foreach (var tweenData in updateList)

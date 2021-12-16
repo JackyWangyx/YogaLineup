@@ -22,6 +22,7 @@ namespace Aya.TweenPro
             if (AxisX) result.x = temp.x;
             if (AxisY) result.y = temp.y;
             if (AxisZ) result.z = temp.z;
+            // TODO.. 2-3 ms
             ValueSetter(result);
             OnUpdate?.Invoke(result);
         }

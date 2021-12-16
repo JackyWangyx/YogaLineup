@@ -57,14 +57,12 @@ namespace Aya.TweenPro
         public override string AxisZName => "B";
         public override string AxisWName => "A";
 
-        [NonSerialized] public SerializedProperty ColorModeProperty;
-        [NonSerialized] public SerializedProperty GradientProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty ColorModeProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty GradientProperty;
 
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            ColorModeProperty = TweenerProperty.FindPropertyRelative(nameof(ColorMode));
-            GradientProperty = tweenerProperty.FindPropertyRelative(nameof(Gradient));
         }
 
         public override void DrawFromToValue()

@@ -110,6 +110,22 @@ namespace Aya.TweenPro
 
         #endregion
 
+        #region Rect
+
+        public static Rect Reduce(this Rect rect, float reduceSize)
+        {
+            var ret = new Rect(rect.x + reduceSize, rect.y + reduceSize, rect.width - reduceSize * 2, rect.height - reduceSize * 2);
+            return ret;
+        }
+
+        public static Rect Expand(this Rect rect, float expandSize)
+        {
+            var ret = new Rect(rect.x - expandSize, rect.y - expandSize, rect.width + expandSize * 2, rect.height + expandSize * 2);
+            return ret;
+        }
+
+        #endregion
+
 #if UNITY_EDITOR
 
         #region GenericMenu Extension

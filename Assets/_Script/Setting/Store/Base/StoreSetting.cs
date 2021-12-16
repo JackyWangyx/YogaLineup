@@ -46,12 +46,12 @@ public abstract class StoreSetting<TSetting, TStoreData> : SettingBase<TSetting>
     public bool ExistNeedShow => Datas.Find(d => d.NeedShow) != null;
 
     public bool EnoughBuyCost => SaveManager.Ins.Coin >= CurrentBuyCost;
-    public int CurrentBuyCost => ExistLockData ? Costs[UnlockIndex] : -1;
+    public int CurrentBuyCost => ExistLockData ? Costs[BuyCount] : -1;
 
     [NonSerialized] public sInt SaveSelectIndex;
     [NonSerialized] public sInt SaveUnlockProgress;
     [NonSerialized] public sInt SaveUnlockIndex;
-    [NonSerialized] public sInt SaveUnlockCount;
+    [NonSerialized] public sInt SaveBuyCount;
 
     public int SelectIndex
     {
@@ -71,10 +71,10 @@ public abstract class StoreSetting<TSetting, TStoreData> : SettingBase<TSetting>
         set => SaveUnlockProgress.Value = value;
     }
 
-    public int UnlockCount
+    public int BuyCount
     {
-        get => SaveUnlockCount.Value;
-        set => SaveUnlockCount.Value = value;
+        get => SaveBuyCount.Value;
+        set => SaveBuyCount.Value = value;
     }
 
     public override void Init()
@@ -84,7 +84,7 @@ public abstract class StoreSetting<TSetting, TStoreData> : SettingBase<TSetting>
         SaveSelectIndex = new sInt(SaveKey + "_" + nameof(SelectIndex), 0);
         SaveUnlockProgress = new sInt(SaveKey + "_" + nameof(UnlockProgress), 0);
         SaveUnlockIndex = new sInt(SaveKey + "_" + nameof(UnlockIndex), -1);
-        SaveUnlockCount = new sInt(SaveKey + "_" + nameof(UnlockCount), 0);
+        SaveBuyCount = new sInt(SaveKey + "_" + nameof(BuyCount), 0);
 
         for (var i = 0; i < Datas.Count; i++)
         {

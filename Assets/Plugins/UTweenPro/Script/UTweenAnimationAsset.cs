@@ -7,7 +7,7 @@ using UnityEditor;
 
 namespace Aya.TweenPro
 {
-    [CreateAssetMenu(menuName = "UTween Pro/UTween Animation", fileName = "UTweenAnimation")]
+    [CreateAssetMenu(menuName = "UTween Pro/UTween Animation Asset", fileName = "UTweenAnimation")]
     public partial class UTweenAnimationAsset : ScriptableObject
     {
         public TweenData Data = new TweenData();
@@ -33,10 +33,10 @@ namespace Aya.TweenPro
             }
         }
 
-        [ContextMenu("Shrink All Tweener")]
-        public void ShrinkAllTweener()
+        [ContextMenu("Narrow All Tweener")]
+        public void NarrowAllTweener()
         {
-            Undo.RegisterCompleteObjectUndo(this, "Shrink All Tweener");
+            Undo.RegisterCompleteObjectUndo(this, "Narrow All Tweener");
             foreach (var tweener in Data.TweenerList)
             {
                 tweener.FoldOut = false;

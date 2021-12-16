@@ -15,7 +15,11 @@ namespace Aya.TweenPro
         public override float Value
         {
             get => Time.timeScale;
-            set => Time.timeScale = value;
+            set
+            {
+                if (!Application.isPlaying) return;
+                Time.timeScale = value;
+            }
         }
     }
 
@@ -25,9 +29,14 @@ namespace Aya.TweenPro
     {
         public override void DrawFromToValue()
         {
-            if (Data.TimeMode != TimeMode.UnScaled)
+            if (Data.IsPlaying && !Application.isPlaying)
             {
-                GUIUtil.DrawTipArea(EditorStyle.ErrorColor, "Time mode must be UnScaled!");
+                GUIUtil.DrawTipArea(UTweenEditorSetting.Ins.ErrorColor, "Only effective at runtime");
+            }
+
+            if (Data.TimeMode != TimeMode.UnScaled && (Mathf.Abs(From) <= 1e-6 || Mathf.Abs(To) <= 1e-6))
+            {
+                GUIUtil.DrawTipArea(UTweenEditorSetting.Ins.ErrorColor, "From / To value is 0 and Time Mode is not UnScaled will cause the player stop running!");
             }
 
             base.DrawFromToValue();

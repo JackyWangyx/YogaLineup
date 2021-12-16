@@ -5,7 +5,6 @@ using UnityEditor;
 
 namespace Aya.TweenPro
 {
-
     [Serializable]
     public abstract partial class TweenValueDouble<TTarget> : Tweener<TTarget, double>
         where TTarget : UnityEngine.Object

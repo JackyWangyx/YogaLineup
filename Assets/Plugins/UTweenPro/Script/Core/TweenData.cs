@@ -14,6 +14,7 @@ namespace Aya.TweenPro
         public string Identifier;
         public float Duration;
         public float Delay;
+        public bool Backward;
 
         public PlayMode PlayMode;
         public int PlayCount;
@@ -27,7 +28,7 @@ namespace Aya.TweenPro
         public bool AutoKill;
         public bool SpeedBased;
 
-        [SerializeReference]
+        [SerializeReference] 
         public List<Tweener> TweenerList = new List<Tweener>();
 
         public OnPlayEvent OnPlay = new OnPlayEvent();
@@ -153,7 +154,7 @@ namespace Aya.TweenPro
             if (State != PlayState.Paused)
             {
                 IsInitialized = false;
-                StartForward = forward;
+                StartForward = forward && !Backward;
                 foreach (var tweener in TweenerList)
                 {
                     tweener.IsPrepared = false;
@@ -258,12 +259,15 @@ namespace Aya.TweenPro
 
         #region Initialize / Update / Sample
 
-        internal void Initialize()
+        internal void Initialize(bool isPreview = false)
         {
             FrameCounter = 0;
-            DelayTimer = 0f;
             PlayTimer = 0f;
             Forward = StartForward;
+            IsDelaying = false;
+            DelayTimer = 0f;
+            IsInterval = false;
+            IntervalTimer = 0f;
             LoopCounter = 0;
 
             if (SingleMode && SpeedBased)
@@ -280,12 +284,16 @@ namespace Aya.TweenPro
                 tweener.PreSample();
             }
 
-            if (Delay > 0f)
+            if (!isPreview)
             {
-                IsDelaying = true;
-            }
+                if (Delay > 0f)
+                {
+                    IsDelaying = true;
+                }
 
-            State = PlayState.Playing;
+                State = PlayState.Playing;
+            }
+            
             IsInitialized = true;
         }
 
@@ -323,8 +331,11 @@ namespace Aya.TweenPro
                 {
                     IsDelaying = false;
                 }
+
+                return;
             }
-            else if (IsInterval)
+            
+            if (IsInterval)
             {
                 IntervalTimer += deltaTime;
                 if (IntervalTimer >= CurrentInterval)
@@ -332,8 +343,11 @@ namespace Aya.TweenPro
                     IsInterval = false;
                     OnLoopStart.Invoke();
                 }
+
+                return;
             }
-            else if (State == PlayState.Playing)
+            
+            if (State == PlayState.Playing)
             {
                 if (FrameCounter == 0)
                 {
@@ -353,6 +367,11 @@ namespace Aya.TweenPro
             }
             else
             {
+                foreach (var tweener in TweenerList)
+                {
+                    tweener.IsEnd = false;
+                }
+
                 if (PlayMode == PlayMode.Once)
                 {
                     RuntimeNormalizedProgress = 1f;
@@ -364,11 +383,11 @@ namespace Aya.TweenPro
                 {
                     LoopCounter++;
                     PlayTimer = 0f;
+                    RuntimeNormalizedProgress = 1f;
+                    Sample(RuntimeNormalizedProgress);
                     if (LoopCounter >= PlayCount && PlayCount > 0)
                     {
                         OnLoopEnd.Invoke();
-                        RuntimeNormalizedProgress = 1f;
-                        Sample(RuntimeNormalizedProgress);
                         Complete();
                         Stop();
                     }
@@ -389,13 +408,13 @@ namespace Aya.TweenPro
                 else if (PlayMode == PlayMode.PingPong)
                 {
                     PlayTimer = 0f;
+                    RuntimeNormalizedProgress = Forward ? 1f : 0f;
+                    Sample(RuntimeNormalizedProgress);
                     Forward = !Forward;
                     if (Forward == StartForward) LoopCounter++;
                     if (LoopCounter >= PlayCount && PlayCount > 0)
                     {
                         OnLoopEnd.Invoke();
-                        RuntimeNormalizedProgress = StartForward ? 0f : 1f;
-                        Sample(RuntimeNormalizedProgress);
                         Complete();
                         Stop();
                     }
@@ -418,42 +437,49 @@ namespace Aya.TweenPro
 
         public void Sample(float normalizedDuration)
         {
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
+            try
             {
-                if (Mode == TweenEditorMode.Component && !PreviewSampled)
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
                 {
-                    PreviewSampled = true;
-                    RecordObject();
-                }
-
-                if (!IsPlaying)
-                {
-                    foreach (var tweener in TweenerList)
+                    if (Mode == TweenEditorMode.Component && !PreviewSampled)
                     {
-                        tweener.PreSample();
+                        PreviewSampled = true;
+                        RecordObject();
+                    }
+
+                    if (!IsPlaying)
+                    {
+                        foreach (var tweener in TweenerList)
+                        {
+                            tweener.PreSample();
+                        }
                     }
                 }
-            }
 #endif
 
-            foreach (var tweener in TweenerList)
-            {
-                if (tweener.Data == null) tweener.Data = this;
-                if (!tweener.Active) continue;
-                // TODO.. 1 ms
-                var factor = tweener.GetFactor(normalizedDuration);
-                if (float.IsNaN(factor)) continue;
-                // TODO.. 7 ms
-                tweener.Sample(factor);
-            }
+                foreach (var tweener in TweenerList)
+                {
+                    if (tweener.Data == null) tweener.Data = this;
+                    if (!tweener.Active) continue;
+                    // TODO.. 1 ms
+                    var factor = tweener.GetFactor(normalizedDuration);
+                    if (float.IsNaN(factor)) continue;
+                    // TODO.. 7 ms
+                    tweener.Sample(factor);
+                }
 
 #if UNITY_EDITOR
-            foreach (var tweener in TweenerList)
-            {
-                tweener.SetDirty();
-            }
+                foreach (var tweener in TweenerList)
+                {
+                    tweener.SetDirty();
+                }
 #endif
+            }
+            catch (Exception exception)
+            {
+                UTweenCallback.OnException(exception);
+            }
         }
 
         internal void PreSampleImpl()
@@ -516,6 +542,7 @@ namespace Aya.TweenPro
             IsInitialized = false;
             Duration = 1f;
             Delay = 0f;
+            Backward = false;
             PlayMode = PlayMode.Once;
             PlayCount = 1;
             AutoPlay = AutoPlayMode.None;
@@ -585,575 +612,4 @@ namespace Aya.TweenPro
 
 #endif
     }
-
-#if UNITY_EDITOR
-    public partial class TweenData
-    {
-        [NonSerialized] public TweenEditorMode Mode;
-        [NonSerialized] public Editor Editor;
-
-        [NonSerialized] public SerializedProperty IdentifierProperty;
-        [NonSerialized] public SerializedProperty TweenDataProperty;
-        [NonSerialized] public SerializedProperty TweenerListProperty;
-        [NonSerialized] public SerializedProperty DurationProperty;
-        [NonSerialized] public SerializedProperty DelayProperty;
-        [NonSerialized] public SerializedProperty PlayModeProperty;
-        [NonSerialized] public SerializedProperty PlayCountProperty;
-        [NonSerialized] public SerializedProperty AutoPlayProperty;
-        [NonSerialized] public SerializedProperty UpdateModeProperty;
-        [NonSerialized] public SerializedProperty IntervalProperty;
-        [NonSerialized] public SerializedProperty Interval2Property;
-        [NonSerialized] public SerializedProperty TimeModeProperty;
-        [NonSerialized] public SerializedProperty SelfScaleProperty;
-        [NonSerialized] public SerializedProperty PreSampleProperty;
-        [NonSerialized] public SerializedProperty AutoKillProperty;
-        [NonSerialized] public SerializedProperty SpeedBasedProperty;
-
-        [NonSerialized] public SerializedProperty OnPlayProperty;
-        [NonSerialized] public SerializedProperty OnStartProperty;
-        [NonSerialized] public SerializedProperty OnLoopStartProperty;
-        [NonSerialized] public SerializedProperty OnLoopEndProperty;
-        [NonSerialized] public SerializedProperty OnUpdateProperty;
-        [NonSerialized] public SerializedProperty OnPauseProperty;
-        [NonSerialized] public SerializedProperty OnResumeProperty;
-        [NonSerialized] public SerializedProperty OnStopProperty;
-        [NonSerialized] public SerializedProperty OnCompleteProperty;
-
-        [NonSerialized] internal SerializedProperty FoldOutProperty;
-        [NonSerialized] internal SerializedProperty FoldOutEventProperty;
-        [NonSerialized] internal SerializedProperty EnableIdentifierProperty;
-        [NonSerialized] internal SerializedProperty EventTypeProperty;
-
-        [NonSerialized] public float EditorNormalizedProgress;
-        [NonSerialized] public bool PreviewSampled = false;
-
-        public Object EditorTarget => Editor.target;
-        public MonoBehaviour MonoBehaviour => EditorTarget as MonoBehaviour;
-        public GameObject GameObject => EditorTarget as GameObject;
-        public SerializedObject SerializedObject => Editor.serializedObject;
-
-        public void InitEditor(TweenEditorMode mode, Editor editor)
-        {
-            Mode = mode;
-            Editor = editor;
-            PreviewSampled = false;
-
-            TweenDataProperty = SerializedObject.FindProperty("Data");
-            IdentifierProperty = TweenDataProperty.FindPropertyRelative(nameof(Identifier));
-            TweenerListProperty = TweenDataProperty.FindPropertyRelative(nameof(TweenerList));
-            DurationProperty = TweenDataProperty.FindPropertyRelative(nameof(Duration));
-            DelayProperty = TweenDataProperty.FindPropertyRelative(nameof(Delay));
-            PlayModeProperty = TweenDataProperty.FindPropertyRelative(nameof(PlayMode));
-            PlayCountProperty = TweenDataProperty.FindPropertyRelative(nameof(PlayCount));
-            AutoPlayProperty = TweenDataProperty.FindPropertyRelative(nameof(AutoPlay));
-            UpdateModeProperty = TweenDataProperty.FindPropertyRelative(nameof(UpdateMode));
-            IntervalProperty = TweenDataProperty.FindPropertyRelative(nameof(Interval));
-            Interval2Property = TweenDataProperty.FindPropertyRelative(nameof(Interval2));
-            TimeModeProperty = TweenDataProperty.FindPropertyRelative(nameof(TimeMode));
-            SelfScaleProperty = TweenDataProperty.FindPropertyRelative(nameof(SelfScale));
-            PreSampleProperty = TweenDataProperty.FindPropertyRelative(nameof(PreSample));
-            AutoKillProperty = TweenDataProperty.FindPropertyRelative(nameof(AutoKill));
-            SpeedBasedProperty = TweenDataProperty.FindPropertyRelative(nameof(SpeedBased));
-
-            OnPlayProperty = TweenDataProperty.FindPropertyRelative(nameof(OnPlay));
-            OnStartProperty = TweenDataProperty.FindPropertyRelative(nameof(OnStart));
-            OnUpdateProperty = TweenDataProperty.FindPropertyRelative(nameof(OnUpdate));
-            OnLoopStartProperty = TweenDataProperty.FindPropertyRelative(nameof(OnLoopStart));
-            OnLoopEndProperty = TweenDataProperty.FindPropertyRelative(nameof(OnLoopEnd));
-            OnPauseProperty = TweenDataProperty.FindPropertyRelative(nameof(OnPause));
-            OnResumeProperty = TweenDataProperty.FindPropertyRelative(nameof(OnResume));
-            OnStopProperty = TweenDataProperty.FindPropertyRelative(nameof(OnStop));
-            OnCompleteProperty = TweenDataProperty.FindPropertyRelative(nameof(OnComplete));
-
-            FoldOutProperty = TweenDataProperty.FindPropertyRelative(nameof(FoldOut));
-            FoldOutEventProperty = TweenDataProperty.FindPropertyRelative(nameof(FoldOutEvent));
-            EnableIdentifierProperty = TweenDataProperty.FindPropertyRelative(nameof(EnableIdentifier));
-            EventTypeProperty = TweenDataProperty.FindPropertyRelative(nameof(EventType));
-
-            foreach (var tweener in TweenerList)
-            {
-                tweener.Index = -1;
-            }
-
-            if (Mode == TweenEditorMode.Component)
-            {
-                RecordObject();
-            }
-        }
-
-        public virtual void OnInspectorGUI()
-        {
-            using (GUIWideMode.Create(true))
-            {
-                using (GUILabelWidthArea.Create(EditorStyle.LabelWidth))
-                {
-                    DrawProgressBar();
-                    DrawTweenData();
-
-                    if (SerializedObject.isEditingMultipleObjects)
-                    {
-                        SerializedObject.ApplyModifiedProperties();
-                        return;
-                    }
-
-                    if (TweenerList.Count > 0)
-                    {
-                        DrawTweenerList();
-                    }
-                    else
-                    {
-                        GUIUtil.DrawTipArea(EditorStyle.ErrorColor, "No Tweener");
-                    }
-
-                    using (GUIEnableArea.Create(!IsInProgress))
-                    {
-                        DrawAppend();
-                    }
-
-                    DrawEvent();
-                }
-            }
-        }
-
-        public virtual void DrawProgressBar()
-        {
-            if (Mode == TweenEditorMode.ScriptableObject) return;
-            using (GUIGroup.Create())
-            {
-                using (GUIHorizontal.Create())
-                {
-                    var progressBarHeight = EditorGUIUtility.singleLineHeight;
-                    var isInProgress = IsInProgress;
-
-                    using (GUIColorArea.Create(EditorStyle.ProgressInRangeColor, isInProgress))
-                    {
-                        var btnContent = isInProgress ? EditorStyle.PlayButtonOn : EditorStyle.PlayButton;
-                        var btnPlay = GUILayout.Button(btnContent, EditorStyles.miniButtonMid, GUILayout.Width(EditorGUIUtility.singleLineHeight));
-                        if (btnPlay)
-                        {
-                            if (!isInProgress)
-                            {
-                                RecordObject();
-                                ControlMode = TweenControlMode.Component;
-                                State = PlayState.None;
-                                Play();
-                            }
-                            else
-                            {
-                                Stop();
-                                RestoreObject();
-                            }
-                        }
-                    }
-
-                    if (isInProgress)
-                    {
-                        EditorNormalizedProgress = RuntimeNormalizedProgress;
-                    }
-
-                    GUIUtil.DrawDraggableProgressBar(SerializedObject.targetObject, progressBarHeight, EditorNormalizedProgress,
-                        value =>
-                        {
-                            if (isInProgress) return;
-                            if (!IsInitialized) Initialize();
-                            EditorNormalizedProgress = value;
-                            try
-                            {
-                                Sample(EditorNormalizedProgress);
-                            }
-                            catch
-                            {
-                                //
-                            }
-                        });
-
-                    if (!string.IsNullOrEmpty(Identifier))
-                    {
-                        var rect = GUILayoutUtility.GetLastRect();
-                        GUI.Label(rect, Identifier, EditorStyles.centeredGreyMiniLabel);
-                    }
-                }
-            }
-        }
-
-        #region Draw TweenData
-
-        private float _originalDuration;
-        private bool _durationChanged;
-
-        public void DrawTweenData()
-        {
-            _originalDuration = DurationProperty.floatValue;
-            _durationChanged = false;
-
-            using (GUIGroup.Create())
-            {
-                // Header
-                using (GUIHorizontal.Create())
-                {
-                    FoldOut = EditorGUILayout.Toggle(GUIContent.none, FoldOut, EditorStyles.foldout, GUILayout.Width(EditorStyle.CharacterWidth));
-                    var btnTitle = GUILayout.Button("Animation", EditorStyles.boldLabel);
-
-                    var btnFlexibleSpace = GUILayout.Button(GUIContent.none, EditorStyles.label);
-                    if (btnTitle || btnFlexibleSpace)
-                    {
-                        FoldOutProperty.boolValue = !FoldOutProperty.boolValue;
-                    }
-
-                    using (GUIEnableArea.Create(!IsInProgress))
-                    {
-                        var btnContextMenu = GUILayout.Button(GUIContent.none, EditorStyles.foldoutHeaderIcon, GUILayout.Width(EditorStyle.CharacterWidth));
-                        if (btnContextMenu)
-                        {
-                            var menu = CreateContextMenu();
-                            menu.ShowAsContext();
-                        }
-                    }
-                }
-
-                if (!FoldOut) return;
-
-                using (GUIEnableArea.Create(!IsInProgress))
-                {
-                    // ID
-                    if (EnableIdentifier)
-                    {
-                        EditorGUILayout.PropertyField(IdentifierProperty, new GUIContent("ID"));
-                    }
-
-                    using (GUIHorizontal.Create())
-                    {
-                        using (var check = GUICheckChangeArea.Create())
-                        {
-                            var durationName = nameof(Duration);
-                            if (SpeedBased) durationName = "Speed";
-                            EditorGUILayout.PropertyField(DurationProperty, new GUIContent(durationName));
-                            if (DurationProperty.floatValue < 0) DurationProperty.floatValue = 0f;
-
-                            if (check.Changed)
-                            {
-                                _durationChanged = true;
-                            }
-                        }
-
-                        EditorGUILayout.PropertyField(DelayProperty, new GUIContent(nameof(Delay)));
-                        if (DelayProperty.floatValue < 0) DelayProperty.floatValue = 0;
-                    }
-
-                    using (GUIHorizontal.Create())
-                    {
-                        EditorGUILayout.PropertyField(PlayModeProperty, new GUIContent("Play"));
-                        using (GUIEnableArea.Create(PlayMode != PlayMode.Once && GUI.enabled))
-                        {
-                            EditorGUILayout.PropertyField(PlayCountProperty, new GUIContent("Count"));
-                            if (PlayMode == PlayMode.Once)
-                            {
-                                PlayCountProperty.intValue = 1;
-                            }
-
-                            if (PlayCount < -1) PlayCountProperty.intValue = -1;
-                        }
-                    }
-
-                    using (GUIHorizontal.Create())
-                    {
-                        EditorGUILayout.PropertyField(UpdateModeProperty, new GUIContent("Update"));
-
-                        if (PlayMode == PlayMode.PingPong)
-                        {
-                            var rect = EditorGUILayout.GetControlRect(true, EditorGUIUtility.singleLineHeight, EditorStyles.label);
-                            var width = rect.width;
-                            rect.width = EditorStyle.LabelWidth;
-                            GUI.Label(rect, nameof(Interval), EditorStyles.label);
-                            rect.x += EditorStyle.LabelWidth + 2f;
-                            rect.width = (width - rect.width - 6f) / 2f;
-                            IntervalProperty.floatValue = EditorGUI.FloatField(rect, IntervalProperty.floatValue);
-                            if (Interval < 0f) IntervalProperty.floatValue = 0f;
-                            rect.x += rect.width + 3f;
-                            Interval2Property.floatValue = EditorGUI.FloatField(rect, Interval2Property.floatValue);
-                            if (Interval2 < 0f) IntervalProperty.floatValue = 0f;
-                        }
-                        else
-                        {
-                            using (GUIEnableArea.Create(PlayMode != PlayMode.Once))
-                            {
-                                EditorGUILayout.PropertyField(IntervalProperty);
-                            }
-                        }
-                    }
-
-                    using (GUIHorizontal.Create())
-                    {
-                        EditorGUILayout.PropertyField(AutoPlayProperty, new GUIContent("Auto"));
-                        EditorGUILayout.PropertyField(PreSampleProperty, new GUIContent("Sample"));
-                    }
-
-                    using (GUIHorizontal.Create())
-                    {
-                        EditorGUILayout.PropertyField(TimeModeProperty, new GUIContent("Time"));
-                        EditorGUILayout.PropertyField(SelfScaleProperty, new GUIContent("Scale"));
-                    }
-
-                    using (GUIHorizontal.Create())
-                    {
-                        using (GUIEnableArea.Create(SingleMode && GUI.enabled))
-                        {
-                            GUIUtil.ToggleButton(SpeedBasedProperty);
-                            if (!SingleMode)
-                            {
-                                SpeedBasedProperty.boolValue = false;
-                            }
-                        }
-
-                        GUIUtil.ToggleButton(AutoKillProperty);
-                    }
-                }
-            }
-        }
-
-        #endregion
-
-        public virtual void DrawTweenerList()
-        {
-            for (var i = 0; i < TweenerList.Count; i++)
-            {
-                var tweener = TweenerList[i];
-                if (tweener.Index != i || tweener.TweenerProperty == null)
-                {
-                    var tweenerProperty = TweenerListProperty.GetArrayElementAtIndex(i);
-                    tweener.InitEditor(i, this, tweenerProperty);
-                }
-
-                // Sync tweeners duration and delay
-                if (_durationChanged)
-                {
-                    var durationChangeRate = DurationProperty.floatValue / _originalDuration;
-                    tweener.DelayProperty.floatValue *= durationChangeRate;
-                    tweener.DurationProperty.floatValue *= durationChangeRate;
-                }
-
-                tweener.DrawTweener();
-            }
-        }
-
-        #region Draw Event
-
-        public virtual void DrawEvent()
-        {
-            if (Mode != TweenEditorMode.Component) return;
-            using (GUIFoldOut.Create(EditorTarget, "Event", ref FoldOutEvent))
-            {
-                if (!FoldOutEvent) return;
-                using (GUIEnableArea.Create(!IsInProgress))
-                {
-                    using (GUIGroup.Create())
-                    {
-                        var btnStyle = EditorStyles.toolbarButton;
-                        using (GUIHorizontal.Create())
-                        {
-                            using (GUIVertical.Create())
-                            {
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnPlay, nameof(TweenEventType.OnPlay), btnStyle))
-                                {
-                                    OnPlay.InitEditor(TweenDataProperty, nameof(OnPlay));
-                                    EventType = TweenEventType.OnPlay;
-                                }
-
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnLoopStart, nameof(TweenEventType.OnLoopStart), btnStyle))
-                                {
-                                    OnLoopStart.InitEditor(TweenDataProperty, nameof(OnLoopStart));
-                                    EventType = TweenEventType.OnLoopStart;
-                                }
-
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnResume, nameof(TweenEventType.OnResume), btnStyle))
-                                {
-                                    OnResume.InitEditor(TweenDataProperty, nameof(OnResume));
-                                    EventType = TweenEventType.OnResume;
-                                }
-                            }
-
-                            using (GUIVertical.Create())
-                            {
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnStart, nameof(TweenEventType.OnStart), btnStyle))
-                                {
-                                    OnStart.InitEditor(TweenDataProperty, nameof(OnStart));
-                                    EventType = TweenEventType.OnStart;
-                                }
-
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnLoopEnd, nameof(TweenEventType.OnLoopEnd), btnStyle))
-                                {
-                                    OnLoopEnd.InitEditor(TweenDataProperty, nameof(OnLoopEnd));
-                                    EventType = TweenEventType.OnLoopEnd;
-                                }
-
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnStop, nameof(TweenEventType.OnStop), btnStyle))
-                                {
-                                    OnStop.InitEditor(TweenDataProperty, nameof(OnStop));
-                                    EventType = TweenEventType.OnStop;
-                                }
-                            }
-
-                            using (GUIVertical.Create())
-                            {
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnPause, nameof(TweenEventType.OnPause), btnStyle))
-                                {
-                                    OnPause.InitEditor(TweenDataProperty, nameof(OnPause));
-                                    EventType = TweenEventType.OnPause;
-                                }
-
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnUpdate, nameof(TweenEventType.OnUpdate), btnStyle))
-                                {
-                                    OnUpdate.InitEditor(TweenDataProperty, nameof(OnUpdate));
-                                    EventType = TweenEventType.OnUpdate;
-                                }
-
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnComplete, nameof(TweenEventType.OnComplete), btnStyle))
-                                {
-                                    OnComplete.InitEditor(TweenDataProperty, nameof(OnComplete));
-                                    EventType = TweenEventType.OnComplete;
-                                }
-                            }
-                        }
-                    }
-
-                    switch (EventType)
-                    {
-                        case TweenEventType.OnPlay:
-                            OnPlay.DrawEvent(nameof(OnPlay));
-                            break;
-                        case TweenEventType.OnStart:
-                            OnStart.DrawEvent(nameof(OnStart));
-                            break;
-                        case TweenEventType.OnUpdate:
-                            OnUpdate.DrawEvent(nameof(OnUpdate));
-                            break;
-                        case TweenEventType.OnLoopStart:
-                            OnLoopStart.DrawEvent(nameof(OnLoopStart));
-                            break;
-                        case TweenEventType.OnLoopEnd:
-                            OnLoopEnd.DrawEvent(nameof(OnLoopEnd));
-                            break;
-                        case TweenEventType.OnPause:
-                            OnPause.DrawEvent(nameof(OnPause));
-                            break;
-                        case TweenEventType.OnResume:
-                            OnResume.DrawEvent(nameof(OnResume));
-                            break;
-                        case TweenEventType.OnStop:
-                            OnStop.DrawEvent(nameof(OnStop));
-                            break;
-                        case TweenEventType.OnComplete:
-                            OnComplete.DrawEvent(nameof(OnComplete));
-                            break;
-                    }
-                }
-            }
-        }
-
-        #endregion
-
-        public virtual void DrawAppend()
-        {
-            DrawAddTweener();
-        }
-
-        #region Draw Add Tweener
-
-        public virtual void DrawAddTweener()
-        {
-            using (GUIGroup.Create())
-            {
-                var buttonRect = EditorGUILayout.GetControlRect();
-                var btnAddTweener = GUI.Button(buttonRect, "Add Tweener");
-                if (btnAddTweener)
-                {
-                    var tweenTypeDic = TypeCaches.TweenerTypeDic;
-                    var root = new SearchableDropdownItem($"Tweener ({tweenTypeDic.Count})");
-                    var menu = new SearchableDropdown(root, item =>
-                    {
-                        var tweenerType = item.Value as Type;
-                        if (tweenerType == null) return;
-                        var tweener = Activator.CreateInstance(tweenerType) as Tweener;
-                        if (tweener == null) return;
-                        Undo.RecordObject(SerializedObject.targetObject, "Add Tweener");
-                        tweener.Reset();
-                        if (Mode == TweenEditorMode.Component)
-                        {
-                            tweener.InitParam(this, MonoBehaviour);
-                        }
-                        else
-                        {
-                            tweener.InitParam(this, null);
-                        }
-
-                        TweenerList.Add(tweener);
-                        tweener.OnAdded();
-                    });
-
-                    foreach (var kv in EditorIcon.TweenerGroupIconDic)
-                    {
-                        var group = kv.Key;
-                        var groupItem = new SearchableDropdownItem(group)
-                        {
-                            icon = kv.Value
-                        };
-
-                        root.AddChild(groupItem);
-                    }
-
-                    foreach (var kv in tweenTypeDic)
-                    {
-                        var tweenerType = kv.Key;
-                        var tweenerAttribute = kv.Value;
-                        var group = tweenerAttribute.Group;
-                        var name = tweenerAttribute.DisplayName;
-                        SearchableDropdownItem groupItem = null;
-                        foreach (var child in root.children)
-                        {
-                            if (child.name != group) continue;
-                            groupItem = child as SearchableDropdownItem;
-                            break;
-                        }
-
-                        if (groupItem == null)
-                        {
-                            groupItem = new SearchableDropdownItem(group);
-                            root.AddChild(groupItem);
-                        }
-
-                        var item = new SearchableDropdownItem(name, tweenerType)
-                        {
-                            icon = EditorIcon.GetTweenerIcon(tweenerType)
-                        };
-
-                        groupItem.AddChild(item);
-                    }
-
-                    menu.Show(buttonRect);
-                }
-            }
-        }
-
-        public virtual GenericMenu CreateContextMenu()
-        {
-            var menu = new GenericMenu();
-
-            // Identifier
-            menu.AddItem(EnableIdentifier ? "Disable Identifier" : "Enable Identifier", false, () =>
-            {
-                Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Switch Identifier");
-                EnableIdentifier = !EnableIdentifier;
-                if (!EnableIdentifier)
-                {
-                    Identifier = null;
-                }
-            });
-
-            return menu;
-        }
-
-        #endregion
-    }
-
-#endif
 }

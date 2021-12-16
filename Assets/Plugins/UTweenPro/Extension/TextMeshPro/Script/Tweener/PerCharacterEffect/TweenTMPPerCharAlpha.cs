@@ -12,7 +12,7 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenTMPPerCharAlpha : TweenValueFloat<TMP_Text>, ITMPCharacterModifier
     {
-        public TMPCharacterModifier Modifier;
+        public TMPCharacterModifier Modifier = new TMPCharacterModifier();
 
         public bool ChangeGeometry => false;
         public bool ChangeColor => true;

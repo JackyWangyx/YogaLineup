@@ -2,7 +2,7 @@
 
 namespace Aya.TweenPro
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class TweenerAttribute : Attribute
     {
         public string DisplayName { get; set; }

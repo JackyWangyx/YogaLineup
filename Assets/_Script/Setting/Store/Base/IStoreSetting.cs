@@ -14,7 +14,7 @@ public interface IStoreSetting<out TStoreData>
 
     int SelectIndex { get; set; }
     int UnlockIndex { get; set; }
-    int UnlockCount { get; set; }
+    int BuyCount { get; set; }
     int UnlockProgress { get; set; }
 
     void PreNextUnlock();

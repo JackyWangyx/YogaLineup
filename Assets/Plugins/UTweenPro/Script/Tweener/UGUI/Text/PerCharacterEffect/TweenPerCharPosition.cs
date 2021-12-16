@@ -9,9 +9,9 @@ namespace Aya.TweenPro
 {
     [Tweener("Text Per-Char Position", "UGUI Text")]
     [Serializable]
-    public partial class TweenPerCharPosition : TweenValueVector3<Text>, ICharacterModifier
+    public partial class TweenPerCharPosition : TweenValueVector3<Text>, ITextCharacterModifier
     {
-        public CharacterModifier Modifier;
+        public TextCharacterModifier Modifier = new TextCharacterModifier();
 
         public override bool SupportIndependentAxis => false;
         public override bool SupportSetCurrentValue => false;
@@ -60,7 +60,7 @@ namespace Aya.TweenPro
 
 #if UNITY_EDITOR
 
-    public partial class TweenPerCharPosition : TweenValueVector3<Text>, ICharacterModifier
+    public partial class TweenPerCharPosition : TweenValueVector3<Text>, ITextCharacterModifier
     {
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {

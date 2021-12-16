@@ -10,7 +10,7 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenSpiral : TweenPathBase
     {
-        public TargetPositionData Start;
+        public TargetPositionData Start = new TargetPositionData();
         public float Turn;
         public float Radius;
         public Vector3 Normal;
@@ -30,6 +30,7 @@ namespace Aya.TweenPro
         public override void Reset()
         {
             base.Reset();
+
             Start.Reset();
             Turn = 3;
             Radius = 1;
@@ -41,20 +42,15 @@ namespace Aya.TweenPro
 
     public partial class TweenSpiral : TweenPathBase
     {
-        [NonSerialized] public SerializedProperty StartProperty;
-        [NonSerialized] public SerializedProperty SpeedProperty;
-        [NonSerialized] public SerializedProperty RadiusProperty;
-        [NonSerialized] public SerializedProperty NormalProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty StartProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty TurnProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty RadiusProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty NormalProperty;
 
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
             Start.InitEditor(this, TweenerProperty, nameof(Start));
-
-            StartProperty = TweenerProperty.FindPropertyRelative(nameof(Start));
-            SpeedProperty = TweenerProperty.FindPropertyRelative(nameof(Turn));
-            RadiusProperty = TweenerProperty.FindPropertyRelative(nameof(Radius));
-            NormalProperty = TweenerProperty.FindPropertyRelative(nameof(Normal));
         }
 
         public override void DrawBody()
@@ -63,11 +59,11 @@ namespace Aya.TweenPro
 
             using (GUIHorizontal.Create())
             {
-                EditorGUILayout.PropertyField(SpeedProperty);
+                EditorGUILayout.PropertyField(TurnProperty);
                 EditorGUILayout.PropertyField(RadiusProperty);
             }
 
-            using (GUIColorArea.Create(EditorStyle.ErrorColor, Normal == Vector3.zero))
+            using (GUIErrorColorArea.Create(Normal == Vector3.zero))
             {
                 EditorGUILayout.PropertyField(NormalProperty);
             }

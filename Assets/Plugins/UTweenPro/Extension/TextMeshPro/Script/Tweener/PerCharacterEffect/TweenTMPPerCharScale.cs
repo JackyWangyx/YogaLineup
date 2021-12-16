@@ -12,7 +12,7 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenTMPPerCharScale : TweenValueVector3<TMP_Text>, ITMPCharacterModifier
     {
-        public TMPCharacterModifier Modifier;
+        public TMPCharacterModifier Modifier = new TMPCharacterModifier();
         public CharacterSpaceMode CharacterSpace;
 
         public bool ChangeGeometry => true;
@@ -88,13 +88,12 @@ namespace Aya.TweenPro
 
     public partial class TweenTMPPerCharScale : TweenValueVector3<TMP_Text>, ITMPCharacterModifier
     {
-        [NonSerialized] public SerializedProperty CharacterSpaceProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty CharacterSpaceProperty;
 
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
             Modifier.InitEditor(this, tweenerProperty);
-            CharacterSpaceProperty = TweenerProperty.FindPropertyRelative(nameof(CharacterSpace));
         }
 
         public override void DrawBody()

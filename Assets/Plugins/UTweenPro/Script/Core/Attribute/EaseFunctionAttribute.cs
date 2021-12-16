@@ -2,7 +2,7 @@
 
 namespace Aya.TweenPro
 {
-    [AttributeUsage(AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class EaseFunctionAttribute : Attribute
     {
         public Type Type { get; set; }

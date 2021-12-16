@@ -9,9 +9,9 @@ namespace Aya.TweenPro
 {
     [Tweener("Text Per-Char Color", "UGUI Text")]
     [Serializable]
-    public partial class TweenPerCharColor : TweenValueColor<Text>, ICharacterModifier
+    public partial class TweenPerCharColor : TweenValueColor<Text>, ITextCharacterModifier
     {
-        public CharacterModifier Modifier;
+        public TextCharacterModifier Modifier = new TextCharacterModifier();
         public ColorOverlayMode Overlay;
 
         public override bool SupportIndependentAxis => false;
@@ -73,20 +73,19 @@ namespace Aya.TweenPro
 
 #if UNITY_EDITOR
 
-    public partial class TweenPerCharColor : TweenValueColor<Text>, ICharacterModifier
+    public partial class TweenPerCharColor : TweenValueColor<Text>, ITextCharacterModifier
     {
-        [NonSerialized] public SerializedProperty OverlayModeProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty OverlayProperty;
 
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            OverlayModeProperty = TweenerProperty.FindPropertyRelative(nameof(Overlay));
             Modifier.InitEditor(this, tweenerProperty);
         }
 
         public override void DrawBody()
         {
-            GUIUtil.DrawToolbarEnum(OverlayModeProperty, nameof(Overlay), typeof(ColorOverlayMode));
+            GUIUtil.DrawToolbarEnum(OverlayProperty, nameof(Overlay), typeof(ColorOverlayMode));
             Modifier.DrawCharacterModifier();
         }
     }

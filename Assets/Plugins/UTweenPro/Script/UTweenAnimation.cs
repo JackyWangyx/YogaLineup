@@ -53,6 +53,8 @@ namespace Aya.TweenPro
 
     public partial class UTweenAnimation
     {
+        internal Action RefreshEditorAction { get; set; } = delegate { };
+
         #region Editor Preview
 
         internal double LastTimeSinceStartup = -1f;
@@ -88,14 +90,7 @@ namespace Aya.TweenPro
 
         internal void EditorUpdateImpl(float scaledDeltaTime, float unscaledDeltaTime, float smoothDeltaTime)
         {
-            try
-            {
-                Data.UpdateInternal(scaledDeltaTime, unscaledDeltaTime, smoothDeltaTime);
-            }
-            catch (Exception exception)
-            {
-                UTweenCallback.OnException(exception);
-            }
+            Data.UpdateInternal(scaledDeltaTime, unscaledDeltaTime, smoothDeltaTime);
         }
 
         #endregion
@@ -113,10 +108,10 @@ namespace Aya.TweenPro
             }
         }
 
-        [ContextMenu("Shrink All Tweener")]
-        public void ShrinkAllTweener()
+        [ContextMenu("Narrow All Tweener")]
+        public void NarrowAllTweener()
         {
-            Undo.RegisterCompleteObjectUndo(this, "Shrink All Tweener");
+            Undo.RegisterCompleteObjectUndo(this, "Narrow All Tweener");
             foreach (var tweener in Data.TweenerList)
             {
                 tweener.FoldOut = false;
@@ -144,6 +139,35 @@ namespace Aya.TweenPro
                 tweener.Active = false;
                 tweener.SerializedObject.ApplyModifiedProperties();
             }
+        }
+
+        [ContextMenu("Export Assets...", false, 10000)]
+        public void ExportAssets()
+        {
+            var path = EditorUtility.SaveFilePanel("Export param to UTween Animation Asset", Application.dataPath, "UTween", "asset");
+            path = path.Remove(0, path.IndexOf("Assets", StringComparison.Ordinal));
+            var asset = ScriptableObject.CreateInstance<UTweenAnimationAsset>();
+            asset.Data = Data;
+            var saveAsset = Instantiate(asset);
+            DestroyImmediate(asset);
+            AssetDatabase.CreateAsset(saveAsset, path);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        [ContextMenu("Import Assets...", false, 10001)]
+        public void ImportAssets()
+        {
+            var path = EditorUtility.OpenFilePanel("Select a UTween Animation Asset", Application.dataPath, "asset");
+            path = path.Remove(0, path.IndexOf("Assets", StringComparison.Ordinal));
+            var asset = (UTweenAnimationAsset)AssetDatabase.LoadAssetAtPath(path, typeof(UTweenAnimationAsset));
+            if (asset == null) return;
+
+            var loadAsset = Instantiate(asset);
+            Undo.RegisterCompleteObjectUndo(this, "Import UTween Animation Asset");
+            Data = loadAsset.Data;
+            EditorUtility.SetDirty(gameObject);
+            RefreshEditorAction();
         }
 
         #endregion
@@ -179,6 +203,7 @@ namespace Aya.TweenPro
         public virtual void OnEnable()
         {
             InitEditor();
+            Target.RefreshEditorAction = InitEditor;
             Data.RecordObject();
         }
 

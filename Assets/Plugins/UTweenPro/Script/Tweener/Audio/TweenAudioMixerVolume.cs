@@ -29,17 +29,11 @@ namespace Aya.TweenPro
 
     public partial class TweenAudioMixerVolume : TweenValueFloat<AudioMixer>
     {
-        [NonSerialized] public SerializedProperty GroupProperty;
-
-        public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
-        {
-            base.InitEditor(index, data, tweenerProperty);
-            GroupProperty = TweenerProperty.FindPropertyRelative(nameof(Group));
-        }
+        [TweenerProperty, NonSerialized] public SerializedProperty GroupProperty;
 
         public override void DrawFromToValue()
         {
-            using (GUIColorArea.Create(EditorStyle.ErrorColor, string.IsNullOrEmpty(Group)))
+            using (GUIErrorColorArea.Create(string.IsNullOrEmpty(Group)))
             {
                 EditorGUILayout.PropertyField(GroupProperty);
             }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Aya.TweenPro
 {
-    [Tweener("RectTransform Anchor Min", "RectTransform")]
+    [Tweener("Rect Transform Anchor Min", "RectTransform")]
     [Serializable]
     public class TweenAnchorMin : TweenValueVector2<RectTransform>
     {

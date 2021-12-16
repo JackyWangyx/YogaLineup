@@ -9,9 +9,9 @@ namespace Aya.TweenPro
 {
     [Tweener("Text Per-Char Rotation", "UGUI Text")]
     [Serializable]
-    public partial class TweenPerCharRotation : TweenValueVector3<Text>, ICharacterModifier
+    public partial class TweenPerCharRotation : TweenValueVector3<Text>, ITextCharacterModifier
     {
-        public CharacterModifier Modifier;
+        public TextCharacterModifier Modifier = new TextCharacterModifier();
         public CharacterSpaceMode CharacterSpace;
 
         public override bool SupportIndependentAxis => false;
@@ -80,15 +80,14 @@ namespace Aya.TweenPro
 
 #if UNITY_EDITOR
 
-    public partial class TweenPerCharRotation : TweenValueVector3<Text>, ICharacterModifier
+    public partial class TweenPerCharRotation : TweenValueVector3<Text>, ITextCharacterModifier
     {
-        [NonSerialized] public SerializedProperty CharacterSpaceProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty CharacterSpaceProperty;
 
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
             Modifier.InitEditor(this, tweenerProperty);
-            CharacterSpaceProperty = TweenerProperty.FindPropertyRelative(nameof(CharacterSpace));
         }
 
         public override void DrawBody()

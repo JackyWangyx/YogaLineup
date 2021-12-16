@@ -8,7 +8,7 @@ using UnityEngine;
 public class AvatarData : StoreData
 {
     public new AvatarSetting Setting => base.Setting as AvatarSetting;
-    public override int Cost => Setting.Costs[Setting.UnlockCount];
+    public override int Cost => Setting.Costs[Setting.BuyCount];
     public override UnlockMode UnlockMode => UnlockMode.FixedValue;
     public override int UnlockValue => Setting.UnlockValues[0];
 

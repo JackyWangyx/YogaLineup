@@ -100,7 +100,7 @@ namespace Aya.TweenPro
                     using (GUIHorizontal.Create())
                     {
                         GUIUtil.DrawHoldProperty(HoldStartProperty);
-                        using (GUIColorArea.Create(EditorStyle.ErrorColor, From == null))
+                        using (GUIErrorColorArea.Create(From == null))
                         {
                             EditorGUILayout.PropertyField(FromProperty);
                         }
@@ -109,7 +109,7 @@ namespace Aya.TweenPro
                     using (GUIHorizontal.Create())
                     {
                         GUIUtil.DrawHoldProperty(HoldEndProperty);
-                        using (GUIColorArea.Create(EditorStyle.ErrorColor, To == null))
+                        using (GUIErrorColorArea.Create(To == null))
                         {
                             EditorGUILayout.PropertyField(ToProperty);
                         }

@@ -33,17 +33,11 @@ namespace Aya.TweenPro
 
     public partial class TweenAudioMixerProperty : TweenValueFloat<AudioMixer>
     {
-        [NonSerialized] public SerializedProperty PropertyProperty;
-
-        public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
-        {
-            base.InitEditor(index, data, tweenerProperty);
-            PropertyProperty = TweenerProperty.FindPropertyRelative(nameof(Property));
-        }
+        [TweenerProperty, NonSerialized] public SerializedProperty PropertyProperty;
 
         public override void DrawFromToValue()
         {
-            using (GUIColorArea.Create(EditorStyle.ErrorColor, string.IsNullOrEmpty(Property)))
+            using (GUIErrorColorArea.Create(string.IsNullOrEmpty(Property)))
             {
                 EditorGUILayout.PropertyField(PropertyProperty);
             }

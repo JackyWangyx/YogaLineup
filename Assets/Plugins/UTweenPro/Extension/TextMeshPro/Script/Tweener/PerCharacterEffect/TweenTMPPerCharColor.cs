@@ -12,7 +12,7 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenTMPPerCharColor : TweenValueColor<TMP_Text>, ITMPCharacterModifier
     {
-        public TMPCharacterModifier Modifier;
+        public TMPCharacterModifier Modifier = new TMPCharacterModifier();
         public ColorOverlayMode Overlay;
 
         public bool ChangeGeometry => false;
@@ -77,18 +77,17 @@ namespace Aya.TweenPro
 
     public partial class TweenTMPPerCharColor : TweenValueColor<TMP_Text>, ITMPCharacterModifier
     {
-        [NonSerialized] public SerializedProperty OverlayModeProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty OverlayProperty;
 
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            OverlayModeProperty = TweenerProperty.FindPropertyRelative(nameof(Overlay));
             Modifier.InitEditor(this, tweenerProperty);
         }
 
         public override void DrawBody()
         {
-            GUIUtil.DrawToolbarEnum(OverlayModeProperty, nameof(Overlay), typeof(ColorOverlayMode));
+            GUIUtil.DrawToolbarEnum(OverlayProperty, nameof(Overlay), typeof(ColorOverlayMode));
             Modifier.DrawCharacterModifier();
         }
     }
