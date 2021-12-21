@@ -782,7 +782,7 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -851,7 +851,7 @@ MonoBehaviour:
         To: {x: 1, y: 1, z: 1}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -1199,7 +1199,7 @@ MonoBehaviour:
         To: {x: 2, y: 2, z: 1}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -1281,7 +1281,7 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -1865,7 +1865,7 @@ MonoBehaviour:
         To: {x: 0, y: 0, z: 0}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -1938,7 +1938,7 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -2119,7 +2119,7 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -2188,7 +2188,7 @@ MonoBehaviour:
         To: {x: 0, y: 0, z: 0}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -2957,7 +2957,7 @@ MonoBehaviour:
         To: {x: 1, y: 1, z: 1}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -3030,7 +3030,7 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 1
           RangeValue: 0.3
           Curve:
@@ -3208,7 +3208,7 @@ MonoBehaviour:
         To: {x: 0, y: 0, z: 0}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 1
           RangeValue: 0.25
           Curve:
@@ -3280,7 +3280,7 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -3800,7 +3800,7 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -3869,7 +3869,7 @@ MonoBehaviour:
         To: {x: 0, y: 0, z: 0}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -3939,7 +3939,7 @@ MonoBehaviour:
         To: {x: 1, y: 1, z: 1}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -4148,7 +4148,7 @@ MonoBehaviour:
           m_Mode: 0
           m_NumColorKeys: 4
           m_NumAlphaKeys: 2
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -4218,7 +4218,7 @@ MonoBehaviour:
         To: {x: 2, y: 2, z: 2}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 1
           RangeValue: 0.5
           Curve:
@@ -4675,7 +4675,7 @@ MonoBehaviour:
           m_Mode: 0
           m_NumColorKeys: 8
           m_NumAlphaKeys: 2
-        Modifier:
+        EffectData:
           RangeMode: 1
           RangeValue: 0.75
           Curve:
@@ -4748,7 +4748,7 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -5264,7 +5264,7 @@ MonoBehaviour:
         To: {x: 1, y: 1, z: 0}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -5334,7 +5334,7 @@ MonoBehaviour:
         To: {x: 0, y: 0, z: 0}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -5511,7 +5511,7 @@ MonoBehaviour:
         To: {x: 1, y: 1, z: 1}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -5803,7 +5803,7 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -5872,7 +5872,7 @@ MonoBehaviour:
         To: {x: 0, y: 0, z: 0}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -6063,7 +6063,7 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:
@@ -6132,7 +6132,7 @@ MonoBehaviour:
         To: {x: 0, y: 0, z: 0}
         Axis: 30
         EnableAxis: 0
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
           Curve:

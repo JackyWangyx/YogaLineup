@@ -171,7 +171,7 @@ namespace Aya.TweenPro
 
         public static TweenData SetPreSample(this TweenData tweenData, PreSampleMode preSampleMode)
         {
-            tweenData.PreSample = preSampleMode;
+            tweenData.PreSampleMode = preSampleMode;
             return tweenData;
         }
 

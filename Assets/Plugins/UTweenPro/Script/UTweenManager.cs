@@ -28,8 +28,7 @@ namespace Aya.TweenPro
                 if (Instance != null) return Instance;
                 Instance = FindObjectOfType<UTweenManager>();
                 if (Instance != null) return Instance;
-                // var hideFlag = TweenSetting.Ins.ShowManager ? HideFlags.None : HideFlags.HideAndDontSave;
-                var hideFlag = HideFlags.None;
+                var hideFlag = UTweenSetting.Ins.ShowManagerInHierarchy ? HideFlags.None : HideFlags.HideAndDontSave;
                 var insName = nameof(UTween);
                 if (!Application.isPlaying)
                 {

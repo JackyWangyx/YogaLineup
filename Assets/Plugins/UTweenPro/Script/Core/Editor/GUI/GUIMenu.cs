@@ -8,6 +8,63 @@ namespace Aya.TweenPro
 {
     internal static class GUIMenu
     {
+        #region Tweener Menu
+
+        public static SearchableDropdown CreateTweenerMenu(Action<Type> onClick = null) 
+        {
+            var tweenAttributeDic = TypeCaches.TweenerAttributeDic;
+            var root = new SearchableDropdownItem($"Tweener ({tweenAttributeDic.Count})");
+            var menu = new SearchableDropdown(root, item =>
+            {
+                var tweenerType = item.Value as Type;
+                if (tweenerType == null) return;
+                onClick?.Invoke(tweenerType);
+            });
+
+            foreach (var kv in UTweenEditorSetting.Ins.GroupDataDic)
+            {
+                var group = kv.Key;
+                var groupItem = new SearchableDropdownItem(group)
+                {
+                    icon = kv.Value.Icon
+                };
+
+                root.AddChild(groupItem);
+            }
+
+            foreach (var kv in tweenAttributeDic)
+            {
+                var tweenerType = kv.Key;
+                var tweenerAttribute = kv.Value;
+                var group = tweenerAttribute.Group;
+                var name = tweenerAttribute.DisplayName;
+                SearchableDropdownItem groupItem = null;
+                foreach (var child in root.children)
+                {
+                    if (child.name != group) continue;
+                    groupItem = child as SearchableDropdownItem;
+                    break;
+                }
+
+                if (groupItem == null)
+                {
+                    groupItem = new SearchableDropdownItem(group);
+                    root.AddChild(groupItem);
+                }
+
+                var item = new SearchableDropdownItem(name, tweenerType)
+                {
+                    icon = EditorIcon.GetTweenerIcon(tweenerType)
+                };
+
+                groupItem.AddChild(item);
+            }
+
+            return menu;
+        }
+
+        #endregion
+
         #region Property Menu
 
         public static void DrawPropertyMenu<TValue>(object target, string propertyName, SerializedProperty property)

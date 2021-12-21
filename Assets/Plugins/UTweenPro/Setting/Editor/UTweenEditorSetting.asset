@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2527c6dddc894b84dab08cf8a7fd81f5, type: 3}
   m_Name: UTweenEditorSetting
   m_EditorClassIdentifier: 
-  EnableColor: {r: 0.6127626, g: 0.9622642, b: 0.6365122, a: 1}
+  EnableColor: {r: 0.6083019, g: 0.9811321, b: 0.6334365, a: 1}
   DisableColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
   ErrorColor: {r: 1, g: 0.5, b: 0.5, a: 1}
   SelectedColor: {r: 1, g: 1, b: 1, a: 1}
-  ProgressColor: {r: 0.29810432, g: 0.7264151, b: 0.42789546, a: 1}
+  ProgressColor: {r: 0.2653524, g: 0.8396226, b: 0.43921402, a: 1}
   ProgressBackColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   SubProgressColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
   ProgressDisableColor: {r: 0.25, g: 0.25, b: 0.25, a: 0.7490196}
   ShowGroupReminder: 1
-  GroupReminderWidth: 2
+  GroupReminderWidth: 3
   HideFullSubProgress: 1
   GroupDataList:
   - Name: Transform

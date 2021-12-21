@@ -10,8 +10,11 @@ namespace Aya.TweenPro
     [AddComponentMenu("UTween Pro/UTween Per-Char Effect Handler")]
     public partial class UTweenPerCharEffectHandler : BaseMeshEffect
     {
-        [NonSerialized]
-        public List<ITextCharacterModifier> Modifiers = new List<ITextCharacterModifier>();
+        [NonSerialized] public List<ITextCharacterModifier> Modifiers = new List<ITextCharacterModifier>();
+
+        public int Length { get; set; }
+
+        [NonSerialized] public List<int> CharacterIndexList = new List<int>();
 
         public void SyncModifiers(TweenData tween)
         {
@@ -33,12 +36,18 @@ namespace Aya.TweenPro
             {
                 vh.Clear();
                 return;
-            }
+            } 
 
             var characterIndex = 0;
+            var characterLength = vertexCount / 4;
+            if (characterLength != Length)
+            {
+                Length = characterLength;
+            }
+
             for (var i = 0; i < vertexCount; i += 4)
             {
-                var progress = i * 1f / vertexCount;
+                // var progress = i * 1f / vertexCount;
                 var vertexes = new UIVertex[4];
                 for (var j = 0; j < 4; j++)
                 {
@@ -47,9 +56,16 @@ namespace Aya.TweenPro
                     vh.PopulateUIVertex(ref vertexes[j], i + j);
                 }
 
-                foreach (var modifier in Modifiers)
+                try
                 {
-                    modifier.Modify(characterIndex, ref vertexes, progress);
+                    foreach (var modifier in Modifiers)
+                    {
+                        modifier.Modify(characterIndex, ref vertexes);
+                    }
+                }
+                catch
+                {
+                    //
                 }
 
                 for (var j = 0; j < 4; j++)

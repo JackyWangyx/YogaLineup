@@ -11,7 +11,7 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenPerCharAlpha : TweenValueFloat<Text>, ITextCharacterModifier
     {
-        public TextCharacterModifier Modifier = new TextCharacterModifier();
+        public TextPerCharEffectData EffectData = new TextPerCharEffectData();
 
         public override bool SupportIndependentAxis => false;
         public override bool SupportSetCurrentValue => false;
@@ -20,18 +20,19 @@ namespace Aya.TweenPro
         public override void PreSample()
         {
             base.PreSample();
-            Modifier.Cache(Data, Target, this);
+            EffectData.Cache(Data, Target, this);
         }
 
         public override void Sample(float factor)
         {
         }
 
-        public void Modify(int characterIndex, ref UIVertex[] vertices, float progress)
+        public void Modify(int characterIndex, ref UIVertex[] vertices)
         {
+            var (index, progress) = EffectData.GetIndexAndProgress(characterIndex);
             var from = FromGetter();
             var to = ToGetter();
-            var factor = Modifier.GetFactor(progress, Factor);
+            var factor = EffectData.GetFactor(progress, Factor);
             var alpha = Mathf.LerpUnclamped(from, to, factor);
             for (var i = 0; i < vertices.Length; i++)
             {
@@ -44,19 +45,19 @@ namespace Aya.TweenPro
         public override void SetDirty()
         {
             base.SetDirty();
-            Modifier.SetDirty();
+            EffectData.SetDirty();
         }
 
         public override void OnRemoved()
         {
             base.OnRemoved();
-            Modifier.Remove(Data, Target, this);
+            EffectData.Remove(Data, Target, this);
         }
 
         public override void Reset()
         {
             base.Reset();
-            Modifier.Reset();
+            EffectData.Reset();
         }
     }
 
@@ -67,12 +68,12 @@ namespace Aya.TweenPro
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            Modifier.InitEditor(this, tweenerProperty);
+            EffectData.InitEditor(this, tweenerProperty);
         }
 
         public override void DrawBody()
         {
-            Modifier.DrawCharacterModifier();
+            EffectData.DrawCharacterModifier();
         }
     }
 

@@ -1,6 +1,9 @@
-﻿using System;
+﻿#if UTWEEN_TEXTMESHPRO
+using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using Random = UnityEngine.Random;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -8,24 +11,33 @@ using UnityEditor;
 namespace Aya.TweenPro
 {
     [Serializable]
-    public partial class TextCharacterModifier
+    public partial class TMPPerCharEffectData
     {
-        public TextRangeMode RangeMode;
+        public TextRangeMode RangeMode; 
         public float RangeValue;
+        public TextOrderMode OrderMode;
         public AnimationCurve Curve;
 
-        [NonSerialized] public int TextLength;
+        [NonSerialized] public int Length;
         [NonSerialized] public float RuntimeRangeValue;
-        [NonSerialized] public Text Text;
-        [NonSerialized] public UTweenPerCharEffectHandler Effect;
+        [NonSerialized] public TMP_Text Text;
+        [NonSerialized] public UTweenTMPPerCharEffectHandler Effect;
+        [NonSerialized] public List<int> CharacterIndexList = new List<int>();
 
-        public void Cache(TweenData data, Text text, ITextCharacterModifier modifier)
+        public void Cache(TweenData data, TMP_Text text, ITMPCharacterModifier modifier)
         {
-            if (Text == text) return;
+            if (text == null) return;
             Text = text;
-            CacheRuntimeRangeValue();
-            if (Effect == null) Effect = text.GetComponent<UTweenPerCharEffectHandler>();
-            if (Effect == null) Effect = text.gameObject.AddComponent<UTweenPerCharEffectHandler>();
+            if (Effect == null) Effect = text.GetComponent<UTweenTMPPerCharEffectHandler>();
+            if (Effect == null) Effect = text.gameObject.AddComponent<UTweenTMPPerCharEffectHandler>();
+            var length = Effect.Length;
+            if (Length != length || Application.isPlaying)
+            {
+                Length = length;
+                CacheRuntimeRangeValue();
+                CacheOrderList();
+            }
+            
             Effect.SyncModifiers(data);
         }
 
@@ -34,20 +46,44 @@ namespace Aya.TweenPro
             if (Text == null) return;
             if (RangeMode == TextRangeMode.Length)
             {
-                TextLength = StringLerpUtil.GetLength(Text.text, Text.supportRichText);
-                RuntimeRangeValue = RangeValue / TextLength;
+                RuntimeRangeValue = Mathf.Clamp01(RangeValue / Length);
             }
-
-            if (RangeMode == TextRangeMode.Percent)
+            else if(RangeMode == TextRangeMode.Percent)
             {
                 RuntimeRangeValue = RangeValue;
             }
         }
 
-        public void Remove(TweenData data, Text text, ITextCharacterModifier modifier)
+        public void CacheOrderList()
+        {
+            Effect.CharacterIndexList.Clear();
+            CharacterIndexList.Clear();
+            for (var i = 0; i < Length; i++)
+            {
+                Effect.CharacterIndexList.Insert(Random.Range(0, Effect.CharacterIndexList.Count + 1), i);
+            }
+
+            if (OrderMode == TextOrderMode.SelfRandom)
+            {
+                for (var i = 0; i < Length; i++)
+                {
+                    CharacterIndexList.Insert(Random.Range(0, CharacterIndexList.Count + 1), i);
+                }
+            }
+        }
+
+        public int GetStartIndex(int handlerCharacterIndex)
+        {
+            if (OrderMode == TextOrderMode.Normal) return handlerCharacterIndex;
+            else if (OrderMode == TextOrderMode.UniformRandom) return Effect.CharacterIndexList[handlerCharacterIndex];
+            else if(OrderMode == TextOrderMode.SelfRandom) return CharacterIndexList[handlerCharacterIndex];
+            return handlerCharacterIndex;
+        }
+
+        public void Remove(TweenData data, TMP_Text text, ITMPCharacterModifier modifier)
         {
             if (text == null) return;
-            if (Effect == null) Effect = text.GetComponent<UTweenPerCharEffectHandler>();
+            if (Effect == null) Effect = text.GetComponent<UTweenTMPPerCharEffectHandler>();
             if (Effect == null) return;
             Effect.SyncModifiers(data);
             if (Effect.Modifiers.Count == 0)
@@ -74,38 +110,35 @@ namespace Aya.TweenPro
             return factor;
         }
 
-        public void SetDirty()
-        {
-            Effect?.SetDirty();
-        }
-
         public void Reset()
         {
             RangeMode = TextRangeMode.Length;
             RangeValue = 1;
+            OrderMode = TextOrderMode.Normal;
             Curve = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(1f, 1f));
         }
     }
 
 #if UNITY_EDITOR
 
-    public partial class TextCharacterModifier
+    public partial class TMPPerCharEffectData
     {
         [NonSerialized] public Tweener Tweener;
         [NonSerialized] public SerializedProperty TweenerProperty;
-        [NonSerialized] public SerializedProperty ModifierProperty;
+        [NonSerialized] public SerializedProperty EffectDataProperty;
 
         [TweenerProperty, NonSerialized] public SerializedProperty RangeModeProperty;
         [TweenerProperty, NonSerialized] public SerializedProperty RangeValueProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty OrderModeProperty;
         [TweenerProperty, NonSerialized] public SerializedProperty CurveProperty;
 
         public void InitEditor(Tweener tweener, SerializedProperty tweenerProperty)
         {
             Tweener = tweener;
             TweenerProperty = tweenerProperty;
-            ModifierProperty = TweenerProperty.FindPropertyRelative("Modifier");
+            EffectDataProperty = TweenerProperty.FindPropertyRelative("EffectData");
 
-            TweenerPropertyAttribute.CacheProperty(this, ModifierProperty);
+            TweenerPropertyAttribute.CacheProperty(this, EffectDataProperty);
         }
 
         public void DrawCharacterModifier()
@@ -137,6 +170,7 @@ namespace Aya.TweenPro
 
             using (GUIHorizontal.Create())
             {
+                EditorGUILayout.PropertyField(OrderModeProperty, new GUIContent("Order"));
                 EditorGUILayout.PropertyField(CurveProperty, new GUIContent(nameof(Effect)));
             }
         }
@@ -145,3 +179,4 @@ namespace Aya.TweenPro
 #endif
 
 }
+#endif

@@ -4,6 +4,6 @@ namespace Aya.TweenPro
 {
     public interface ITextCharacterModifier
     {
-        void Modify(int characterIndex, ref UIVertex[] vertices, float progress);
+        void Modify(int characterIndex, ref UIVertex[] vertices);
     }
 }

@@ -95,6 +95,13 @@ namespace Aya.TweenPro
         Percent = 1,
     }
 
+    public enum TextOrderMode
+    {
+        Normal = 0,
+        UniformRandom = 1,
+        SelfRandom = 2,
+    }
+
     public enum CharacterSpaceMode
     {
         Character = 0,

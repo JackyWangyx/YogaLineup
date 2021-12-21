@@ -25,7 +25,7 @@ namespace Aya.TweenPro
         [TweenerProperty, NonSerialized] public SerializedProperty Interval2Property;
         [TweenerProperty, NonSerialized] public SerializedProperty TimeModeProperty;
         [TweenerProperty, NonSerialized] public SerializedProperty SelfScaleProperty;
-        [TweenerProperty, NonSerialized] public SerializedProperty PreSampleProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty PreSampleModeProperty;
         [TweenerProperty, NonSerialized] public SerializedProperty AutoKillProperty;
         [TweenerProperty, NonSerialized] public SerializedProperty SpeedBasedProperty;
 
@@ -310,7 +310,7 @@ namespace Aya.TweenPro
                     using (GUIHorizontal.Create())
                     {
                         EditorGUILayout.PropertyField(AutoPlayProperty, new GUIContent("Auto"));
-                        EditorGUILayout.PropertyField(PreSampleProperty, new GUIContent("Sample"));
+                        EditorGUILayout.PropertyField(PreSampleModeProperty, new GUIContent("Sample"));
                     }
 
                     using (GUIHorizontal.Create())
@@ -492,68 +492,16 @@ namespace Aya.TweenPro
                 var btnAddTweener = GUI.Button(buttonRect, "Add Tweener");
                 if (btnAddTweener)
                 {
-                    var tweenAttributeDic = TypeCaches.TweenerAttributeDic;
-                    var root = new SearchableDropdownItem($"Tweener ({tweenAttributeDic.Count})");
-                    var menu = new SearchableDropdown(root, item =>
+                    var menu = GUIMenu.CreateTweenerMenu(tweenerType =>
                     {
-                        var tweenerType = item.Value as Type;
-                        if (tweenerType == null) return;
                         var tweener = Activator.CreateInstance(tweenerType) as Tweener;
                         if (tweener == null) return;
                         Undo.RecordObject(SerializedObject.targetObject, "Add Tweener");
                         tweener.Reset();
-                        if (Mode == TweenEditorMode.Component)
-                        {
-                            tweener.InitParam(this, MonoBehaviour);
-                        }
-                        else
-                        {
-                            tweener.InitParam(this, null);
-                        }
-
+                        tweener.InitParam(this, Mode == TweenEditorMode.Component ? MonoBehaviour : null);
                         TweenerList.Add(tweener);
                         tweener.OnAdded();
                     });
-
-                    foreach (var kv in UTweenEditorSetting.Ins.GroupDataDic)
-                    {
-                        var group = kv.Key;
-                        var groupItem = new SearchableDropdownItem(group)
-                        {
-                            icon = kv.Value.Icon
-                        };
-
-                        root.AddChild(groupItem);
-                    }
-
-                    foreach (var kv in tweenAttributeDic)
-                    {
-                        var tweenerType = kv.Key;
-                        var tweenerAttribute = kv.Value;
-                        var group = tweenerAttribute.Group;
-                        var name = tweenerAttribute.DisplayName;
-                        SearchableDropdownItem groupItem = null;
-                        foreach (var child in root.children)
-                        {
-                            if (child.name != group) continue;
-                            groupItem = child as SearchableDropdownItem;
-                            break;
-                        }
-
-                        if (groupItem == null)
-                        {
-                            groupItem = new SearchableDropdownItem(group);
-                            root.AddChild(groupItem);
-                        }
-
-                        var item = new SearchableDropdownItem(name, tweenerType)
-                        {
-                            icon = EditorIcon.GetTweenerIcon(tweenerType)
-                        };
-
-                        groupItem.AddChild(item);
-                    }
-
                     menu.Show(buttonRect);
                 }
             }

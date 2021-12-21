@@ -12,7 +12,7 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenTMPPerCharScale : TweenValueVector3<TMP_Text>, ITMPCharacterModifier
     {
-        public TMPCharacterModifier Modifier = new TMPCharacterModifier();
+        public TMPPerCharEffectData EffectData = new TMPPerCharEffectData();
         public CharacterSpaceMode CharacterSpace;
 
         public bool ChangeGeometry => true;
@@ -25,18 +25,19 @@ namespace Aya.TweenPro
         public override void PreSample()
         {
             base.PreSample();
-            Modifier.Cache(Data, Target, this);
+            EffectData.Cache(Data, Target, this);
         }
 
         public override void Sample(float factor)
         {
         }
 
-        public void ModifyGeometry(int characterIndex, ref Vector3[] vertices, int startIndex, float progress)
+        public void ModifyGeometry(int characterIndex, ref Vector3[] vertices, float progress)
         {
+            var startIndex = EffectData.GetStartIndex(characterIndex) * 4;
             var from = FromGetter();
             var to = ToGetter();
-            var factor = Modifier.GetFactor(progress, Factor);
+            var factor = EffectData.GetFactor(progress, Factor);
             var scale = Vector3.LerpUnclamped(from, to, factor);
 
             if (CharacterSpace == CharacterSpaceMode.Character)
@@ -66,20 +67,20 @@ namespace Aya.TweenPro
             }
         }
 
-        public void ModifyColor(int characterIndex, ref Color32[] colors, int startIndex, float progress)
+        public void ModifyColor(int characterIndex, ref Color32[] colors, float progress)
         {
         }
 
         public override void OnRemoved()
         {
             base.OnRemoved();
-            Modifier.Remove(Data, Target, this);
+            EffectData.Remove(Data, Target, this);
         }
 
         public override void Reset()
         {
             base.Reset();
-            Modifier.Reset();
+            EffectData.Reset();
             CharacterSpace = CharacterSpaceMode.Character;
         }
     }
@@ -93,12 +94,12 @@ namespace Aya.TweenPro
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            Modifier.InitEditor(this, tweenerProperty);
+            EffectData.InitEditor(this, tweenerProperty);
         }
 
         public override void DrawBody()
         {
-            Modifier.DrawCharacterModifier();
+            EffectData.DrawCharacterModifier();
         }
 
         public override void DrawAppend()

@@ -32,7 +32,7 @@ namespace Aya.TweenPro
 
         [NonSerialized] public float Factor;
 
-        public bool IsPrepared { get; internal set; }
+        public bool IsPrepared { get; set; }
         public bool SingleMode => Data != null && Data.SingleMode;
         public float TotalDuration => Delay + Duration;
 

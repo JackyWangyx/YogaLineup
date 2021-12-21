@@ -12,6 +12,8 @@ namespace Aya.TweenPro
         where TTarget : UnityEngine.Object
     {
         public bool RichText;
+        public virtual bool ShowRichText => true;
+
         protected StringBuilder StringBuilder => StringLerpUtil.StringBuilder;
 
         public string Evaluate(string from, string to, float factor)
@@ -59,7 +61,11 @@ namespace Aya.TweenPro
         public override void DrawAppend()
         {
             base.DrawAppend();
-            GUIUtil.DrawToggleButton(RichTextProperty);
+
+            if (ShowRichText)
+            {
+                GUIUtil.DrawToggleButton(RichTextProperty);
+            }
         }
     }
 

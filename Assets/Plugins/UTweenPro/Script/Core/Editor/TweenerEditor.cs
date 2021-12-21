@@ -70,6 +70,7 @@ namespace Aya.TweenPro
             {
                 if (Data.SingleMode) return false;
                 if (FoldOut) return true;
+                if (!Active) return false;
                 if (Data.IsPlaying) return true;
                 var isFull = Math.Abs(Duration - Data.Duration) <= 1e-6f && Math.Abs(Delay) <= 1e-6f;
                 if (isFull && UTweenEditorSetting.Ins.HideFullSubProgress) return false;

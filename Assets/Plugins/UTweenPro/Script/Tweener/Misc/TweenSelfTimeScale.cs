@@ -6,9 +6,9 @@ using UnityEditor;
 
 namespace Aya.TweenPro
 {
-    [Tweener("Self Scale", "Misc", "cs Script Icon")]
+    [Tweener("Self Time Scale", "Misc", "cs Script Icon")]
     [Serializable]
-    public partial class TweenSelfScale : TweenValueFloat<UnityEngine.Object>
+    public partial class TweenSelfTimeScale : TweenValueFloat<UnityEngine.Object>
     {
         public override bool SupportTarget => false;
 
@@ -21,7 +21,7 @@ namespace Aya.TweenPro
 
 #if UNITY_EDITOR
 
-    public partial class TweenSelfScale : TweenValueFloat<UnityEngine.Object>
+    public partial class TweenSelfTimeScale : TweenValueFloat<UnityEngine.Object>
     {
         public override void DrawFromToValue()
         {

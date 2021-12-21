@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf5c6cdb24af9240ba3c7132157bfd8, type: 3}
   m_Name: UTweenSetting
   m_EditorClassIdentifier: 
+  ShowManagerInHierarchy: 0

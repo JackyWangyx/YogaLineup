@@ -339,7 +339,7 @@ MonoBehaviour:
     Interval2: 0
     TimeMode: 0
     SelfScale: 1
-    PreSample: 0
+    PreSampleMode: 0
     AutoKill: 0
     SpeedBased: 0
     TweenerList:
@@ -522,7 +522,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -538,6 +538,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1044938350}
+  - {fileID: 1171840173}
+  - {fileID: 1535381798}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5316,7 +5318,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &758119856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5324,7 +5326,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 758119855}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74b4124e68e6816479796e7ac0233a97, type: 3}
   m_Name: 
@@ -5342,7 +5344,7 @@ MonoBehaviour:
     Interval2: 0
     TimeMode: 0
     SelfScale: 1
-    PreSample: 2
+    PreSampleMode: 0
     AutoKill: 0
     SpeedBased: 0
     TweenerList:
@@ -5399,7 +5401,7 @@ MonoBehaviour:
       Event:
         m_PersistentCalls:
           m_Calls: []
-    FoldOut: 1
+    FoldOut: 0
     FoldOutEvent: 0
     EnableIdentifier: 0
     EventType: 0
@@ -5645,37 +5647,20 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
+          OrderMode: 0
           Curve:
             serializedVersion: 2
-            m_Curve:
-            - serializedVersion: 3
-              time: 0
-              value: 0
-              inSlope: 0
-              outSlope: 0
-              tangentMode: 0
-              weightedMode: 0
-              inWeight: 0
-              outWeight: 0
-            - serializedVersion: 3
-              time: 1
-              value: 1
-              inSlope: 0
-              outSlope: 0
-              tangentMode: 0
-              weightedMode: 0
-              inWeight: 0
-              outWeight: 0
+            m_Curve: []
             m_PreInfinity: 2
             m_PostInfinity: 2
             m_RotationOrder: 4
     00000004:
       type: {class: TweenGridLayoutGroupCellSize, ns: Aya.TweenPro, asm: Aya.TweenPro}
       data:
-        Active: 1
+        Active: 0
         Duration: 0.385
         Delay: 0.284
         HoldStart: 0
@@ -5718,8 +5703,8 @@ MonoBehaviour:
       type: {class: TweenScrollRectHorizontal, ns: Aya.TweenPro, asm: Aya.TweenPro}
       data:
         Active: 1
-        Duration: 0.491
-        Delay: 0.509
+        Duration: 0.385
+        Delay: 0.417
         HoldStart: 0
         HoldEnd: 0
         Ease: 0
@@ -5860,8 +5845,8 @@ MonoBehaviour:
       type: {class: TweenGravity, ns: Aya.TweenPro, asm: Aya.TweenPro}
       data:
         Active: 1
-        Duration: 0.299
-        Delay: 0
+        Duration: 0.449
+        Delay: 0.139
         HoldStart: 0
         HoldEnd: 0
         Ease: 0
@@ -6112,7 +6097,7 @@ MonoBehaviour:
     0000000D:
       type: {class: TweenAudioMixerProperty, ns: Aya.TweenPro, asm: Aya.TweenPro}
       data:
-        Active: 1
+        Active: 0
         Duration: 1
         Delay: 0
         HoldStart: 0
@@ -6158,7 +6143,7 @@ MonoBehaviour:
     0000000E:
       type: {class: TweenBehaviourEnabled, ns: Aya.TweenPro, asm: Aya.TweenPro}
       data:
-        Active: 1
+        Active: 0
         Duration: 1
         Delay: 0
         HoldStart: 0
@@ -6286,30 +6271,13 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
-        Modifier:
+        EffectData:
           RangeMode: 0
           RangeValue: 1
+          OrderMode: 0
           Curve:
             serializedVersion: 2
-            m_Curve:
-            - serializedVersion: 3
-              time: 0
-              value: 0
-              inSlope: 0
-              outSlope: 0
-              tangentMode: 0
-              weightedMode: 0
-              inWeight: 0
-              outWeight: 0
-            - serializedVersion: 3
-              time: 1
-              value: 1
-              inSlope: 0
-              outSlope: 0
-              tangentMode: 0
-              weightedMode: 0
-              inWeight: 0
-              outWeight: 0
+            m_Curve: []
             m_PreInfinity: 2
             m_PostInfinity: 2
             m_RotationOrder: 4
@@ -6321,7 +6289,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 758119855}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1917285, y: 2.4416602, z: 0.9420427}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6355,16 +6323,16 @@ RectTransform:
   m_GameObject: {fileID: 1044938349}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 643367365}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -100, y: -100}
   m_SizeDelta: {x: 200, y: 200}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &1044938351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6378,7 +6346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6427,7 +6395,7 @@ MonoBehaviour:
     Interval2: 0
     TimeMode: 0
     SelfScale: 1
-    PreSample: 2
+    PreSampleMode: 0
     AutoKill: 0
     SpeedBased: 0
     TweenerList:
@@ -6527,7 +6495,7 @@ MonoBehaviour:
     00000001:
       type: {class: TweenGraphicAlpha, ns: Aya.TweenPro, asm: Aya.TweenPro}
       data:
-        Active: 1
+        Active: 0
         Duration: 0.3
         Delay: 0
         HoldStart: 0
@@ -6572,7 +6540,7 @@ MonoBehaviour:
     00000002:
       type: {class: TweenScale, ns: Aya.TweenPro, asm: Aya.TweenPro}
       data:
-        Active: 1
+        Active: 0
         Duration: 0.3
         Delay: 0
         HoldStart: 0
@@ -6629,6 +6597,166 @@ MonoBehaviour:
         To: {x: 1, y: 1, z: 1}
         Axis: 30
         EnableAxis: 0
+--- !u!1 &1171840169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1171840173}
+  - component: {fileID: 1171840172}
+  - component: {fileID: 1171840170}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1171840170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171840169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: '1234123412341234
+
+    23412341234
+
+    123412341234123'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_outlineColor:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_textAlignment: 257
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_firstOverflowCharacterIndex: -1
+  m_linkedTextComponent: {fileID: 0}
+  m_isLinkedTextComponent: 0
+  m_isTextTruncated: 0
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_ignoreRectMaskCulling: 0
+  m_ignoreCulling: 1
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_VertexBufferAutoSizeReduction: 1
+  m_firstVisibleCharacter: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_textInfo:
+    textComponent: {fileID: 1171840170}
+    characterCount: 44
+    spriteCount: 0
+    spaceCount: 2
+    wordCount: 3
+    linkCount: 0
+    lineCount: 3
+    pageCount: 1
+    materialCount: 1
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_spriteAnimator: {fileID: 0}
+  m_hasFontAssetChanged: 0
+  m_subTextObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1171840172
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171840169}
+  m_CullTransparentMesh: 0
+--- !u!224 &1171840173
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171840169}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 643367365}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.0000076293945, y: 0}
+  m_SizeDelta: {x: 442.75623, y: 270.1213}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1306010073
 GameObject:
   m_ObjectHideFlags: 0
@@ -6671,7 +6799,7 @@ MonoBehaviour:
     Interval2: 0
     TimeMode: 0
     SelfScale: 1
-    PreSample: 2
+    PreSampleMode: 0
     AutoKill: 0
     SpeedBased: 1
     TweenerList:
@@ -6768,585 +6896,101 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1512945258
+--- !u!1 &1535381794
 GameObject:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1512945260}
-  - component: {fileID: 1512945259}
-  m_Layer: 0
-  m_Name: UndoProRecords
+  - component: {fileID: 1535381798}
+  - component: {fileID: 1535381797}
+  - component: {fileID: 1535381795}
+  - component: {fileID: 1535381796}
+  m_Layer: 5
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1512945259
+--- !u!114 &1535381795
 MonoBehaviour:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1512945258}
+  m_GameObject: {fileID: 1535381794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efa53029e0a62304caf81173265515b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  undoProRecords: []
-  undoState:
-    redoRecords: []
-    undoRecords:
-    - Change HideFullSubProgress on UTweenEditorSetting
-    - Change HideFullSubProgress on UTweenEditorSetting
-    - Change HideFullSubProgress on UTweenEditorSetting
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Drag Progress
-    - Drag Progress
-    - Selection Change
-    - Selection Change
-    - Drag Progress
-    - Selection Change
-    - Selection Change
-    - Drag Progress
-    - Selection Change
-    - Selection Change
-    - Drag Progress
-    - Drag Progress
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Drag Progress
-    - Inspector
-    - Inspector
-    - Drag Progress
-    - Inspector
-    - Drag Progress
-    - Inspector
-    - Inspector
-    - Drag Progress
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Drag Progress
-    - Inspector
-    - Drag Progress
-    - Selection Change
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Change ProgressColor on UTweenEditorSetting
-    - Drag Progress
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Change GroupDataList.[4].Color on UTweenEditorSetting
-    - Change GroupDataList.[4].Color on UTweenEditorSetting
-    - Change GroupDataList.[4].Color on UTweenEditorSetting
-    - Change GroupDataList.[5].Color on UTweenEditorSetting
-    - Change GroupDataList.[14].Color on UTweenEditorSetting
-    - Change GroupDataList.[14].Color on UTweenEditorSetting
-    - Change GroupDataList.[14].Color on UTweenEditorSetting
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Drag Progress
-    - Drag Progress
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Inspector
-    - Selection Change
---- !u!4 &1512945260
-Transform:
-  m_ObjectHideFlags: 3
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 35
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 81
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: '1234123412341234
+
+    23412341234
+
+    123412341234123'
+--- !u!114 &1535381796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1512945258}
+  m_GameObject: {fileID: 1535381794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7825250a3db24140be3432c6bc6b7f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!222 &1535381797
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535381794}
+  m_CullTransparentMesh: 0
+--- !u!224 &1535381798
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535381794}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 643367365}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.000015259, y: -108}
+  m_SizeDelta: {x: 380.69025, y: 163.35829}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1596159152
 GameObject:
   m_ObjectHideFlags: 0
@@ -7439,6 +7083,922 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1605304312
+GameObject:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1605304314}
+  - component: {fileID: 1605304313}
+  m_Layer: 0
+  m_Name: UndoProRecords
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1605304313
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605304312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efa53029e0a62304caf81173265515b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undoProRecords: []
+  undoState:
+    redoRecords: []
+    undoRecords:
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Change ProgressColor on UTweenEditorSetting
+    - Inspector
+    - Inspector
+    - Inspector
+    - Change EnableColor on UTweenEditorSetting
+    - Change EnableColor on UTweenEditorSetting
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Change ShowManagerInHierarchy on UTweenSetting
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Selection Change
+    - Selection Change
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Add Tweener
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Selection Change
+    - Remove Tweener
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Selection Change
+    - Selection Change
+    - Remove MonoBehaviour
+    - Selection Change
+    - Drag Progress
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Selection Change
+    - Remove MonoBehaviour
+    - Selection Change
+    - Drag Progress
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Remove Tweener
+    - Add Tweener
+    - Inspector
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Add Tweener
+    - Add Tweener
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Remove Tweener
+    - Remove Tweener
+    - Drag Progress
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Drag Progress
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Drag Progress
+    - Inspector
+    - Drag Progress
+    - Add Tweener
+    - Inspector
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Remove Tweener
+    - Drag Progress
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Inspector
+    - Drag Progress
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Expand All Tweener
+    - Inspector
+    - Narrow All Tweener
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Selection Change
+--- !u!4 &1605304314
+Transform:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605304312}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1749278613
 GameObject:
   m_ObjectHideFlags: 0
@@ -12236,11 +12796,12 @@ MonoBehaviour:
     Interval2: 0
     TimeMode: 0
     SelfScale: 1
-    PreSample: 2
+    PreSampleMode: 2
     AutoKill: 0
     SpeedBased: 0
     TweenerList:
     - id: 0
+    - id: 1
     OnPlay:
       Event:
         m_PersistentCalls:
@@ -12284,7 +12845,7 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: TweenHeight, ns: Aya.TweenPro, asm: Aya.TweenPro}
+      type: {class: TweenPerCharAlpha, ns: Aya.TweenPro, asm: Aya.TweenPro}
       data:
         Active: 1
         Duration: 1
@@ -12320,7 +12881,7 @@ MonoBehaviour:
         Space: 0
         FoldOut: 0
         DurationMode: 0
-        Target: {fileID: 0}
+        Target: {fileID: 1535381795}
         From: 0
         To: 1
         Axis: 30
@@ -12328,6 +12889,114 @@ MonoBehaviour:
         OnUpdateEvent:
           m_PersistentCalls:
             m_Calls: []
+        EffectData:
+          RangeMode: 1
+          RangeValue: 0.25
+          OrderMode: 2
+          Curve:
+            serializedVersion: 2
+            m_Curve:
+            - serializedVersion: 3
+              time: 0
+              value: 0
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            - serializedVersion: 3
+              time: 1
+              value: 1
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+    00000001:
+      type: {class: TweenPerCharScale, ns: Aya.TweenPro, asm: Aya.TweenPro}
+      data:
+        Active: 1
+        Duration: 1
+        Delay: 0
+        HoldStart: 0
+        HoldEnd: 0
+        Ease: 0
+        Strength: 1
+        Curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        Space: 0
+        FoldOut: 0
+        DurationMode: 0
+        Target: {fileID: 1535381795}
+        From: {x: 0, y: 0, z: 0}
+        To: {x: 1, y: 1, z: 1}
+        Axis: 30
+        EnableAxis: 0
+        EffectData:
+          RangeMode: 1
+          RangeValue: 0.25
+          OrderMode: 2
+          Curve:
+            serializedVersion: 2
+            m_Curve:
+            - serializedVersion: 3
+              time: 0
+              value: 0
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            - serializedVersion: 3
+              time: 0.6324562
+              value: 1.4045303
+              inSlope: 1.253345
+              outSlope: 1.253345
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 1
+              value: 1
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+        CharacterSpace: 0
 --- !u!4 &1855199059
 Transform:
   m_ObjectHideFlags: 0
@@ -12340,7 +13009,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2023785423
 GameObject:

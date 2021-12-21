@@ -24,7 +24,7 @@ namespace Aya.TweenPro
         public float Interval2;
         public TimeMode TimeMode;
         public float SelfScale;
-        public PreSampleMode PreSample;
+        public PreSampleMode PreSampleMode;
         public bool AutoKill;
         public bool SpeedBased;
 
@@ -45,6 +45,8 @@ namespace Aya.TweenPro
         [SerializeField] internal bool FoldOutEvent = false;
         [SerializeField] internal bool EnableIdentifier = false;
         [SerializeField] internal TweenEventType EventType = TweenEventType.OnPlay;
+
+        [NonSerialized] public List<Tweener> PlayingTweenerList = new List<Tweener>();
 
         #region State Property
 
@@ -105,35 +107,35 @@ namespace Aya.TweenPro
 
         public virtual void Awake()
         {
-            if (AutoPlay != AutoPlayMode.Awake)
+            if (PreSampleMode == PreSampleMode.Awake)
             {
-                if (PreSample == PreSampleMode.Awake) PreSampleImpl();
-                return;
+                PreSample(); 
+                Sample(0f);
             }
 
-            Play();
+            if (AutoPlay == AutoPlayMode.Awake) Play();
         }
 
         public virtual void OnEnable()
         {
-            if (AutoPlay != AutoPlayMode.Enable)
+            if (PreSampleMode == PreSampleMode.Enable)
             {
-                if (PreSample == PreSampleMode.Enable) PreSampleImpl();
-                return;
+                PreSample();
+                Sample(0f);
             }
 
-            Play();
+            if (AutoPlay == AutoPlayMode.Enable) Play();
         }
 
         public virtual void Start()
         {
-            if (AutoPlay != AutoPlayMode.Start)
+            if (PreSampleMode == PreSampleMode.Start)
             {
-                if (PreSample == PreSampleMode.Start) PreSampleImpl();
-                return;
+                PreSample();
+                Sample(0f);
             }
 
-            Play();
+            if (AutoPlay == AutoPlayMode.Start) Play();
         }
 
         public virtual void OnDisable()
@@ -279,10 +281,7 @@ namespace Aya.TweenPro
                 RuntimeDuration = Duration;
             }
 
-            foreach (var tweener in TweenerList)
-            {
-                tweener.PreSample();
-            }
+            PreSample();
 
             if (!isPreview)
             {
@@ -450,10 +449,7 @@ namespace Aya.TweenPro
 
                     if (!IsPlaying)
                     {
-                        foreach (var tweener in TweenerList)
-                        {
-                            tweener.PreSample();
-                        }
+                        PreSample();
                     }
                 }
 #endif
@@ -482,15 +478,14 @@ namespace Aya.TweenPro
             }
         }
 
-        internal void PreSampleImpl()
+        internal void PreSample()
         {
             foreach (var tweener in TweenerList)
             {
                 tweener.Data = this;
+                if (!tweener.Active) continue;
                 tweener.PreSample();
             }
-
-            Sample(0f);
         }
 
         internal void Complete()
@@ -551,7 +546,7 @@ namespace Aya.TweenPro
             Interval2 = 0f;
             TimeMode = TimeMode.Normal;
             SelfScale = 1f;
-            PreSample = PreSampleMode.Enable;
+            PreSampleMode = PreSampleMode.Enable;
             AutoKill = false;
             SpeedBased = false;
 

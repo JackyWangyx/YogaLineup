@@ -11,6 +11,14 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenTMPTextContent : TweenValueString<TMP_Text>
     {
+        public override bool ShowRichText => false;
+
+        public override void PreSample()
+        {
+            base.PreSample();
+            RichText = Target.richText;
+        }
+
         public override string Value
         {
             get => Target.text;
