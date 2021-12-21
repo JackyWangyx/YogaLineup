@@ -49,7 +49,7 @@ public class ItemPoint : ItemBase<Player>
         var diff = value - target.State.Point;
 
         if (diff < 0 && target.State.IsInvincible) return;
-        target.ChangePoint(diff);
+        target.State.ChangePoint(diff);
 
         if (ShowTip)
         {

@@ -1,10 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-public class PlayerState : GameEntity
+public class PlayerState : PlayerBase
 {
-    public new Player Player { get; set; }
-
     // General State
     [NonSerialized] public int Point;
     [NonSerialized] public int Rank;
@@ -23,10 +21,11 @@ public class PlayerState : GameEntity
 
     [NonSerialized] public float EndlessRewardRate;
 
-    public void Init(Player player)
-    {
-        Player = player;
 
+    private int _cacheCoin;
+
+    public override void InitComponent()
+    {
         PointChanged = false;
         KeepDirection = false;
 
@@ -45,7 +44,13 @@ public class PlayerState : GameEntity
         CacheSave();
     }
 
-    private int _cacheCoin;
+    public void ChangePoint(int diff)
+    {
+        State.PointChanged = true;
+        State.Point += diff;
+        if (State.Point < 0) State.Point = 0;
+        Render.RefreshRender(State.Point);
+    }
 
     public void CacheSave()
     {

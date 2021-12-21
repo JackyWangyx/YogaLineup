@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIFollow : GameEntity
 {
-    public Camera Camera;
+    public new Camera Camera;
     public Transform Target;
     public RectTransform Ui;
     public Vector3 Offset;

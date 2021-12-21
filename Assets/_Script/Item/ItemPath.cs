@@ -44,7 +44,7 @@ public class ItemPath : ItemBase<Player>
 
         if (SwitchPath)
         {
-            target.PathFollower.SwitchPath(BlockIndex, SwitchPathIndex);
+            target.Move.PathFollower.SwitchPath(BlockIndex, SwitchPathIndex);
         }
 
         target.State.LimitTurnRange = LimitRange;
@@ -54,14 +54,14 @@ public class ItemPath : ItemBase<Player>
         }
         else
         {
-            target.State.TurnRange = target.PathFollower.CurrentPath.TurnRange;
+            target.State.TurnRange = target.Move.PathFollower.CurrentPath.TurnRange;
         }
 
         if (GoToCenter)
         {
-            UTween.Value(target.RenderTrans.localPosition.x, 0f, GoToCenterDuration, value =>
+            UTween.Value(target.Render.RenderTrans.localPosition.x, 0f, GoToCenterDuration, value =>
             {
-                target.RenderTrans.SetLocalPositionX(value);
+                target.Render.RenderTrans.SetLocalPositionX(value);
             });
         }
 

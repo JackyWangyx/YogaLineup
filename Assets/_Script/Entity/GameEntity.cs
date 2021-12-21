@@ -184,7 +184,7 @@ public abstract class GameEntity : MonoListener
 
     public TSetting GetSetting<TSetting>() where TSetting : SettingBase<TSetting>
     {
-        return SettingBase<TSetting>.Load<TSetting>();
+        return SettingBase<TSetting>.Load();
     }
 
     #endregion

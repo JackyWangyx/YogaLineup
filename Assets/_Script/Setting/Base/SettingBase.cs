@@ -10,14 +10,14 @@ public abstract class SettingBase<TSetting> : ScriptableObject where TSetting : 
     {
         get
         {
-            if (_instance == null) _instance = Load<TSetting>();
+            if (_instance == null) _instance = Load();
             return _instance;
         }
     }
 
     private static TSetting _instance;
 
-    public static TSetting Load<TSetting>() where TSetting : SettingBase<TSetting>
+    public static TSetting Load()
     {
         var setting = Instantiate(Resources.Load<TSetting>("Setting/" + typeof(TSetting).Name));
         setting.Init();

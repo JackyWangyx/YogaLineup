@@ -161,7 +161,7 @@ public abstract class ItemBase<TTarget> : ItemBase
 
         // Target Fx
         var targetFxTrans = target.transform;
-        if (target is Player player) targetFxTrans = player.RenderTrans;
+        if (target is Player player) targetFxTrans = player.Render.RenderTrans;
         if (TargetFx != null && TargetFx.Count > 0)
         {
             foreach (var fx in TargetFx)
