@@ -20,7 +20,7 @@ namespace Aya.TweenPro
             set
             {
                 _value = value;
-                Target.materials[Index].Lerp(Start, End, _value);
+                Target.materials[MaterialIndex].Lerp(Start, End, _value);
             }
         }
 
