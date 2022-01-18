@@ -9,11 +9,14 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Aya.Extension
 {
     public static class AnimatorExtension
     {
+        #region Parameter
+
         /// <summary>
         /// 重置所有参数
         /// </summary>
@@ -75,5 +78,31 @@ namespace Aya.Extension
 
             return false;
         }
+
+        #endregion
+
+        #region State
+
+        /// <summary>
+        /// 检查是否存在状态
+        /// </summary>
+        /// <param name="animator">动画状态机</param>
+        /// <param name="clipName">状态名</param>
+        /// <returns>结果</returns>
+        public static bool CheckStateExist(this Animator animator, string clipName)
+        {
+            var controller = animator.runtimeAnimatorController;
+            if (controller == null) return false;
+            var clips = controller.animationClips;
+            for (var i = 0; i < clips.Length; i++)
+            {
+                var clip = clips[i];
+                if (clip.name == clipName) return true;
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }

@@ -41,23 +41,30 @@ public class Player : PlayerBase
 
     public void Win()
     {
+        if (Game.Phase != PhaseType.Gaming) return;
         Play("Win");
         State.EnableRun = false;
         State.EnableInput = false;
+
+        if (IsPlayer) Game.Enter<GameWin>();
     }
 
     public void Lose()
     {
+        if (Game.Phase != PhaseType.Gaming) return;
         Play("Lose");
         State.RestoreSave();
         State.EnableRun = false;
         State.EnableInput = false;
+        if (IsPlayer) Game.Enter<GameLose>();
     }
 
     public void Die()
     {
+        if (Game.Phase != PhaseType.Gaming) return;
         Play("Lose");
         State.EnableRun = false;
         State.EnableInput = false;
+        if (IsPlayer) Game.Enter<GameLose>();
     }
 }

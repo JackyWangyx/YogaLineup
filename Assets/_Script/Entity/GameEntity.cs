@@ -74,6 +74,18 @@ public abstract class GameEntity : MonoListener
         set => Trans.localPosition = value;
     }
 
+    public Quaternion Rotation
+    {
+        get => Trans.rotation;
+        set => Trans.rotation = value;
+    }
+
+    public Quaternion LocalRotation
+    {
+        get => Trans.localRotation;
+        set => Trans.localRotation = value;
+    }
+
     public Vector3 EulerAngles
     {
         get => Trans.eulerAngles;
@@ -127,7 +139,10 @@ public abstract class GameEntity : MonoListener
             }
             else
             {
-                Animator.Play(animationClipName);
+                if (Animator.CheckStateExist(animationClipName))
+                {
+                    Animator.Play(animationClipName);
+                }
             }
 
             _lastAnimationClipName = animationClipName;

@@ -6,7 +6,7 @@ public class GameEndless : GamePhaseHandler
 {
     public override PhaseType Type => PhaseType.Endless;
 
-    public override void Enter()
+    public override void Enter(params object[] args)
     {
 
     }

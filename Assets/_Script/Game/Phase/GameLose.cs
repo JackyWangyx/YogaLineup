@@ -6,11 +6,10 @@ public class GameLose : GamePhaseHandler
 {
     public override PhaseType Type => PhaseType.Lose;
 
-    public override void Enter()
+    public override void Enter(params object[] args)
     {
         Camera.Switch("Finish");
         UI.Show<UILose>();
-        Player.Lose();
         Dispatch(GameEvent.Lose);
     }
 

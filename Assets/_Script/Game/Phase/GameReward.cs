@@ -6,7 +6,7 @@ public class GameReward : GamePhaseHandler
 {
     public override PhaseType Type => PhaseType.Reward;
 
-    public override void Enter()
+    public override void Enter(params object[] args)
     {
 
     }

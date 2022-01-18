@@ -6,7 +6,7 @@ public class GameReady : GamePhaseHandler
 {
     public override PhaseType Type => PhaseType.Ready;
 
-    public override void Enter()
+    public override void Enter(params object[] args)
     {
         Camera.Switch("Ready");
         UI.Show<UIReady>();

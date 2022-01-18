@@ -48,29 +48,29 @@ public class GameManager : GameEntity<GameManager>
         return PhaseTypeDic[typeof(T)] as T;
     }
 
-    public void Enter<T>() where T : GamePhaseHandler
+    public void Enter<T>(params object[] args) where T : GamePhaseHandler
     {
-        Enter(typeof(T));
+        Enter(typeof(T), args);
     }
 
-    public void Enter(Type phaseType)
+    public void Enter(Type phaseType, params object[] args)
     {
         var nextPhase = PhaseTypeDic[phaseType];
-        Enter(nextPhase);
+        Enter(nextPhase, args);
     }
 
-    public void Enter(PhaseType phaseType)
+    public void Enter(PhaseType phaseType, params object[] args)
     {
         var nextPhase = PhaseDic[phaseType];
-        Enter(nextPhase);
+        Enter(nextPhase, args);
     }
 
-    public void Enter(GamePhaseHandler nextPhase)
+    public void Enter(GamePhaseHandler nextPhase, params object[] args)
     {
         if (CurrentPhase != null) CurrentPhase.Exit();
         Phase = nextPhase.Type;
         CurrentPhase = nextPhase;
-        nextPhase.Enter();
+        nextPhase.Enter(args);
     }
 
     public void Update()

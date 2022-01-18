@@ -16,7 +16,7 @@ public abstract class GamePhaseHandler : GameEntity<GamePhaseHandler>
 {
     public abstract PhaseType Type { get; }
 
-    public virtual void Enter()
+    public virtual void Enter(params object[] args)
     {
 
     }

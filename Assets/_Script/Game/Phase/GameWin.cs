@@ -6,11 +6,10 @@ public class GameWin : GamePhaseHandler
 {
     public override PhaseType Type => PhaseType.Win;
 
-    public override void Enter()
+    public override void Enter(params object[] args)
     {
         Camera.Switch("Finish");
         UI.Show<UIWin>();
-        Player.Win();
         Dispatch(GameEvent.Win);
     }
 

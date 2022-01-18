@@ -6,7 +6,7 @@ public class GamePause : GamePhaseHandler
 {
     public override PhaseType Type => PhaseType.Pause;
 
-    public override void Enter()
+    public override void Enter(params object[] args)
     {
         Dispatch(GameEvent.Pause);
     }
