@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Aya.Events;
 using Aya.Extension;
 using Aya.Particle;
@@ -50,6 +52,8 @@ public abstract class GameEntity : MonoListener
         Animator = GetComponentInChildren<Animator>();
         Rigidbody = GetComponent<Rigidbody>();
         RendererTrans = transform.FindInAllChildFuzzy(nameof(Renderer));
+
+        CacheSubPoolInstance();
     }
 
     #region Transform
@@ -204,6 +208,37 @@ public abstract class GameEntity : MonoListener
 
     #endregion
 
+    #region Sub Pool Instance
+
+    public List<PropertyInfo> SubPoolInstanceList { get; set; } = new List<PropertyInfo>();
+
+    public virtual void CacheSubPoolInstance()
+    {
+        SubPoolInstanceList.Clear();
+        SubPoolInstanceList = this.GetPropertiesWithAttribute<SubPoolInstanceAttribute>();
+    }
+
+    public virtual void DeSpawnSubPoolInstance()
+    {
+        foreach (var propertyInfo in SubPoolInstanceList)
+        {
+            var instance = propertyInfo.GetValue(this);
+            if (instance == null) continue;
+            if (instance is GameObject go)
+            {
+                GamePool.DeSpawn(go);
+            }
+            else if (instance is MonoBehaviour behaviour)
+            {
+                GamePool.DeSpawn(behaviour.gameObject);
+            }
+
+            propertyInfo.SetValue(this, null);
+        }
+    }
+
+    #endregion
+
     #region Try
 
     public void TryCatch(Action action, string message)
@@ -216,6 +251,16 @@ public abstract class GameEntity : MonoListener
         {
             Debug.LogError(message + "\n" + exception);
         }
+    }
+
+    #endregion
+
+    #region MonoBehaviour
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        DeSpawnSubPoolInstance();
     }
 
     #endregion
