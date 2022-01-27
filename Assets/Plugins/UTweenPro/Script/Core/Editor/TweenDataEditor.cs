@@ -87,14 +87,7 @@ namespace Aya.TweenPro
                         return;
                     }
 
-                    if (TweenerList.Count > 0)
-                    {
-                        DrawTweenerList();
-                    }
-                    else
-                    {
-                        GUIUtil.DrawTipArea(UTweenEditorSetting.Ins.ErrorColor, "No Tweener");
-                    }
+                    DrawTweenerList();
 
                     using (GUIEnableArea.Create(!IsInProgress))
                     {
@@ -106,6 +99,8 @@ namespace Aya.TweenPro
             }
         }
 
+        #region Draw Progress Bar
+      
         public virtual void DrawProgressBar()
         {
             if (Mode == TweenEditorMode.ScriptableObject) return;
@@ -115,7 +110,6 @@ namespace Aya.TweenPro
                 {
                     var progressBarHeight = EditorGUIUtility.singleLineHeight;
                     var isInProgress = IsInProgress;
-
                     using (GUIColorArea.Create(UTweenEditorSetting.Ins.ProgressColor, isInProgress))
                     {
                         var btnContent = isInProgress ? EditorStyle.PlayButtonOn : EditorStyle.PlayButton;
@@ -177,6 +171,8 @@ namespace Aya.TweenPro
             }
         }
 
+        #endregion
+
         #region Draw TweenData
 
         private float _originalDuration;
@@ -187,55 +183,52 @@ namespace Aya.TweenPro
             _originalDuration = DurationProperty.floatValue;
             _durationChanged = false;
 
-            using (GUIGroup.Create())
+            using (GUIFoldOut.Create(FoldOutProperty, () =>
             {
                 // Header
-                using (GUIHorizontal.Create())
+                var btnTitle = GUILayout.Button("Animation", EditorStyles.boldLabel);
+                var info = "";
+                if (!FoldOut)
                 {
-                    FoldOut = EditorGUILayout.Toggle(GUIContent.none, FoldOut, EditorStyles.foldout, GUILayout.Width(EditorStyle.CharacterWidth));
-                    var btnTitle = GUILayout.Button("Animation", EditorStyles.boldLabel);
-
-                    var info = "";
-                    if (!FoldOut)
+                    if (AutoPlay != AutoPlayMode.None)
                     {
-                        if (AutoPlay != AutoPlayMode.None)
-                        {
-                            info += "| " + AutoPlay + " ";
-                        }
-
-                        if (PlayMode != PlayMode.Once)
-                        {
-                            info += "| " + PlayMode + " (" + PlayCount + ") ";
-                        }
-
-                        if (TimeMode != TimeMode.Normal)
-                        {
-                            info += "| " + TimeMode + " "; ;
-                        }
-
-                        if (Math.Abs(SelfScale - 1f) > 1e-6)
-                        {
-                            info += "| " + SelfScale;
-                        }
+                        info += "| " + AutoPlay + " ";
                     }
 
-                    var btnFlexibleInfo = GUILayout.Button(info, EditorStyles.label, GUILayout.MinWidth(0), GUILayout.MaxWidth(Screen.width));
-                    if (btnTitle || btnFlexibleInfo)
+                    if (PlayMode != PlayMode.Once)
                     {
-                        FoldOutProperty.boolValue = !FoldOutProperty.boolValue;
+                        info += "| " + PlayMode + " (" + PlayCount + ") ";
                     }
 
-                    using (GUIEnableArea.Create(!IsInProgress))
+                    if (TimeMode != TimeMode.Normal)
                     {
-                        var btnContextMenu = GUILayout.Button(GUIContent.none, EditorStyles.foldoutHeaderIcon, GUILayout.Width(EditorStyle.CharacterWidth));
-                        if (btnContextMenu)
-                        {
-                            var menu = CreateContextMenu();
-                            menu.ShowAsContext();
-                        }
+                        info += "| " + TimeMode + " ";
+                        ;
+                    }
+
+                    if (Math.Abs(SelfScale - 1f) > 1e-6)
+                    {
+                        info += "| " + SelfScale;
                     }
                 }
 
+                var btnFlexibleInfo = GUILayout.Button(info, EditorStyles.label, GUILayout.MinWidth(0), GUILayout.MaxWidth(Screen.width));
+                if (btnTitle || btnFlexibleInfo)
+                {
+                    FoldOutProperty.boolValue = !FoldOutProperty.boolValue;
+                }
+
+                using (GUIEnableArea.Create(!IsInProgress))
+                {
+                    var btnContextMenu = GUIUtil.DrawContextMenuButton();
+                    if (btnContextMenu)
+                    {
+                        var menu = CreateContextMenu();
+                        menu.ShowAsContext();
+                    }
+                }
+            }))
+            {
                 if (!FoldOut) return;
 
                 using (GUIEnableArea.Create(!IsInProgress))
@@ -338,8 +331,16 @@ namespace Aya.TweenPro
 
         #endregion
 
+        #region Draw Tweener List
+       
         public virtual void DrawTweenerList()
         {
+            if (TweenerList.Count == 0)
+            {
+                GUIUtil.DrawTipArea(UTweenEditorSetting.Ins.ErrorColor, "No Tweener");
+                return;
+            }
+
             for (var i = 0; i < TweenerList.Count; i++)
             {
                 var tweener = TweenerList[i];
@@ -359,14 +360,16 @@ namespace Aya.TweenPro
 
                 tweener.DrawTweener();
             }
-        }
+        } 
+
+        #endregion
 
         #region Draw Event
 
         public virtual void DrawEvent()
         {
             if (Mode != TweenEditorMode.Component) return;
-            using (GUIFoldOut.Create(EditorTarget, "Event", ref FoldOutEvent))
+            using (GUIFoldOut.Create(FoldOutEventProperty, "Event"))
             {
                 if (!FoldOutEvent) return;
                 using (GUIEnableArea.Create(!IsInProgress))
@@ -378,64 +381,64 @@ namespace Aya.TweenPro
                         {
                             using (GUIVertical.Create())
                             {
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnPlay, nameof(TweenEventType.OnPlay), btnStyle))
+                                if (GUILayout.Toggle(EventType == EventType.OnPlay, nameof(EventType.OnPlay), btnStyle))
                                 {
                                     OnPlay.InitEditor(TweenDataProperty, nameof(OnPlay));
-                                    EventType = TweenEventType.OnPlay;
+                                    EventType = EventType.OnPlay;
                                 }
 
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnLoopStart, nameof(TweenEventType.OnLoopStart), btnStyle))
+                                if (GUILayout.Toggle(EventType == EventType.OnLoopStart, nameof(EventType.OnLoopStart), btnStyle))
                                 {
                                     OnLoopStart.InitEditor(TweenDataProperty, nameof(OnLoopStart));
-                                    EventType = TweenEventType.OnLoopStart;
+                                    EventType = EventType.OnLoopStart;
                                 }
 
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnResume, nameof(TweenEventType.OnResume), btnStyle))
+                                if (GUILayout.Toggle(EventType == EventType.OnResume, nameof(EventType.OnResume), btnStyle))
                                 {
                                     OnResume.InitEditor(TweenDataProperty, nameof(OnResume));
-                                    EventType = TweenEventType.OnResume;
+                                    EventType = EventType.OnResume;
                                 }
                             }
 
                             using (GUIVertical.Create())
                             {
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnStart, nameof(TweenEventType.OnStart), btnStyle))
+                                if (GUILayout.Toggle(EventType == EventType.OnStart, nameof(EventType.OnStart), btnStyle))
                                 {
                                     OnStart.InitEditor(TweenDataProperty, nameof(OnStart));
-                                    EventType = TweenEventType.OnStart;
+                                    EventType = EventType.OnStart;
                                 }
 
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnLoopEnd, nameof(TweenEventType.OnLoopEnd), btnStyle))
+                                if (GUILayout.Toggle(EventType == EventType.OnLoopEnd, nameof(EventType.OnLoopEnd), btnStyle))
                                 {
                                     OnLoopEnd.InitEditor(TweenDataProperty, nameof(OnLoopEnd));
-                                    EventType = TweenEventType.OnLoopEnd;
+                                    EventType = EventType.OnLoopEnd;
                                 }
 
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnStop, nameof(TweenEventType.OnStop), btnStyle))
+                                if (GUILayout.Toggle(EventType == EventType.OnStop, nameof(EventType.OnStop), btnStyle))
                                 {
                                     OnStop.InitEditor(TweenDataProperty, nameof(OnStop));
-                                    EventType = TweenEventType.OnStop;
+                                    EventType = EventType.OnStop;
                                 }
                             }
 
                             using (GUIVertical.Create())
                             {
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnPause, nameof(TweenEventType.OnPause), btnStyle))
+                                if (GUILayout.Toggle(EventType == EventType.OnPause, nameof(EventType.OnPause), btnStyle))
                                 {
                                     OnPause.InitEditor(TweenDataProperty, nameof(OnPause));
-                                    EventType = TweenEventType.OnPause;
+                                    EventType = EventType.OnPause;
                                 }
 
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnUpdate, nameof(TweenEventType.OnUpdate), btnStyle))
+                                if (GUILayout.Toggle(EventType == EventType.OnUpdate, nameof(EventType.OnUpdate), btnStyle))
                                 {
                                     OnUpdate.InitEditor(TweenDataProperty, nameof(OnUpdate));
-                                    EventType = TweenEventType.OnUpdate;
+                                    EventType = EventType.OnUpdate;
                                 }
 
-                                if (GUILayout.Toggle(EventType == TweenEventType.OnComplete, nameof(TweenEventType.OnComplete), btnStyle))
+                                if (GUILayout.Toggle(EventType == EventType.OnComplete, nameof(EventType.OnComplete), btnStyle))
                                 {
                                     OnComplete.InitEditor(TweenDataProperty, nameof(OnComplete));
-                                    EventType = TweenEventType.OnComplete;
+                                    EventType = EventType.OnComplete;
                                 }
                             }
                         }
@@ -443,31 +446,31 @@ namespace Aya.TweenPro
 
                     switch (EventType)
                     {
-                        case TweenEventType.OnPlay:
+                        case EventType.OnPlay:
                             OnPlay.DrawEvent(nameof(OnPlay));
                             break;
-                        case TweenEventType.OnStart:
+                        case EventType.OnStart:
                             OnStart.DrawEvent(nameof(OnStart));
                             break;
-                        case TweenEventType.OnUpdate:
+                        case EventType.OnUpdate:
                             OnUpdate.DrawEvent(nameof(OnUpdate));
                             break;
-                        case TweenEventType.OnLoopStart:
+                        case EventType.OnLoopStart:
                             OnLoopStart.DrawEvent(nameof(OnLoopStart));
                             break;
-                        case TweenEventType.OnLoopEnd:
+                        case EventType.OnLoopEnd:
                             OnLoopEnd.DrawEvent(nameof(OnLoopEnd));
                             break;
-                        case TweenEventType.OnPause:
+                        case EventType.OnPause:
                             OnPause.DrawEvent(nameof(OnPause));
                             break;
-                        case TweenEventType.OnResume:
+                        case EventType.OnResume:
                             OnResume.DrawEvent(nameof(OnResume));
                             break;
-                        case TweenEventType.OnStop:
+                        case EventType.OnStop:
                             OnStop.DrawEvent(nameof(OnStop));
                             break;
-                        case TweenEventType.OnComplete:
+                        case EventType.OnComplete:
                             OnComplete.DrawEvent(nameof(OnComplete));
                             break;
                     }
@@ -477,12 +480,12 @@ namespace Aya.TweenPro
 
         #endregion
 
+        #region Draw Append
+        
         public virtual void DrawAppend()
         {
             DrawAddTweener();
         }
-
-        #region Draw Add Tweener
 
         public virtual void DrawAddTweener()
         {
@@ -507,6 +510,10 @@ namespace Aya.TweenPro
             }
         }
 
+        #endregion
+
+        #region Context Menu
+
         public virtual GenericMenu CreateContextMenu()
         {
             var menu = new GenericMenu();
@@ -522,7 +529,42 @@ namespace Aya.TweenPro
                 }
             });
 
+            // Auto Sort
+            if (TweenerList.Count > 1)
+            {
+                menu.AddItem(true, "Auto Sort", false, AutoSortTweener);
+            }
+
             return menu;
+        }
+
+        public virtual void AutoSortTweener()
+        {
+            TweenerList.Sort((t1, t2) =>
+            {
+                if (Math.Abs(t1.Delay - t2.Delay) > 1e-3)
+                {
+                    return t1.Delay.CompareTo(t2.Delay);
+                }
+                else
+                {
+                    if (Math.Abs(t1.Duration - t2.Duration) > 1e-3)
+                    {
+                        return t1.Duration.CompareTo(t2.Duration);
+                    }
+                    else
+                    {
+                        if (t1.TweenerAttribute.Group != t2.TweenerAttribute.Group)
+                        {
+                            return string.Compare(t1.TweenerAttribute.Group, t2.TweenerAttribute.Group, StringComparison.Ordinal);
+                        }
+                        else
+                        {
+                            return string.Compare(t1.TweenerAttribute.DisplayName, t2.TweenerAttribute.DisplayName, StringComparison.Ordinal);
+                        }
+                    }
+                }
+            });
         }
 
         #endregion

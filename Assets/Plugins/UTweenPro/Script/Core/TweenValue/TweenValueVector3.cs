@@ -42,10 +42,10 @@ namespace Aya.TweenPro
     {
         public override void DrawFromToValue()
         {
-            GUIUtil.DrawVector3Property(HoldStartProperty, FromProperty, nameof(From),
+            GUIUtil.DrawVector3Property(FromProperty, nameof(From),
                 AxisXName, AxisYName, AxisZName,
                 AxisX, AxisY, AxisZ);
-            GUIUtil.DrawVector3Property(HoldEndProperty, ToProperty, nameof(To),
+            GUIUtil.DrawVector3Property(ToProperty, nameof(To),
                 AxisXName, AxisYName, AxisZName,
                 AxisX, AxisY, AxisZ);
         }

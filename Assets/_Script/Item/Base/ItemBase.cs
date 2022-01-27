@@ -159,8 +159,7 @@ public abstract class ItemBase : GameEntity
     public virtual void DeSpawn()
     {
         Active = false;
-        CurrentLevel.ItemList.Remove(this);
-        CurrentLevel.ItemDic[GetType()].Remove(this);
+        CurrentLevel.RemoveItem(this);
 
         foreach (var ins in RenderInstanceList)
         {

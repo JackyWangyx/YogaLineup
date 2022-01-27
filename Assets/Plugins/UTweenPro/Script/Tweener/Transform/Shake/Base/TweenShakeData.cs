@@ -38,8 +38,7 @@ namespace Aya.TweenPro
     public partial class TweenShakeData
     {
         [NonSerialized] public TweenShake Tweener;
-        [NonSerialized] public SerializedProperty TweenerProperty;
-        [NonSerialized] public SerializedProperty ShakeDataProperty;
+        [NonSerialized] public SerializedProperty DataProperty;
 
         [TweenerProperty, NonSerialized] public SerializedProperty ModeProperty;
         [TweenerProperty, NonSerialized] public SerializedProperty PositionProperty;
@@ -48,13 +47,11 @@ namespace Aya.TweenPro
         [TweenerProperty, NonSerialized] public SerializedProperty CountProperty;
         [TweenerProperty, NonSerialized] public SerializedProperty CurveProperty;
 
-        public void InitEditor(TweenShake tweener, SerializedProperty tweenerProperty)
+        public void InitEditor(TweenShake tweener, SerializedProperty dataProperty)
         {
             Tweener = tweener;
-            TweenerProperty = tweenerProperty;
-            ShakeDataProperty = TweenerProperty.FindPropertyRelative(nameof(Tweener.ShakeData));
-
-            TweenerPropertyAttribute.CacheProperty(this, ShakeDataProperty);
+            DataProperty = dataProperty;
+            TweenerPropertyAttribute.CacheProperty(this, DataProperty);
         }
 
         public void DrawShakeData()

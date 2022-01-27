@@ -37,10 +37,12 @@ namespace Aya.TweenPro
 
     public partial class TweenMaterialPropertyVector4 : TweenValueVector4<Renderer>
     {
+        [TweenerProperty, NonSerialized] public SerializedProperty MaterialDataProperty;
+
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            MaterialData.InitEditor(this, tweenerProperty);
+            MaterialData.InitEditor(this, MaterialDataProperty);
         }
 
         public override void DrawTarget()
@@ -79,39 +81,33 @@ namespace Aya.TweenPro
     {
         public static TweenMaterialPropertyVector4 Vector4(Renderer renderer, string propertyName, Vector4 to, float duration)
         {
-            var tweener = Vector4(renderer, 0, propertyName, to, duration);
+            var tweener = Play<TweenMaterialPropertyVector4, Renderer, Vector4>(renderer, to, duration)
+                .SetMaterialIndex(0)
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialPropertyVector4 Vector4(Renderer renderer, int materialIndex, string propertyName, Vector4 to, float duration)
         {
-            var tweener = Create<TweenMaterialPropertyVector4>()
-                .SetTarget(renderer)
+            var tweener = Play<TweenMaterialPropertyVector4, Renderer, Vector4>(renderer, to, duration)
                 .SetMaterialIndex(materialIndex)
-                .SetPropertyName(propertyName)
-                .SetCurrent2From()
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialPropertyVector4;
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialPropertyVector4 Vector4(Renderer renderer, string propertyName, Vector4 from, Vector4 to, float duration)
         {
-            var tweener = Vector4(renderer, 0, propertyName, from, to, duration);
+            var tweener = Play<TweenMaterialPropertyVector4, Renderer, Vector4>(renderer, from, to, duration)
+                .SetMaterialIndex(0)
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialPropertyVector4 Vector4(Renderer renderer, int materialIndex, string propertyName, Vector4 from, Vector4 to, float duration)
         {
-            var tweener = Create<TweenMaterialPropertyVector4>()
-                .SetTarget(renderer)
+            var tweener = Play<TweenMaterialPropertyVector4, Renderer, Vector4>(renderer, from, to, duration)
                 .SetMaterialIndex(materialIndex)
-                .SetPropertyName(propertyName)
-                .SetFrom(from)
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialPropertyVector4;
+                .SetPropertyName(propertyName);
             return tweener;
         }
     }

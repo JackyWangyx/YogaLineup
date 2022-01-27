@@ -42,12 +42,8 @@ namespace Aya.TweenPro
         {
             using (GUIVertical.Create())
             {
-                GUIUtil.DrawVector2Property(HoldStartProperty, FromProperty, nameof(From), 
-                    AxisXName, AxisYName,
-                    AxisX, AxisY);
-                GUIUtil.DrawVector2Property(HoldEndProperty, ToProperty, nameof(To), 
-                    AxisXName, AxisYName,
-                    AxisX, AxisY);
+                GUIUtil.DrawVector2Property(FromProperty, nameof(From), AxisXName, AxisYName, AxisX, AxisY);
+                GUIUtil.DrawVector2Property(ToProperty, nameof(To), AxisXName, AxisYName, AxisX, AxisY);
             }
         }
     }

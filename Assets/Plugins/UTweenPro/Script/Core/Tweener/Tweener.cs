@@ -20,14 +20,16 @@ namespace Aya.TweenPro
         public SpaceMode Space;
 
         [SerializeField] internal bool FoldOut = true;
-        [SerializeField] internal TweenDurationMode DurationMode = TweenDurationMode.DurationDelay;
+        [SerializeField] internal DurationMode DurationMode = DurationMode.DurationDelay;
 
         public virtual bool SupportTarget => true;
+        public virtual bool SupportFromTo => true;
         public virtual bool SupportSpace => false;
         public virtual bool SupportSpeedBased => false;
         public virtual bool SupportSetCurrentValue => true;
         public virtual bool SupportOnUpdate => true;
         public virtual bool SupportIndependentAxis => false;
+        public virtual bool OneTimeTweener => false;
         public virtual int AxisCount => 1;
 
         [NonSerialized] public float Factor;
@@ -172,17 +174,20 @@ namespace Aya.TweenPro
 
         public abstract void Sample(float factor);
 
+        // Editor Only
+        public virtual void SetDirty()
+        {
+
+        }
+
+        // Editor Only
         public virtual void RecordObject()
         {
 
         }
 
+        // Editor Only
         public virtual void RestoreObject()
-        {
-
-        }
-
-        public virtual void SetDirty()
         {
 
         }

@@ -10,8 +10,8 @@ namespace Aya.TweenPro
     [Serializable]
     public partial class TweenAnimatorTime : TweenValueFloat<Animator>
     {
-        public string State;
         public int Layer;
+        public string State;
         public float Fade;
 
         public override float Value
@@ -19,6 +19,7 @@ namespace Aya.TweenPro
             get => CurrentStateDuration;
             set
             {
+                if (!Target.isActiveAndEnabled) return;
                 var duration = CurrentStateDuration;
                 var factor = value / duration;
                 if (Application.isPlaying)
@@ -37,7 +38,9 @@ namespace Aya.TweenPro
         {
             get
             {
+                if (!Target.isActiveAndEnabled) return 0f;
                 var stateInfo = Target.GetCurrentAnimatorStateInfo(Layer);
+                if (stateInfo.IsName(State)) return 0f;
                 return stateInfo.length;
             }
         }
@@ -69,13 +72,10 @@ namespace Aya.TweenPro
                 return;
             }
 
-            GUIMenu.SelectAnimatorStateMenu(Target, nameof(State), StateProperty);
+            GUIMenu.SelectAnimatorLayerMenu(Target, nameof(Layer), LayerProperty);
+            GUIMenu.SelectAnimatorStateMenu(Target, LayerProperty.intValue, nameof(State), StateProperty);
 
-            using (GUIHorizontal.Create())
-            {
-                EditorGUILayout.PropertyField(LayerProperty);
-                EditorGUILayout.PropertyField(FadeProperty);
-            }
+            EditorGUILayout.PropertyField(FadeProperty);
         }
     }
 

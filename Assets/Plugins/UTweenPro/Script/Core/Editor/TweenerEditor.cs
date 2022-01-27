@@ -64,6 +64,8 @@ namespace Aya.TweenPro
 
         private TweenGroupData _tweenGroupData;
 
+        public bool IsProgressFull => Math.Abs(Duration - Data.Duration) <= 1e-6f && Math.Abs(Delay) <= 1e-6f;
+
         public bool ShowProgressBar
         {
             get
@@ -72,8 +74,7 @@ namespace Aya.TweenPro
                 if (FoldOut) return true;
                 if (!Active) return false;
                 if (Data.IsPlaying) return true;
-                var isFull = Math.Abs(Duration - Data.Duration) <= 1e-6f && Math.Abs(Delay) <= 1e-6f;
-                if (isFull && UTweenEditorSetting.Ins.HideFullSubProgress) return false;
+                if (IsProgressFull && UTweenEditorSetting.Ins.HideFullSubProgress) return false;
                 return true;
             }
         }
@@ -106,10 +107,8 @@ namespace Aya.TweenPro
 
         public virtual void DrawTweener()
         {
-            using (GUIGroup.Create())
+            using (GUIFoldOut.Create(FoldOutProperty, DrawTweenerHeader, DrawProgressBar))
             {
-                DrawTweenerHeader();
-
                 if (Data.SpeedBased && !SupportSpeedBased)
                 {
                     GUIUtil.DrawTipArea(UTweenEditorSetting.Ins.ErrorColor, "Not Support Speed Based!");
@@ -119,9 +118,9 @@ namespace Aya.TweenPro
                 {
                     using (GUIEnableArea.Create(ActiveProperty.boolValue && !Data.IsInProgress && GUI.enabled))
                     {
-                        DrawTarget();
-                        DrawIndependentAxis();
-                        DrawFromToValue();
+                        if (SupportTarget) DrawTarget();
+                        if (SupportIndependentAxis) DrawIndependentAxis();
+                        if (SupportFromTo) DrawFromToValue();
 
                         DrawBody();
                         DrawDurationDelay();
@@ -145,7 +144,7 @@ namespace Aya.TweenPro
             if (!UTweenEditorSetting.Ins.ShowGroupReminder) return;
             var color = TweenGroupData.Color;
             var width = UTweenEditorSetting.Ins.GroupReminderWidth;
-            var headerHeight = EditorGUIUtility.singleLineHeight + (ShowProgressBar ? 14 : 6);
+            var headerHeight = EditorGUIUtility.singleLineHeight + (ShowProgressBar ? 10 : 6);
             var rect = GUILayoutUtility.GetLastRect();
 
             rect.x -= width + 2;
@@ -163,9 +162,6 @@ namespace Aya.TweenPro
         {
             using (GUIHorizontal.Create())
             {
-                // Foldout Toggle
-                FoldOut = EditorGUILayout.Toggle(GUIContent.none, FoldOut, EditorStyles.foldout, GUILayout.Width(EditorStyle.CharacterWidth));
-
                 // Icon
                 DrawHeaderIcon();
                 GUILayout.Space(2);
@@ -196,7 +192,7 @@ namespace Aya.TweenPro
                 // Menu Button
                 using (GUIEnableArea.Create(!Data.IsInProgress))
                 {
-                    var btnContextMenu = GUILayout.Button(GUIContent.none, EditorStyles.foldoutHeaderIcon, GUILayout.Width(EditorStyle.CharacterWidth));
+                    var btnContextMenu = GUIUtil.DrawContextMenuButton();
                     if (btnContextMenu)
                     {
                         var menu = CreateContextMenu();
@@ -204,8 +200,6 @@ namespace Aya.TweenPro
                     }
                 }
             }
-
-            DrawProgressBar();
         }
 
         public virtual void DrawTitle()
@@ -222,23 +216,44 @@ namespace Aya.TweenPro
         public virtual void DrawProgressBar()
         {
             if (!ShowProgressBar) return;
-            // using (GUIGroup.Create())
+            using (GUIHorizontal.Create())
             {
-                GUILayout.Space(2);
+                GUILayout.Space(EditorStyle.CharacterWidth);
+                var currentHeight = FoldOut ? 4f : 2f;
                 using (GUIEnableArea.Create(Active))
                 {
-                    var currentHeight = FoldOut ? 4f : 2f;
                     var normalized = Data.EditorNormalizedProgress;
                     if (!Active) normalized = 0f;
-                    GUIUtil.DrawDraggableProgressBar(SerializedObject.targetObject, currentHeight, DurationFromNormalized, DurationToNormalized, normalized, (from, to) =>
-                    {
-                        if (Data.IsPlaying) return;
-                        DurationFromNormalized = from;
-                        DurationToNormalized = to;
-                    });
+                    GUIUtil.DrawDraggableProgressBar(SerializedObject.targetObject, currentHeight,
+                        DurationFromNormalized, DurationToNormalized, normalized,
+                        HoldStartProperty.boolValue, HoldEndProperty.boolValue,
+                        (from, to) =>
+                        {
+                            if (Data.IsPlaying) return;
+                            DurationFromNormalized = from;
+                            DurationToNormalized = to;
+                        });
                 }
 
-                GUILayout.Space(2);
+                GUILayout.Space(EditorStyle.CharacterWidth);
+            }
+
+            if (FoldOut)
+            {
+                GUILayout.Space(3);
+                if (!IsProgressFull)
+                {
+                    using (GUIHorizontal.Create())
+                    {
+                        GUIUtil.DrawToggleButton(HoldStartProperty);
+                        GUIUtil.DrawToggleButton(HoldEndProperty);
+                    }
+                }
+                else
+                {
+                    HoldStartProperty.boolValue = false;
+                    HoldEndProperty.boolValue = false;
+                }
             }
         }
 
@@ -271,7 +286,7 @@ namespace Aya.TweenPro
                 var durationChanged = false;
                 var delayChanged = false;
 
-                if (DurationMode == TweenDurationMode.DurationDelay)
+                if (DurationMode == DurationMode.DurationDelay)
                 {
                     using (var check = GUICheckChangeArea.Create())
                     {
@@ -286,9 +301,9 @@ namespace Aya.TweenPro
                     }
                 }
 
-                if (DurationMode == TweenDurationMode.FromTo)
+                if (DurationMode == DurationMode.FromTo)
                 {
-                    GUILayout.Label("Time", EditorStyles.label, GUILayout.Width(EditorStyle.LabelWidth));
+                    GUILayout.Label("Time", EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
                     using (GUILabelWidthArea.Create(EditorStyle.CharacterWidth))
                     {
                         using (var check = GUICheckChangeArea.Create())
@@ -304,6 +319,8 @@ namespace Aya.TweenPro
                         }
                     }
                 }
+
+                GUIUtil.DrawSelectEnumButton(DurationModeProperty, typeof(DurationMode));
 
                 if (durationChanged)
                 {
@@ -355,6 +372,15 @@ namespace Aya.TweenPro
                         EditorGUILayout.CurveField(_cacheCurve); //, GUILayout.Height(EditorStyle.SingleButtonWidth * 2f));
                     }
                 }
+
+                if (IsCustomCurve)
+                {
+                    if (GUIUtil.DrawSelectModeButton())
+                    {
+                        var menu = CreateCurveMenu();
+                        menu.ShowAsContext();
+                    }
+                }
             }
 
             // Strength
@@ -366,6 +392,24 @@ namespace Aya.TweenPro
                     StrengthProperty.floatValue = GUILayout.HorizontalSlider(StrengthProperty.floatValue, 0f, 1f);
                 }
             }
+        }
+
+        public virtual GenericMenu CreateCurveMenu()
+        {
+            var menu = new GenericMenu();
+            menu.AddItem("Reset Curve", false, () =>
+            {
+                CurveProperty.animationCurveValue = new AnimationCurve(new Keyframe(0, 0, 1, 1), new Keyframe(1, 1, 1, 1));
+                CurveProperty.serializedObject.ApplyModifiedProperties();
+            });
+
+            menu.AddItem("Reverse Curve", false, () =>
+            {
+                CurveProperty.animationCurveValue = CurveProperty.animationCurveValue.Reverse();
+                CurveProperty.serializedObject.ApplyModifiedProperties();
+            });
+
+            return menu;
         }
 
         private AnimationCurve _cacheCurve;
@@ -469,10 +513,19 @@ namespace Aya.TweenPro
             });
             menu.AddSeparator("");
 
-            // Move Up / Move Down
+            // Move Up / Move Down / Auto Sort
             menu.AddItem(CanMoveUp, "Move Up", false, MoveUp);
 
             menu.AddItem(CanMoveDown, "Move Down", false, MoveDown);
+
+            if (Data.TweenerList.Count > 1)
+            {
+                menu.AddItem(true, "Auto Sort", false, () =>
+                {
+                    Data.AutoSortTweener();
+                });
+            }
+
             menu.AddSeparator("");
 
             // Copy / Paste
@@ -497,15 +550,6 @@ namespace Aya.TweenPro
             });
             menu.AddSeparator("");
 
-            // Duration Mode / Event
-            menu.AddItem("Switch Duration Mode", false, () =>
-            {
-                Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Switch Duration Mode");
-                if (DurationMode == TweenDurationMode.DurationDelay) DurationModeProperty.intValue = (int)TweenDurationMode.FromTo;
-                else if (DurationMode == TweenDurationMode.FromTo) DurationModeProperty.intValue = (int)TweenDurationMode.DurationDelay;
-                SerializedObject.ApplyModifiedProperties();
-            });
-
             // Show / Hide Event
             // if (SupportOnUpdate && Data.Mode == TweenEditorMode.Component)
             // {
@@ -518,22 +562,7 @@ namespace Aya.TweenPro
             // }
 
             // Curve
-            if (IsCustomCurve)
-            {
-                menu.AddSeparator("");
-                menu.AddItem("Reset Curve", false, () =>
-                {
-                    CurveProperty.animationCurveValue = new AnimationCurve(new Keyframe(0, 0, 1, 1), new Keyframe(1, 1, 1, 1));
-                    CurveProperty.serializedObject.ApplyModifiedProperties();
-                });
-
-                menu.AddItem("Reverse Curve", false, () =>
-                {
-                    CurveProperty.animationCurveValue = CurveProperty.animationCurveValue.Reverse();
-                    CurveProperty.serializedObject.ApplyModifiedProperties();
-                });
-            }
-
+            
             return menu;
         }
 

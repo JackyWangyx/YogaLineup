@@ -42,10 +42,10 @@ namespace Aya.TweenPro
     {
         public override void DrawFromToValue()
         {
-            GUIUtil.DrawQuaternionProperty(HoldStartProperty, FromProperty, nameof(From),
+            GUIUtil.DrawQuaternionProperty(FromProperty, nameof(From),
                 AxisXName, AxisYName, AxisZName, AxisWName,
                 AxisX, AxisY, AxisZ, AxisW);
-            GUIUtil.DrawQuaternionProperty(HoldEndProperty, ToProperty, nameof(To),
+            GUIUtil.DrawQuaternionProperty(ToProperty, nameof(To),
                 AxisXName, AxisYName, AxisZName, AxisWName,
                 AxisX, AxisY, AxisZ, AxisW);
         }

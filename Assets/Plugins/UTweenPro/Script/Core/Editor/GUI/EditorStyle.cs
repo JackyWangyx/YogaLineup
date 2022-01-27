@@ -71,23 +71,23 @@ namespace Aya.TweenPro
 
         private static GUIStyle _multiLineLabel;
 
-        // public static GUIStyle FlexibleLabel
-        // {
-        //     get
-        //     {
-        //         if (_flexibleLabel == null)
-        //         {
-        //             _flexibleLabel = EditorStyles.label;
-        //             _flexibleLabel.stretchWidth = true;
-        //             _flexibleLabel.stretchHeight = true;
-        //             _flexibleLabel.wordWrap = false;
-        //         }
-        //
-        //         return _flexibleLabel;
-        //     }
-        // }
-        //
-        // private static GUIStyle _flexibleLabel;
+        public static GUIStyle TitleTargetLabel
+        {
+            get
+            {
+                if (_titleTargetLabel == null)
+                {
+                    _titleTargetLabel = EditorStyles.label;
+                    _titleTargetLabel.stretchWidth = true;
+                    _titleTargetLabel.stretchHeight = true;
+                    _titleTargetLabel.wordWrap = false;
+                }
+        
+                return _titleTargetLabel;
+            }
+        }
+        
+        private static GUIStyle _titleTargetLabel;
 
         #endregion
 

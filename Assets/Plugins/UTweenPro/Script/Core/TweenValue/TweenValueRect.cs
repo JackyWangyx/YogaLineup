@@ -55,10 +55,10 @@ namespace Aya.TweenPro
 
         public override void DrawFromToValue()
         {
-            GUIUtil.DrawRectProperty(HoldStartProperty, FromProperty, nameof(From),
+            GUIUtil.DrawRectProperty(FromProperty, nameof(From),
                 AxisXName, AxisYName, AxisZName, AxisWName,
                 AxisX, AxisY, AxisZ, AxisW);
-            GUIUtil.DrawRectProperty(HoldEndProperty, ToProperty, nameof(To),
+            GUIUtil.DrawRectProperty(ToProperty, nameof(To),
                 AxisXName, AxisYName, AxisZName, AxisWName,
                 AxisX, AxisY, AxisZ, AxisW);
         }

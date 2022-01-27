@@ -48,47 +48,37 @@ namespace Aya.TweenPro
 
     public partial class TargetPositionData
     {
-        [NonSerialized] public Tweener Tweener;
-        [NonSerialized] public SerializedProperty TweenerProperty;
-        [NonSerialized] public string PropertyName;
-        [NonSerialized] public SerializedProperty TargetPositionDataProperty;
+        [NonSerialized] public SerializedProperty DataProperty;
 
         [TweenerProperty, NonSerialized] public SerializedProperty ModeProperty;
         [TweenerProperty, NonSerialized] public SerializedProperty TransformProperty;
         [TweenerProperty, NonSerialized] public SerializedProperty PositionProperty;
 
-        public void InitEditor(Tweener tweener, SerializedProperty tweenerProperty, string propertyName)
+        public void InitEditor(SerializedProperty dataProperty)
         {
-            Tweener = tweener;
-            TweenerProperty = tweenerProperty;
-            PropertyName = propertyName;
-
-            TargetPositionDataProperty = TweenerProperty.FindPropertyRelative(PropertyName);
-            TweenerPropertyAttribute.CacheProperty(this, TargetPositionDataProperty);
+            DataProperty = dataProperty;
+            TweenerPropertyAttribute.CacheProperty(this, DataProperty);
         }
 
         public void DrawTargetPosition()
         {
             using (GUIHorizontal.Create())
             {
+                GUILayout.Label(DataProperty.displayName, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
+
                 if (Mode == TargetPositionMode.Transform)
                 {
                     using (GUIErrorColorArea.Create(Transform == null))
                     {
-                        EditorGUILayout.PropertyField(TransformProperty, new GUIContent(PropertyName));
+                        EditorGUILayout.ObjectField(TransformProperty, GUIContent.none);
                     }
                 }
-
-                if (Mode == TargetPositionMode.Position)
+                else if (Mode == TargetPositionMode.Position)
                 {
-                    PositionProperty.vector3Value = EditorGUILayout.Vector3Field(PropertyName, PositionProperty.vector3Value);
+                    PositionProperty.vector3Value = EditorGUILayout.Vector3Field(GUIContent.none, PositionProperty.vector3Value);
                 }
 
-                var btnSwitchMode = GUILayout.Button(Mode.ToString(), GUILayout.Width(EditorStyle.SettingButtonWidth));
-                if (btnSwitchMode)
-                {
-                    ModeProperty.intValue = (int) (Mode == TargetPositionMode.Transform ? TargetPositionMode.Position : TargetPositionMode.Transform);
-                }
+                GUIUtil.DrawSelectEnumButton(ModeProperty, typeof(TargetPositionMode));
             }
         }
     }

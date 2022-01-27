@@ -76,7 +76,6 @@ namespace Aya.TweenPro
         {
             using (GUIHorizontal.Create())
             {
-                GUIUtil.DrawHoldProperty(HoldStartProperty);
                 GUILayout.Label(nameof(From), EditorStyles.label, GUILayout.Width(EditorStyle.FromToValueLabelWidth));
                 using (GUILabelWidthArea.Create(EditorStyle.CharacterWidth))
                 {
@@ -89,7 +88,6 @@ namespace Aya.TweenPro
 
             using (GUIHorizontal.Create())
             {
-                GUIUtil.DrawHoldProperty(HoldEndProperty);
                 GUILayout.Label(nameof(To), EditorStyles.label, GUILayout.Width(EditorStyle.FromToValueLabelWidth));
                 using (GUILabelWidthArea.Create(EditorStyle.CharacterWidth))
                 {

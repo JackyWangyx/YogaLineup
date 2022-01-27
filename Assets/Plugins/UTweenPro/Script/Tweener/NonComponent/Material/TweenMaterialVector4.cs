@@ -28,25 +28,15 @@ namespace Aya.TweenPro
     {
         public static TweenMaterialVector4 Vector4(Material material, string propertyName, Vector4 to, float duration)
         {
-            var tweener = Create<TweenMaterialVector4>()
-                .SetTarget(material)
-                .SetPropertyName(propertyName)
-                .SetCurrent2From()
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialVector4;
+            var tweener = Play<TweenMaterialVector4, Material, Vector4>(material, to, duration)
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialVector4 Vector4(Material material, string propertyName, Vector4 from, Vector4 to, float duration)
         {
-            var tweener = Create<TweenMaterialVector4>()
-                .SetTarget(material)
-                .SetPropertyName(propertyName)
-                .SetFrom(from)
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialVector4;
+            var tweener = Play<TweenMaterialVector4, Material, Vector4>(material, from, to, duration)
+                .SetPropertyName(propertyName);
             return tweener;
         }
     }

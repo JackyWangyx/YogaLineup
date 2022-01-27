@@ -303,14 +303,15 @@ namespace Aya.TweenPro
     {
         public bool OriginalEnable;
 
-        public static GUIEnableArea Create(bool enable)
+        public static GUIEnableArea Create(bool enable, bool inheritParent = true)
         {
-            return new GUIEnableArea(enable);
+            return new GUIEnableArea(enable, inheritParent);
         }
 
-        private GUIEnableArea(bool enable)
+        private GUIEnableArea(bool enable, bool inheritParent = true)
         {
             OriginalEnable = GUI.enabled;
+            if (!GUI.enabled && inheritParent) enable = false;
             GUI.enabled = enable;
         }
 
@@ -322,18 +323,38 @@ namespace Aya.TweenPro
 
     public struct GUIFoldOut : IDisposable
     {
-        public static GUIFoldOut Create(Object target, string title, ref bool defaultState, params GUILayoutOption[] options)
+        public static GUIFoldOut Create(SerializedProperty foldOutProperty, string title = null, params GUILayoutOption[] options)
         {
-            return new GUIFoldOut(target, title, ref defaultState, options);
+            return new GUIFoldOut(foldOutProperty, () =>
+            {
+                var btnTitle = GUILayout.Button(title, EditorStyles.boldLabel);
+                if (btnTitle)
+                {
+                    foldOutProperty.boolValue = !foldOutProperty.boolValue;
+                }
+            }, null, options);
         }
 
-        private GUIFoldOut(Object target, string title, ref bool defaultState, params GUILayoutOption[] options)
+        public static GUIFoldOut Create(SerializedProperty foldOutProperty, Action drawTitleAction = null, params GUILayoutOption[] options)
+        {
+            return new GUIFoldOut(foldOutProperty, drawTitleAction, null, options);
+        }
+
+        public static GUIFoldOut Create(SerializedProperty foldOutProperty, Action drawTitleAction = null, Action drawAppendAction = null, params GUILayoutOption[] options)
+        {
+            return new GUIFoldOut(foldOutProperty, drawTitleAction, drawAppendAction, options);
+        }
+
+        private GUIFoldOut(SerializedProperty foldOutProperty, Action drawTitleAction, Action drawAppendAction = null, params GUILayoutOption[] options)
         {
             EditorGUILayout.BeginVertical(EditorStyles.helpBox, options);
-            var rect = EditorGUILayout.GetControlRect();
-            defaultState = GUI.Toggle(rect, defaultState, GUIContent.none, EditorStyles.foldout);
-            rect.xMin += rect.height;
-            EditorGUI.LabelField(rect, title, EditorStyles.boldLabel);
+            using (GUIHorizontal.Create())
+            {
+                foldOutProperty.boolValue = EditorGUILayout.Toggle(GUIContent.none, foldOutProperty.boolValue, EditorStyles.foldout, GUILayout.Width(EditorStyle.CharacterWidth));
+                drawTitleAction?.Invoke();
+            }
+
+            drawAppendAction?.Invoke();
         }
 
         public void Dispose()

@@ -53,16 +53,14 @@ namespace Aya.TweenPro
         public override void DrawTitle()
         {
             base.DrawTitle();
-
             if (Target == null) return;
             var targetName = Target.name;
             GUILayout.Label("|", EditorStyles.label);
-            GUILayout.Label(targetName, EditorStyles.label, GUILayout.MinWidth(0), GUILayout.MaxWidth(Screen.width));
+            GUILayout.Label(targetName, EditorStyle.TitleTargetLabel, GUILayout.MinWidth(0), GUILayout.MaxWidth(Screen.width));
         }
 
         public override void DrawTarget()
         {
-            if (!SupportTarget) return;
             if (!FoldOut) return;
             if (Data.Mode == TweenEditorMode.ScriptableObject) return;
             if (typeof(TTarget).IsSubclassOf(typeof(Component)) || typeof(TTarget) == typeof(Component))

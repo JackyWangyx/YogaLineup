@@ -114,7 +114,7 @@ namespace Aya.TweenPro
         Definite = 1,
     }
 
-    public enum TweenEventType
+    public enum EventType
     {
         OnPlay = 0,
         OnStart = 1,
@@ -127,7 +127,7 @@ namespace Aya.TweenPro
         OnComplete = 8
     }
 
-    public enum TweenDurationMode
+    public enum DurationMode
     {
         DurationDelay = 0,
         FromTo = 1,
@@ -137,6 +137,28 @@ namespace Aya.TweenPro
     {
         Transform = 0,
         Position = 1,
+    }
+
+    public enum TargetAnimationMode
+    {
+        Component = 0,
+        Asset = 1,
+    }
+
+    public enum TweenMaterialMode
+    {
+        Property = 0,
+        Instance = 1,
+        Shared = 2,
+    }
+
+    public enum TriggerActionType
+    {
+        Play = 0,
+        PlayBackward = 1,
+        Pause = 2,
+        Resume = 3,
+        Stop = 4,
     }
 
 #if UNITY_EDITOR

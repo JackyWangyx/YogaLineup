@@ -37,10 +37,12 @@ namespace Aya.TweenPro
 
     public partial class TweenMaterialPropertyColor : TweenValueColor<Renderer>
     {
+        [TweenerProperty, NonSerialized] public SerializedProperty MaterialDataProperty;
+
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            MaterialData.InitEditor(this, tweenerProperty);
+            MaterialData.InitEditor(this, MaterialDataProperty);
         }
 
         public override void DrawTarget()
@@ -79,39 +81,33 @@ namespace Aya.TweenPro
     {
         public static TweenMaterialPropertyColor Color(Renderer renderer, string propertyName, Color to, float duration)
         {
-            var tweener = Color(renderer, 0, propertyName, to, duration);
+            var tweener = Play<TweenMaterialPropertyColor, Renderer, Color>(renderer, to, duration)
+                .SetMaterialIndex(0)
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialPropertyColor Color(Renderer renderer, int materialIndex, string propertyName, Color to, float duration)
         {
-            var tweener = Create<TweenMaterialPropertyColor>()
-                .SetTarget(renderer)
+            var tweener = Play<TweenMaterialPropertyColor, Renderer, Color>(renderer, to, duration)
                 .SetMaterialIndex(materialIndex)
-                .SetPropertyName(propertyName)
-                .SetCurrent2From()
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialPropertyColor;
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialPropertyColor Color(Renderer renderer, string propertyName, Color from, Color to, float duration)
         {
-            var tweener = Color(renderer, 0, propertyName, from, to, duration);
+            var tweener = Play<TweenMaterialPropertyColor, Renderer, Color>(renderer, from, to, duration)
+                .SetMaterialIndex(0)
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialPropertyColor Color(Renderer renderer, int materialIndex, string propertyName, Color from, Color to, float duration)
         {
-            var tweener = Create<TweenMaterialPropertyColor>()
-                .SetTarget(renderer)
+            var tweener = Play<TweenMaterialPropertyColor, Renderer, Color>(renderer, from, to, duration)
                 .SetMaterialIndex(materialIndex)
-                .SetPropertyName(propertyName)
-                .SetFrom(from)
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialPropertyColor;
+                .SetPropertyName(propertyName);
             return tweener;
         }
 

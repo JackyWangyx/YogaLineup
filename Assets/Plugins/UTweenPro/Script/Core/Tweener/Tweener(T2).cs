@@ -15,7 +15,6 @@ namespace Aya.TweenPro
         public AxisConstraint Axis;
         public bool EnableAxis = false;
 
-        // TODO.. 逐字动画编辑器下空引用
         [NonSerialized] public Func<TValue> FromGetter;
         [NonSerialized] public Func<TValue> ToGetter;
         [NonSerialized] public Func<TValue> ValueGetter;

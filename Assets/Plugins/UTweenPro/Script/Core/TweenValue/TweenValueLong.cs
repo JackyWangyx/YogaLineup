@@ -45,8 +45,8 @@ namespace Aya.TweenPro
         {
             using (GUIHorizontal.Create())
             {
-                GUIUtil.DrawProperty(HoldStartProperty, FromProperty);
-                GUIUtil.DrawProperty(HoldEndProperty, ToProperty);
+                GUIUtil.DrawProperty(FromProperty);
+                GUIUtil.DrawProperty(ToProperty);
             }
         }
 

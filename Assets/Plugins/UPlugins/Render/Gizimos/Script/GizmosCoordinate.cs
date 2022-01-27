@@ -24,7 +24,7 @@ namespace Aya.Render
 
         public void OnDrawGizmos()
         {
-            var length = 100f;
+            var length = Length;
 
             var center = Space == GizmosCoordinateSpace.World ? Vector3.zero : transform.position;
             var forward = Direction == GizmosCoordinateDirection.World ? Vector3.forward : transform.forward;

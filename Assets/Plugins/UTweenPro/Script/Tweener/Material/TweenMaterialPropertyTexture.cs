@@ -42,6 +42,8 @@ namespace Aya.TweenPro
 
     public partial class TweenMaterialPropertyTexture : TweenValueVector4<Renderer>
     {
+        [TweenerProperty, NonSerialized] public SerializedProperty MaterialDataProperty;
+
         public override string AxisXName => "TX";
         public override string AxisYName => "TY";
         public override string AxisZName => "OX";
@@ -50,7 +52,7 @@ namespace Aya.TweenPro
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            MaterialData.InitEditor(this, tweenerProperty);
+            MaterialData.InitEditor(this, MaterialDataProperty);
         }
 
         public override void DrawIndependentAxis()

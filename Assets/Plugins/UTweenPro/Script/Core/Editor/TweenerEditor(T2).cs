@@ -27,7 +27,7 @@ namespace Aya.TweenPro
 
         public override void DrawIndependentAxis()
         {
-            if (!SupportIndependentAxis || !EnableAxis) return;
+            if (!EnableAxis) return;
             using (GUIHorizontal.Create())
             {
                 GUILayout.Label(nameof(Axis), EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
@@ -53,8 +53,8 @@ namespace Aya.TweenPro
         {
             using (GUIVertical.Create())
             {
-                GUIUtil.DrawProperty(HoldStartProperty, FromProperty);
-                GUIUtil.DrawProperty(HoldEndProperty, ToProperty);
+                GUIUtil.DrawProperty(FromProperty);
+                GUIUtil.DrawProperty(ToProperty);
             }
         }
 
@@ -95,34 +95,37 @@ namespace Aya.TweenPro
             }
 
             // Reverse From To
-            menu.AddSeparator("");
-            menu.AddItem(new GUIContent("Reverse From - To"), false, () =>
+            if (SupportFromTo)
             {
-                Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Reverse From - To");
-                ReverseFromTo();
-            });
+                menu.AddSeparator("");
+                menu.AddItem(new GUIContent("Reverse From - To"), false, () =>
+                {
+                    Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Reverse From - To");
+                    ReverseFromTo();
+                });
 
-            // Current - From / To
-            if (SupportSetCurrentValue)
-            {
-                menu.AddItem(Target != null, "Set Current -> From", false, () =>
+                // Current - From / To
+                if (SupportSetCurrentValue)
                 {
-                    Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Set Current -> From");
-                    From = Value;
-                });
-                menu.AddItem(Target != null, "Set Current -> To", false, () =>
-                {
-                    Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Set Current -> To");
-                    To = Value;
-                });
-                menu.AddItem(Target != null, "Set From -> Current", false, () =>
-                {
-                    Value = From;
-                });
-                menu.AddItem(Target != null, "Set To -> Current", false, () =>
-                {
-                    Value = To;
-                });
+                    menu.AddItem(Target != null, "Set Current -> From", false, () =>
+                    {
+                        Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Set Current -> From");
+                        From = Value;
+                    });
+                    menu.AddItem(Target != null, "Set Current -> To", false, () =>
+                    {
+                        Undo.RegisterCompleteObjectUndo(SerializedObject.targetObject, "Set Current -> To");
+                        To = Value;
+                    });
+                    menu.AddItem(Target != null, "Set From -> Current", false, () =>
+                    {
+                        Value = From;
+                    });
+                    menu.AddItem(Target != null, "Set To -> Current", false, () =>
+                    {
+                        Value = To;
+                    });
+                }
             }
 
             // Expand / Shrink 

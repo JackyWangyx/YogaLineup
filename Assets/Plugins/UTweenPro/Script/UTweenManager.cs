@@ -135,7 +135,6 @@ namespace Aya.TweenPro
 
         protected void Update()
         {
-            if (!Application.isPlaying) return;
             if (UpdateList.Count == 0) return;
             var scaledDeltaTime = Time.deltaTime;
             var unscaledDeltaTime = Time.unscaledDeltaTime;
@@ -156,7 +155,6 @@ namespace Aya.TweenPro
 
         protected void LateUpdate()
         {
-            if (!Application.isPlaying) return;
             if (LateUpdateList.Count == 0) return;
             var scaledDeltaTime = Time.deltaTime;
             var unscaledDeltaTime = Time.unscaledDeltaTime;
@@ -166,7 +164,6 @@ namespace Aya.TweenPro
 
         protected void FixedUpdate()
         {
-            if (!Application.isPlaying) return;
             if (FixedUpdateList.Count == 0) return;
             var scaledDeltaTime = Time.fixedDeltaTime;
             var unscaledDeltaTime = Time.fixedUnscaledDeltaTime;
@@ -200,7 +197,6 @@ namespace Aya.TweenPro
             if (!PlayingList.Contains(tweenData)) return;
             if (RemoveList.Contains(tweenData)) return;
             RemoveList.Add(tweenData);
-            tweenData.DeSpawn();
         }
 
         public void AddTweener(Tweener tweener)
@@ -222,6 +218,10 @@ namespace Aya.TweenPro
                     PlayingList.Remove(tweenData);
                     var updateList = UpdateListDic[tweenData.UpdateMode];
                     updateList.Remove(tweenData);
+                    if (!AddList.Contains(tweenData))
+                    {
+                        tweenData.DeSpawn();
+                    }
                 }
 
                 RemoveList.Clear();

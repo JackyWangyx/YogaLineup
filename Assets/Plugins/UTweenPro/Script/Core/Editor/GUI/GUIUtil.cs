@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using System;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Aya.TweenPro
@@ -98,6 +99,106 @@ namespace Aya.TweenPro
 
         #endregion
 
+        #region Text
+
+        public static bool EditMode = false;
+
+        public static void DrawTextArea(SerializedProperty textProperty)
+        {
+            using (GUIGroup.Create())
+            {
+                if (EditMode)
+                {
+                    Input.imeCompositionMode = IMECompositionMode.On;
+                    textProperty.stringValue = EditorGUILayout.TextArea(textProperty.stringValue);
+                }
+                else
+                {
+                    GUILayout.Label(textProperty.stringValue, EditorStyle.RichLabel);
+                }
+            }
+
+            using (GUIHorizontal.Create())
+            {
+                var btnEdit = GUILayout.Button(EditMode ? "Save" : "Edit");
+                if (btnEdit)
+                {
+                    EditMode = !EditMode;
+                }
+
+                using (GUIEnableArea.Create(!GUIUtility.systemCopyBuffer.Equals(textProperty.stringValue)))
+                {
+                    var btnCopy = GUILayout.Button("Copy");
+                    if (btnCopy)
+                    {
+                        GUIUtility.systemCopyBuffer = textProperty.stringValue;
+                    }
+                }
+
+                using (GUIEnableArea.Create(!GUIUtility.systemCopyBuffer.Equals(textProperty.stringValue)))
+                {
+                    var btnPaste = GUILayout.Button("Paste");
+                    if (btnPaste)
+                    {
+                        textProperty.stringValue = GUIUtility.systemCopyBuffer;
+                    }
+                }
+
+                using (GUIEnableArea.Create(!string.IsNullOrEmpty(textProperty.stringValue)))
+                {
+                    var btnClear = GUILayout.Button("Clear");
+                    if (btnClear)
+                    {
+                        textProperty.stringValue = "";
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Button
+
+        public static bool DrawContextMenuButton()
+        {
+            var button = GUILayout.Button("⁝", EditorStyles.label, GUILayout.Width(EditorStyle.CharacterWidth));
+            return button;
+        }
+
+        public static bool DrawSelectEnumButton(SerializedProperty modeProperty, Type enumType)
+        {
+            var button = DrawSelectModeButton();
+            if (button)
+            {
+                var menu = new GenericMenu();
+                var names = Enum.GetNames(enumType);
+                var values = Enum.GetValues(enumType);
+                for (var i = 0; i < names.Length; i++)
+                {
+                    var name = names[i];
+                    var value = (int)values.GetValue(i);
+
+                    menu.AddItem(name, value == modeProperty.intValue, () =>
+                    {
+                        modeProperty.intValue = value;
+                        modeProperty.serializedObject.ApplyModifiedProperties();
+                    });
+                }
+
+                menu.ShowAsContext();
+            }
+
+            return button;
+        }
+
+        public static bool DrawSelectModeButton()
+        {
+            var button = GUILayout.Button(GUIContent.none, EditorStyles.popup, GUILayout.Width(EditorStyle.SingleButtonWidth));
+            return button;
+        }
+
+        #endregion
+
         #region Enum
 
         public static void DrawToolbarEnum(SerializedProperty property, Type enumType)
@@ -136,15 +237,7 @@ namespace Aya.TweenPro
         
         #endregion
 
-        #region FromTo Property
-
-        public static void DrawHoldProperty(SerializedProperty holdProperty)
-        {
-            using (GUIEnableColorArea.Create(holdProperty.boolValue))
-            {
-                holdProperty.boolValue = GUILayout.Toggle(holdProperty.boolValue, GUIContent.none, EditorStyles.radioButton, GUILayout.Width(EditorStyle.HoldButtonWidth));
-            }
-        }
+        #region From To Property
 
         public static float DrawFloatProperty(string name, float value, bool enable)
         {
@@ -164,27 +257,19 @@ namespace Aya.TweenPro
             }
         }
 
-        public static void DrawProperty(SerializedProperty holdProperty, SerializedProperty property)
+        public static void DrawProperty(SerializedProperty property)
         {
-            using (GUIHorizontal.Create())
-            {
-                DrawHoldProperty(holdProperty);
-                using (GUILabelWidthArea.Create(EditorStyle.FromToValueLabelWidth))
-                {
-                    EditorGUILayout.PropertyField(property);
-                }
-            }
+            EditorGUILayout.PropertyField(property);
         }
 
-        public static void DrawVector2Property(SerializedProperty holdProperty, SerializedProperty property, string name,
+        public static void DrawVector2Property(SerializedProperty property, string name,
             string axis1Name, string axis2Name,
             bool enableAxis1, bool enableAxis2)
         {
             using (GUIHorizontal.Create())
             {
-                DrawHoldProperty(holdProperty);
                 var value = property.vector2Value;
-                GUILayout.Label(name, EditorStyles.label, GUILayout.Width(EditorStyle.FromToValueLabelWidth));
+                GUILayout.Label(name, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
                 using (GUILabelWidthArea.Create(EditorStyle.CharacterWidth))
                 {
                     value.x = DrawFloatProperty(axis1Name, value.x, enableAxis1);
@@ -195,15 +280,14 @@ namespace Aya.TweenPro
             }
         }
 
-        public static void DrawVector3Property(SerializedProperty holdProperty, SerializedProperty valueProperty, string name,
+        public static void DrawVector3Property(SerializedProperty valueProperty, string name,
             string axis1Name, string axis2Name, string axis3Name,
             bool enableAxis1, bool enableAxis2, bool enableAxis3)
         {
             using (GUIHorizontal.Create())
             {
-                DrawHoldProperty(holdProperty);
                 var value = valueProperty.vector3Value;
-                GUILayout.Label(name, EditorStyles.label, GUILayout.Width(EditorStyle.FromToValueLabelWidth));
+                GUILayout.Label(name, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
                 using (GUILabelWidthArea.Create(EditorStyle.CharacterWidth))
                 {
                     value.x = DrawFloatProperty(axis1Name, value.x, enableAxis1);
@@ -215,15 +299,14 @@ namespace Aya.TweenPro
             }
         }
 
-        public static void DrawVector4Property(SerializedProperty holdProperty, SerializedProperty property, string name,
+        public static void DrawVector4Property(SerializedProperty property, string name,
             string axis1Name, string axis2Name, string axis3Name, string axis4Name,
             bool enableAxis1, bool enableAxis2, bool enableAxis3, bool enableAxis4)
         {
             using (GUIHorizontal.Create())
             {
-                DrawHoldProperty(holdProperty);
                 var value = property.vector4Value;
-                GUILayout.Label(name, EditorStyles.label, GUILayout.Width(EditorStyle.FromToValueLabelWidth));
+                GUILayout.Label(name, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
                 using (GUILabelWidthArea.Create(EditorStyle.CharacterWidth))
                 {
                     value.x = DrawFloatProperty(axis1Name, value.x, enableAxis1);
@@ -236,15 +319,14 @@ namespace Aya.TweenPro
             }
         }
 
-        public static void DrawRectProperty(SerializedProperty holdProperty, SerializedProperty property, string name,
+        public static void DrawRectProperty(SerializedProperty property, string name,
             string axis1Name, string axis2Name, string axis3Name, string axis4Name,
             bool enableAxis1, bool enableAxis2, bool enableAxis3, bool enableAxis4)
         {
             using (GUIHorizontal.Create())
             {
-                DrawHoldProperty(holdProperty);
                 var value = property.rectValue;
-                GUILayout.Label(name, EditorStyles.label, GUILayout.Width(EditorStyle.FromToValueLabelWidth));
+                GUILayout.Label(name, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
                 using (GUILabelWidthArea.Create(EditorStyle.CharacterWidth))
                 {
                     value.x = DrawFloatProperty(axis1Name, value.x, enableAxis1);
@@ -257,30 +339,14 @@ namespace Aya.TweenPro
             }
         }
 
-        public static void DrawRectOffsetProperty(SerializedProperty holdProperty, SerializedProperty property, string name,
+        public static void DrawQuaternionProperty(SerializedProperty property, string name,
             string axis1Name, string axis2Name, string axis3Name, string axis4Name,
             bool enableAxis1, bool enableAxis2, bool enableAxis3, bool enableAxis4)
         {
             using (GUIHorizontal.Create())
             {
-                DrawHoldProperty(holdProperty);
-                GUILayout.Label(name, EditorStyles.label, GUILayout.Width(EditorStyle.FromToValueLabelWidth));
-                using (GUILabelWidthArea.Create(EditorStyle.CharacterWidth))
-                {
-
-                }
-            }
-        }
-
-        public static void DrawQuaternionProperty(SerializedProperty holdProperty, SerializedProperty property, string name,
-            string axis1Name, string axis2Name, string axis3Name, string axis4Name,
-            bool enableAxis1, bool enableAxis2, bool enableAxis3, bool enableAxis4)
-        {
-            using (GUIHorizontal.Create())
-            {
-                DrawHoldProperty(holdProperty);
                 var value = property.quaternionValue;
-                GUILayout.Label(name, EditorStyles.label, GUILayout.Width(EditorStyle.FromToValueLabelWidth));
+                GUILayout.Label(name, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
                 using (GUILabelWidthArea.Create(EditorStyle.CharacterWidth))
                 {
                     value.x = DrawFloatProperty(axis1Name, value.x, enableAxis1);
@@ -337,8 +403,9 @@ namespace Aya.TweenPro
         private static int _progressState2;
         private static int _progressState3;
 
-        public static void DrawDraggableProgressBar(UnityEngine.Object target, float height, float fromValue, float toValue, float currentValue, Action<float, float> onValueChanged = null)
+        public static void DrawDraggableProgressBar(UnityEngine.Object target, float height, float fromValue, float toValue, float currentValue, bool holdStart, bool holdEnd, Action<float, float> onValueChanged = null)
         {
+            var holdColor = UTweenEditorSetting.Ins.SubProgressHoldColor;
             var disableColor = UTweenEditorSetting.Ins.ProgressDisableColor;
             var backColor = UTweenEditorSetting.Ins.ProgressBackColor;
             var rangeColor = UTweenEditorSetting.Ins.SubProgressColor;
@@ -353,7 +420,7 @@ namespace Aya.TweenPro
 
             // Handle
             var fromRect = new Rect(rect.x, rect.y, fromValuePos + 1f, rect.height);
-            var toRect = new Rect(rect.x + toValuePos, rect.y, rect.x + rect.width - toValuePos - 1f, rect.height);
+            var toRect = new Rect(rect.x + toValuePos, rect.y, rect.width - toValuePos + 1f, rect.height);
             var rangeRect = new Rect(rect.x + fromValuePos + 2f, rect.y, progressWidth - 4f, rect.height);
 
             // Back
@@ -365,6 +432,23 @@ namespace Aya.TweenPro
             rectRange.width = progressWidth;
             EditorGUI.DrawRect(rectRange, rangeColor);
 
+            // Hold Start
+            if (holdStart)
+            {
+                var holdStartRect = rect;
+                holdStartRect.width = fromValuePos;
+                EditorGUI.DrawRect(holdStartRect, holdColor);
+            }
+            
+            // Hold End
+            if (holdEnd)
+            {
+                var holdEndRect = rect;
+                holdEndRect.x += toValuePos;
+                holdEndRect.width = rect.width - toValuePos;
+                EditorGUI.DrawRect(holdEndRect, holdColor);
+            }
+            
             // Progress
             if (currentValue > 0)
             {
@@ -441,7 +525,7 @@ namespace Aya.TweenPro
             var current = Event.current;
             switch (current.GetTypeForControl(controlId))
             {
-                case EventType.MouseDown:
+                case UnityEngine.EventType.MouseDown:
                     if (handleRect.Contains(current.mousePosition) && current.button == 0)
                     {
                         EditorGUIUtility.editingTextField = false;
@@ -462,7 +546,7 @@ namespace Aya.TweenPro
 
                     break;
 
-                case EventType.MouseUp:
+                case UnityEngine.EventType.MouseUp:
                     if (GUIUtility.hotControl == controlId && state != 0)
                     {
                         GUIUtility.hotControl = 0;
@@ -472,7 +556,7 @@ namespace Aya.TweenPro
 
                     break;
 
-                case EventType.MouseDrag:
+                case UnityEngine.EventType.MouseDrag:
                     if (GUIUtility.hotControl != controlId)
                     {
                         break;
@@ -490,7 +574,7 @@ namespace Aya.TweenPro
 
                     break;
 
-                case EventType.Repaint:
+                case UnityEngine.EventType.Repaint:
                     EditorGUIUtility.AddCursorRect(handleRect, MouseCursor.SlideArrow);
                     break;
             }

@@ -19,7 +19,17 @@ namespace Aya.TweenPro
             PropertyName = propertyName;
         }
 
+        public static void CacheProperty(object target, SerializedObject targetObject)
+        {
+            CacheProperty(target, targetObject.FindProperty);
+        }
+
         public static void CacheProperty(object target, SerializedProperty targetProperty)
+        {
+            CacheProperty(target, targetProperty.FindPropertyRelative);
+        }
+
+        public static void CacheProperty(object target, Func<string, SerializedProperty> propertyGetter)
         {
             var targetType = target.GetType();
             var filedInfoList = targetType.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
@@ -42,7 +52,7 @@ namespace Aya.TweenPro
                     }
                 }
 
-                var property = targetProperty.FindPropertyRelative(propertyName);
+                var property = propertyGetter(propertyName);
                 fieldInfo.SetValue(target, property);
             }
         }

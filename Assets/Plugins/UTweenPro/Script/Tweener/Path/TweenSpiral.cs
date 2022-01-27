@@ -50,7 +50,7 @@ namespace Aya.TweenPro
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            Start.InitEditor(this, TweenerProperty, nameof(Start));
+            Start.InitEditor(StartProperty);
         }
 
         public override void DrawBody()

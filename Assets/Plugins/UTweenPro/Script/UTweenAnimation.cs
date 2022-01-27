@@ -213,16 +213,12 @@ namespace Aya.TweenPro
 
         public virtual void OnDestroy()
         {
-#if UNITY_EDITOR
+            if (Data.IsSubAnimation) return;
             if (Data.PreviewSampled)
             {
                 Data.RestoreObject();
-                if (Data.IsPlaying)
-                {
-                    Data.Stop();
-                }
+                if (Data.IsPlaying) Data.Stop();
             }
-#endif
         }
 
         public override void OnInspectorGUI()

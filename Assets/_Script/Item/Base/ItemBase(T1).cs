@@ -149,14 +149,14 @@ public abstract class ItemBase<TTarget> : ItemBase
         {
             foreach (var fx in SelfFx)
             {
-                SpawnFx(fx);
+                SpawnFx(fx, CurrentLevel.Trans, Position);
             }
         }
 
         if (SelfRandomFx != null && SelfRandomFx.Count > 0)
         {
             var fx = SelfRandomFx.Random();
-            SpawnFx(fx);
+            SpawnFx(fx, CurrentLevel.Trans, Position);
         }
 
         // Target Fx
@@ -166,14 +166,14 @@ public abstract class ItemBase<TTarget> : ItemBase
         {
             foreach (var fx in TargetFx)
             {
-                SpawnFx(fx, targetFxTrans);
+                SpawnFx(fx, targetFxTrans, targetFxTrans.position);
             }
         }
 
         if (TargetRandomFx != null && TargetRandomFx.Count > 0)
         {
             var fx = TargetRandomFx.Random();
-            SpawnFx(fx, targetFxTrans);
+            SpawnFx(fx, targetFxTrans, targetFxTrans.position);
         }
 
         // Animation

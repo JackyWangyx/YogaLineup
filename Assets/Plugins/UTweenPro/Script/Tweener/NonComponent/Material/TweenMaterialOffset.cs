@@ -28,25 +28,15 @@ namespace Aya.TweenPro
     {
         public static TweenMaterialOffset Offset(Material material, string propertyName, Vector2 to, float duration)
         {
-            var tweener = Create<TweenMaterialOffset>()
-                .SetTarget(material)
-                .SetPropertyName(propertyName)
-                .SetCurrent2From()
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialOffset;
+            var tweener = Play<TweenMaterialOffset, Material, Vector2>(material, to, duration)
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialOffset Offset(Material material, string propertyName, Vector2 from, Vector2 to, float duration)
         {
-            var tweener = Create<TweenMaterialOffset>()
-                .SetTarget(material)
-                .SetPropertyName(propertyName)
-                .SetFrom(from)
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialOffset;
+            var tweener = Play<TweenMaterialOffset, Material, Vector2>(material, from, to, duration)
+                .SetPropertyName(propertyName);
             return tweener;
         }
     }

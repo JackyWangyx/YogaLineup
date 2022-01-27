@@ -6,13 +6,6 @@ using UnityEditor;
 
 namespace Aya.TweenPro
 {
-    public enum TweenMaterialMode
-    {
-        Property = 0,
-        Instance = 1,
-        Shared = 2,
-    }
-
     [Serializable]
     public partial class TweenMaterialData
     {
@@ -28,7 +21,7 @@ namespace Aya.TweenPro
             if (Renderer == renderer) return;
             Renderer = renderer;
             if (Mode != TweenMaterialMode.Property) return;
-            if (Block == null) Block = Pool.Spawn<MaterialPropertyBlock>();
+            if (Block == null) Block = new MaterialPropertyBlock();
             if (Index >= 0) Renderer.GetPropertyBlock(Block, Index);
         }
 
@@ -60,7 +53,7 @@ namespace Aya.TweenPro
             switch (Mode)
             {
                 case TweenMaterialMode.Property:
-                    return Block.GetColor(Property);
+                    // return Block.GetColor(Property);
                 case TweenMaterialMode.Instance:
                     return Renderer.materials[Index].GetColor(Property);
                 case TweenMaterialMode.Shared:
@@ -100,7 +93,7 @@ namespace Aya.TweenPro
             switch (Mode)
             {
                 case TweenMaterialMode.Property:
-                    return Block.GetFloat(Property);
+                    // return Block.GetFloat(Property);
                 case TweenMaterialMode.Instance:
                     return Renderer.materials[Index].GetFloat(Property);
                 case TweenMaterialMode.Shared:
@@ -140,7 +133,7 @@ namespace Aya.TweenPro
             switch (Mode)
             {
                 case TweenMaterialMode.Property:
-                    return Block.GetVector(Property);
+                    // return Block.GetVector(Property);
                 case TweenMaterialMode.Instance:
                     return Renderer.materials[Index].GetVector(Property);
                 case TweenMaterialMode.Shared:
@@ -157,8 +150,7 @@ namespace Aya.TweenPro
             Mode = TweenMaterialMode.Property;
             Index = -1;
             Property = "";
-            Pool.DeSpawn(Block);
-            Block = null;
+            if (Block != null) Block.Clear();
         }
     }
 
@@ -167,20 +159,17 @@ namespace Aya.TweenPro
     public partial class TweenMaterialData
     {
         [NonSerialized] public Tweener<Renderer> Tweener;
-        [NonSerialized] public SerializedProperty TweenerProperty;
-        [NonSerialized] public SerializedProperty MaterialDataProperty;
+        [NonSerialized] public SerializedProperty DataProperty;
 
         [TweenerProperty, NonSerialized] public SerializedProperty ModeProperty;
-        [TweenerProperty, NonSerialized] public SerializedProperty MaterialIndexProperty;
-        [TweenerProperty, NonSerialized] public SerializedProperty PropertyNameProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty IndexProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty PropertyProperty;
 
-        public void InitEditor(Tweener<Renderer> tweener, SerializedProperty tweenerProperty)
+        public void InitEditor(Tweener<Renderer> tweener, SerializedProperty dataProperty)
         {
             Tweener = tweener;
-            TweenerProperty = tweenerProperty;
-            MaterialDataProperty = TweenerProperty.FindPropertyRelative("MaterialData");
-
-            TweenerPropertyAttribute.CacheProperty(this, MaterialDataProperty);
+            DataProperty = dataProperty;
+            TweenerPropertyAttribute.CacheProperty(this, DataProperty);
         }
 
         public void DrawMaterialProperty(ShaderUtil.ShaderPropertyType propertyType)
@@ -190,27 +179,20 @@ namespace Aya.TweenPro
             {
                 if (Tweener.Target == null)
                 {
-                    if (MaterialIndexProperty.intValue >= 0) MaterialIndexProperty.intValue = -1;
-                    if (!string.IsNullOrEmpty(PropertyNameProperty.stringValue)) PropertyNameProperty.stringValue = "";
+                    if (IndexProperty.intValue >= 0) IndexProperty.intValue = -1;
+                    if (!string.IsNullOrEmpty(PropertyProperty.stringValue)) PropertyProperty.stringValue = "";
                     return;
                 }
 
-                using (GUIErrorColorArea.Create(Index < 0))
-                {
-                    GUIMenu.SelectMaterialMenu(Tweener.Target, "Material", MaterialIndexProperty);
-                }
-
-                using (GUIErrorColorArea.Create(string.IsNullOrEmpty(Property)))
-                {
-                    GUIMenu.SelectMaterialShaderMenu(Tweener.Target, nameof(Property), MaterialIndexProperty.intValue, PropertyNameProperty, propertyType);
-                }
+                GUIMenu.SelectMaterialMenu(Tweener.Target, "Material", IndexProperty);
+                GUIMenu.SelectMaterialShaderMenu(Tweener.Target, nameof(Property), IndexProperty.intValue, PropertyProperty, propertyType);
             }
             else
             {
                 using (GUIHorizontal.Create())
                 {
-                    EditorGUILayout.PropertyField(MaterialIndexProperty, new GUIContent("Material"));
-                    EditorGUILayout.PropertyField(PropertyNameProperty, new GUIContent(nameof(Property)));
+                    EditorGUILayout.PropertyField(PropertyProperty, new GUIContent("Material"));
+                    EditorGUILayout.PropertyField(PropertyProperty, new GUIContent(nameof(Property)));
                 }
             }
         }

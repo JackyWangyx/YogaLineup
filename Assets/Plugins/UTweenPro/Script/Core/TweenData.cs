@@ -44,16 +44,16 @@ namespace Aya.TweenPro
         [SerializeField] internal bool FoldOut = true;
         [SerializeField] internal bool FoldOutEvent = false;
         [SerializeField] internal bool EnableIdentifier = false;
-        [SerializeField] internal TweenEventType EventType = TweenEventType.OnPlay;
+        [SerializeField] internal EventType EventType = EventType.OnPlay;
 
-        [NonSerialized] public List<Tweener> PlayingTweenerList = new List<Tweener>();
+        // [NonSerialized] public List<Tweener> PlayingTweenerList = new List<Tweener>();
 
         #region State Property
 
         public Tweener Tweener => TweenerList.Count > 0 ? TweenerList[0] : default;
         public Tweener FirstTweener => Tweener;
         public Tweener LastTweener => TweenerList.Count > 0 ? TweenerList[TweenerList.Count - 1] : default;
-
+        public bool IsSubAnimation { get; internal set; }
         public PlayState State { get; internal set; }
         public bool IsInitialized { get; internal set; }
         public bool Forward { get; internal set; }
@@ -466,10 +466,7 @@ namespace Aya.TweenPro
                 }
 
 #if UNITY_EDITOR
-                foreach (var tweener in TweenerList)
-                {
-                    tweener.SetDirty();
-                }
+                SetDirty();
 #endif
             }
             catch (Exception exception)
@@ -488,6 +485,14 @@ namespace Aya.TweenPro
             }
         }
 
+        internal void StopSample()
+        {
+            foreach (var tweener in TweenerList)
+            {
+                tweener.StopSample();
+            }
+        }
+
         internal void Complete()
         {
             State = PlayState.Completed;
@@ -496,10 +501,22 @@ namespace Aya.TweenPro
 
         #endregion
 
-        #region Record / Restore
+        #region Record / Restore / SetDirty
 
+        // Editor Only
+        public void SetDirty()
+        {
+            if (Application.isPlaying) return;
+            foreach (var tweener in TweenerList)
+            {
+                tweener.SetDirty();
+            }
+        }
+
+        // Editor Only
         public void RecordObject()
         {
+            if (Application.isPlaying) return;
             foreach (var tweener in TweenerList)
             {
                 try
@@ -513,8 +530,10 @@ namespace Aya.TweenPro
             }
         }
 
+        // Editor Only
         public void RestoreObject()
         {
+            if (Application.isPlaying) return;
             foreach (var tweener in TweenerList)
             {
                 try
@@ -572,10 +591,7 @@ namespace Aya.TweenPro
 
         internal void DeSpawn()
         {
-            foreach (var tweener in TweenerList)
-            {
-                tweener.StopSample();
-            }
+            StopSample();
 
             if (ControlMode == TweenControlMode.Component)
             {

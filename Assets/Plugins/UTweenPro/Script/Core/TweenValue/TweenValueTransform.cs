@@ -97,22 +97,10 @@ namespace Aya.TweenPro
                 var transform = Data.Mode == TweenEditorMode.Component ? MonoBehaviour.transform : null;
                 using (GUILabelWidthArea.Create(EditorStyle.FromToValueLabelWidth))
                 {
-                    using (GUIHorizontal.Create())
+                    using (GUIErrorColorArea.Create(From == null))
                     {
-                        GUIUtil.DrawHoldProperty(HoldStartProperty);
-                        using (GUIErrorColorArea.Create(From == null))
-                        {
-                            EditorGUILayout.PropertyField(FromProperty);
-                        }
-                    }
-
-                    using (GUIHorizontal.Create())
-                    {
-                        GUIUtil.DrawHoldProperty(HoldEndProperty);
-                        using (GUIErrorColorArea.Create(To == null))
-                        {
-                            EditorGUILayout.PropertyField(ToProperty);
-                        }
+                        EditorGUILayout.PropertyField(FromProperty);
+                        EditorGUILayout.PropertyField(ToProperty);
                     }
                 }
             }

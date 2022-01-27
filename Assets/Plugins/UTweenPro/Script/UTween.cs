@@ -67,5 +67,43 @@ namespace Aya.TweenPro
         }
 
         #endregion
+
+        #region Stop
+
+        public static void Stop<TTarget>(TTarget target) where TTarget : Object
+        {
+            foreach (var tweenData in UTweenManager.Ins.PlayingList)
+            {
+                foreach (var tweener in tweenData.TweenerList)
+                {
+                    if (tweener is Tweener<TTarget> tweenerTemp)
+                    {
+                        if (tweenerTemp.Target != target) continue;
+                        tweenerTemp.Stop();
+                        break;
+                    }
+                }
+            }
+        }
+
+        public static void Stop<TTarget, TTweener>(TTarget target)
+            where TTarget : Object
+            where TTweener : Tweener<TTarget>
+        {
+            foreach (var tweenData in UTweenManager.Ins.PlayingList)
+            {
+                foreach (var tweener in tweenData.TweenerList)
+                {
+                    if (tweener is TTweener tweenerTemp)
+                    {
+                        if (tweenerTemp.Target != target) continue;
+                        tweenerTemp.Stop();
+                        break;
+                    }
+                }
+            }
+        }
+
+        #endregion
     }
 }

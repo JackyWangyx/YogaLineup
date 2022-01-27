@@ -126,13 +126,24 @@ public abstract class GameEntity : MonoListener
 
     private string _lastAnimationClipName;
 
-    public void Play(string animationClipName)
+    public void InitAnimator()
+    {
+        foreach (var animatorControllerParameter in Animator.parameters)
+        {
+            if (animatorControllerParameter.type == AnimatorControllerParameterType.Bool)
+            {
+                Animator.SetBool(animatorControllerParameter.name, false);
+            }
+        }
+    }
+
+    public void Play(string animationClipName, bool immediately = false)
     {
         CurrentClip = animationClipName;
         if (Animator == null) Animator = GetComponentInChildren<Animator>(true);
         if (Animator != null)
         {
-            if (Animator.CheckParameterExist(animationClipName, AnimatorControllerParameterType.Bool))
+            if (!immediately && Animator.CheckParameterExist(animationClipName, AnimatorControllerParameterType.Bool))
             {
                 if (!string.IsNullOrEmpty(_lastAnimationClipName))
                 {

@@ -1,7 +1,7 @@
 ﻿using Aya.Extension;
 using UnityEngine;
 
-public class PlayerInput : PlayerBase
+public class PlayerControl : PlayerBase
 {
     protected override void Awake()
     {
@@ -45,21 +45,21 @@ public class PlayerInput : PlayerBase
         var turnX = Self.Render.RenderTrans.localPosition.x;
         if (canInput)
         {
-            if (UnityEngine.Input.GetMouseButtonDown(0) || (!_isMouseDown && UnityEngine.Input.GetMouseButton(0)))
+            if (Input.GetMouseButtonDown(0) || (!_isMouseDown && Input.GetMouseButton(0)))
             {
                 _isMouseDown = true;
-                _startMousePos = UnityEngine.Input.mousePosition;
+                _startMousePos = Input.mousePosition;
                 _startX = Self.Render.RenderTrans.localPosition.x;
             }
 
-            if (UnityEngine.Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0))
             {
                 _isMouseDown = false;
             }
 
             if (_isMouseDown)
             {
-                var offset = UnityEngine.Input.mousePosition - _startMousePos;
+                var offset = Input.mousePosition - _startMousePos;
                 turnX = _startX + offset.x * Move.TurnSpeed / 200f;
             }
         }

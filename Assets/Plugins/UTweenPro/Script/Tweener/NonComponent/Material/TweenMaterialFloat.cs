@@ -28,25 +28,15 @@ namespace Aya.TweenPro
     {
         public static TweenMaterialFloat Float(Material material, string propertyName, float to, float duration)
         {
-            var tweener = Create<TweenMaterialFloat>()
-                .SetTarget(material)
-                .SetPropertyName(propertyName)
-                .SetCurrent2From()
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialFloat;
+            var tweener = Play<TweenMaterialFloat, Material, float>(material, to, duration)
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialFloat Float(Material material, string propertyName, float from, float to, float duration)
         {
-            var tweener = Create<TweenMaterialFloat>()
-                .SetTarget(material)
-                .SetPropertyName(propertyName)
-                .SetFrom(from)
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialFloat;
+            var tweener = Play<TweenMaterialFloat, Material, float>(material, from, to, duration)
+                .SetPropertyName(propertyName);
             return tweener;
         }
     }

@@ -37,10 +37,12 @@ namespace Aya.TweenPro
 
     public partial class TweenMaterialPropertyFloat : TweenValueFloat<Renderer>
     {
+        [TweenerProperty, NonSerialized] public SerializedProperty MaterialDataProperty;
+
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            MaterialData.InitEditor(this, tweenerProperty);
+            MaterialData.InitEditor(this, MaterialDataProperty);
         }
 
         public override void DrawTarget()
@@ -79,39 +81,33 @@ namespace Aya.TweenPro
     {
         public static TweenMaterialPropertyFloat Float(Renderer renderer, string propertyName, float to, float duration)
         {
-            var tweener = Float(renderer, 0, propertyName, to, duration);
+            var tweener = Play<TweenMaterialPropertyFloat, Renderer, float>(renderer, to, duration)
+                .SetMaterialIndex(0)
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialPropertyFloat Float(Renderer renderer, int materialIndex, string propertyName, float to, float duration)
         {
-            var tweener = Create<TweenMaterialPropertyFloat>()
-                .SetTarget(renderer)
+            var tweener = Play<TweenMaterialPropertyFloat, Renderer, float>(renderer, to, duration)
                 .SetMaterialIndex(materialIndex)
-                .SetPropertyName(propertyName)
-                .SetCurrent2From()
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialPropertyFloat;
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialPropertyFloat Float(Renderer renderer, string propertyName, float from, float to, float duration)
         {
-            var tweener = Float(renderer, 0, propertyName, from, to, duration);
+            var tweener = Play<TweenMaterialPropertyFloat, Renderer, float>(renderer, from, to, duration)
+                .SetMaterialIndex(0)
+                .SetPropertyName(propertyName);
             return tweener;
         }
 
         public static TweenMaterialPropertyFloat Float(Renderer renderer, int materialIndex, string propertyName, float from, float to, float duration)
         {
-            var tweener = Create<TweenMaterialPropertyFloat>()
-                .SetTarget(renderer)
+            var tweener = Play<TweenMaterialPropertyFloat, Renderer, float>(renderer, from, to, duration)
                 .SetMaterialIndex(materialIndex)
-                .SetPropertyName(propertyName)
-                .SetFrom(from)
-                .SetTo(to)
-                .SetDuration(duration)
-                .Play() as TweenMaterialPropertyFloat;
+                .SetPropertyName(propertyName);
             return tweener;
         }
     }

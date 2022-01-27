@@ -72,8 +72,8 @@ namespace Aya.TweenPro
             {
                 using (GUIHorizontal.Create())
                 {
-                    GUIUtil.DrawProperty(HoldStartProperty, FromProperty);
-                    GUIUtil.DrawProperty(HoldEndProperty, ToProperty);
+                    GUIUtil.DrawProperty(FromProperty);
+                    GUIUtil.DrawProperty(ToProperty);
                 }
             }
 
@@ -81,13 +81,10 @@ namespace Aya.TweenPro
             {
                 using (GUIHorizontal.Create())
                 {
-                    GUIUtil.DrawHoldProperty(HoldStartProperty);
                     using (GUILabelWidthArea.Create(EditorStyle.FromToValueLabelWidth))
                     {
                         EditorGUILayout.PropertyField(GradientProperty, new GUIContent(nameof(Color)));
                     }
-
-                    GUIUtil.DrawHoldProperty(HoldEndProperty);
                 }
                 
             }

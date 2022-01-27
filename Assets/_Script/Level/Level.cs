@@ -67,6 +67,16 @@ public class Level : GameEntity
         return list.First();
     }
 
+    public void RemoveItem(ItemBase item)
+    {
+        var type = item.GetType();
+        ItemList.Remove(item);
+        if (ItemDic.TryGetValue(type, out var list))
+        {
+            list.Remove(item);
+        }
+    }
+
     [ButtonGroup("Test"), Button("Test Create")]
     public void SpawnBlocks()
     {

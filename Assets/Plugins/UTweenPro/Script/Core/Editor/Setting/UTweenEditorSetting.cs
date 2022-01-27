@@ -21,6 +21,7 @@ namespace Aya.TweenPro
         public Color ProgressColor;
         public Color ProgressBackColor;
         public Color SubProgressColor;
+        public Color SubProgressHoldColor;
         public Color ProgressDisableColor;
 
         [Header("Inspector")]

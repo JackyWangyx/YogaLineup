@@ -164,6 +164,8 @@ namespace Aya.TweenPro
 
     public partial class TweenShake : TweenValueFloat<Transform>
     {
+        [TweenerProperty, NonSerialized] public SerializedProperty ShakeDataProperty;
+
         public override string AxisXName => "P";
         public override string AxisYName => "R";
         public override string AxisZName => "S";
@@ -171,7 +173,7 @@ namespace Aya.TweenPro
         public override void InitEditor(int index, TweenData data, SerializedProperty tweenerProperty)
         {
             base.InitEditor(index, data, tweenerProperty);
-            ShakeData.InitEditor(this, tweenerProperty);
+            ShakeData.InitEditor(this, ShakeDataProperty);
         }
 
         public override void DrawIndependentAxis()

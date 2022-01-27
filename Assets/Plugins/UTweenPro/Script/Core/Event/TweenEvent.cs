@@ -46,13 +46,13 @@ namespace Aya.TweenPro
 
     public partial class TweenEvent
     {
-        [NonSerialized] public SerializedProperty TweenDataProperty;
-        [NonSerialized] public SerializedProperty CallbackProperty;
-        [NonSerialized] public SerializedProperty EventProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty TweenDataProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty CallbackProperty;
+        [TweenerProperty, NonSerialized] public SerializedProperty EventProperty;
 
-        public void InitEditor(SerializedProperty tweenDataProperty, string propertyName)
+        public void InitEditor(SerializedProperty dataProperty, string propertyName)
         {
-            TweenDataProperty = tweenDataProperty;
+            TweenDataProperty = dataProperty;
             CallbackProperty = TweenDataProperty.FindPropertyRelative(propertyName);
             EventProperty = CallbackProperty.FindPropertyRelative(nameof(Event));
         }

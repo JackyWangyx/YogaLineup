@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Aya.TweenPro
@@ -130,18 +131,24 @@ namespace Aya.TweenPro
 
         public static void SelectAnimationClipMenu(Animation animation, string propertyName, SerializedProperty clipProperty)
         {
-            if (animation != null && string.IsNullOrEmpty(clipProperty.stringValue) && animation.GetClipCount() > 0)
-            {
-                clipProperty.stringValue = AnimationUtility.GetAnimationClips(animation.gameObject)[0].name;
-            }
-
+            if (animation == null) return;
             using (GUIErrorColorArea.Create(string.IsNullOrEmpty(clipProperty.stringValue)))
             {
                 using (GUIHorizontal.Create())
                 {
                     GUILayout.Label(propertyName, GUILayout.Width(EditorStyle.LabelWidth));
-                    var showName = string.IsNullOrEmpty(clipProperty.stringValue) ? EditorStyle.NoneStr : clipProperty.stringValue;
-                    var button = GUILayout.Button(showName, EditorStyles.popup);
+                    string displayName;
+                    if (string.IsNullOrEmpty(clipProperty.stringValue))
+                    {
+                        clipProperty.stringValue = null;
+                        displayName = EditorStyle.NoneStr;
+                    }
+                    else
+                    {
+                        displayName = clipProperty.stringValue;
+                    }
+
+                    var button = GUILayout.Button(displayName, EditorStyles.popup);
                     if (button)
                     {
                         var menu = new GenericMenu();
@@ -151,10 +158,10 @@ namespace Aya.TweenPro
                             clipProperty.serializedObject.ApplyModifiedProperties();
                         });
 
-                        if (animation != null)
+                        var clips = AnimationUtility.GetAnimationClips(animation.gameObject);
+                        if (clips.Length > 0)
                         {
                             menu.AddSeparator("");
-                            var clips = AnimationUtility.GetAnimationClips(animation.gameObject);
                             foreach (var clip in clips)
                             {
                                 var clipName = clip.name;
@@ -174,20 +181,151 @@ namespace Aya.TweenPro
 
         #endregion
 
+        #region Animator Layer Menu
+
+        public static void SelectAnimatorLayerMenu(Animator animator, string propertyName, SerializedProperty layerProperty)
+        {
+            if (animator == null) return;
+            var controller = animator.runtimeAnimatorController as AnimatorController;
+            if (controller == null) return;
+            var layerCount = controller.layers.Length;
+            using (GUIErrorColorArea.Create(layerProperty.intValue < 0))
+            {
+                using (GUIHorizontal.Create())
+                {
+                    GUILayout.Label(propertyName, GUILayout.Width(EditorStyle.LabelWidth));
+                    string displayName;
+                    if (layerProperty.intValue < 0)
+                    {
+                        displayName = EditorStyle.NoneStr;
+                    }
+                    else if (layerProperty.intValue >= layerCount)
+                    {
+                        layerProperty.intValue = -1;
+                        displayName = EditorStyle.NoneStr;
+                    }
+                    else
+                    {
+                        displayName = controller.layers[layerProperty.intValue].name;
+                    }
+
+                    var button = GUILayout.Button(displayName, EditorStyles.popup);
+                    if (button)
+                    {
+                        var menu = new GenericMenu();
+                        menu.AddItem(EditorStyle.NoneStr, layerProperty.intValue == -1, () =>
+                        {
+                            layerProperty.intValue = -1;
+                            layerProperty.serializedObject.ApplyModifiedProperties();
+                        });
+
+                        var layers = controller.layers;
+                        if (layers.Length > 0)
+                        {
+                            menu.AddSeparator("");
+                            for (var i = 0; i < layers.Length; i++)
+                            {
+                                var index = i;
+                                var layerName = layers[index].name;
+                                menu.AddItem(layerName, layerProperty.intValue == index, () =>
+                                {
+                                    layerProperty.intValue = index;
+                                    layerProperty.serializedObject.ApplyModifiedProperties();
+                                });
+                            }
+                        }
+
+                        menu.ShowAsContext();
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region Animator Parameter Menu
+
+        public static void SelectAnimatorParameterMenu(Animator animator, string propertyName, SerializedProperty parameterProperty, AnimatorControllerParameterType parameterType)
+        {
+            if (animator == null) return;
+            using (GUIErrorColorArea.Create(string.IsNullOrEmpty(parameterProperty.stringValue)))
+            {
+                using (GUIHorizontal.Create())
+                {
+                    GUILayout.Label(propertyName, GUILayout.Width(EditorStyle.LabelWidth));
+                    string displayName;
+                    if (string.IsNullOrEmpty(parameterProperty.stringValue))
+                    {
+                        parameterProperty.stringValue = null;
+                        displayName = EditorStyle.NoneStr;
+                    }
+                    else
+                    {
+                        displayName = parameterProperty.stringValue;
+                    }
+
+                    var button = GUILayout.Button(displayName, EditorStyles.popup);
+                    if (button)
+                    {
+                        var menu = new GenericMenu();
+                        menu.AddItem(EditorStyle.NoneStr, string.IsNullOrEmpty(parameterProperty.stringValue), () =>
+                        {
+                            parameterProperty.stringValue = null;
+                            parameterProperty.serializedObject.ApplyModifiedProperties();
+                        });
+
+                        if (animator.parameterCount > 0)
+                        {
+                            menu.AddSeparator("");
+                            for (var i = 0; i < animator.parameterCount; i++)
+                            {
+                                var index = i;
+                                var parameter = animator.GetParameter(index);
+                                if (parameter.type != parameterType) continue;
+                                menu.AddItem(parameter.name, parameterProperty.stringValue == parameter.name, () =>
+                                {
+                                    parameterProperty.stringValue = parameter.name;
+                                    parameterProperty.serializedObject.ApplyModifiedProperties();
+                                });
+                            }
+                        }
+
+                        menu.ShowAsContext();
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         #region Animator State Menu
 
-        public static void SelectAnimatorStateMenu(Animator animator, string propertyName, SerializedProperty stateProperty)
+        public static void SelectAnimatorStateMenu(Animator animator, int layer, string propertyName, SerializedProperty stateProperty)
         {
+            if (animator == null) return;
+            if (layer < 0) return;
+            var controller = animator.runtimeAnimatorController as AnimatorController;
+            if (controller == null) return;
+
             using (GUIErrorColorArea.Create(string.IsNullOrEmpty(stateProperty.stringValue)))
             {
                 using (GUIHorizontal.Create())
                 {
                     GUILayout.Label(propertyName, GUILayout.Width(EditorStyle.LabelWidth));
-                    var showName = string.IsNullOrEmpty(stateProperty.stringValue) ? EditorStyle.NoneStr : stateProperty.stringValue;
-                    var button = GUILayout.Button(showName, EditorStyles.popup);
+                    string displayName;
+                    if (string.IsNullOrEmpty(stateProperty.stringValue))
+                    {
+                        stateProperty.stringValue = null;
+                        displayName = EditorStyle.NoneStr;
+                    }
+                    else
+                    {
+                        displayName = stateProperty.stringValue;
+                    }
+
+                    var button = GUILayout.Button(displayName, EditorStyles.popup);
                     if (button)
                     {
-                        var controller = animator.runtimeAnimatorController;
                         var menu = new GenericMenu();
                         menu.AddItem(EditorStyle.NoneStr, string.IsNullOrEmpty(stateProperty.stringValue), () =>
                         {
@@ -197,19 +335,19 @@ namespace Aya.TweenPro
 
                         if (controller != null)
                         {
+                            var states = controller.layers[layer].stateMachine.states;
                             menu.AddSeparator("");
-                            var clips = controller.animationClips;
-                            foreach (var clip in clips)
+                            foreach (var state in states)
                             {
-                                var clipName = clip.name;
-                                menu.AddItem(clipName, stateProperty.stringValue == clipName, () =>
+                                var stateName = state.state.name;
+                                menu.AddItem(stateName, stateProperty.stringValue == stateName, () =>
                                 {
-                                    stateProperty.stringValue = clipName;
+                                    stateProperty.stringValue = stateName;
                                     stateProperty.serializedObject.ApplyModifiedProperties();
                                 });
                             }
                         }
-                        
+
                         menu.ShowAsContext();
                     }
                 }
@@ -218,35 +356,42 @@ namespace Aya.TweenPro
 
         #endregion
 
-        #region Material Shader Menu
+        #region Skinned Mesh Renderer BlendShape
 
-        public static void SelectMaterialMenu(Renderer renderer, string propertyName, SerializedProperty materialIndexProperty)
+        public static void SelectBlendShapeMenu(SkinnedMeshRenderer renderer, string propertyName, SerializedProperty blendShapeIndexProperty)
         {
-            string displayName;
-            var material = renderer.GetMaterial(materialIndexProperty.intValue);
-            if (material == null)
+            if (renderer == null) return;
+            using (GUIErrorColorArea.Create(blendShapeIndexProperty.intValue < 0))
             {
-                materialIndexProperty.intValue = -1;
-                displayName = EditorStyle.NoneStr;
-            }
-            else
-            {
-                displayName = material.name;
-            }
-
-            using (GUIHorizontal.Create())
-            {
-                GUILayout.Label(propertyName, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
-                var btn = GUILayout.Button(displayName, EditorStyles.popup);
-                if (btn)
+                string displayName;
+                if (blendShapeIndexProperty.intValue >= renderer.sharedMesh.blendShapeCount)
                 {
-                    var menu = CreateMaterialMenu(renderer, materialIndexProperty);
-                    menu.ShowAsContext();
+                    blendShapeIndexProperty.intValue = -1;
+                    displayName = EditorStyle.NoneStr;
+                }
+                else if (blendShapeIndexProperty.intValue < 0)
+                {
+                    displayName = EditorStyle.NoneStr;
+                }
+                else
+                {
+                    displayName = renderer.sharedMesh.GetBlendShapeName(blendShapeIndexProperty.intValue);
+                }
+
+                using (GUIHorizontal.Create())
+                {
+                    GUILayout.Label(propertyName, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
+                    var btn = GUILayout.Button(displayName, EditorStyles.popup);
+                    if (btn)
+                    {
+                        var menu = CreateBlendShapeMenu(renderer, blendShapeIndexProperty);
+                        menu.ShowAsContext();
+                    }
                 }
             }
         }
 
-        internal static GenericMenu CreateMaterialMenu(Renderer render, SerializedProperty property)
+        internal static GenericMenu CreateBlendShapeMenu(SkinnedMeshRenderer renderer, SerializedProperty property)
         {
             var menu = new GenericMenu();
             menu.AddItem(EditorStyle.NoneStr, property.intValue < 0, () =>
@@ -255,12 +400,72 @@ namespace Aya.TweenPro
                 property.serializedObject.ApplyModifiedProperties();
             });
 
-            if (render == null) return menu;
+            if (renderer == null) return menu;
 
             menu.AddSeparator("");
-            for (var i = 0; i < render.sharedMaterials.Length; i++)
+            for (var i = 0; i < renderer.sharedMesh.blendShapeCount; i++)
             {
-                var material = render.sharedMaterials[i];
+                var blendShapeName = renderer.sharedMesh.GetBlendShapeName(i);
+                var index = i;
+                menu.AddItem(blendShapeName, property.intValue == index, () =>
+                {
+                    property.intValue = index;
+                    property.serializedObject.ApplyModifiedProperties();
+                });
+            }
+
+            return menu;
+        }
+
+        #endregion
+
+        #region Material Shader Menu
+
+        public static void SelectMaterialMenu(Renderer renderer, string propertyName, SerializedProperty materialIndexProperty)
+        {
+            if (renderer == null) return;
+            using (GUIErrorColorArea.Create(materialIndexProperty.intValue < 0))
+            {
+                string displayName;
+                var material = renderer.GetMaterial(materialIndexProperty.intValue);
+                if (material == null)
+                {
+                    materialIndexProperty.intValue = -1;
+                    displayName = EditorStyle.NoneStr;
+                }
+                else
+                {
+                    displayName = material.name;
+                }
+
+                using (GUIHorizontal.Create())
+                {
+                    GUILayout.Label(propertyName, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
+                    var btn = GUILayout.Button(displayName, EditorStyles.popup);
+                    if (btn)
+                    {
+                        var menu = CreateMaterialMenu(renderer, materialIndexProperty);
+                        menu.ShowAsContext();
+                    }
+                }
+            }
+        }
+
+        internal static GenericMenu CreateMaterialMenu(Renderer renderer, SerializedProperty property)
+        {
+            var menu = new GenericMenu();
+            menu.AddItem(EditorStyle.NoneStr, property.intValue < 0, () =>
+            {
+                property.intValue = -1;
+                property.serializedObject.ApplyModifiedProperties();
+            });
+
+            if (renderer == null) return menu;
+
+            menu.AddSeparator("");
+            for (var i = 0; i < renderer.sharedMaterials.Length; i++)
+            {
+                var material = renderer.sharedMaterials[i];
                 var index = i;
                 menu.AddItem(material.name, property.intValue == index, () =>
                 {
@@ -272,33 +477,36 @@ namespace Aya.TweenPro
             return menu;
         }
 
-        public static void SelectMaterialShaderMenu(Renderer render, string propertyName, int materialIndex, SerializedProperty propertyNameProperty, ShaderUtil.ShaderPropertyType propertyType)
+        public static void SelectMaterialShaderMenu(Renderer renderer, string propertyName, int materialIndex, SerializedProperty propertyNameProperty, ShaderUtil.ShaderPropertyType propertyType)
         {
-            string displayName;
-            var material = render.GetMaterial(materialIndex);
-            if (material == null || string.IsNullOrEmpty(propertyNameProperty.stringValue) || !material.shader.ContainsProperty(propertyNameProperty.stringValue))
+            using (GUIErrorColorArea.Create(string.IsNullOrEmpty(propertyNameProperty.stringValue)))
             {
-                propertyNameProperty.stringValue = "";
-                displayName = EditorStyle.NoneStr;
-            }
-            else
-            {
-                displayName = propertyNameProperty.stringValue;
-            }
-
-            using (GUIHorizontal.Create())
-            {
-                GUILayout.Label(propertyName, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
-                var btn = GUILayout.Button(displayName, EditorStyles.popup);
-                if (btn)
+                string displayName;
+                var material = renderer.GetMaterial(materialIndex);
+                if (material == null || string.IsNullOrEmpty(propertyNameProperty.stringValue) || !material.shader.ContainsProperty(propertyNameProperty.stringValue))
                 {
-                    var menu = CreateMaterialPropertyMenu(render, materialIndex, propertyNameProperty, propertyType);
-                    menu.ShowAsContext();
+                    propertyNameProperty.stringValue = "";
+                    displayName = EditorStyle.NoneStr;
+                }
+                else
+                {
+                    displayName = propertyNameProperty.stringValue;
+                }
+
+                using (GUIHorizontal.Create())
+                {
+                    GUILayout.Label(propertyName, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
+                    var btn = GUILayout.Button(displayName, EditorStyles.popup);
+                    if (btn)
+                    {
+                        var menu = CreateMaterialPropertyMenu(renderer, materialIndex, propertyNameProperty, propertyType);
+                        menu.ShowAsContext();
+                    }
                 }
             }
         }
 
-        internal static GenericMenu CreateMaterialPropertyMenu(Renderer render, int materialIndex, SerializedProperty property, ShaderUtil.ShaderPropertyType propertyType)
+        internal static GenericMenu CreateMaterialPropertyMenu(Renderer renderer, int materialIndex, SerializedProperty property, ShaderUtil.ShaderPropertyType propertyType)
         {
             var menu = new GenericMenu();
             menu.AddItem(EditorStyle.NoneStr, string.IsNullOrEmpty(property.stringValue), () =>
@@ -307,10 +515,10 @@ namespace Aya.TweenPro
                 property.serializedObject.ApplyModifiedProperties();
             });
 
-            if (render == null) return menu;
+            if (renderer == null) return menu;
 
             menu.AddSeparator("");
-            var material = render.GetMaterial(materialIndex);
+            var material = renderer.GetMaterial(materialIndex);
             if (material == null) return menu;
 
             var shader = material.shader;
@@ -436,23 +644,22 @@ namespace Aya.TweenPro
         {
             using (GUIErrorColorArea.Create(property.objectReferenceValue == null))
             {
-                GUILayout.BeginHorizontal();
-                GUILayout.Label(propertyName, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
-                property.objectReferenceValue = EditorGUILayout.ObjectField(property.objectReferenceValue, componentType, true);
-
-                if (root != null)
+                using (GUIHorizontal.Create())
                 {
-                    var btnRect = GUILayoutUtility.GetLastRect();
-                    var btnType = GUILayout.Button("▼", EditorStyles.popup, GUILayout.Width(EditorStyle.SingleButtonWidth));
-                    if (btnType)
+                    GUILayout.Label(propertyName, EditorStyles.label, GUILayout.Width(EditorGUIUtility.labelWidth));
+                    property.objectReferenceValue = EditorGUILayout.ObjectField(property.objectReferenceValue, componentType, true);
+
+                    if (root != null)
                     {
-                        btnRect.width = EditorGUIUtility.currentViewWidth;
-                        var dropdown = new SearchableDropdown(root, onClick);
-                        dropdown.Show(btnRect, 500f);
+                        var btnRect = GUILayoutUtility.GetLastRect();
+                        if (GUIUtil.DrawSelectModeButton())
+                        {
+                            btnRect.width = EditorGUIUtility.currentViewWidth;
+                            var dropdown = new SearchableDropdown(root, onClick);
+                            dropdown.Show(btnRect, 500f);
+                        }
                     }
                 }
-
-                GUILayout.EndHorizontal();
             }
         }
 

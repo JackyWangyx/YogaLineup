@@ -26,7 +26,6 @@ namespace Aya.TweenPro
                 _value = value;
 
                 Target.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-
                 if (WithChildren)
                 {
                     foreach (var particleSystem in _particleSystems)

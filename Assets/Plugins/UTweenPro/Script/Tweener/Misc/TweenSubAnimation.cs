@@ -20,6 +20,19 @@ namespace Aya.TweenPro
                 Target.Data.Sample(Target.Data.NormalizedProgress);
             }
         }
+
+        public override void PreSample()
+        {
+            base.PreSample();
+            Target.Data.IsSubAnimation = true;
+            Target.Data.PreSample();
+        }
+
+        public override void StopSample()
+        {
+            base.StopSample();
+            Target.Data.StopSample();
+        }
     }
 
 #if UNITY_EDITOR
