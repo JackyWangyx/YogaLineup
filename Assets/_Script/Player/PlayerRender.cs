@@ -31,25 +31,33 @@ public class PlayerRender : PlayerBase
             State.Rank = rank;
             Self.Data = data;
 
-            if (RenderInstance != null)
-            {
-                GamePool.DeSpawn(RenderInstance);
-                RenderInstance = null;
-            }
-
             var playerRendererPrefab = AvatarSetting.Ins.SelectedAvatarList[rank];
-            RenderInstance = GamePool.Spawn(playerRendererPrefab, RenderTrans);
+            RefreshRender(playerRendererPrefab);
 
             this.ExecuteNextFrame(() =>
             {
-                CacheComponent();
-                Play(CurrentClip);
-
                 if (data.ChangeFx != null && State.PointChanged)
                 {
                     SpawnFx(data.ChangeFx, RenderTrans);
                 }
             });
         }
+    }
+
+    public void RefreshRender(GameObject prefab)
+    {
+        if (RenderInstance != null)
+        {
+            GamePool.DeSpawn(RenderInstance);
+            RenderInstance = null;
+        }
+
+        RenderInstance = GamePool.Spawn(prefab, RenderTrans);
+
+        this.ExecuteNextFrame(() =>
+        {
+            CacheComponent();
+            Play(CurrentClip);
+        });
     }
 }

@@ -10,11 +10,12 @@ public abstract class ComponentBase<T> : GameEntity where T : ComponentBase<T>
 
     public virtual void InitAllComponent()
     {
-        InitAnimator();
         foreach (var component in ComponentDic.Values)
         {
             component.InitComponent();
         }
+
+        InitAnimator();
     }
 
     public virtual void InitComponent()

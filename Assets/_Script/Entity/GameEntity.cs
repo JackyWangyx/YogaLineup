@@ -128,6 +128,7 @@ public abstract class GameEntity : MonoListener
 
     public void InitAnimator()
     {
+        if (Animator == null) return;
         foreach (var animatorControllerParameter in Animator.parameters)
         {
             if (animatorControllerParameter.type == AnimatorControllerParameterType.Bool)
