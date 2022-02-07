@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Text;
 using Random = System.Random;
 using UnityEngine;
-using Aya.Common;
 
 namespace Aya.Util
 {
@@ -274,13 +273,13 @@ namespace Aya.Util
 		public static List<int> RandIntList(int min, int max, int count, bool allowRepeat = false)
 		{
 			if (min > max)
-			{
-				Error.OnError(new ArgumentException());
-			}
+            {
+                throw new ArgumentException();
+            }
 
 			if (count > max - min + 1)
 			{
-				Error.OnError(new ArgumentOutOfRangeException());
+                throw new ArgumentOutOfRangeException();
 			}
 
 			var list = new List<int>();

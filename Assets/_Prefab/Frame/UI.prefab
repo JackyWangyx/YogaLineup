@@ -95,7 +95,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4283314474947983567
 RectTransform:
   m_ObjectHideFlags: 0
@@ -842,9 +842,9 @@ RectTransform:
   m_Father: {fileID: 4283314474947983567}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 154.89282, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1857187072577383495
@@ -2854,9 +2854,9 @@ RectTransform:
   m_Father: {fileID: 4283314474947983567}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 259.78564, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9089659983955706961
@@ -2987,6 +2987,7 @@ MonoBehaviour:
     Identifier: 
     Duration: 1
     Delay: 0
+    Backward: 0
     PlayMode: 2
     PlayCount: 0
     AutoPlay: 2
@@ -2995,7 +2996,7 @@ MonoBehaviour:
     Interval2: 0
     TimeMode: 0
     SelfScale: 1
-    PreSample: 2
+    PreSampleMode: 0
     AutoKill: 0
     SpeedBased: 0
     TweenerList:
@@ -3094,6 +3095,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2595771347758082235}
   - component: {fileID: 101728058494279431}
+  - component: {fileID: 4398117806035232073}
   m_Layer: 5
   m_Name: UIReady
   m_TagString: Untagged
@@ -3138,6 +3140,23 @@ MonoBehaviour:
   TouchTip: {fileID: 3234640023599890031}
   TouchStartRunArea: {fileID: 4479357026585101145}
   GameProgress: {fileID: 0}
+--- !u!114 &4398117806035232073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8369343711190297336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97095e7019af5c24698845b959cdb3c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Context: Default
+  Key: Level
+  Direction: 1
+  UpdateType: 0
+  Target: {fileID: 5800773595149780711}
 --- !u!1 &8452427565492938265
 GameObject:
   m_ObjectHideFlags: 0
@@ -3428,9 +3447,9 @@ RectTransform:
   m_Father: {fileID: 4283314474947983567}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8617572296914852418
