@@ -9,6 +9,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 #if UNITY_EDITOR
+using Aya.Util;
 using UnityEngine;
 using UnityEditor;
 
@@ -19,7 +20,7 @@ namespace Aya.EditorScript
         /// <summary>
         /// 清除清除EditorPrefs目录
         /// </summary>
-        [MenuItem("Aya Game Studio/Data/Save Data/Clear EditorPrefs (Editor Setting)", false)]
+        [MenuItem(MenuUtil.MenuTitle + "Save Data/Clear EditorPrefs (Editor Setting)", false)]
         static void DeleteAllData()
         {
             EditorPrefs.DeleteAll();

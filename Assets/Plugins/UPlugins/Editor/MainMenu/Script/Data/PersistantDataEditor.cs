@@ -11,6 +11,7 @@
 #if UNITY_EDITOR
 using System;
 using System.IO;
+using Aya.Util;
 using UnityEngine;
 using UnityEditor;
 
@@ -21,7 +22,7 @@ namespace Aya.EditorScript
         /// <summary>
         /// 清除清除PersistantData目录
         /// </summary>
-        [MenuItem("Aya Game Studio/Data/Persistant/Clear PersistantData Path", false)]
+        [MenuItem(MenuUtil.MenuTitle + "Data/Persistant/Clear PersistantData Path", false)]
         private static void DeletePersistantDataPath()
         {
             try

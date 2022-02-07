@@ -9,6 +9,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 #if UNITY_EDITOR
+using Aya.Util;
 using UnityEngine;
 using UnityEditor;
 
@@ -19,7 +20,7 @@ namespace Aya.EditorScript
         /// <summary>
         /// 清除清除PersistantData目录
         /// </summary>
-        [MenuItem("Aya Game Studio/Data/Save Data/Clear PlayerPrefs (Save Data)", false)]
+        [MenuItem(MenuUtil.MenuTitle + "/Data/Save Data/Clear PlayerPrefs (Save Data)", false)]
         static void DeleteAllData()
         {
             PlayerPrefs.DeleteAll();

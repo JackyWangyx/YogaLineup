@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Aya.Util;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -23,7 +24,7 @@ namespace Aya.EditorScript
     {
         #region File Reference
 
-        [MenuItem("Aya Game Studio/Resources/Find selected file reference", false)]
+        [MenuItem(MenuUtil.MenuTitle + "Resources/Find selected file reference", false)]
         public static void FindSelectedFileReference()
         {
             EditorSettings.serializationMode = SerializationMode.ForceText;
@@ -62,7 +63,7 @@ namespace Aya.EditorScript
             };
         }
 
-        [MenuItem("Aya Game Studio/Resources/Find copied file GUID reference", false)]
+        [MenuItem(MenuUtil.MenuTitle + "Resources/Find copied file GUID reference", false)]
         public static void FindCopiedFileGUIDReference()
         {
             var findGUID = GUIUtility.systemCopyBuffer;
@@ -99,7 +100,7 @@ namespace Aya.EditorScript
             };
         }
 
-        [MenuItem("Aya Game Studio/Resources/Find copied file GUID reference in PackageCache", false)]
+        [MenuItem(MenuUtil.MenuTitle + "Resources/Find copied file GUID reference in PackageCache", false)]
         public static void FindCopiedFileGUIDPackageCacheReference()
         {
             var findGUID = GUIUtility.systemCopyBuffer;
@@ -137,7 +138,7 @@ namespace Aya.EditorScript
             };
         }
 
-        [MenuItem("Aya Game Studio/Resources/Find file with copied GUID", false)]
+        [MenuItem(MenuUtil.MenuTitle + "Resources/Find file with copied GUID", false)]
         public static void FindCopiedFileGUID()
         {
             var findGUID = GUIUtility.systemCopyBuffer;
@@ -170,7 +171,7 @@ namespace Aya.EditorScript
         /// <summary>
         /// 查找预制在所有场景中的引用
         /// </summary>
-        [MenuItem("Aya Game Studio/Resources/Find prefab reference in scene", false)]
+        [MenuItem(MenuUtil.MenuTitle + "Resources/Find prefab reference in scene", false)]
         private static void FindPrefabUsingInAllScenes()
         {
             // 确保鼠标右键选择的是一个Prefab
@@ -207,7 +208,7 @@ namespace Aya.EditorScript
         /// <summary>
         /// 查找预制在所有场景中的引用(包含子节点)
         /// </summary>
-        [MenuItem("Aya Game Studio/Resources/Find prefab reference in scene (Include Child)", false)]
+        [MenuItem(MenuUtil.MenuTitle + "Resources/Find prefab reference in scene (Include Child)", false)]
         private static void FindPrefabAllUsingInAllScenes()
         {
             // 确保鼠标右键选择的是一个Prefab

@@ -9,6 +9,7 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 #if UNITY_EDITOR
+using Aya.Util;
 using UnityEngine;
 using UnityEditor;
 
@@ -28,7 +29,7 @@ namespace Aya.EditorScript
         public static string keyaliasName;
         public static string keyaliasPass;
 
-        [MenuItem("Aya Game Studio/Project/Set Android Sign Keystore", false)]
+        [MenuItem(MenuUtil.MenuTitle + "Project/Set Android Sign Keystore", false)]
         public static void ShowWindow()
         {
             var win = CreateInstance<AndroidKeyStoreEditor>();

@@ -10,6 +10,7 @@
 /////////////////////////////////////////////////////////////////////////////
 #if UNITY_EDITOR
 using System.Reflection;
+using Aya.Util;
 using UnityEngine;
 using UnityEditor;
 
@@ -17,14 +18,14 @@ namespace Aya.EditorScript
 {
     public class ShortCutCenterLocalEditor : MonoBehaviour
     {
-        [MenuItem("Aya Game Studio/Short Cut/Center/Switch Position Center Point #&P", false)]
+        [MenuItem(MenuUtil.MenuTitle + "Short Cut/Center/Switch Position Center Point #&P", false)]
         static void ChangePivotMode()
         {
             Tools.pivotMode = (Tools.pivotMode == PivotMode.Center) ? PivotMode.Pivot : PivotMode.Center;
             Refresh();
         }
 
-        [MenuItem("Aya Game Studio/Short Cut/Center/Switch Rotation Center Point #&R", false)]
+        [MenuItem(MenuUtil.MenuTitle + "Short Cut/Center/Switch Rotation Center Point #&R", false)]
         static void ChangePivotRotation()
         {
             Tools.pivotRotation = (Tools.pivotRotation == PivotRotation.Global) ? PivotRotation.Local : PivotRotation.Global;
