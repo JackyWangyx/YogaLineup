@@ -9,6 +9,7 @@ public class PlayerRender : PlayerBase
 
     public override void InitComponent()
     {
+        RenderTrans.SetLocalPositionX(0f);
         RefreshRender(State.Point);
     }
 
@@ -54,10 +55,7 @@ public class PlayerRender : PlayerBase
 
         RenderInstance = GamePool.Spawn(prefab, RenderTrans);
 
-        this.ExecuteNextFrame(() =>
-        {
-            CacheComponent();
-            Play(CurrentClip);
-        });
+        ComponentDic.ForEach(c => c.Value.CacheRendererComponent());
+        Play(CurrentClip);
     }
 }

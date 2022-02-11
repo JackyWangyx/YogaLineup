@@ -5,6 +5,7 @@ using Aya.Events;
 using Aya.Extension;
 using Aya.Particle;
 using Aya.Pool;
+using Aya.TweenPro;
 using UnityEngine;
 
 public abstract class GameEntity : MonoListener
@@ -48,12 +49,17 @@ public abstract class GameEntity : MonoListener
     public virtual void CacheComponent()
     {
         Rect = GetComponent<RectTransform>();
-        Renderer = transform.GetComponentInChildren<Renderer>();
-        Animator = GetComponentInChildren<Animator>();
         Rigidbody = GetComponent<Rigidbody>();
         RendererTrans = transform.FindInAllChildFuzzy(nameof(Renderer));
 
+        CacheRendererComponent();
         CacheSubPoolInstance();
+    }
+
+    public virtual void CacheRendererComponent()
+    {
+        Renderer = GetComponentInChildren<Renderer>();
+        Animator = GetComponentInChildren<Animator>();
     }
 
     #region Transform
@@ -64,6 +70,42 @@ public abstract class GameEntity : MonoListener
     {
         get => Trans.parent;
         set => Trans.parent = value;
+    }
+
+    public Vector3 Forward
+    {
+        get => Trans.forward;
+        set => Trans.forward = value;
+    }
+
+    public Vector3 Backward
+    {
+        get => -Trans.forward;
+        set => Trans.forward = -value;
+    }
+
+    public Vector3 Right
+    {
+        get => Trans.right;
+        set => Trans.right = value;
+    }
+
+    public Vector3 Left
+    {
+        get => -Trans.right;
+        set => Trans.right = -value;
+    }
+
+    public Vector3 Up
+    {
+        get => Trans.up;
+        set => Trans.up = value;
+    }
+
+    public Vector3 Down
+    {
+        get => -Trans.up;
+        set => Trans.up = -value;
     }
 
     public Vector3 Position
@@ -144,14 +186,21 @@ public abstract class GameEntity : MonoListener
         if (Animator == null) Animator = GetComponentInChildren<Animator>(true);
         if (Animator != null)
         {
-            if (!immediately && Animator.CheckParameterExist(animationClipName, AnimatorControllerParameterType.Bool))
+            if (!string.IsNullOrEmpty(_lastAnimationClipName) && Animator.CheckParameterExist(_lastAnimationClipName, AnimatorControllerParameterType.Bool))
             {
-                if (!string.IsNullOrEmpty(_lastAnimationClipName))
-                {
-                    Animator.SetBool(_lastAnimationClipName, false);
-                }
+                Animator.SetBool(_lastAnimationClipName, false);
+            }
 
-                Animator.SetBool(animationClipName, true);
+            if (!immediately)
+            {
+                if (Animator.CheckParameterExist(animationClipName, AnimatorControllerParameterType.Bool))
+                {
+                    Animator.SetBool(animationClipName, true);
+                }
+                else if (Animator.CheckParameterExist(animationClipName, AnimatorControllerParameterType.Trigger))
+                {
+                    Animator.SetTrigger(animationClipName);
+                }
             }
             else
             {
@@ -163,6 +212,28 @@ public abstract class GameEntity : MonoListener
 
             _lastAnimationClipName = animationClipName;
         }
+    }
+
+    public void FadeLayerWeight(string layerName, float weight, float duration)
+    {
+        if (Animator == null) return;
+        if (!Animator.CheckLayerExist(layerName)) return;
+        UTween.Value(Animator.GetLayerWeight(layerName), weight, duration, value => { Animator.SetLayerWeight(layerName, value); });
+    }
+
+    public void PlayWithLayer(string animationClipName, float fadeWeightDuration = 0.1f)
+    {
+        Play(animationClipName);
+
+        if (Animator == null) return;
+        if (!Animator.CheckLayerExist(animationClipName)) return;
+
+        var length = Animator.GetCurrentAnimatorStateInfo(animationClipName).length;
+        FadeLayerWeight(animationClipName, 1f, fadeWeightDuration);
+        this.ExecuteDelay(() =>
+        {
+            FadeLayerWeight(animationClipName, 0f, fadeWeightDuration);
+        }, length);
     }
 
     #endregion

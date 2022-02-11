@@ -111,10 +111,11 @@ MonoBehaviour:
   DeActiveRender: 0
   EffectMode: 0
   EffectCount: 1
+  EffectInterval: 1
+  Conditions: []
   RenderPrefabs: []
   RenderRandomPrefabs: []
   ItemGroupIndex: -1
-  Conditions: []
   ActiveList: []
   DeActiveList: []
   SelfFx: []

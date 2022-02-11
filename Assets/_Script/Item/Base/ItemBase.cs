@@ -28,29 +28,26 @@ public abstract class ItemBase : GameEntity
     [FoldoutGroup("Param"), EnumToggleButtons] public ItemDeSpawnMode DeSpawnMode = ItemDeSpawnMode.Effect;
     [FoldoutGroup("Param")] public bool DeActiveRender;
     [FoldoutGroup("Param"), EnumToggleButtons] public ItemEffectMode EffectMode = ItemEffectMode.Once;
-    public bool IsEffectCount => EffectMode == ItemEffectMode.Count;
-    [FoldoutGroup("Param"), ShowIf("IsEffectCount")] public int EffectCount = 1;
-    public bool IsEffectStay => EffectMode == ItemEffectMode.Stay;
-    [FoldoutGroup("Param"), ShowIf("IsEffectStay")] public float EffectInterval = 1f;
+    [FoldoutGroup("Param"), ShowIf("EffectMode", ItemEffectMode.Count)] public int EffectCount = 1;
+    [FoldoutGroup("Param"), ShowIf("EffectMode", ItemEffectMode.Stay)] public float EffectInterval = 1f;
+    [FoldoutGroup("Param"), SerializeReference] public List<ItemCondition> Conditions = new List<ItemCondition>();
 
     [FoldoutGroup("Renderer")] public List<GameObject> RenderPrefabs;
     [FoldoutGroup("Renderer")] public List<GameObject> RenderRandomPrefabs;
     [FoldoutGroup("Renderer")] public int ItemGroupIndex = -1;
 
-    [FoldoutGroup("Condition"), SerializeReference] public List<ItemCondition> Conditions = new List<ItemCondition>();
-
-    [FoldoutGroup("Active")] public List<GameObject> ActiveList;
-    [FoldoutGroup("Active")] public List<GameObject> DeActiveList;
+    [FoldoutGroup("Active & Exclude")] public List<GameObject> ActiveList;
+    [FoldoutGroup("Active & Exclude")] public List<GameObject> DeActiveList;
+    [FoldoutGroup("Active & Exclude")] public List<ItemBase> ExcludeItems;
 
     [FoldoutGroup("Effect")] public List<GameObject> SelfFx;
     [FoldoutGroup("Effect")] public List<GameObject> SelfRandomFx;
     [FoldoutGroup("Effect")] public List<GameObject> TargetFx;
     [FoldoutGroup("Effect")] public List<GameObject> TargetRandomFx;
+    [FoldoutGroup("Effect")] public HapticTypes VibrationType = HapticTypes.None;
 
     [FoldoutGroup("Animation")] public List<UTweenAnimation> TweenAnimationList;
     [FoldoutGroup("Animation"), TableList] public List<ItemAnimatorData> AnimatorDataList;
-    [FoldoutGroup("Exclude")] public List<ItemBase> ExcludeItems;
-    [FoldoutGroup("Vibration")] public HapticTypes VibrationType = HapticTypes.None;
 
     public List<Collider> ColliderList { get; set; }
     public List<ColliderListener> ColliderListeners { get; set; }

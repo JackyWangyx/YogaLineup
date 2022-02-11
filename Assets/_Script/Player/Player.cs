@@ -21,8 +21,6 @@ public class Player : PlayerBase
         Trans.forward = Vector3.forward;
     }
 
-    
-
     public void Start()
     {
         
@@ -42,7 +40,7 @@ public class Player : PlayerBase
     public void Win()
     {
         if (Game.Phase != PhaseType.Gaming) return;
-        Move.DisableMove();
+        Stop();
         Play("Win");
         if (IsPlayer) Game.Enter<GameWin>();
     }
@@ -50,7 +48,7 @@ public class Player : PlayerBase
     public void Lose()
     {
         if (Game.Phase != PhaseType.Gaming) return;
-        Move.DisableMove();
+        Stop();
         Play("Lose");
         State.RestoreSave();
         if (IsPlayer) Game.Enter<GameLose>();
@@ -59,8 +57,13 @@ public class Player : PlayerBase
     public void Die()
     {
         if (Game.Phase != PhaseType.Gaming) return;
-        Move.DisableMove();
+        Stop();
         Play("Lose");
         if (IsPlayer) Game.Enter<GameLose>();
+    }
+
+    public void Stop()
+    {
+        Move.DisableMove();
     }
 }

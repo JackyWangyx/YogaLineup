@@ -19,6 +19,16 @@ namespace Aya.Extension
 {
     public static class MonoBehaviourExtension
     {
+        #region Prefab
+
+        public static bool IsPrefab(this MonoBehaviour monoBehaviour)
+        {
+            var result = monoBehaviour.gameObject.IsPrefab();
+            return result;
+        }
+
+        #endregion
+
         #region Coroutine
 
         /// <summary>

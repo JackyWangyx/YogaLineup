@@ -17,6 +17,16 @@ namespace Aya.Extension
 {
     public static class GameObjectExtension
     {
+        #region Prefab
+
+        public static bool IsPrefab(this GameObject gameObject)
+        {
+            var result = gameObject.scene.name == null;
+            return result;
+        }
+
+        #endregion
+
         #region HasComponent?
 
         /// <summary>

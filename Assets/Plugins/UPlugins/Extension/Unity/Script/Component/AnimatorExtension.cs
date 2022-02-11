@@ -9,7 +9,6 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Aya.Extension
 {
@@ -101,6 +100,48 @@ namespace Aya.Extension
             }
 
             return false;
+        }
+
+        #endregion
+
+        #region Layer
+
+        public static float GetLayerWeight(this Animator animator, string layerName)
+        {
+            var layerIndex = animator.GetLayerIndex(layerName);
+            var weight = animator.GetLayerWeight(layerIndex);
+            return weight;
+        }
+
+        public static void SetLayerWeight(this Animator animator, string layerName, float weight)
+        {
+            var layerIndex = animator.GetLayerIndex(layerName);
+            animator.SetLayerWeight(layerIndex, weight);
+        }
+
+        public static bool CheckLayerExist(this Animator animator, string layerName)
+        {
+            for (var i = 0; i < animator.layerCount; i++)
+            {
+                var name = animator.GetLayerName(i);
+                if (name == layerName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region Animator State Info
+
+        public static AnimatorStateInfo GetCurrentAnimatorStateInfo(this Animator animator, string layerName)
+        {
+            var layerIndex = animator.GetLayerIndex(layerName);
+            var animatorStateInfo = animator.GetCurrentAnimatorStateInfo(layerIndex);
+            return animatorStateInfo;
         }
 
         #endregion

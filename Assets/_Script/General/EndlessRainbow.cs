@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EndlessRainbow : MonoBehaviour
+public class EndlessRainbow : GameEntity
 {
     [Serializable]
     public class RainbowData
@@ -24,7 +24,9 @@ public class EndlessRainbow : MonoBehaviour
 
     }
 
-    [FoldoutGroup("Rainbow")] public Transform RendererTrans;
+    [FoldoutGroup("Rainbow")] public Transform StartPos;
+    [FoldoutGroup("Rainbow")] public Transform FollowDummy;
+    [FoldoutGroup("Rainbow")] public new Transform RendererTrans;
     [FoldoutGroup("Rainbow")] public int MaterialIndex;
     [FoldoutGroup("Rainbow")] public string MaterialProperty;
     [FoldoutGroup("Rainbow")] public Vector2 MaterialValue;
@@ -35,8 +37,9 @@ public class EndlessRainbow : MonoBehaviour
 
     [FoldoutGroup("Event")] public OnRainbowEvent OnRainbow;
 
-    public void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         for (var i = 0; i < RainbowList.Count; i++)
         {
             var rainbowData = RainbowList[i];
@@ -48,10 +51,8 @@ public class EndlessRainbow : MonoBehaviour
     {
         index = Mathf.Clamp(index, 0, RainbowList.Count - 1);
         var data = RainbowList[index];
-
-        // TODO..
-        // UTween.MaterialFloat(data.Renderer, MaterialValue.x, MaterialValue.y, Duration / 2f, 0, MaterialProperty);
-        // UTween.MaterialFloat(data.Renderer, MaterialValue.y, MaterialValue.x, Duration / 2f, 0, MaterialProperty).SetStartDelay(Duration / 2f);
+        UTween.Float(data.Renderer, MaterialIndex, MaterialProperty, MaterialValue.x, MaterialValue.y, Duration / 2f).SetMaterialMode(TweenMaterialMode.Property);
+        UTween.Float(data.Renderer, MaterialIndex, MaterialProperty, MaterialValue.y, MaterialValue.x, Duration / 2f).SetMaterialMode(TweenMaterialMode.Property).SetDataDelay(Duration / 2f);
         OnRainbow.Invoke(data);
     }
 
