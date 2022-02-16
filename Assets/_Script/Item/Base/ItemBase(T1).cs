@@ -125,9 +125,9 @@ public abstract class ItemBase<TTarget> : ItemBase
         VibrationController.Instance.Impact(VibrationType);
 
         // DeActive Render
-        if (DeActiveRender)
+        if (DeActiveRender && RendererTrans != null)
         {
-            RendererTrans?.gameObject.SetActive(false);
+            RendererTrans.gameObject.SetActive(false);
         }
 
         // Active / De Active
@@ -135,12 +135,14 @@ public abstract class ItemBase<TTarget> : ItemBase
         {
             foreach (var go in ActiveList)
             {
-                go?.SetActive(true);
+                if (go == null) continue;
+                go.SetActive(true);
             }
 
             foreach (var go in DeActiveList)
             {
-                go?.SetActive(false);
+                if (go == null) continue;
+                go.SetActive(false);
             }
         }
 
@@ -162,6 +164,8 @@ public abstract class ItemBase<TTarget> : ItemBase
         // Target Fx
         var targetFxTrans = target.transform;
         if (target is Player player) targetFxTrans = player.Render.RenderTrans;
+        else if (target is GameEntity entity) targetFxTrans = entity.Trans;
+
         if (TargetFx != null && TargetFx.Count > 0)
         {
             foreach (var fx in TargetFx)
@@ -179,12 +183,15 @@ public abstract class ItemBase<TTarget> : ItemBase
         // Animation
         foreach (var animatorData in AnimatorDataList)
         {
-            animatorData.Animator?.Play(animatorData.Clip);
+            if (animatorData == null) continue;
+            if (animatorData.Target == ItemAnimatorTargetMode.Self) animatorData.Animator.Play(animatorData.Clip);
+            else if (animatorData.Target == ItemAnimatorTargetMode.Target) (target as GameEntity)?.Play(animatorData.Clip);
         }
 
         foreach (var tweenAnimation in TweenAnimationList)
         {
-            tweenAnimation?.Data.Play();
+            if (tweenAnimation == null) continue;
+            tweenAnimation.Data.Play();
         }
 
         // DeSpawn

@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 
 public class Level : GameEntity
 {
+    public int PlayerCount = 1;
     public List<LevelBlock> BlockList;
     public List<ItemBase> ItemList { get; set; }
     public Dictionary<Type, List<ItemBase>> ItemDic { get; set; }
@@ -19,14 +20,21 @@ public class Level : GameEntity
 
     public void Init()
     {
-        SpawnBlocks();
+        InitBlocks();
+        InitItem();
+        InitPlayer();
+    }
+
+    #region Item
+    
+    public void InitItem()
+    {
         ItemList = transform.GetComponentsInChildren<ItemBase>(true).ToList();
         foreach (var item in ItemList)
         {
             item.Init();
         }
 
-        // 可能有嵌套生成道具，重新获取一次列表
         ItemList = transform.GetComponentsInChildren<ItemBase>(true).ToList();
 
         ItemDic = new Dictionary<Type, List<ItemBase>>();
@@ -41,8 +49,6 @@ public class Level : GameEntity
 
             itemList.Add(item);
         }
-
-        Player.Init();
     }
 
     public void InitItemsRenderer()
@@ -75,10 +81,33 @@ public class Level : GameEntity
         {
             list.Remove(item);
         }
+    } 
+
+    #endregion
+
+    public void InitPlayer()
+    {
+        Game.PlayerList.Clear();
+        for (var i = 0; i < PlayerCount; i++)
+        {
+            var playerIns = GamePool.Spawn(Game.PlayerPrefab, null);
+            playerIns.State.Index = i;
+            playerIns.State.IsPlayer = false;
+            Game.PlayerList.Add(playerIns);
+        }
+
+        var player = Game.PlayerList.Random();
+        player.State.IsPlayer = true;
+        Game.Player = player;
+
+        foreach (var playerTemp in Game.PlayerList)
+        {
+            playerTemp.Init();
+        }
     }
 
     [ButtonGroup("Test"), Button("Test Create")]
-    public void SpawnBlocks()
+    public void InitBlocks()
     {
         DeSpawnLevelBlocks();
 

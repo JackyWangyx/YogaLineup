@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 4905476628669490931}
   - component: {fileID: 5243745942386800597}
   - component: {fileID: 787850366784649138}
-  - component: {fileID: 4514299981688335705}
+  - component: {fileID: 7825335347768186455}
   - component: {fileID: 7225036217403399594}
   - component: {fileID: 1853586951437354656}
+  - component: {fileID: 3606474080327204694}
+  - component: {fileID: 4514299981688335705}
   - component: {fileID: 3302741275602008440}
   m_Layer: 10
   m_Name: Player
@@ -81,7 +83,7 @@ MonoBehaviour:
   RotateSpeed: 10
   TurnSpeed: 10
   TurnLerpSpeed: 10
---- !u!114 &4514299981688335705
+--- !u!114 &7825335347768186455
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,9 +92,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4905476628669490929}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b022e9f3fa8136439578376cf74c4af, type: 3}
+  m_Script: {fileID: 11500000, guid: f70ac6e358b81ab4e99c8185a5d216cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHp: 100
 --- !u!114 &7225036217403399594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +118,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 928a2063cafdbea48bc645b2616d6e67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3606474080327204694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4905476628669490929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c51e0471e35170a479ed56a5f667e82a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4514299981688335705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4905476628669490929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b022e9f3fa8136439578376cf74c4af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!54 &3302741275602008440

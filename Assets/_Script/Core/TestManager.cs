@@ -32,6 +32,11 @@ public class TestManager : GameEntity<TestManager>
         {
             AddKey();
         }
+
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            GoToFinish();
+        }
 #endif
     }
 
@@ -51,6 +56,14 @@ public class TestManager : GameEntity<TestManager>
     public void NextLevel()
     {
         Level.NextLevel();
+    }
+
+    [BoxGroup("Game"), Button("Go To Finish")]
+    public void GoToFinish()
+    {
+        var block = CurrentLevel.GetItem<ItemGameEndless>().GetComponentInParent<LevelBlock>();
+        Player.Move.PathFollower.EnterBlock(CurrentLevel.BlockInsList.IndexOf(block));
+        Player.Move.PathFollower.Move(0f);
     }
 
     [BoxGroup("Data"), Button("Add Coin 100")]

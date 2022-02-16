@@ -76,22 +76,26 @@ public abstract class ItemBase : GameEntity
 
         foreach (var animatorData in AnimatorDataList)
         {
-            animatorData.Animator?.Play(animatorData.DefaultClip);
+            if (animatorData == null) continue;
+            if (animatorData.Target == ItemAnimatorTargetMode.Self) animatorData.Animator.Play(animatorData.DefaultClip);
         }
 
         foreach (var tweenAnimation in TweenAnimationList)
         {
+            if (tweenAnimation == null) continue;
             tweenAnimation.Data.Sample(0f);
         }
 
         foreach (var go in ActiveList)
         {
-            go?.SetActive(false);
+            if (go == null) continue;
+            go.SetActive(false);
         }
 
         foreach (var go in DeActiveList)
         {
-            go?.SetActive(true);
+            if (go == null) continue;
+            go.SetActive(true);
         }
 
         EffectCounter = 0;

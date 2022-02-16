@@ -8,9 +8,10 @@ using UnityEngine;
 
 public class StackDownAnimation : GameEntity
 {
+    public string PlayerAnimation;
+    public float PlayerAnimationDuration;
     public float Height;
     public float Scale;
-    public float Distance;
     public float SpawnInterval;
     public float DumpDistance;
     public float RandPos;
@@ -52,6 +53,12 @@ public class StackDownAnimation : GameEntity
             chipList.Add(item);
 
             if (i % 2 == 0) yield return new WaitForSeconds(SpawnInterval);
+        }
+
+        if (!string.IsNullOrEmpty(PlayerAnimation))
+        {
+            Player.Play(PlayerAnimation);
+            yield return new WaitForSeconds(PlayerAnimationDuration);
         }
 
         var duration = Vector3.Distance(start, start + count * Vector3.forward * DumpDistance) / DumpSpeed;

@@ -201,13 +201,14 @@ public abstract class GameEntity : MonoListener
                 {
                     Animator.SetTrigger(animationClipName);
                 }
-            }
-            else
-            {
-                if (Animator.CheckStateExist(animationClipName))
+                else if (Animator.CheckClipExist(animationClipName))
                 {
                     Animator.Play(animationClipName);
                 }
+            }
+            else if (Animator.CheckClipExist(animationClipName))
+            {
+                Animator.Play(animationClipName);
             }
 
             _lastAnimationClipName = animationClipName;
@@ -334,6 +335,43 @@ public abstract class GameEntity : MonoListener
         {
             Debug.LogError(message + "\n" + exception);
         }
+    }
+
+    #endregion
+
+    #region Log
+
+    public void Log(string log)
+    {
+        Log(true, log);
+    }
+
+    public void Log(bool condition, string log)
+    {
+        if (!condition) return;
+        Debug.Log(log);
+    }
+
+    public void Warning(string log)
+    {
+        Warning(true, log);
+    }
+
+    public void Warning(bool condition, string log)
+    {
+        if (!condition) return;
+        Debug.LogWarning(log);
+    }
+
+    public void Error(string log)
+    {
+        Error(true, log);
+    }
+
+    public void Error(bool condition, string log)
+    {
+        if (!condition) return;
+        Debug.LogError(log);
     }
 
     #endregion

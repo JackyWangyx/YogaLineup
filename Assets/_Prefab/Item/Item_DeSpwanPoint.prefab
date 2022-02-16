@@ -222,20 +222,21 @@ MonoBehaviour:
   DeActiveRender: 0
   EffectMode: 0
   EffectCount: 1
+  EffectInterval: 1
+  Conditions: []
   RenderPrefabs: []
   RenderRandomPrefabs: []
   ItemGroupIndex: -1
-  Conditions: []
   ActiveList: []
   DeActiveList: []
+  ExcludeItems: []
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
-  ExcludeItems: []
-  VibrationType: -1
   AddValue: -5
   MultiplyValue: 1
   Text: {fileID: 0}

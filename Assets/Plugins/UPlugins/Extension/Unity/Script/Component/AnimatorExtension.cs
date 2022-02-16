@@ -80,15 +80,9 @@ namespace Aya.Extension
 
         #endregion
 
-        #region State
+        #region Clip
 
-        /// <summary>
-        /// 检查是否存在状态
-        /// </summary>
-        /// <param name="animator">动画状态机</param>
-        /// <param name="clipName">状态名</param>
-        /// <returns>结果</returns>
-        public static bool CheckStateExist(this Animator animator, string clipName)
+        public static bool CheckClipExist(this Animator animator, string clipName)
         {
             var controller = animator.runtimeAnimatorController;
             if (controller == null) return false;

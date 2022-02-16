@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class PlayerState : PlayerBase
 {
+    [NonSerialized] public new int Index;
+    [NonSerialized] public new bool IsPlayer;
+    
+    // Health
+    [NonSerialized] public int Hp;
+
     // General State
     [NonSerialized] public int Point;
     [NonSerialized] public int Rank;
@@ -26,6 +32,8 @@ public class PlayerState : PlayerBase
 
     public override void InitComponent()
     {
+        Hp = Health.MaxHp;
+
         PointChanged = false;
         KeepDirection = false;
 

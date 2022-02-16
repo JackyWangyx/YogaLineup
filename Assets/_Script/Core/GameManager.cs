@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class GameManager : GameEntity<GameManager>
 {
-    [FoldoutGroup("Player")] public new Player Player;
+    [FoldoutGroup("Player")] public Player PlayerPrefab;
+    public new Player Player { get; set; }
+    public List<Player> PlayerList { get; set; } = new List<Player>();
 
     [FoldoutGroup("Misc")]
     public Transform PhaseHandler;

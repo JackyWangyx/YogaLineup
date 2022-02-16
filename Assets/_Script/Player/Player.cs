@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : PlayerBase
 {
     public PlayerData Data { get; set; }
-    public bool IsPlayer => Player == this;
 
     protected override void Awake()
     {
@@ -57,6 +56,7 @@ public class Player : PlayerBase
     public void Die()
     {
         if (Game.Phase != PhaseType.Gaming) return;
+        State.Hp = 0;
         Stop();
         Play("Lose");
         if (IsPlayer) Game.Enter<GameLose>();

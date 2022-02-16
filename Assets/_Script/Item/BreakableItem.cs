@@ -14,7 +14,7 @@ public class BreakableData
     public Transform Transform;
 }
 
-public class BreakableItem : ItemBase<Player>
+public class ItemBreakable : ItemBase<Player>
 {
     [BoxGroup("Breakable")] public bool EnableBreak;
     [BoxGroup("Breakable"), ShowIf("EnableBreak")] public float ExplodeForce;
@@ -28,7 +28,12 @@ public class BreakableItem : ItemBase<Player>
     protected override void Awake()
     {
         base.Awake();
+        CacheBreakableDatas();
+    }
 
+    public virtual void CacheBreakableDatas()
+    {
+        BrokenDatas.Clear();
         foreach (var brokenItem in BrokenList)
         {
             var data = new BreakableData
@@ -36,8 +41,8 @@ public class BreakableItem : ItemBase<Player>
                 Rigidbody = brokenItem.GetOrAddComponent<Rigidbody>(),
                 MeshCollider = brokenItem.GetOrAddComponent<MeshCollider>(),
                 Transform = brokenItem,
-                Position = brokenItem.position,
-                EulerAngle = brokenItem.eulerAngles
+                Position = brokenItem.localPosition,
+                EulerAngle = brokenItem.localEulerAngles
             };
 
             BrokenDatas.Add(data);
@@ -58,8 +63,8 @@ public class BreakableItem : ItemBase<Player>
             var brokenItem = BrokenList[i];
             var data = BrokenDatas[i];
             brokenItem.gameObject.SetActive(false);
-            brokenItem.position = data.Position;
-            brokenItem.eulerAngles = data.EulerAngle;
+            brokenItem.localPosition = data.Position;
+            brokenItem.localEulerAngles = data.EulerAngle;
         }
     }
 
