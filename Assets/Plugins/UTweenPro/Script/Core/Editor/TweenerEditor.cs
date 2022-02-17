@@ -116,7 +116,7 @@ namespace Aya.TweenPro
 
                 if (FoldOut)
                 {
-                    using (GUIEnableArea.Create(ActiveProperty.boolValue && !Data.IsInProgress && GUI.enabled))
+                    using (GUIEnableArea.Create(ActiveProperty.boolValue && !Data.IsInProgress))
                     {
                         if (SupportTarget) DrawTarget();
                         if (SupportIndependentAxis) DrawIndependentAxis();
@@ -167,19 +167,13 @@ namespace Aya.TweenPro
                 GUILayout.Space(2);
 
                 // Active Toggle
-                using (GUIEnableArea.Create(!Data.IsInProgress))
-                {
-                    ActiveProperty.boolValue = EditorGUILayout.Toggle(ActiveProperty.boolValue, GUILayout.Width(EditorStyle.CharacterWidth));
-                    GUILayout.Space(2);
-                }
+                ActiveProperty.boolValue = EditorGUILayout.Toggle(ActiveProperty.boolValue, GUILayout.Width(EditorStyle.CharacterWidth));
+                GUILayout.Space(2);
 
                 // Title
-                using (GUIEnableArea.Create(Active))
+                using (GUIHorizontal.Create())
                 {
-                    using (GUIHorizontal.Create())
-                    {
-                        DrawTitle();
-                    }
+                    DrawTitle();
                 }
 
                 var btnTitleRect = GUILayoutUtility.GetLastRect();
@@ -190,22 +184,22 @@ namespace Aya.TweenPro
                 }
 
                 // Menu Button
-                using (GUIEnableArea.Create(!Data.IsInProgress))
+                var btnContextMenu = GUIUtil.DrawContextMenuButton();
+                if (btnContextMenu)
                 {
-                    var btnContextMenu = GUIUtil.DrawContextMenuButton();
-                    if (btnContextMenu)
-                    {
-                        var menu = CreateContextMenu();
-                        menu.ShowAsContext();
-                    }
+                    var menu = CreateContextMenu();
+                    menu.ShowAsContext();
                 }
             }
         }
 
         public virtual void DrawTitle()
         {
-            var name = TweenerAttribute.DisplayName;
-            GUILayout.Label(name, EditorStyles.boldLabel);
+            using (GUIEnableArea.Create(Active, false))
+            {
+                var name = TweenerAttribute.DisplayName;
+                GUILayout.Label(name, EditorStyles.boldLabel);
+            }
         }
 
         public virtual void DrawHeaderIcon()
@@ -220,7 +214,7 @@ namespace Aya.TweenPro
             {
                 GUILayout.Space(EditorStyle.CharacterWidth);
                 var currentHeight = FoldOut ? 4f : 2f;
-                using (GUIEnableArea.Create(Active))
+                using (GUIEnableArea.Create(Active, false))
                 {
                     var normalized = Data.EditorNormalizedProgress;
                     if (!Active) normalized = 0f;
@@ -334,7 +328,7 @@ namespace Aya.TweenPro
                 if (delayChanged)
                 {
                     if (DelayProperty.floatValue < 0) DelayProperty.floatValue = 0;
-                    if (DurationProperty.floatValue + DelayProperty.floatValue > Data.DurationProperty.floatValue)
+                    else if (DurationProperty.floatValue + DelayProperty.floatValue > Data.DurationProperty.floatValue)
                     {
                         DelayProperty.floatValue = Data.DurationProperty.floatValue - DurationProperty.floatValue;
                     }

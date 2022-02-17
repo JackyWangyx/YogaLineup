@@ -54,9 +54,13 @@ namespace Aya.TweenPro
         {
             base.DrawTitle();
             if (Target == null) return;
-            var targetName = Target.name;
-            GUILayout.Label("|", EditorStyles.label);
-            GUILayout.Label(targetName, EditorStyle.TitleTargetLabel, GUILayout.MinWidth(0), GUILayout.MaxWidth(Screen.width));
+
+            using (GUIEnableArea.Create(Active, false))
+            {
+                var targetName = Target.name;
+                GUILayout.Label("|", EditorStyles.label);
+                GUILayout.Label(targetName, EditorStyle.TitleTargetLabel, GUILayout.MinWidth(0), GUILayout.MaxWidth(Screen.width));
+            }
         }
 
         public override void DrawTarget()

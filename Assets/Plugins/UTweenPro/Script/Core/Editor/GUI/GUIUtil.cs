@@ -241,7 +241,7 @@ namespace Aya.TweenPro
 
         public static float DrawFloatProperty(string name, float value, bool enable)
         {
-            using (GUIEnableArea.Create(enable && GUI.enabled))
+            using (GUIEnableArea.Create(enable))
             {
                 value = EditorGUILayout.FloatField(name, value, GUILayout.MinWidth(EditorStyle.MinWidth));
                 return value;
@@ -250,7 +250,7 @@ namespace Aya.TweenPro
 
         public static int DrawIntProperty(string name, int value, bool enable)
         {
-            using (GUIEnableArea.Create(enable && GUI.enabled))
+            using (GUIEnableArea.Create(enable))
             {
                 value = EditorGUILayout.IntField(name, value, GUILayout.MinWidth(EditorStyle.MinWidth));
                 return value;

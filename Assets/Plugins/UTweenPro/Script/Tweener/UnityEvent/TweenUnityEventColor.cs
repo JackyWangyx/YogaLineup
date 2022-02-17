@@ -41,10 +41,10 @@ namespace Aya.TweenPro
     {
         [TweenerProperty, NonSerialized] public SerializedProperty EventProperty;
 
-        public override void DrawTarget()
+        public override void DrawFromToValue()
         {
-            base.DrawTarget();
             EditorGUILayout.PropertyField(EventProperty);
+            base.DrawFromToValue();
         }
     }
 

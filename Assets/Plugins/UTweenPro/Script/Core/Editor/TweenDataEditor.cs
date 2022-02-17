@@ -79,22 +79,21 @@ namespace Aya.TweenPro
                 using (GUILabelWidthArea.Create(EditorStyle.LabelWidth))
                 {
                     DrawProgressBar();
-                    DrawTweenData();
-
-                    if (SerializedObject.isEditingMultipleObjects)
-                    {
-                        SerializedObject.ApplyModifiedProperties();
-                        return;
-                    }
-
-                    DrawTweenerList();
-
                     using (GUIEnableArea.Create(!IsInProgress))
                     {
-                        DrawAppend();
-                    }
+                        DrawTweenData();
 
-                    DrawEvent();
+                        if (SerializedObject.isEditingMultipleObjects)
+                        {
+                            SerializedObject.ApplyModifiedProperties();
+                            return;
+                        }
+
+                        DrawTweenerList();
+
+                        DrawAppend();
+                        DrawEvent();
+                    }
                 }
             }
         }
@@ -162,10 +161,13 @@ namespace Aya.TweenPro
                         GUI.Label(rect, Identifier, EditorStyles.centeredGreyMiniLabel);
                     }
 
-                    var btnDirection = GUILayout.Button(Backward ? "←" : "→", EditorStyles.miniButtonMid, GUILayout.Width(EditorGUIUtility.singleLineHeight));
-                    if (btnDirection)
+                    using (GUIEnableArea.Create(!IsInProgress))
                     {
-                        BackwardProperty.boolValue = !BackwardProperty.boolValue;
+                        var btnDirection = GUILayout.Button(Backward ? "←" : "→", EditorStyles.miniButtonMid, GUILayout.Width(EditorGUIUtility.singleLineHeight));
+                        if (btnDirection)
+                        {
+                            BackwardProperty.boolValue = !BackwardProperty.boolValue;
+                        }
                     }
                 }
             }
@@ -231,100 +233,97 @@ namespace Aya.TweenPro
             {
                 if (!FoldOut) return;
 
-                using (GUIEnableArea.Create(!IsInProgress))
+                // ID
+                if (EnableIdentifier)
                 {
-                    // ID
-                    if (EnableIdentifier)
-                    {
-                        EditorGUILayout.PropertyField(IdentifierProperty, new GUIContent("ID"));
-                    }
+                    EditorGUILayout.PropertyField(IdentifierProperty, new GUIContent("ID"));
+                }
 
-                    using (GUIHorizontal.Create())
+                using (GUIHorizontal.Create())
+                {
+                    using (var check = GUICheckChangeArea.Create())
                     {
-                        using (var check = GUICheckChangeArea.Create())
+                        var durationName = nameof(Duration);
+                        if (SpeedBased) durationName = "Speed";
+                        EditorGUILayout.PropertyField(DurationProperty, new GUIContent(durationName));
+                        if (DurationProperty.floatValue < 0.001f) DurationProperty.floatValue = 0.001f;
+
+                        if (check.Changed)
                         {
-                            var durationName = nameof(Duration);
-                            if (SpeedBased) durationName = "Speed";
-                            EditorGUILayout.PropertyField(DurationProperty, new GUIContent(durationName));
-                            if (DurationProperty.floatValue < 0.001f) DurationProperty.floatValue = 0.001f;
-
-                            if (check.Changed)
-                            {
-                                _durationChanged = true;
-                            }
-                        }
-
-                        EditorGUILayout.PropertyField(DelayProperty, new GUIContent(nameof(Delay)));
-                        if (DelayProperty.floatValue < 0) DelayProperty.floatValue = 0;
-                    }
-
-                    using (GUIHorizontal.Create())
-                    {
-                        EditorGUILayout.PropertyField(PlayModeProperty, new GUIContent("Play"));
-                        using (GUIEnableArea.Create(PlayMode != PlayMode.Once && GUI.enabled))
-                        {
-                            EditorGUILayout.PropertyField(PlayCountProperty, new GUIContent("Count"));
-                            if (PlayMode == PlayMode.Once)
-                            {
-                                PlayCountProperty.intValue = 1;
-                            }
-
-                            if (PlayCount < -1) PlayCountProperty.intValue = -1;
+                            _durationChanged = true;
                         }
                     }
 
-                    using (GUIHorizontal.Create())
-                    {
-                        EditorGUILayout.PropertyField(UpdateModeProperty, new GUIContent("Update"));
+                    EditorGUILayout.PropertyField(DelayProperty, new GUIContent(nameof(Delay)));
+                    if (DelayProperty.floatValue < 0) DelayProperty.floatValue = 0;
+                }
 
-                        if (PlayMode == PlayMode.PingPong)
+                using (GUIHorizontal.Create())
+                {
+                    EditorGUILayout.PropertyField(PlayModeProperty, new GUIContent("Play"));
+                    using (GUIEnableArea.Create(PlayMode != PlayMode.Once))
+                    {
+                        EditorGUILayout.PropertyField(PlayCountProperty, new GUIContent("Count"));
+                        if (PlayMode == PlayMode.Once)
                         {
-                            var rect = EditorGUILayout.GetControlRect(true, EditorGUIUtility.singleLineHeight, EditorStyles.label);
-                            var width = rect.width;
-                            rect.width = EditorStyle.LabelWidth;
-                            GUI.Label(rect, nameof(Interval), EditorStyles.label);
-                            rect.x += EditorStyle.LabelWidth + 2f;
-                            rect.width = (width - rect.width - 6f) / 2f;
-                            IntervalProperty.floatValue = EditorGUI.FloatField(rect, IntervalProperty.floatValue);
-                            if (Interval < 0f) IntervalProperty.floatValue = 0f;
-                            rect.x += rect.width + 3f;
-                            Interval2Property.floatValue = EditorGUI.FloatField(rect, Interval2Property.floatValue);
-                            if (Interval2 < 0f) IntervalProperty.floatValue = 0f;
-                        }
-                        else
-                        {
-                            using (GUIEnableArea.Create(PlayMode != PlayMode.Once))
-                            {
-                                EditorGUILayout.PropertyField(IntervalProperty);
-                            }
-                        }
-                    }
-
-                    using (GUIHorizontal.Create())
-                    {
-                        EditorGUILayout.PropertyField(AutoPlayProperty, new GUIContent("Auto"));
-                        EditorGUILayout.PropertyField(PreSampleModeProperty, new GUIContent("Sample"));
-                    }
-
-                    using (GUIHorizontal.Create())
-                    {
-                        EditorGUILayout.PropertyField(TimeModeProperty, new GUIContent("Time"));
-                        EditorGUILayout.PropertyField(SelfScaleProperty, new GUIContent("Scale"));
-                    }
-
-                    using (GUIHorizontal.Create())
-                    {
-                        using (GUIEnableArea.Create(SingleMode && GUI.enabled))
-                        {
-                            GUIUtil.DrawToggleButton(SpeedBasedProperty);
-                            if (!SingleMode)
-                            {
-                                SpeedBasedProperty.boolValue = false;
-                            }
+                            PlayCountProperty.intValue = 1;
                         }
 
-                        GUIUtil.DrawToggleButton(AutoKillProperty);
+                        if (PlayCount < -1) PlayCountProperty.intValue = -1;
                     }
+                }
+
+                using (GUIHorizontal.Create())
+                {
+                    EditorGUILayout.PropertyField(UpdateModeProperty, new GUIContent("Update"));
+
+                    if (PlayMode == PlayMode.PingPong)
+                    {
+                        var rect = EditorGUILayout.GetControlRect(true, EditorGUIUtility.singleLineHeight, EditorStyles.label);
+                        var width = rect.width;
+                        rect.width = EditorStyle.LabelWidth;
+                        GUI.Label(rect, nameof(Interval), EditorStyles.label);
+                        rect.x += EditorStyle.LabelWidth + 2f;
+                        rect.width = (width - rect.width - 6f) / 2f;
+                        IntervalProperty.floatValue = EditorGUI.FloatField(rect, IntervalProperty.floatValue);
+                        if (Interval < 0f) IntervalProperty.floatValue = 0f;
+                        rect.x += rect.width + 3f;
+                        Interval2Property.floatValue = EditorGUI.FloatField(rect, Interval2Property.floatValue);
+                        if (Interval2 < 0f) IntervalProperty.floatValue = 0f;
+                    }
+                    else
+                    {
+                        using (GUIEnableArea.Create(PlayMode != PlayMode.Once))
+                        {
+                            EditorGUILayout.PropertyField(IntervalProperty);
+                        }
+                    }
+                }
+
+                using (GUIHorizontal.Create())
+                {
+                    EditorGUILayout.PropertyField(AutoPlayProperty, new GUIContent("Auto"));
+                    EditorGUILayout.PropertyField(PreSampleModeProperty, new GUIContent("Sample"));
+                }
+
+                using (GUIHorizontal.Create())
+                {
+                    EditorGUILayout.PropertyField(TimeModeProperty, new GUIContent("Time"));
+                    EditorGUILayout.PropertyField(SelfScaleProperty, new GUIContent("Scale"));
+                }
+
+                using (GUIHorizontal.Create())
+                {
+                    using (GUIEnableArea.Create(SingleMode))
+                    {
+                        GUIUtil.DrawToggleButton(SpeedBasedProperty);
+                        if (!SingleMode)
+                        {
+                            SpeedBasedProperty.boolValue = false;
+                        }
+                    }
+
+                    GUIUtil.DrawToggleButton(AutoKillProperty);
                 }
             }
         }
@@ -372,108 +371,105 @@ namespace Aya.TweenPro
             using (GUIFoldOut.Create(FoldOutEventProperty, "Event"))
             {
                 if (!FoldOutEvent) return;
-                using (GUIEnableArea.Create(!IsInProgress))
+                using (GUIGroup.Create())
                 {
-                    using (GUIGroup.Create())
+                    var btnStyle = EditorStyles.toolbarButton;
+                    using (GUIHorizontal.Create())
                     {
-                        var btnStyle = EditorStyles.toolbarButton;
-                        using (GUIHorizontal.Create())
+                        using (GUIVertical.Create())
                         {
-                            using (GUIVertical.Create())
+                            if (GUILayout.Toggle(EventType == EventType.OnPlay, nameof(EventType.OnPlay), btnStyle))
                             {
-                                if (GUILayout.Toggle(EventType == EventType.OnPlay, nameof(EventType.OnPlay), btnStyle))
-                                {
-                                    OnPlay.InitEditor(TweenDataProperty, nameof(OnPlay));
-                                    EventType = EventType.OnPlay;
-                                }
-
-                                if (GUILayout.Toggle(EventType == EventType.OnLoopStart, nameof(EventType.OnLoopStart), btnStyle))
-                                {
-                                    OnLoopStart.InitEditor(TweenDataProperty, nameof(OnLoopStart));
-                                    EventType = EventType.OnLoopStart;
-                                }
-
-                                if (GUILayout.Toggle(EventType == EventType.OnResume, nameof(EventType.OnResume), btnStyle))
-                                {
-                                    OnResume.InitEditor(TweenDataProperty, nameof(OnResume));
-                                    EventType = EventType.OnResume;
-                                }
+                                OnPlay.InitEditor(TweenDataProperty, nameof(OnPlay));
+                                EventType = EventType.OnPlay;
                             }
 
-                            using (GUIVertical.Create())
+                            if (GUILayout.Toggle(EventType == EventType.OnLoopStart, nameof(EventType.OnLoopStart), btnStyle))
                             {
-                                if (GUILayout.Toggle(EventType == EventType.OnStart, nameof(EventType.OnStart), btnStyle))
-                                {
-                                    OnStart.InitEditor(TweenDataProperty, nameof(OnStart));
-                                    EventType = EventType.OnStart;
-                                }
-
-                                if (GUILayout.Toggle(EventType == EventType.OnLoopEnd, nameof(EventType.OnLoopEnd), btnStyle))
-                                {
-                                    OnLoopEnd.InitEditor(TweenDataProperty, nameof(OnLoopEnd));
-                                    EventType = EventType.OnLoopEnd;
-                                }
-
-                                if (GUILayout.Toggle(EventType == EventType.OnStop, nameof(EventType.OnStop), btnStyle))
-                                {
-                                    OnStop.InitEditor(TweenDataProperty, nameof(OnStop));
-                                    EventType = EventType.OnStop;
-                                }
+                                OnLoopStart.InitEditor(TweenDataProperty, nameof(OnLoopStart));
+                                EventType = EventType.OnLoopStart;
                             }
 
-                            using (GUIVertical.Create())
+                            if (GUILayout.Toggle(EventType == EventType.OnResume, nameof(EventType.OnResume), btnStyle))
                             {
-                                if (GUILayout.Toggle(EventType == EventType.OnPause, nameof(EventType.OnPause), btnStyle))
-                                {
-                                    OnPause.InitEditor(TweenDataProperty, nameof(OnPause));
-                                    EventType = EventType.OnPause;
-                                }
+                                OnResume.InitEditor(TweenDataProperty, nameof(OnResume));
+                                EventType = EventType.OnResume;
+                            }
+                        }
 
-                                if (GUILayout.Toggle(EventType == EventType.OnUpdate, nameof(EventType.OnUpdate), btnStyle))
-                                {
-                                    OnUpdate.InitEditor(TweenDataProperty, nameof(OnUpdate));
-                                    EventType = EventType.OnUpdate;
-                                }
+                        using (GUIVertical.Create())
+                        {
+                            if (GUILayout.Toggle(EventType == EventType.OnStart, nameof(EventType.OnStart), btnStyle))
+                            {
+                                OnStart.InitEditor(TweenDataProperty, nameof(OnStart));
+                                EventType = EventType.OnStart;
+                            }
 
-                                if (GUILayout.Toggle(EventType == EventType.OnComplete, nameof(EventType.OnComplete), btnStyle))
-                                {
-                                    OnComplete.InitEditor(TweenDataProperty, nameof(OnComplete));
-                                    EventType = EventType.OnComplete;
-                                }
+                            if (GUILayout.Toggle(EventType == EventType.OnLoopEnd, nameof(EventType.OnLoopEnd), btnStyle))
+                            {
+                                OnLoopEnd.InitEditor(TweenDataProperty, nameof(OnLoopEnd));
+                                EventType = EventType.OnLoopEnd;
+                            }
+
+                            if (GUILayout.Toggle(EventType == EventType.OnStop, nameof(EventType.OnStop), btnStyle))
+                            {
+                                OnStop.InitEditor(TweenDataProperty, nameof(OnStop));
+                                EventType = EventType.OnStop;
+                            }
+                        }
+
+                        using (GUIVertical.Create())
+                        {
+                            if (GUILayout.Toggle(EventType == EventType.OnPause, nameof(EventType.OnPause), btnStyle))
+                            {
+                                OnPause.InitEditor(TweenDataProperty, nameof(OnPause));
+                                EventType = EventType.OnPause;
+                            }
+
+                            if (GUILayout.Toggle(EventType == EventType.OnUpdate, nameof(EventType.OnUpdate), btnStyle))
+                            {
+                                OnUpdate.InitEditor(TweenDataProperty, nameof(OnUpdate));
+                                EventType = EventType.OnUpdate;
+                            }
+
+                            if (GUILayout.Toggle(EventType == EventType.OnComplete, nameof(EventType.OnComplete), btnStyle))
+                            {
+                                OnComplete.InitEditor(TweenDataProperty, nameof(OnComplete));
+                                EventType = EventType.OnComplete;
                             }
                         }
                     }
+                }
 
-                    switch (EventType)
-                    {
-                        case EventType.OnPlay:
-                            OnPlay.DrawEvent(nameof(OnPlay));
-                            break;
-                        case EventType.OnStart:
-                            OnStart.DrawEvent(nameof(OnStart));
-                            break;
-                        case EventType.OnUpdate:
-                            OnUpdate.DrawEvent(nameof(OnUpdate));
-                            break;
-                        case EventType.OnLoopStart:
-                            OnLoopStart.DrawEvent(nameof(OnLoopStart));
-                            break;
-                        case EventType.OnLoopEnd:
-                            OnLoopEnd.DrawEvent(nameof(OnLoopEnd));
-                            break;
-                        case EventType.OnPause:
-                            OnPause.DrawEvent(nameof(OnPause));
-                            break;
-                        case EventType.OnResume:
-                            OnResume.DrawEvent(nameof(OnResume));
-                            break;
-                        case EventType.OnStop:
-                            OnStop.DrawEvent(nameof(OnStop));
-                            break;
-                        case EventType.OnComplete:
-                            OnComplete.DrawEvent(nameof(OnComplete));
-                            break;
-                    }
+                switch (EventType)
+                {
+                    case EventType.OnPlay:
+                        OnPlay.DrawEvent(nameof(OnPlay));
+                        break;
+                    case EventType.OnStart:
+                        OnStart.DrawEvent(nameof(OnStart));
+                        break;
+                    case EventType.OnUpdate:
+                        OnUpdate.DrawEvent(nameof(OnUpdate));
+                        break;
+                    case EventType.OnLoopStart:
+                        OnLoopStart.DrawEvent(nameof(OnLoopStart));
+                        break;
+                    case EventType.OnLoopEnd:
+                        OnLoopEnd.DrawEvent(nameof(OnLoopEnd));
+                        break;
+                    case EventType.OnPause:
+                        OnPause.DrawEvent(nameof(OnPause));
+                        break;
+                    case EventType.OnResume:
+                        OnResume.DrawEvent(nameof(OnResume));
+                        break;
+                    case EventType.OnStop:
+                        OnStop.DrawEvent(nameof(OnStop));
+                        break;
+                    case EventType.OnComplete:
+                        OnComplete.DrawEvent(nameof(OnComplete));
+                        break;
                 }
             }
         }
