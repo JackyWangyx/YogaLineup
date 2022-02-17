@@ -25,6 +25,7 @@ public abstract class GameEntity : MonoListener
     public Level CurrentLevel => Level.Level;
 
     public Player Player => Game.Player;
+    public List<Player> PlayerList => Game.PlayerList;
 
     public EntityPool GamePool => PoolManager.Ins["Game"];
     public EntityPool UIPool => PoolManager.Ins["UI"];
@@ -171,6 +172,7 @@ public abstract class GameEntity : MonoListener
     public void InitAnimator()
     {
         if (Animator == null) return;
+        _lastAnimationClipName = "";
         foreach (var animatorControllerParameter in Animator.parameters)
         {
             if (animatorControllerParameter.type == AnimatorControllerParameterType.Bool)
