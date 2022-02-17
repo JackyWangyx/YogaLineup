@@ -319,7 +319,7 @@ namespace Aya.TweenPro
                 if (durationChanged)
                 {
                     if (DurationProperty.floatValue < 0) DurationProperty.floatValue = 0;
-                    if (DurationProperty.floatValue + DelayProperty.floatValue > Data.DurationProperty.floatValue)
+                    else if (DurationProperty.floatValue + DelayProperty.floatValue > Data.DurationProperty.floatValue)
                     {
                         DurationProperty.floatValue = Data.DurationProperty.floatValue - DelayProperty.floatValue;
                     }

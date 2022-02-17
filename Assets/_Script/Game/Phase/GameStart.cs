@@ -8,7 +8,7 @@ public class GameStart : GamePhaseHandler
 
     public override void Enter(params object[] args)
     {
-        Camera.Switch("Game");
+        Camera.Switch("Game", Player.RendererTrans);
         UI.Show<UIGame>();
         Game.Enter<GamePlay>();
         Dispatch(GameEvent.Start);

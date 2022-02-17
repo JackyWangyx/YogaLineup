@@ -35,15 +35,20 @@ public class StackDownAnimation : GameEntity
         }
     }
 
-    public void StartAnimation<T>(T prefab, int count, Action onDone = null) where T : GameEntity
+    public void StartAnimation<TPrefab, TInstance>(TPrefab prefab, List<TInstance> list, Action<TInstance> onOverlay, Action onDone = null)
+        where TPrefab : GameEntity
+        where TInstance : GameEntity
     {
-        StartCoroutine(Animation(prefab, count, onDone));
+        StartCoroutine(Animation(prefab, list, onOverlay, onDone));
     }
 
-    public IEnumerator Animation<T>(T prefab, int count, Action onDone = null) where T : GameEntity
+    public IEnumerator Animation<TPrefab, TInstance>(TPrefab prefab, List<TInstance> list, Action<TInstance> onOverlay, Action onDone = null)
+        where TPrefab : GameEntity
+        where TInstance : GameEntity
     {
         var start = Rainbow.StartPos.position;
-        var chipList = new List<T>();
+        var count = list.Count;
+        var chipList = new List<TPrefab>();
         for (var i = 0; i < count; i++)
         {
             var pos = start + Vector3.up * i * Height;
@@ -52,8 +57,12 @@ public class StackDownAnimation : GameEntity
             item.Position = pos;
             chipList.Add(item);
 
+            var instance = list[i];
+            onOverlay?.Invoke(instance);
             if (i % 2 == 0) yield return new WaitForSeconds(SpawnInterval);
         }
+
+        list.Clear();
 
         if (!string.IsNullOrEmpty(PlayerAnimation))
         {

@@ -121,6 +121,7 @@ namespace Aya.TweenPro
         public Tweener<TTarget, TValue> SetAxis(AxisConstraint axis)
         {
             Axis = axis;
+            EnableAxis = true;
             return this;
         }
 
