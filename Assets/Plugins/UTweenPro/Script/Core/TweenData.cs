@@ -368,7 +368,7 @@ namespace Aya.TweenPro
             {
                 foreach (var tweener in TweenerList)
                 {
-                    tweener.IsEnd = false;
+                    tweener.IsCurrentLoopFinished = false;
                 }
 
                 if (PlayMode == PlayMode.Once)
@@ -401,6 +401,10 @@ namespace Aya.TweenPro
                         else
                         {
                             OnLoopStart.Invoke();
+                            foreach (var tweener in TweenerList)
+                            {
+                                tweener.IsCurrentLoopFinished = false;
+                            }
                         }
                     }
                 }
@@ -428,6 +432,10 @@ namespace Aya.TweenPro
                         else
                         {
                             OnLoopStart.Invoke();
+                            foreach (var tweener in TweenerList)
+                            {
+                                tweener.IsCurrentLoopFinished = false;
+                            }
                         }
                     }
                 }

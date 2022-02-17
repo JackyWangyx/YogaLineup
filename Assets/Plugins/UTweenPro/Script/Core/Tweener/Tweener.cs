@@ -39,7 +39,7 @@ namespace Aya.TweenPro
         public float TotalDuration => Delay + Duration;
 
         // TODO.. 用于确保子动画能结束在最终状态的临时解决方案，待替换实现
-        internal bool IsEnd;
+        internal bool IsCurrentLoopFinished;
 
         #region Cache
 
@@ -114,7 +114,7 @@ namespace Aya.TweenPro
         public virtual void PreSample()
         {
             IsPrepared = true;
-            IsEnd = false;
+            IsCurrentLoopFinished = false;
         }
 
         public virtual void StopSample()
@@ -136,9 +136,9 @@ namespace Aya.TweenPro
                 if (currentDuration < Delay)
                 {
                     delta = 0f;
-                    if (!IsEnd && !Data.Forward)
+                    if (!IsCurrentLoopFinished && !Data.Forward)
                     {
-                        IsEnd = true;
+                        IsCurrentLoopFinished = true;
                     }
                     else if (!HoldStart)
                     {
@@ -150,9 +150,9 @@ namespace Aya.TweenPro
                 if (currentDuration > Delay + Duration)
                 {
                     delta = 1f;
-                    if (!IsEnd && Data.Forward)
+                    if (!IsCurrentLoopFinished && Data.Forward)
                     {
-                        IsEnd = true;
+                        IsCurrentLoopFinished = true;
                     }
                     else if (!HoldStart)
                     {
