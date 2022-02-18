@@ -124,3 +124,4 @@ MonoBehaviour:
   MaxDistance: 1
   EffectFrame: 10
   EffectSpeed: 2.5
+  SpreadForce: 300

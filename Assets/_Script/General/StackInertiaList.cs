@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Aya.Extension;
+using Aya.Util;
 using UnityEngine;
 
 public class StackInertiaList : GameEntity
@@ -17,12 +18,15 @@ public class StackInertiaList : GameEntity
     public float MaxDistance;
     public int EffectFrame;
     public float EffectSpeed;
+    public float SpreadForce;
 
     private readonly List<Vector3> _positionList = new List<Vector3>();
     private Vector3 _currentDirection;
 
     public List<GameEntity> List { get; set; } = new List<GameEntity>();
     public int Count => List.Count;
+
+    public bool Active { get; set; }
 
     public void Init()
     {
@@ -32,6 +36,7 @@ public class StackInertiaList : GameEntity
         }
 
         List.Clear();
+        Active = true;
     }
 
     public void Add(int count = 1)
@@ -40,6 +45,7 @@ public class StackInertiaList : GameEntity
         {
             var instance = GamePool.Spawn(Prefab, Trans);
             instance.LocalScale = Vector3.one * Scale;
+            if (instance.Rigidbody != null) instance.Rigidbody.isKinematic = true;
             List.Add(instance);
         }
     }
@@ -65,6 +71,7 @@ public class StackInertiaList : GameEntity
 
     public void Update()
     {
+        if (!Active) return;
         var position = Position;
         _positionList.Add(position);
 
@@ -95,6 +102,16 @@ public class StackInertiaList : GameEntity
 
             item.Position = pos + offset;
             item.EulerAngles = rot + rotate;
+        }
+    }
+
+    public void Spread()
+    {
+        Active = false;
+        foreach (var item in List)
+        {
+            item.Rigidbody.isKinematic = false;
+            item.Rigidbody.AddExplosionForce(RandUtil.RandFloat(Mathf.Sqrt(SpreadForce), SpreadForce), item.Position + RandUtil.RandVector3(-1, 1f), 5f);
         }
     }
 }

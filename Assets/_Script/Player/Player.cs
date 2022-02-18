@@ -39,7 +39,7 @@ public class Player : PlayerBase
     public void Win()
     {
         if (Game.Phase != PhaseType.Gaming) return;
-        Stop();
+        Stop(true);
         Play("Win");
         if (IsPlayer) Game.Enter<GameWin>();
     }
@@ -47,9 +47,8 @@ public class Player : PlayerBase
     public void Lose()
     {
         if (Game.Phase != PhaseType.Gaming) return;
-        Stop();
+        Stop(false);
         Play("Lose");
-        State.RestoreSave();
         if (IsPlayer) Game.Enter<GameLose>();
     }
 
@@ -57,13 +56,17 @@ public class Player : PlayerBase
     {
         if (Game.Phase != PhaseType.Gaming) return;
         State.Hp = 0;
-        Stop();
+        Stop(false);
         Play("Lose");
         if (IsPlayer) Game.Enter<GameLose>();
     }
 
-    public void Stop()
+    public void Stop(bool win)
     {
         Move.DisableMove();
+        if (!win)
+        {
+            State.RestoreSave();
+        }
     }
 }
