@@ -17,12 +17,21 @@ namespace Aya.TweenPro
         {
             var from = FromGetter();
             var to = ToGetter();
-            var result = ValueGetter();
+            Quaternion result;
             var temp = Quaternion.LerpUnclamped(from, to, factor);
-            if (AxisX) result.x = temp.x;
-            if (AxisY) result.y = temp.y;
-            if (AxisZ) result.z = temp.z;
-            if (AxisW) result.w = temp.w;
+            if (EnableAxis)
+            {
+                result = ValueGetter();
+                if (AxisX) result.x = temp.x;
+                if (AxisY) result.y = temp.y;
+                if (AxisZ) result.z = temp.z;
+                if (AxisW) result.w = temp.w;
+            }
+            else
+            {
+                result = temp;
+            }
+            
             ValueSetter(result);
             OnUpdate?.Invoke(result);
         }

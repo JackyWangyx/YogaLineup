@@ -1,10 +1,12 @@
 ﻿#if UTWEEN_TEXTMESHPRO
+using TMPro;
 using UnityEngine;
 
 namespace Aya.TweenPro
 {
     public interface ITMPCharacterModifier
     {
+        TMP_Text GetTarget { get; }
         bool ChangeGeometry { get; }
         bool ChangeColor { get; }
 

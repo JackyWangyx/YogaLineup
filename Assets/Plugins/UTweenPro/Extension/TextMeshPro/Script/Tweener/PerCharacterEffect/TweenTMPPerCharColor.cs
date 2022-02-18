@@ -15,6 +15,7 @@ namespace Aya.TweenPro
         public TMPPerCharEffectData EffectData = new TMPPerCharEffectData();
         public ColorOverlayMode Overlay;
 
+        public TMP_Text GetTarget => Target;
         public bool ChangeGeometry => false;
         public bool ChangeColor => true;
 

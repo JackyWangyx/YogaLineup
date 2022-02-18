@@ -20,11 +20,7 @@ namespace Aya.TweenPro
         {
             get
             {
-                if (_text == null)
-                {
-                    _text = GetComponent<TMP_Text>();
-                }
-
+                if (_text == null) _text = GetComponent<TMP_Text>();
                 return _text;
             }
         }
@@ -59,6 +55,7 @@ namespace Aya.TweenPro
                 if (!tweener.Active) continue;
                 if (tweener is ITMPCharacterModifier modifier)
                 {
+                    if (modifier.GetTarget != Text) continue;
                     Modifiers.Add(modifier);
                 }
             }

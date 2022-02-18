@@ -13,6 +13,7 @@ namespace Aya.TweenPro
     {
         public TextPerCharEffectData EffectData = new TextPerCharEffectData();
 
+        public Text GetTarget => Target;
         public override bool SupportIndependentAxis => false;
         public override bool SupportSetCurrentValue => false;
         public override Vector3 Value { get; set; }

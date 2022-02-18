@@ -17,12 +17,20 @@ namespace Aya.TweenPro
         {
             var from = FromGetter();
             var to = ToGetter();
-            var result = ValueGetter();
+            Vector3 result;
             var temp = Vector3.LerpUnclamped(from, to, factor);
-            if (AxisX) result.x = temp.x;
-            if (AxisY) result.y = temp.y;
-            if (AxisZ) result.z = temp.z;
-            // TODO.. 2-3 ms
+            if (EnableAxis)
+            {
+                result = ValueGetter();
+                if (AxisX) result.x = temp.x;
+                if (AxisY) result.y = temp.y;
+                if (AxisZ) result.z = temp.z;
+            }
+            else
+            {
+                result = temp;
+            }
+
             ValueSetter(result);
             OnUpdate?.Invoke(result);
         }

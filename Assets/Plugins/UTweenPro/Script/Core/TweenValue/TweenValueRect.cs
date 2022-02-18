@@ -19,13 +19,22 @@ namespace Aya.TweenPro
         {
             var from = FromGetter();
             var to = ToGetter();
-            var result = ValueGetter();
+            Rect result;
             var pos = Vector2.LerpUnclamped(from.position, to.position, factor);
             var size = Vector2.LerpUnclamped(from.size, to.size, factor);
-            if (AxisX) result.x = pos.x;
-            if (AxisY) result.y = pos.y;
-            if (AxisZ) result.width = size.x;
-            if (AxisW) result.height = size.y;
+            if (EnableAxis)
+            {
+                result = ValueGetter();
+                if (AxisX) result.x = pos.x;
+                if (AxisY) result.y = pos.y;
+                if (AxisZ) result.width = size.x;
+                if (AxisW) result.height = size.y;
+            }
+            else
+            {
+                result = new Rect(pos, size);
+            }
+
             ValueSetter(result);
             OnUpdate?.Invoke(result);
             OnUpdateEvent?.Invoke(result);

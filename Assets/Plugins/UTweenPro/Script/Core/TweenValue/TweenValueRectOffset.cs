@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using RectOffset = UnityEngine.RectOffset;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -17,15 +18,24 @@ namespace Aya.TweenPro
         {
             var from = FromGetter();
             var to = ToGetter();
-            var result = ValueGetter();
+            RectOffset result;
             var left = Mathf.RoundToInt(Mathf.LerpUnclamped(from.left, to.left, factor));
             var right = Mathf.RoundToInt(Mathf.LerpUnclamped(from.right, to.right, factor));
             var top = Mathf.RoundToInt(Mathf.LerpUnclamped(from.top, to.top, factor));
             var bottom = Mathf.RoundToInt(Mathf.LerpUnclamped(from.bottom, to.bottom, factor));
-            if (AxisX) result.left = left;
-            if (AxisY) result.right = right;
-            if (AxisZ) result.top = top;
-            if (AxisW) result.bottom = bottom;
+            if (EnableAxis)
+            {
+                result = ValueGetter();
+                if (AxisX) result.left = left;
+                if (AxisY) result.right = right;
+                if (AxisZ) result.top = top;
+                if (AxisW) result.bottom = bottom;
+            }
+            else
+            {
+                result = new RectOffset(left, right, top, bottom);
+            }
+
             ValueSetter(result);
             OnUpdate?.Invoke(result);
         }

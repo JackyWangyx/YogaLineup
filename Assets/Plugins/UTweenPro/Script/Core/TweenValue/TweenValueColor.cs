@@ -20,12 +20,21 @@ namespace Aya.TweenPro
         {
             var from = FromGetter();
             var to = ToGetter();
-            var result = ValueGetter();
+            Color result;
             var temp = ColorMode == ColorMode.FromTo ? Color.LerpUnclamped(from, to, factor) : Gradient.Evaluate(factor);
-            if (AxisX) result.r = temp.r;
-            if (AxisY) result.g = temp.g;
-            if (AxisZ) result.b = temp.b;
-            if (AxisW) result.a = temp.a;
+            if (EnableAxis)
+            {
+                result = ValueGetter();
+                if (AxisX) result.r = temp.r;
+                if (AxisY) result.g = temp.g;
+                if (AxisZ) result.b = temp.b;
+                if (AxisW) result.a = temp.a;
+            }
+            else
+            {
+                result = temp;
+            }
+
             ValueSetter(result);
             OnUpdate?.Invoke(result);
         }

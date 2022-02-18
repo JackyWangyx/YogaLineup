@@ -12,6 +12,17 @@ namespace Aya.TweenPro
     {
         [NonSerialized] public List<ITextCharacterModifier> Modifiers = new List<ITextCharacterModifier>();
 
+        public Text Text
+        {
+            get
+            {
+                if (_target == null) _target = GetComponent<Text>();
+                return _target;
+            }
+        }
+
+        private Text _target;
+
         public int Length { get; set; }
 
         [NonSerialized] public List<int> CharacterIndexList = new List<int>();
@@ -24,6 +35,7 @@ namespace Aya.TweenPro
                 if (!tweener.Active) continue;
                 if (tweener is ITextCharacterModifier modifier)
                 {
+                    if (Text != modifier.GetTarget) continue;
                     Modifiers.Add(modifier);
                 }
             }
