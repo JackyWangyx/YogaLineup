@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Aya.UI;
 using UnityEngine;
 
-public class UIReady : UIBase<UIReady>
+public class UIReady : UiWindow<UIReady>
 {
     public GameObject TouchTip;
     public GameObject TouchStartRunArea;
@@ -26,9 +26,9 @@ public class UIReady : UIBase<UIReady>
         };
     }
 
-    public override void Show()
+    public override void Show(params object[] args)
     {
-        base.Show();
+        base.Show(args);
 
         _clickStartRun = false;
         TouchTip.gameObject.SetActive(true);

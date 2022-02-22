@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class UIFollow : GameEntity
 {
-    public new Camera Camera;
     public Transform Target;
-    public RectTransform Ui;
     public Vector3 Offset;
 
     private Vector3 _position;
@@ -14,22 +12,13 @@ public class UIFollow : GameEntity
     protected override void Awake()
     {
         base.Awake();
-        if (Camera == null)
-        {
-            Camera = Camera.main;
-        }
-
-        if (Ui == null)
-        {
-            Ui = GetComponent<RectTransform>();
-        }
     }
 
     private void FixedUpdate()
     {
-        _position = GetFollowLocalPosition(Camera, Target);
+        _position = GetFollowLocalPosition(UI.Camera, Target);
         _position += Offset;
-        Ui.localPosition = _position;
+        Rect.localPosition = _position;
     }
 
     public static Vector3 GetFollowLocalPosition(Camera camera, Transform target)

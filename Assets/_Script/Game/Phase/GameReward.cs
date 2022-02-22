@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameReward : GamePhaseHandler
 {
-    public override PhaseType Type => PhaseType.Reward;
+    public override GamePhaseType Type => GamePhaseType.Reward;
 
     public override void Enter(params object[] args)
     {

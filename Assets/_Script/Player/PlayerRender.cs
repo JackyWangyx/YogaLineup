@@ -5,7 +5,7 @@ public class PlayerRender : PlayerBase
 {
     public Transform RenderTrans;
 
-    public GameObject RenderInstance { get; set; }
+    [SubPoolInstance] public GameObject RenderInstance { get; set; }
 
     public override void InitComponent()
     {
@@ -47,15 +47,19 @@ public class PlayerRender : PlayerBase
 
     public void RefreshRender(GameObject prefab)
     {
+        DeSpawnRenderer();
+        RenderInstance = GamePool.Spawn(prefab, RenderTrans);
+
+        ComponentDic.ForEach(c => c.Value.CacheRendererComponent());
+        Play(CurrentClip);
+    }
+
+    public void DeSpawnRenderer()
+    {
         if (RenderInstance != null)
         {
             GamePool.DeSpawn(RenderInstance);
             RenderInstance = null;
         }
-
-        RenderInstance = GamePool.Spawn(prefab, RenderTrans);
-
-        ComponentDic.ForEach(c => c.Value.CacheRendererComponent());
-        Play(CurrentClip);
     }
 }

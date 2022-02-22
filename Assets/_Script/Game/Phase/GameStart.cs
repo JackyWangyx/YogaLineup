@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GameStart : GamePhaseHandler
 {
-    public override PhaseType Type => PhaseType.Start;
+    public override GamePhaseType Type => GamePhaseType.Start;
 
     public override void Enter(params object[] args)
     {
         Camera.Switch("Game", Player.RendererTrans);
-        UI.Show<UIGame>();
+        UI.ShowWindow<UIGame>();
         Game.Enter<GamePlay>();
         Dispatch(GameEvent.Start);
     }

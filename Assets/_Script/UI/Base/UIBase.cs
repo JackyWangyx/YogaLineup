@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class UIBase : GameEntity
 {
-    public virtual void Show()
+    public virtual void Show(params object[] args)
     {
         gameObject.SetActive(true);
     }
@@ -12,26 +12,5 @@ public abstract class UIBase : GameEntity
     public virtual void Hide()
     {
         gameObject.SetActive(false);
-    }
-
-    public virtual void Refresh()
-    {
-
-    }
-
-    public virtual void Back()
-    {
-
-    }
-}
-
-public abstract class UIBase<T> : UIBase where T : UIBase<T>
-{
-    public static T Ins { get; protected set; }
-
-    protected override void Awake()
-    {
-        base.Awake();
-        Ins = this as T;
     }
 }

@@ -254,7 +254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 832763871066265864}
-  - component: {fileID: 8626648474917691729}
+  - component: {fileID: 6470940596102338122}
   m_Layer: 11
   m_Name: Item_GameWin
   m_TagString: Untagged
@@ -277,7 +277,7 @@ Transform:
   m_Father: {fileID: 1511409246713906751}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8626648474917691729
+--- !u!114 &6470940596102338122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -286,7 +286,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6329674503399316702}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1850c8cd5f796d040acf86112b04a5b6, type: 3}
+  m_Script: {fileID: 11500000, guid: b0be1bb70bcde8c40986857b81176495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LayerMask:
@@ -297,20 +297,22 @@ MonoBehaviour:
   EffectMode: 0
   EffectCount: 1
   EffectInterval: 1
+  Conditions: []
   RenderPrefabs: []
   RenderRandomPrefabs: []
   ItemGroupIndex: -1
-  Conditions: []
   ActiveList: []
   DeActiveList: []
+  ExcludeItems: []
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
-  ExcludeItems: []
-  VibrationType: -1
+  GamePhase: 4
+  Args: []
   references:
     version: 1
 --- !u!1 &8083985112042829592

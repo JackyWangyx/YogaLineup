@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIWin : UIBase<UIWin>
+public class UIWin : UiWindow<UIWin>
 {
     public void NextLevel()
     {

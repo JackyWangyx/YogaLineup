@@ -90,7 +90,7 @@ public class Level : GameEntity
         Game.PlayerList.Clear();
         for (var i = 0; i < PlayerCount; i++)
         {
-            var playerIns = GamePool.Spawn(Game.PlayerPrefab, null);
+            var playerIns = GamePool.Spawn(Game.PlayerPrefab, CurrentLevel.Trans);
             playerIns.State.Index = i;
             playerIns.State.IsPlayer = false;
             Game.PlayerList.Add(playerIns);

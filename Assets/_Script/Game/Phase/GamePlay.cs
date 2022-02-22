@@ -12,7 +12,7 @@ public enum GameResult
 
 public class GamePlay : GamePhaseHandler
 {
-    public override PhaseType Type => PhaseType.Gaming;
+    public override GamePhaseType Type => GamePhaseType.Gaming;
     private bool _isOver;
 
     public override void Enter(params object[] args)

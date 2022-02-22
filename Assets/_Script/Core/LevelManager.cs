@@ -25,7 +25,7 @@ public class LevelManager : GameEntity<LevelManager>
 
     public virtual void LevelStart()
     {
-        UI.HideAll();
+        UI.HideAllWindow();
         GamePool.DeSpawnAll();
         EffectPool.DeSpawnAll();
 

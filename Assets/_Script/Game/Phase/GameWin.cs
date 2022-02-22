@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GameWin : GamePhaseHandler
 {
-    public override PhaseType Type => PhaseType.Win;
+    public override GamePhaseType Type => GamePhaseType.Win;
 
     public override void Enter(params object[] args)
     {
         Camera.Switch("Finish");
-        UI.Show<UIWin>();
+        UI.ShowWindow<UIWin>();
         Dispatch(GameEvent.Win);
     }
 

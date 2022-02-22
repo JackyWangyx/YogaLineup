@@ -13,9 +13,9 @@ public class GameManager : GameEntity<GameManager>
     [FoldoutGroup("Misc")]
     public Transform PhaseHandler;
 
-    public PhaseType Phase { get; set; }
+    public GamePhaseType GamePhase { get; set; }
     public GamePhaseHandler CurrentPhase { get; set; }
-    public Dictionary<PhaseType, GamePhaseHandler> PhaseDic { get; protected set; }
+    public Dictionary<GamePhaseType, GamePhaseHandler> PhaseDic { get; protected set; }
     public Dictionary<Type, GamePhaseHandler> PhaseTypeDic { get; protected set; }
     public List<GamePhaseHandler> PhaseList { get; protected set; }
 
@@ -25,7 +25,7 @@ public class GameManager : GameEntity<GameManager>
     {
         base.Awake();
         Time.timeScale = 1f;
-        Phase = PhaseType.None;
+        GamePhase = GamePhaseType.None;
         CurrentPhase = null;
 
         State = GetComponent<GameState>();
@@ -61,16 +61,16 @@ public class GameManager : GameEntity<GameManager>
         Enter(nextPhase, args);
     }
 
-    public void Enter(PhaseType phaseType, params object[] args)
+    public void Enter(GamePhaseType gamePhaseType, params object[] args)
     {
-        var nextPhase = PhaseDic[phaseType];
+        var nextPhase = PhaseDic[gamePhaseType];
         Enter(nextPhase, args);
     }
 
     public void Enter(GamePhaseHandler nextPhase, params object[] args)
     {
         if (CurrentPhase != null) CurrentPhase.Exit();
-        Phase = nextPhase.Type;
+        GamePhase = nextPhase.Type;
         CurrentPhase = nextPhase;
         nextPhase.Enter(args);
     }

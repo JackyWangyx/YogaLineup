@@ -27,8 +27,8 @@ public abstract class GameEntity : MonoListener
     public Player Player => Game.Player;
     public List<Player> PlayerList => Game.PlayerList;
 
-    public EntityPool GamePool => PoolManager.Ins["Game"];
-    public EntityPool UIPool => PoolManager.Ins["UI"];
+    public EntityPool GamePool => PoolManager.Ins?["Game"];
+    public EntityPool UIPool => PoolManager.Ins?["UI"];
     public EntityPool EffectPool => ParticleSpawner.EntityPool;
 
     public virtual float DeltaTime => Time.deltaTime * SelfScale;
@@ -312,11 +312,11 @@ public abstract class GameEntity : MonoListener
             if (instance == null) continue;
             if (instance is GameObject go)
             {
-                GamePool.DeSpawn(go);
+                GamePool?.DeSpawn(go);
             }
             else if (instance is MonoBehaviour behaviour)
             {
-                GamePool.DeSpawn(behaviour.gameObject);
+                GamePool?.DeSpawn(behaviour.gameObject);
             }
 
             propertyInfo.SetValue(this, null);

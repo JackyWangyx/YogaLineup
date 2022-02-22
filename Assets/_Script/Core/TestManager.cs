@@ -61,7 +61,7 @@ public class TestManager : GameEntity<TestManager>
     [BoxGroup("Game"), Button("Go To Finish")]
     public void GoToFinish()
     {
-        var block = CurrentLevel.GetItem<ItemGameEndless>().GetComponentInParent<LevelBlock>();
+        var block = CurrentLevel.GetItems<ItemChangeGamePhase>().Find(i => i.GamePhase == GamePhaseType.Win).GetComponentInParent<LevelBlock>();
         Player.Move.PathFollower.EnterBlock(CurrentLevel.BlockInsList.IndexOf(block));
         Player.Move.PathFollower.Move(0f);
     }

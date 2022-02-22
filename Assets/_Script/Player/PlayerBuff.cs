@@ -33,7 +33,7 @@ public class PlayerBuff : PlayerBase
     public void Update()
     {
         var deltaTime = DeltaTime;
-        if (Game.Phase != PhaseType.Gaming) return;
+        if (Game.GamePhase != GamePhaseType.Gaming) return;
         BuffManager.Update(deltaTime);
     }
 }

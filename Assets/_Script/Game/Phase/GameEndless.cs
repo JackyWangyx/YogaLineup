@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameEndless : GamePhaseHandler
 {
-    public override PhaseType Type => PhaseType.Endless;
+    public override GamePhaseType Type => GamePhaseType.Endless;
 
     public override void Enter(params object[] args)
     {

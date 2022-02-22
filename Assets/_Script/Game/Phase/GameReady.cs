@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GameReady : GamePhaseHandler
 {
-    public override PhaseType Type => PhaseType.Ready;
+    public override GamePhaseType Type => GamePhaseType.Ready;
 
     public override void Enter(params object[] args)
     {
         Camera.Switch("Ready");
-        UI.Show<UIReady>();
+        UI.ShowWindow<UIReady>();
         Dispatch(GameEvent.Ready);
     }
 

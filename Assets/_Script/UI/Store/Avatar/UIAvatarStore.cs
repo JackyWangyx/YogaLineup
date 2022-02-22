@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Aya.Extension;
 using UnityEngine;
 
-public class UIAvatarStore : UIStoreBase<UIAvatarStore, UIAvatarItem, AvatarData>
+public class UIAvatarStore : UiStoreWindow<UIAvatarStore, UIAvatarItem, AvatarData>
 {
     public override List<AvatarData> DataSources => AvatarSetting.Ins.Datas;
     public Transform PreviewTrans;

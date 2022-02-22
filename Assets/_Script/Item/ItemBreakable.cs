@@ -18,6 +18,8 @@ public class ItemBreakable : ItemBase<Player>
 {
     [BoxGroup("Breakable")] public bool EnableBreak;
     [BoxGroup("Breakable"), ShowIf("EnableBreak")] public float ExplodeForce;
+    [BoxGroup("Breakable"), ShowIf("EnableBreak")] public Vector3 ExplodeCenter;
+    [BoxGroup("Breakable"), ShowIf("EnableBreak")] public float ExplodeRange;
     [BoxGroup("Breakable"), ShowIf("EnableBreak")] public Transform NormalTrans;
     [BoxGroup("Breakable"), ShowIf("EnableBreak")] public Transform BrokenTrans;
     [BoxGroup("Breakable"), ShowIf("EnableBreak")] public List<Transform> BrokenList;
@@ -98,7 +100,7 @@ public class ItemBreakable : ItemBase<Player>
         {
             var data = BrokenDatas[i];
             data.Transform.gameObject.SetActive(true);
-            data.Rigidbody.AddExplosionForce(ExplodeForce, Position, 2f);
+            data.Rigidbody.AddExplosionForce(ExplodeForce, Position + ExplodeCenter, ExplodeRange);
             this.ExecuteDelay(() => { data.Transform.gameObject.SetActive(false); }, RandUtil.RandFloat(3, 6));
         }
     }

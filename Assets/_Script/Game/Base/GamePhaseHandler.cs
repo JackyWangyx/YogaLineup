@@ -1,5 +1,5 @@
 ﻿
-public enum PhaseType
+public enum GamePhaseType
 {
     None = -1,
     Ready,
@@ -14,7 +14,7 @@ public enum PhaseType
 
 public abstract class GamePhaseHandler : GameEntity<GamePhaseHandler>
 {
-    public abstract PhaseType Type { get; }
+    public abstract GamePhaseType Type { get; }
 
     public virtual void Enter(params object[] args)
     {

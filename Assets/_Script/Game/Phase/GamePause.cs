@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GamePause : GamePhaseHandler
 {
-    public override PhaseType Type => PhaseType.Pause;
+    public override GamePhaseType Type => GamePhaseType.Pause;
 
     public override void Enter(params object[] args)
     {

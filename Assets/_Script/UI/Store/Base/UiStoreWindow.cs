@@ -4,8 +4,8 @@ using Aya.Extension;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class UIStoreBase<TUI, TItem, TData> : UIBase<TUI>
-    where TUI : UIStoreBase<TUI, TItem, TData>
+public abstract class UiStoreWindow<TUI, TItem, TData> : UiWindow<TUI>
+    where TUI : UiStoreWindow<TUI, TItem, TData>
     where TItem : UIStoreItemBase<TData>
     where TData : StoreData
 {
@@ -24,9 +24,9 @@ public abstract class UIStoreBase<TUI, TItem, TData> : UIBase<TUI>
 
     public abstract List<TData> DataSources { get; }
 
-    public override void Show()
+    public override void Show(params object[] args)
     {
-        base.Show();
+        base.Show(args);
 
         foreach (var uiShopItem in ItemInsList)
         {
@@ -67,7 +67,7 @@ public abstract class UIStoreBase<TUI, TItem, TData> : UIBase<TUI>
 
     public override void Back()
     {
-        UI.Show<UIReady>();
+        UI.ShowWindow<UIReady>();
     }
 
     public void Buy()

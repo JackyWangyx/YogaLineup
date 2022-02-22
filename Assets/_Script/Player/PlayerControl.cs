@@ -17,7 +17,7 @@ public class PlayerControl : PlayerBase
     public void Update()
     {
         var deltaTime = DeltaTime;
-        if (Game.Phase != PhaseType.Gaming) return;
+        if (Game.GamePhase != GamePhaseType.Gaming) return;
 
         if (State.EnableRun)
         {
@@ -41,7 +41,7 @@ public class PlayerControl : PlayerBase
             }
         }
 
-        var canInput = Game.Phase == PhaseType.Gaming && State.EnableInput;
+        var canInput = Game.GamePhase == GamePhaseType.Gaming && State.EnableInput;
         var turnX = Self.Render.RenderTrans.localPosition.x;
         if (canInput)
         {

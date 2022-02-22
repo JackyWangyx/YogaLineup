@@ -5,7 +5,7 @@ using Aya.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIGame : UIBase<UIGame>
+public class UIGame : UiWindow<UIGame>
 {
     public UILevelProgress LevelProgress;
 
@@ -16,9 +16,9 @@ public class UIGame : UIBase<UIGame>
         base.Awake();
     }
 
-    public override void Show()
+    public override void Show(params object[] args)
     {
-        base.Show();
+        base.Show(args);
     }
 
     public void Update()
