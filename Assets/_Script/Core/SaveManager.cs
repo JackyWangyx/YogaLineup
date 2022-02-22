@@ -15,7 +15,7 @@ public class SaveManager : GameEntity<SaveManager>
 {
     public sInt LevelIndex = new sInt(nameof(LevelIndex), 1);
     public sInt RandLevelIndex = new sInt(nameof(RandLevelIndex), 0);
-    public SaveSlotData Data { get; set; }
+    public SaveSlotData Data { get; set; } = new SaveSlotData(nameof(SaveSlotData));
 
     public sInt Coin;
     public sInt Key;
@@ -26,8 +26,6 @@ public class SaveManager : GameEntity<SaveManager>
         base.Awake();
         Coin = new sInt(nameof(Coin), GetSetting<GeneralSetting>().DefaultCoin);
         Key = new sInt(nameof(Key), GetSetting<GeneralSetting>().DefaultKey);
-
-        Load();
     }
 
     protected override void OnDestroy()
@@ -38,8 +36,6 @@ public class SaveManager : GameEntity<SaveManager>
 
     public void Load()
     {
-        Data = sObject<SaveSlotData>.Load(nameof(SaveSlotData));
-        if (Data == null) Data = new SaveSlotData(nameof(SaveSlotData));
     }
 
     public void SaveSync()
