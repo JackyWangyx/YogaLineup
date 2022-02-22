@@ -62,8 +62,9 @@ public class TestManager : GameEntity<TestManager>
     public void GoToFinish()
     {
         var block = CurrentLevel.GetItems<ItemChangeGamePhase>().Find(i => i.GamePhase == GamePhaseType.Win).GetComponentInParent<LevelBlock>();
-        Player.Move.PathFollower.EnterBlock(CurrentLevel.BlockInsList.IndexOf(block));
-        Player.Move.PathFollower.Move(0f);
+        var control = Player.Control as PlayerControlPath;
+        control.PathFollower.EnterBlock(CurrentLevel.BlockInsList.IndexOf(block));
+        control.PathFollower.Move(0f);
     }
 
     [BoxGroup("Data"), Button("Add Coin 100")]

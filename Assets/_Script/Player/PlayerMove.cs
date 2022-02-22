@@ -9,19 +9,6 @@ public class PlayerMove : PlayerBase
     public float TurnSpeed;
     public float TurnLerpSpeed;
 
-    public PathFollower PathFollower { get; set; }
-
-    public override void InitComponent()
-    {
-        PathFollower.Init(Self);
-    }
-
-    public override void CacheComponent()
-    {
-        base.CacheComponent();
-        PathFollower = gameObject.GetOrAddComponent<PathFollower>();
-    }
-
     public void EnableMove()
     {
         State.EnableRun = true;
