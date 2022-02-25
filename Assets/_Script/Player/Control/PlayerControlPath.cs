@@ -5,28 +5,16 @@ using UnityEngine;
 
 public class PlayerControlPath : PlayerControl
 {
-    public PathFollower PathFollower { get; set; }
 
     private bool _isMouseDown;
     private Vector3 _startMousePos;
     private float _startX;
 
-    public override void InitComponent()
-    {
-        PathFollower.Init(Self);
-    }
-
-    public override void CacheComponent()
-    {
-        base.CacheComponent();
-        PathFollower = gameObject.GetOrAddComponent<PathFollower>();
-    }
-
     public override void UpdateImpl(float deltaTime)
     {
         if (State.EnableRun)
         {
-            var nextPathPos = PathFollower.Move(Move.RunSpeed * State.SpeedMultiply * deltaTime);
+            var nextPathPos = Move.MovePath(Move.MoveSpeed * State.SpeedMultiply * deltaTime);
             var nextPos = nextPathPos;
 
             if (nextPos != transform.position)

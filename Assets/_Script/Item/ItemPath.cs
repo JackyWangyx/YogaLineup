@@ -36,8 +36,6 @@ public class ItemPath : ItemBase<Player>
     public override void OnTargetEffect(Player target)
     {
         target.State.EnableInput = EnableInput;
-        var pathControl = target.Control as PlayerControlPath;
-        if (pathControl == null) return;
 
         if (ChangeSpeed)
         {
@@ -46,7 +44,7 @@ public class ItemPath : ItemBase<Player>
 
         if (SwitchPath )
         {
-            pathControl.PathFollower.SwitchPath(BlockIndex, SwitchPathIndex);
+            target.Move.SwitchPath(BlockIndex, SwitchPathIndex);
         }
 
         target.State.LimitTurnRange = LimitRange;
@@ -56,7 +54,7 @@ public class ItemPath : ItemBase<Player>
         }
         else
         {
-            target.State.TurnRange = pathControl.PathFollower.CurrentPath.TurnRange;
+            target.State.TurnRange = target.Move.CurrentPath.TurnRange;
         }
 
         if (GoToCenter)

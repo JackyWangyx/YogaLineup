@@ -35,7 +35,7 @@ public class UILevelProgress : GameEntity
         TextPoint.text = Game.Player.State.Point.ToString();
         TextPoint.color = Game.Player.Data.Color;
 
-        var factor = (Player.Control as PlayerControlPath).PathFollower.Factor;
+        var factor = Player.Move.PathFollower.Factor;
         Progress.fillAmount = Mathf.Lerp(Progress.fillAmount, factor, Time.deltaTime * 2f);
 
         var width = _barRect.GetSize().x;

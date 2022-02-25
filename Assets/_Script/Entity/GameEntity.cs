@@ -32,6 +32,8 @@ public abstract class GameEntity : MonoListener
     public EntityPool EffectPool => ParticleSpawner.EntityPool;
 
     public virtual float DeltaTime => Time.deltaTime * SelfScale;
+    public virtual float FixedDeltaTime => Time.fixedDeltaTime * SelfScale;
+
     public virtual float SelfScale { get; set; }
 
     protected override void Awake()
@@ -50,7 +52,6 @@ public abstract class GameEntity : MonoListener
     public virtual void CacheComponent()
     {
         Rect = GetComponent<RectTransform>();
-        Rigidbody = GetComponent<Rigidbody>();
         RendererTrans = transform.FindInAllChildFuzzy(nameof(Renderer));
 
         CacheRendererComponent();
@@ -59,6 +60,7 @@ public abstract class GameEntity : MonoListener
 
     public virtual void CacheRendererComponent()
     {
+        Rigidbody = GetComponentInChildren<Rigidbody>();
         Renderer = GetComponentInChildren<Renderer>();
         Animator = GetComponentInChildren<Animator>();
     }

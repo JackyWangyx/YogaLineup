@@ -4,10 +4,8 @@ using UnityEngine;
 
 public abstract class UISceneItem : UIBase
 {
-    public GameEntity Target;
+    public GameEntity Target { get; set; }
     public Vector3 Offset;
-
-    protected Vector3 CachePosition;
 
     public virtual void Show(GameEntity target, params object[] args)
     {
@@ -21,25 +19,17 @@ public abstract class UISceneItem : UIBase
         Target = null;
     }
 
-    public virtual void FixedUpdate()
+    public virtual void LateUpdate()
     {
         if (Target == null) return;
-        CachePosition = GetFollowLocalPosition(UI.Camera, Trans);
-        CachePosition += Offset;
-        Rect.localPosition = CachePosition;
-    }
-
-    public Vector3 GetFollowLocalPosition(Camera camera, Transform target)
-    {
-        var position = camera.WorldToScreenPoint(target.position);
-        Content.FormatPosition(ref position);
-        return position;
+        var position = RectTransformUtility.WorldToScreenPoint(UnityEngine.Camera.main, Target.Position);
+        Rect.position = (Vector3)position + Offset;
     }
 }
 
 public abstract class UISceneItem<TTarget> : UISceneItem where TTarget : GameEntity
 {
-    public new TTarget Target;
+    public TTarget TargetGeneric => Target as TTarget;
 
     public override void Show(GameEntity target, params object[] args)
     {

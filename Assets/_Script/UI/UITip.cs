@@ -4,7 +4,6 @@ using UnityEngine;
 public class UITip : GameEntity<UITip>
 {
     public Camera TargetCamera;
-    public Camera UiCamera;
     public UITipItem DefaultTipPrefab;
 
     public EntityPool Pool => PoolManager.Ins["Tip"];
@@ -23,7 +22,7 @@ public class UITip : GameEntity<UITip>
 
     public UITipItem ShowTip(UITipItem tipPrefab, Vector3 position)
     {
-        var uiPosition = WorldToUiPos(position, TargetCamera, UiCamera);
+        var uiPosition = WorldToUiPos(position, TargetCamera);
         return ShowTipWithUiPos(tipPrefab, uiPosition);
     }
 
@@ -35,10 +34,9 @@ public class UITip : GameEntity<UITip>
         return tip;
     }
 
-    public Vector3 WorldToUiPos(Vector3 worldPosition, Camera targetCamera, Camera uiCamera)
+    public Vector3 WorldToUiPos(Vector3 worldPosition, Camera targetCamera)
     {
-        var uiPosition = targetCamera.WorldToScreenPoint(worldPosition);
-        Content.FormatPosition(ref uiPosition);
+        var uiPosition = RectTransformUtility.WorldToScreenPoint(targetCamera, worldPosition);
         return uiPosition;
     }
 }
