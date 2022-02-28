@@ -12,23 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a110056aa82c370488793df1997235f8, type: 3}
   m_Name: PlayerSetting
   m_EditorClassIdentifier: 
+  InitPoint: 0
   PlayerDatas:
   - Point: 0
-    Player: {fileID: 998857136664910943, guid: fd6114c19d595e543a2887a7b5ac2258, type: 3}
+    Size: 1
     ChangeFx: {fileID: 0}
     Color: {r: 1, g: 0, b: 0, a: 1}
   - Point: 10
-    Player: {fileID: 7282428935734915358, guid: c6b75fdf9362a454a96d6ce0ba1aa39d,
-      type: 3}
+    Size: 1
     ChangeFx: {fileID: 0}
     Color: {r: 1, g: 0.9372188, b: 0, a: 1}
   - Point: 50
-    Player: {fileID: 9059259257126383091, guid: aaf5b1bfd41bf394f9a3989d718cadb2,
-      type: 3}
+    Size: 1
     ChangeFx: {fileID: 0}
     Color: {r: 0.07629752, g: 1, b: 0, a: 1}
   - Point: 100
-    Player: {fileID: 6079163831003310490, guid: dabce3aa03851ac4faf8f156e2f722a4,
-      type: 3}
+    Size: 1
     ChangeFx: {fileID: 0}
     Color: {r: 0, g: 0.7695224, b: 1, a: 1}

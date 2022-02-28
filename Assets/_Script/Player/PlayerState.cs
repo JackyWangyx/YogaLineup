@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerState : PlayerBase
 {
     [NonSerialized] public new int Index;
     [NonSerialized] public new bool IsPlayer;
-    
+    /// <summary>
+    /// 包括本体的少女列表(本体为0)
+    /// </summary>
+    [NonSerialized] public List<Animator> YogaGirlList = new List<Animator>();
+
     // Health
     [NonSerialized] public int Hp;
 
@@ -26,7 +31,6 @@ public class PlayerState : PlayerBase
     [NonSerialized] public float SpeedMultiply;
 
     [NonSerialized] public float EndlessRewardRate;
-
 
     private int _cacheCoin;
 
@@ -51,6 +55,14 @@ public class PlayerState : PlayerBase
 
         CacheSave();
     }
+
+    //public void ChangePoint(int diff)
+    //{
+    //    State.PointChanged = true;
+    //    State.Point += diff;
+    //    if (State.Point < 0) State.Point = 0;
+    //    Render.RefreshRender(State.Point);
+    //}
 
     public void ChangePoint(int diff)
     {

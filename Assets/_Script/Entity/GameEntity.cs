@@ -184,6 +184,34 @@ public abstract class GameEntity : MonoListener
         }
     }
 
+    public void Play(string animationClipName, Animator Animator)
+    {
+        if (Animator != null)
+        {
+            if (!string.IsNullOrEmpty(_lastAnimationClipName) && Animator.CheckParameterExist(_lastAnimationClipName, AnimatorControllerParameterType.Bool))
+            {
+                Animator.SetBool(_lastAnimationClipName, false);
+            }
+            if (!string.IsNullOrEmpty(_lastAnimationClipName) && Animator.CheckParameterExist(_lastAnimationClipName, AnimatorControllerParameterType.Trigger))
+            {
+                Animator.ResetTrigger(_lastAnimationClipName);
+            }
+
+            if (Animator.CheckParameterExist(animationClipName, AnimatorControllerParameterType.Bool))
+            {
+                Animator.SetBool(animationClipName, true);
+            }
+            else if (Animator.CheckParameterExist(animationClipName, AnimatorControllerParameterType.Trigger))
+            {
+                Animator.SetTrigger(animationClipName);
+            }
+            else if (Animator.CheckClipExist(animationClipName))
+            {
+                Animator.Play(animationClipName);
+            }
+        }
+    }
+
     public void Play(string animationClipName, bool immediately = false)
     {
         CurrentClip = animationClipName;

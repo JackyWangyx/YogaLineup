@@ -104,7 +104,7 @@ public class PlayerControlPath : PlayerControl
 
     public IEnumerator YogaControl()
     {
-        var lastX = 0f;
+        //var lastX = 0f;
         while (true)
         {
             if (State.EnableRun)
@@ -114,13 +114,13 @@ public class PlayerControlPath : PlayerControl
                 else if (_targetIndex > _yogaIndex)
                     _yogaIndex++;
                 string yogaStr = _yogaList[_targetIndex];
-                var nowX = _scale * _yogaIndex;
-                var length = Mathf.Abs(_scale * _targetIndex - lastX);
+                //var nowX = _scale * _yogaIndex;
+                //var length = Mathf.Abs(_scale * _targetIndex - lastX);
                 //Animator.speed = Mathf.Lerp(0f, 10f, length / Move.TurnLerpSpeed) + 0.3f;
                 Play(yogaStr);
                 //Animator.Play(yogaStr);
                 //Animator.SetTrigger(yogaStr);
-                lastX = nowX;
+                //lastX = nowX;
                 yield return null;
                 //yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
             }
