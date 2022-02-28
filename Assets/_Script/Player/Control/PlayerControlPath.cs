@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerControlPath : PlayerControl
 {
-
+    public List<string> _yogaList;
     private bool _isMouseDown;
     private Vector3 _startMousePos;
     private float _startX;
@@ -60,5 +60,21 @@ public class PlayerControlPath : PlayerControl
         turnX = Mathf.Clamp(turnX, State.TurnRange.x, State.TurnRange.y);
         turnX = Mathf.Lerp(Self.Render.RenderTrans.localPosition.x, turnX, Move.TurnLerpSpeed * deltaTime);
         Self.Render.RenderTrans.SetLocalPositionX(turnX);
+        UpdateYoga();
+    }
+
+    /// <summary>
+    /// 计算瑜伽动作
+    /// </summary>
+    public void UpdateYoga()
+    {
+        float yogaF = Mathf.Clamp(Self.Render.RenderTrans.GetLocalPositionX(), State.TurnRange.x, State.TurnRange.y);
+        yogaF -= State.TurnRange.x;
+        float range = State.TurnRange.y - State.TurnRange.x;
+        float scale = range / _yogaList.Count;
+        int index = (int)Mathf.Ceil(yogaF / scale);
+        if (index == _yogaList.Count)
+            index--;
+        string yogaStr = _yogaList[index];
     }
 }
