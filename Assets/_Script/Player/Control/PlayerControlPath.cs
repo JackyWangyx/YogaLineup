@@ -5,10 +5,31 @@ using UnityEngine;
 
 public class PlayerControlPath : PlayerControl
 {
-    public List<string> _yogaList;
+    private List<string> _yogaList = new List<string>();
     private bool _isMouseDown;
     private Vector3 _startMousePos;
     private float _startX;
+    /// <summary>
+    /// 当前的瑜伽动作
+    /// </summary>
+    private int _yogaIndex;
+    /// <summary>
+    /// 目标瑜伽动作
+    /// </summary>
+    private int _targetIndex;
+    /// <summary>
+    /// 转向力度
+    /// </summary>
+    private float _turnPower;
+    /// <summary>
+    /// 基础比例
+    /// </summary>
+    private float _scale;
+
+    public override void InitComponent()
+    {
+        _yogaList.Clear();
+    }
 
     public override void UpdateImpl(float deltaTime)
     {
@@ -59,8 +80,52 @@ public class PlayerControlPath : PlayerControl
 
         turnX = Mathf.Clamp(turnX, State.TurnRange.x, State.TurnRange.y);
         turnX = Mathf.Lerp(Self.Render.RenderTrans.localPosition.x, turnX, Move.TurnLerpSpeed * deltaTime);
+        _turnPower = Mathf.Abs(Self.Render.RenderTrans.localPosition.x - turnX);
         Self.Render.RenderTrans.SetLocalPositionX(turnX);
         UpdateYoga();
+    }
+
+    /// <summary>
+    /// 初始化瑜伽动作
+    /// </summary>
+    public override void InitYoga()
+    {
+        foreach (var parameter in Animator.parameters)
+        {
+            if (parameter.type == AnimatorControllerParameterType.Trigger)
+                _yogaList.Add(parameter.name);
+        }
+        float range = State.TurnRange.y - State.TurnRange.x;
+        _scale = range / _yogaList.Count;
+        int index = (int)Mathf.Floor(_yogaList.Count / 2);
+        _targetIndex = index;
+        StartCoroutine(YogaControl());
+    }
+
+    public IEnumerator YogaControl()
+    {
+        var lastX = 0f;
+        while (true)
+        {
+            if (State.EnableRun)
+            {
+                if (_targetIndex < _yogaIndex)
+                    _yogaIndex--;
+                else if (_targetIndex > _yogaIndex)
+                    _yogaIndex++;
+                string yogaStr = _yogaList[_targetIndex];
+                var nowX = _scale * _yogaIndex;
+                var length = Mathf.Abs(_scale * _targetIndex - lastX);
+                //Animator.speed = Mathf.Lerp(0f, 10f, length / Move.TurnLerpSpeed) + 0.3f;
+                Play(yogaStr);
+                //Animator.Play(yogaStr);
+                //Animator.SetTrigger(yogaStr);
+                lastX = nowX;
+                yield return null;
+                //yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+            }
+            yield return null;
+        }
     }
 
     /// <summary>
@@ -70,11 +135,11 @@ public class PlayerControlPath : PlayerControl
     {
         float yogaF = Mathf.Clamp(Self.Render.RenderTrans.GetLocalPositionX(), State.TurnRange.x, State.TurnRange.y);
         yogaF -= State.TurnRange.x;
-        float range = State.TurnRange.y - State.TurnRange.x;
-        float scale = range / _yogaList.Count;
-        int index = (int)Mathf.Ceil(yogaF / scale);
-        if (index == _yogaList.Count)
-            index--;
-        string yogaStr = _yogaList[index];
+        int index = (int)Mathf.Floor(yogaF / _scale);
+        if (index >= _yogaList.Count)
+            index = _yogaList.Count - 1;
+        if (index < 0)
+            index = 0;
+        _targetIndex = index;
     }
 }

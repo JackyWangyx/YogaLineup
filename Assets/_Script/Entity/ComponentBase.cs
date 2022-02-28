@@ -14,7 +14,6 @@ public abstract class ComponentBase<T> : GameEntity where T : ComponentBase<T>
         {
             component.InitComponent();
         }
-
         InitAnimator();
     }
 

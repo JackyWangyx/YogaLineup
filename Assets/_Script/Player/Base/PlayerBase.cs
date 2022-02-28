@@ -18,6 +18,5 @@ public class PlayerBase : ComponentBase<PlayerBase>
     [SubComponent] public PlayerAi Ai { get; set; }
 
     [SubComponent] public PlayerHealth Health { get; set; }
-
     [SubComponent] public PlayerRender Render { get; set; }
 }

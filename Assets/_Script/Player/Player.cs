@@ -14,6 +14,7 @@ public class Player : PlayerBase
     public void Init()
     {
         InitAllComponent();
+        Control.InitYoga();
 
         Play("Idle", true);
         Trans.position = Vector3.zero;

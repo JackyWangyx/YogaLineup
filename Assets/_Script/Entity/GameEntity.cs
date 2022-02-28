@@ -194,6 +194,10 @@ public abstract class GameEntity : MonoListener
             {
                 Animator.SetBool(_lastAnimationClipName, false);
             }
+            if (!string.IsNullOrEmpty(_lastAnimationClipName) && Animator.CheckParameterExist(_lastAnimationClipName, AnimatorControllerParameterType.Trigger))
+            {
+                Animator.ResetTrigger(_lastAnimationClipName);
+            }
 
             if (!immediately)
             {

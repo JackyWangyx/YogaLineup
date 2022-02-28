@@ -11,6 +11,8 @@ public abstract class PlayerControl : PlayerBase
         UpdateImpl(deltaTime);
     }
 
+    public virtual void InitYoga() { }
+
     public virtual void UpdateImpl(float deltaTime)
     {
 
