@@ -31,6 +31,7 @@ public class PlayerState : PlayerBase
     [NonSerialized] public float SpeedMultiply;
 
     [NonSerialized] public float EndlessRewardRate;
+    [NonSerialized] public GameObject YoGaGirlPrefab;
 
     private int _cacheCoin;
 

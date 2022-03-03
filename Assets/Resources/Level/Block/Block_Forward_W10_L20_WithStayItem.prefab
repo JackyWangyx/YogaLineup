@@ -375,25 +375,25 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  DeSpawnMode: 0
+  DeSpawnMode: 1
   DeActiveRender: 0
-  EffectMode: 3
+  EffectMode: 0
   EffectCount: 1
   EffectInterval: 0.1
+  Conditions: []
   RenderPrefabs: []
   RenderRandomPrefabs: []
   ItemGroupIndex: -1
-  Conditions: []
   ActiveList: []
   DeActiveList: []
+  ExcludeItems: []
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
-  ExcludeItems: []
-  VibrationType: -1
   AddValue: 1
   MultiplyValue: 1
   Text: {fileID: 0}

@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d05beb1c44494438dea35a12ef6cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerCount: 1
   BlockList:
   - {fileID: 5544521688552719528, guid: ab51679fe393c934ca106c226fe50293, type: 3}
   - {fileID: 3210313509215749129, guid: a28b7f2292f4e544e9fcd18acd96ebb1, type: 3}

@@ -18,15 +18,15 @@ MonoBehaviour:
     Size: 1
     ChangeFx: {fileID: 0}
     Color: {r: 1, g: 0, b: 0, a: 1}
-  - Point: 10
+  - Point: 999
     Size: 1
     ChangeFx: {fileID: 0}
     Color: {r: 1, g: 0.9372188, b: 0, a: 1}
-  - Point: 50
+  - Point: 999
     Size: 1
     ChangeFx: {fileID: 0}
     Color: {r: 0.07629752, g: 1, b: 0, a: 1}
-  - Point: 100
+  - Point: 999
     Size: 1
     ChangeFx: {fileID: 0}
     Color: {r: 0, g: 0.7695224, b: 1, a: 1}

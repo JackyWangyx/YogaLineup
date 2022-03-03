@@ -51,6 +51,8 @@ public class ItemPoint : ItemBase<Player>
         if (diff < 0 && target.State.IsInvincible) return;
         target.State.ChangePoint(diff);
 
+        target.Render.AddRender(Player.State.YoGaGirlPrefab, Player.Data.Size);
+
         if (ShowTip)
         {
             UITip.Ins.ShowTip(transform.position).Set(TextValue, diff > 0 ? GoodTipColor : BadTipColor);

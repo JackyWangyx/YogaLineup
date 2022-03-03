@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : PlayerBase
 {
     public PlayerData Data { get; set; }
+    public new string CurrentClip => Control.CurrentClip;
 
     protected override void Awake()
     {
@@ -16,7 +17,6 @@ public class Player : PlayerBase
         InitAllComponent();
         Control.InitYoga();
 
-        Play("Idle", true);
         Trans.position = Vector3.zero;
         Trans.forward = Vector3.forward;
     }

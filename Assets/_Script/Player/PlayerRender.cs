@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerRender : PlayerBase
 {
     public Transform RenderTrans;
+    public Transform GirlListTrans;
 
     [SubPoolInstance] public GameObject RenderInstance { get; set; }
 
@@ -65,8 +66,8 @@ public class PlayerRender : PlayerBase
             State.Rank = rank;
             Self.Data = data;
 
-            var playerRendererPrefab = AvatarSetting.Ins.SelectedAvatarList[rank];
-            RefreshRender(playerRendererPrefab);
+            State.YoGaGirlPrefab = AvatarSetting.Ins.SelectedAvatarList[rank];
+            RefreshRender(State.YoGaGirlPrefab);
 
             this.ExecuteNextFrame(() =>
             {
@@ -80,19 +81,22 @@ public class PlayerRender : PlayerBase
 
     public void AddRender(GameObject prefab, float Size)
     {
-        var trans = RenderTrans;
-        trans.SetLocalPositionZ((YogaGirlList.Count - 1) * Size);
-        var girl = GamePool.Spawn(prefab, RenderTrans);
+        var trans = Vector3.zero;
+        trans.z = YogaGirlList.Count * Size;
+        var girl = GamePool.Spawn(prefab, GirlListTrans, trans);
+        girl.AddComponent<GirlFollow>();
         var animator = girl.GetComponentInChildren<Animator>();
         YogaGirlList.Add(animator);
 
-        Play(CurrentClip, animator);
+        Play(Player.CurrentClip, animator);
     }
 
     public void RefreshRender(GameObject prefab)
     {
         DeSpawnRenderer();
         RenderInstance = GamePool.Spawn(prefab, RenderTrans);
+        var animator = RenderInstance.GetComponentInChildren<Animator>();
+        YogaGirlList.Add(animator);
 
         ComponentDic.ForEach(c => c.Value.CacheRendererComponent());
         Play(CurrentClip);

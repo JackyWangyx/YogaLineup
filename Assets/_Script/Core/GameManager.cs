@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class GameManager : GameEntity<GameManager>
 {
+    [FoldoutGroup("PlayerType")]
+    public bool PlayerFirst;
     [FoldoutGroup("Player")] public Player PlayerPrefab;
     public new Player Player { get; set; }
     public new List<Player> PlayerList { get; set; } = new List<Player>();
