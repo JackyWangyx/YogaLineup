@@ -85,6 +85,34 @@ public class Level : GameEntity
 
     #endregion
 
+    /// <summary>
+    /// 跟随少女使用
+    /// </summary>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    public float GetPositionY(float length)
+    {
+        var blockLength = 0f;
+        foreach(var block in BlockInsList)
+        {
+            if (blockLength + block.Length >= length)
+            {
+                length -= blockLength;
+                //var path = block.PathList[0] as LevelPathSpline;
+                //var factor = (float)path.Path.Travel(0f, length);
+                var bo = false;
+                var pos = Vector3.zero;
+                var fl = 0f;
+                (bo, pos, fl) = block.Path.GetPositionByDistance(length);
+                var resultY = pos.y - Player.transform.localPosition.y;
+                return resultY;
+            }
+            else
+                blockLength += block.Length;
+        }
+        return 0;
+    }
+
     public void InitPlayer()
     {
         Game.PlayerList.Clear();

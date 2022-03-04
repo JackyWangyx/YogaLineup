@@ -93,7 +93,9 @@ public class PlayerRender : PlayerBase
                 var target = Player.Render.RenderTrans;
                 if (Game.YogaGirlList.Count > 0)
                     target = Game.YogaGirlList.Last().RendererTrans;
-                girl.AddComponent<GirlFollow>().Init(TransZ, 0.1f * Game.YogaGirlList.Count, target);
+                girl.AddComponent<GirlFollow>().Init(TransZ, target);
+                //follow.Target = target;
+                //follow.KeepDistance = Size;
                 var GirlFollow = girl.GetComponentInChildren<GirlFollow>();
                 Game.YogaGirlList.Add(GirlFollow);
             }

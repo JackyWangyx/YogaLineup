@@ -43,6 +43,7 @@ public class PlayerControlPath : PlayerControl
                 }
 
                 transform.position = nextPos;
+                RunGirlList();
             }
         }
 
@@ -74,6 +75,14 @@ public class PlayerControlPath : PlayerControl
         _turnPower = Mathf.Abs(Self.Render.RenderTrans.localPosition.x - turnX);
         Self.Render.RenderTrans.SetLocalPositionX(turnX);
         UpdateYoga();
+    }
+
+    public void RunGirlList()
+    {
+        foreach (var girl in Game.YogaGirlList)
+        {
+            girl.Run();
+        }
     }
 
     /// <summary>

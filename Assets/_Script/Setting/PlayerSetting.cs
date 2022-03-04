@@ -19,6 +19,4 @@ public class PlayerSetting : SettingBase<PlayerSetting>
     public int InitPoint;
 
     [TableList] public List<PlayerData> PlayerDatas;
-
-
 }
