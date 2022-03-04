@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   KeepUp: 1
-  MoveSpeed: 10
+  MoveSpeed: 0
   RotateSpeed: 10
   TurnSpeed: 10
   TurnLerpSpeed: 10
@@ -140,6 +140,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 780dc1a2ecd06ca4d984844a9283de6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _yogaList: []
+  _yogaIndex: 0
+  _targetIndex: 0
 --- !u!114 &7225036217403399594
 MonoBehaviour:
   m_ObjectHideFlags: 0
