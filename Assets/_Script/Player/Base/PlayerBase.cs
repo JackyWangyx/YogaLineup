@@ -10,7 +10,6 @@ public class PlayerBase : ComponentBase<PlayerBase>
     public bool IsAi => !State.IsPlayer;
     public bool IsAlive => State.Hp > 0;
     public bool IsDie => State.Hp <= 0;
-    public List<Animator> YogaGirlList => State.YogaGirlList;
 
     [SubComponent] public Player Self { get; set; }
     [SubComponent] public PlayerControl Control { get; set; }

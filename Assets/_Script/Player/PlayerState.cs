@@ -7,9 +7,9 @@ public class PlayerState : PlayerBase
     [NonSerialized] public new int Index;
     [NonSerialized] public new bool IsPlayer;
     /// <summary>
-    /// 包括本体的少女列表(本体为0)
+    /// 不包括本体的少女列表
     /// </summary>
-    [NonSerialized] public List<Animator> YogaGirlList = new List<Animator>();
+    [NonSerialized] public List<GirlFollow> YogaGirlList = new List<GirlFollow>();
 
     // Health
     [NonSerialized] public int Hp;

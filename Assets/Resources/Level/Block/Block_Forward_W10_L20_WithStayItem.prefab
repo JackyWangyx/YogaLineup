@@ -394,7 +394,7 @@ MonoBehaviour:
   VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
-  AddValue: 1
+  AddValue: 3
   MultiplyValue: 1
   Text: {fileID: 0}
   ShowTip: 0

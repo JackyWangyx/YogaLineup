@@ -51,7 +51,7 @@ public class ItemPoint : ItemBase<Player>
         if (diff < 0 && target.State.IsInvincible) return;
         target.State.ChangePoint(diff);
 
-        target.Render.AddRender(Player.State.YoGaGirlPrefab, Player.Data.Size);
+        target.Render.AddRender(Player.State.YoGaGirlPrefab, Player.Data.Size, AddValue);
 
         if (ShowTip)
         {

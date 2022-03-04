@@ -10,7 +10,7 @@ public class PlayerRender : PlayerBase
 
     public override void InitComponent()
     {
-        YogaGirlList.Clear();
+        Game.YogaGirlList.Clear();
         RenderTrans.SetLocalPositionX(0f);
         RefreshRender(State.Point);
     }
@@ -79,24 +79,40 @@ public class PlayerRender : PlayerBase
         }
     }
 
-    public void AddRender(GameObject prefab, float Size)
+    public void AddRender(GameObject prefab, float Size, int value)
     {
-        var trans = Vector3.zero;
-        trans.z = YogaGirlList.Count * Size;
-        var girl = GamePool.Spawn(prefab, GirlListTrans, trans);
-        girl.AddComponent<GirlFollow>();
-        var animator = girl.GetComponentInChildren<Animator>();
-        YogaGirlList.Add(animator);
-
-        Play(Player.CurrentClip, animator);
+        var IsAdd = value > 0 ? true : false;
+        var direction = Game.PlayerFirst ? -1 : 1;
+        if (IsAdd)
+        {
+            for(var i = 0; i < value; i++)
+            {
+                var TransZ = Game.YogaGirlList.Count * Size + Size;
+                TransZ *= direction;
+                var girl = GamePool.Spawn(prefab, GirlListTrans);
+                var target = Player.Render.RenderTrans;
+                if (Game.YogaGirlList.Count > 0)
+                    target = Game.YogaGirlList.Last().RendererTrans;
+                girl.AddComponent<GirlFollow>().Init(TransZ, 0.1f * Game.YogaGirlList.Count, target);
+                var GirlFollow = girl.GetComponentInChildren<GirlFollow>();
+                Game.YogaGirlList.Add(GirlFollow);
+            }
+        }
+        else
+        {
+            for (var i = 0; i > value; i--)
+            {
+                var girl = Game.YogaGirlList[Game.YogaGirlList.Count - 1];
+                Game.YogaGirlList.Remove(girl);
+                GamePool.DeSpawn(girl.gameObject);
+            }
+        }
     }
 
     public void RefreshRender(GameObject prefab)
     {
         DeSpawnRenderer();
         RenderInstance = GamePool.Spawn(prefab, RenderTrans);
-        var animator = RenderInstance.GetComponentInChildren<Animator>();
-        YogaGirlList.Add(animator);
 
         ComponentDic.ForEach(c => c.Value.CacheRendererComponent());
         Play(CurrentClip);
@@ -104,7 +120,7 @@ public class PlayerRender : PlayerBase
 
     public void DeSpawnRenderer()
     {
-        foreach(var girl in YogaGirlList)
+        foreach(var girl in Game.YogaGirlList)
         {
             GamePool.DeSpawn(girl);
         }

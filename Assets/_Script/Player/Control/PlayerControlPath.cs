@@ -5,18 +5,9 @@ using UnityEngine;
 
 public class PlayerControlPath : PlayerControl
 {
-    private List<string> _yogaList = new List<string>();
     private bool _isMouseDown;
     private Vector3 _startMousePos;
     private float _startX;
-    /// <summary>
-    /// 当前的瑜伽动作
-    /// </summary>
-    private int _yogaIndex;
-    /// <summary>
-    /// 目标瑜伽动作
-    /// </summary>
-    private int _targetIndex;
     /// <summary>
     /// 转向力度
     /// </summary>
