@@ -85,6 +85,7 @@ public class PathFollowerGirl : GameEntity
     public Transform Target;
     public float KeepDistance;
     public float MaxDistance;
+    public bool IsDead;
 
     public Path FollowPath { get; set; }
 
@@ -98,7 +99,7 @@ public class PathFollowerGirl : GameEntity
 
     public void LateUpdate()
     {
-        if (Target == null) return;
+        if (Target == null || IsDead) return;
         FollowPath.Add(Target.position);
         var lastPos = transform.position;
         var pos = FollowPath.GetPos(KeepDistance);
@@ -112,7 +113,7 @@ public class PathFollowerGirl : GameEntity
             transform.forward = Target.forward;
         }
 
-        if (Player.State.EnableRun)
+        if (Player.State.EnableRun && !IsDead)
         {
             string yogaStr = Player.Control._yogaList[Player.Control._targetIndex];
             Play(yogaStr);

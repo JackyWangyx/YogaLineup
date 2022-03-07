@@ -115,8 +115,12 @@ public class PlayerRender : PlayerBase
                 var girl = Game.YogaGirlList[0];
                 nowPos = girl.transform.position;
                 Game.YogaGirlList.Remove(girl);
-                GamePool.DeSpawn(girl.gameObject);
-                Destroy(girl);
+
+                var Ins = girl.gameObject;
+                this.ExecuteDelay(() => { GamePool.DeSpawn(Ins); }, 1f);
+                girl.IsDead = true;
+                girl.Play("Yoga11");
+                Destroy(girl, 1f);
                 Player.Move.PathFollower.Distance -= Size;
                 Player.Move.PathFollower.BlockDistance -= Size;
             }
