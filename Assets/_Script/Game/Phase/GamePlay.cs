@@ -38,7 +38,7 @@ public class GamePlay : GamePhaseHandler
 
     public virtual GameResult CheckGameResult()
     {
-        if (Player.State.Point == 0 && Player.State.PointChanged)
+        if (Player.State.Point < 0 && Player.State.PointChanged)
         {
             return GameResult.Lose;
         }

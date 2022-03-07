@@ -88,17 +88,12 @@ public class PathFollowerGirl : GameEntity
 
     public Path FollowPath { get; set; }
 
-    public void Awake()
+    public void Init()
     {
         FollowPath = new Path()
         {
             MaxDistance = MaxDistance
         };
-    }
-
-    public void OnEnable()
-    {
-
     }
 
     public void LateUpdate()
@@ -115,6 +110,12 @@ public class PathFollowerGirl : GameEntity
         else
         {
             transform.forward = Target.forward;
+        }
+
+        if (Player.State.EnableRun)
+        {
+            string yogaStr = Player.Control._yogaList[Player.Control._targetIndex];
+            Play(yogaStr);
         }
     }
 }

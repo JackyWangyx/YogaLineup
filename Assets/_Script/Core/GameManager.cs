@@ -11,7 +11,9 @@ public class GameManager : GameEntity<GameManager>
     [FoldoutGroup("Player")] public Player PlayerPrefab;
     public new Player Player { get; set; }
     public new List<Player> PlayerList { get; set; } = new List<Player>();
-    public List<GirlFollow> YogaGirlList => Player.State.YogaGirlList;
+    public List<PathFollowerGirl> YogaGirlList => Player.State.YogaGirlList;
+    [HideInInspector]
+    public Transform GirlListTran;
 
     [FoldoutGroup("Misc")]
     public Transform PhaseHandler;
@@ -30,6 +32,7 @@ public class GameManager : GameEntity<GameManager>
         Time.timeScale = 1f;
         GamePhase = GamePhaseType.None;
         CurrentPhase = null;
+        GirlListTran = transform.Find("GirlList");
 
         State = GetComponent<GameState>();
 

@@ -9,7 +9,7 @@ public class PlayerState : PlayerBase
     /// <summary>
     /// 不包括本体的少女列表
     /// </summary>
-    [NonSerialized] public List<GirlFollow> YogaGirlList = new List<GirlFollow>();
+    [NonSerialized] public List<PathFollowerGirl> YogaGirlList = new List<PathFollowerGirl>();
 
     // Health
     [NonSerialized] public int Hp;
@@ -69,7 +69,7 @@ public class PlayerState : PlayerBase
     {
         State.PointChanged = true;
         State.Point += diff;
-        if (State.Point < 0) State.Point = 0;
+        //if (State.Point < 0) State.Point = 0;
         Render.RefreshRender(State.Point);
     }
 

@@ -6,6 +6,7 @@ public class PlayerMove : PlayerBase
 {
     public bool KeepUp;
     public float MoveSpeed;
+    private float MoveSpeedCache;
     public float RotateSpeed;
     public float TurnSpeed;
     public float TurnLerpSpeed;
@@ -13,11 +14,14 @@ public class PlayerMove : PlayerBase
     public override void InitComponent()
     {
         PathFollower.Init(Self);
+        if (MoveSpeed == 0)
+            MoveSpeed = MoveSpeedCache;
     }
 
     public override void CacheComponent()
     {
         base.CacheComponent();
+        MoveSpeedCache = MoveSpeed;
         PathFollower = gameObject.GetOrAddComponent<PathFollower>();
     }
 
@@ -31,6 +35,16 @@ public class PlayerMove : PlayerBase
     {
         var position = PathFollower.Move(distance);
         return position;
+    }
+
+    /// <summary>
+    /// 停顿
+    /// </summary>
+    /// <param name="time"></param>
+    public void Stop(float time)
+    {
+        MoveSpeed = 0;
+        this.ExecuteDelay(() => { MoveSpeed = MoveSpeedCache; }, time);
     }
 
     public void EnterBlock(int index)

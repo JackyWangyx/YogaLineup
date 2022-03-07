@@ -47,23 +47,26 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  DeSpawnAfterEffect: 0
+  DeSpawnMode: 1
   DeActiveRender: 0
-  EffectiveOnce: 1
+  EffectMode: 0
+  EffectCount: 1
+  EffectInterval: 1
+  Conditions: []
   RenderPrefabs: []
   RenderRandomPrefabs: []
-  Conditions: []
+  ItemGroupIndex: -1
   ActiveList: []
   DeActiveList: []
+  ExcludeItems:
+  - {fileID: 5878419804028744260}
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
-  ExcludeItems:
-  - {fileID: 5878419804028744260}
-  VibrationType: -1
   SwitchPath: 0
   SwitchPathIndex: 1
   LimitRange: 0
@@ -72,6 +75,8 @@ MonoBehaviour:
   GoToCenter: 0
   GoToCenterDuration: 0.5
   EnableInput: 1
+  ChangeSpeed: 0
+  SpeedMultiply: 1
   references:
     version: 1
 --- !u!1 &1277369057653680126
@@ -459,23 +464,26 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  DeSpawnAfterEffect: 0
+  DeSpawnMode: 1
   DeActiveRender: 0
-  EffectiveOnce: 1
+  EffectMode: 0
+  EffectCount: 1
+  EffectInterval: 1
+  Conditions: []
   RenderPrefabs: []
   RenderRandomPrefabs: []
-  Conditions: []
+  ItemGroupIndex: -1
   ActiveList: []
   DeActiveList: []
+  ExcludeItems:
+  - {fileID: 5878419804028744260}
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
-  ExcludeItems:
-  - {fileID: 5878419804028744260}
-  VibrationType: -1
   SwitchPath: 0
   SwitchPathIndex: 1
   LimitRange: 0
@@ -484,6 +492,8 @@ MonoBehaviour:
   GoToCenter: 0
   GoToCenterDuration: 0.5
   EnableInput: 1
+  ChangeSpeed: 0
+  SpeedMultiply: 1
   references:
     version: 1
 --- !u!1 &1909156070063214983
@@ -626,23 +636,26 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  DeSpawnAfterEffect: 0
+  DeSpawnMode: 1
   DeActiveRender: 0
-  EffectiveOnce: 1
+  EffectMode: 0
+  EffectCount: 1
+  EffectInterval: 1
+  Conditions: []
   RenderPrefabs: []
   RenderRandomPrefabs: []
-  Conditions: []
+  ItemGroupIndex: -1
   ActiveList: []
   DeActiveList: []
+  ExcludeItems:
+  - {fileID: 1754715243201104534}
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
-  ExcludeItems:
-  - {fileID: 1754715243201104534}
-  VibrationType: -1
   SwitchPath: 1
   SwitchPathIndex: 1
   LimitRange: 1
@@ -651,6 +664,8 @@ MonoBehaviour:
   GoToCenter: 0
   GoToCenterDuration: 0.5
   EnableInput: 1
+  ChangeSpeed: 0
+  SpeedMultiply: 1
   references:
     version: 1
 --- !u!1 &5237517304054406040
@@ -1477,23 +1492,26 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  DeSpawnAfterEffect: 0
+  DeSpawnMode: 1
   DeActiveRender: 0
-  EffectiveOnce: 1
+  EffectMode: 0
+  EffectCount: 1
+  EffectInterval: 1
+  Conditions: []
   RenderPrefabs: []
   RenderRandomPrefabs: []
-  Conditions: []
+  ItemGroupIndex: -1
   ActiveList: []
   DeActiveList: []
+  ExcludeItems:
+  - {fileID: 6153531402424944828}
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
-  ExcludeItems:
-  - {fileID: 6153531402424944828}
-  VibrationType: -1
   SwitchPath: 0
   SwitchPathIndex: 0
   LimitRange: 0
@@ -1502,6 +1520,8 @@ MonoBehaviour:
   GoToCenter: 0
   GoToCenterDuration: 0.5
   EnableInput: 1
+  ChangeSpeed: 0
+  SpeedMultiply: 1
   references:
     version: 1
 --- !u!1 &8328362169894176668
@@ -1924,23 +1944,26 @@ MonoBehaviour:
   LayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  DeSpawnAfterEffect: 0
+  DeSpawnMode: 1
   DeActiveRender: 0
-  EffectiveOnce: 1
+  EffectMode: 0
+  EffectCount: 1
+  EffectInterval: 1
+  Conditions: []
   RenderPrefabs: []
   RenderRandomPrefabs: []
-  Conditions: []
+  ItemGroupIndex: -1
   ActiveList: []
   DeActiveList: []
+  ExcludeItems:
+  - {fileID: 1700246783068874043}
   SelfFx: []
   SelfRandomFx: []
   TargetFx: []
   TargetRandomFx: []
+  VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
-  ExcludeItems:
-  - {fileID: 1700246783068874043}
-  VibrationType: -1
   SwitchPath: 1
   SwitchPathIndex: 0
   LimitRange: 1
@@ -1949,6 +1972,8 @@ MonoBehaviour:
   GoToCenter: 0
   GoToCenterDuration: 0.5
   EnableInput: 1
+  ChangeSpeed: 0
+  SpeedMultiply: 1
   references:
     version: 1
 --- !u!1 &8936009010189641376

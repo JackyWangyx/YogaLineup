@@ -43,7 +43,7 @@ public class PlayerControlPath : PlayerControl
                 }
 
                 transform.position = nextPos;
-                RunGirlList();
+                //RunGirlList();
             }
         }
 
@@ -77,13 +77,13 @@ public class PlayerControlPath : PlayerControl
         UpdateYoga();
     }
 
-    public void RunGirlList()
-    {
-        foreach (var girl in Game.YogaGirlList)
-        {
-            girl.Run();
-        }
-    }
+    //public void RunGirlList()
+    //{
+    //    foreach (var girl in Game.YogaGirlList)
+    //    {
+    //        girl.Run();
+    //    }
+    //}
 
     /// <summary>
     /// 初始化瑜伽动作

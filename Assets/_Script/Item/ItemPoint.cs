@@ -8,6 +8,7 @@ public class ItemPoint : ItemBase<Player>
 {
     [BoxGroup("Point")] public int AddValue;
     [BoxGroup("Point")] public float MultiplyValue = 1f;
+    [BoxGroup("Point")] public float StopTime = 0f;
     [BoxGroup("Point")] public TMP_Text Text;
     [BoxGroup("Point")] public bool ShowTip;
     [BoxGroup("Point")] public Color GoodTipColor;
@@ -52,6 +53,8 @@ public class ItemPoint : ItemBase<Player>
         target.State.ChangePoint(diff);
 
         target.Render.AddRender(Player.State.YoGaGirlPrefab, Player.Data.Size, AddValue);
+        if (StopTime > 0)
+            Player.Move.Stop(StopTime);
 
         if (ShowTip)
         {

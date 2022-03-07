@@ -89,25 +89,47 @@ public class PlayerRender : PlayerBase
             {
                 var TransZ = Game.YogaGirlList.Count * Size + Size;
                 TransZ *= direction;
-                var girl = GamePool.Spawn(prefab, GirlListTrans);
+                var girl = GamePool.Spawn(prefab, Game.GirlListTran);
                 var target = Player.Render.RenderTrans;
                 if (Game.YogaGirlList.Count > 0)
-                    target = Game.YogaGirlList.Last().RendererTrans;
-                girl.AddComponent<GirlFollow>().Init(TransZ, target);
-                //follow.Target = target;
-                //follow.KeepDistance = Size;
-                var GirlFollow = girl.GetComponentInChildren<GirlFollow>();
-                Game.YogaGirlList.Add(GirlFollow);
+                    target = Game.YogaGirlList.Last().transform;
+                var follow = girl.GetOrAddComponent<PathFollowerGirl>();
+                follow.Target = target;
+                follow.KeepDistance = Size;
+                follow.MaxDistance = Size + 0.5f;
+                follow.Init();
+                //var GirlFollow = girl.GetComponentInChildren<PathFollowerGirl>();
+                Game.YogaGirlList.Add(follow);
             }
         }
         else
         {
+            var nowPos = Vector3.zero;
             for (var i = 0; i > value; i--)
             {
-                var girl = Game.YogaGirlList[Game.YogaGirlList.Count - 1];
+                if (Game.YogaGirlList.Count <= 0)
+                {
+                    Player.Lose();
+                    return;
+                }
+                var girl = Game.YogaGirlList[0];
+                nowPos = girl.transform.position;
                 Game.YogaGirlList.Remove(girl);
                 GamePool.DeSpawn(girl.gameObject);
+                Destroy(girl);
+                Player.Move.PathFollower.Distance -= Size;
+                Player.Move.PathFollower.BlockDistance -= Size;
             }
+            var index = 0;
+            foreach(var girl in Game.YogaGirlList)
+            {
+                var target = Player.Render.RenderTrans;
+                if (index > 0)
+                    target = Game.YogaGirlList[index - 1].transform;
+                girl.Target = target;
+                index++;
+            }
+            Player.transform.position = nowPos;
         }
     }
 
@@ -124,8 +146,13 @@ public class PlayerRender : PlayerBase
     {
         foreach(var girl in Game.YogaGirlList)
         {
-            GamePool.DeSpawn(girl);
+            var follow = RenderInstance.GetComponent<PathFollowerGirl>();
+            if (follow != null)
+                Destroy(follow);
+            GamePool.DeSpawn(girl.transform);
         }
+        Game.YogaGirlList.Clear();
+        GamePool.DeSpawn(Render.RendererTrans);
         RenderInstance = null;
     }
 }
