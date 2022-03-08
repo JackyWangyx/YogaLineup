@@ -2,57 +2,76 @@
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        _Glossiness ("Smoothness", Range(0,1)) = 0.5
-        _Metallic ("Metallic", Range(0,1)) = 0.0
+        _MainTex("Texture", 2D) = "white" {}
+        _Color("Main Tint",Color) = (1,1,1,1)
+            //透明度参考值
+            _AlphaScale("Alpha Cutoff",Range(0,1)) = 1
     }
-    SubShader
-    {
-        Tags 
+        SubShader
         {
-            "RenderType"="Opaque"
-            "Queue"="Transparent-30"
+            Tags {"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+
+            Pass
+            {
+                Tags {"LightMode" = "ForwardBase"}
+
+                ZWrite Off
+                Blend SrcAlpha OneMinusSrcAlpha
+
+                CGPROGRAM
+                #pragma vertex vert
+                #pragma fragment frag
+
+                #include "UnityCG.cginc"
+                #include "Lighting.cginc"
+
+                fixed4 _Color;
+                sampler2D _MainTex;
+                float4 _MainTex_ST;
+                fixed _AlphaScale;
+
+                struct a2v
+                {
+                    float4 vertex : POSITION;
+                    float3 normal : NORMAL;
+                    float2 texcoord : TEXCOORD0;
+                };
+
+                struct v2f
+                {
+                    float4 pos : SV_POSITION;
+                    float3 worldNormal : TEXCOORD0;
+                    float3 worldPos : TEXCOORD1;
+                    float2 uv : TEXCOORD2;
+                };
+
+                v2f vert(a2v v)
+                {
+                    v2f o;
+                    o.pos = UnityObjectToClipPos(v.vertex);
+                    o.worldNormal = UnityObjectToWorldNormal(v.normal);
+                    o.worldPos = mul(unity_ObjectToWorld,v.vertex).xyz;
+                    o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);
+                    return o;
+                }
+
+                fixed4 frag(v2f i) : SV_Target
+                {
+                    fixed3 worldNormal = normalize(i.worldNormal);
+                    fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
+                    fixed4 texColor = tex2D(_MainTex,i.uv);
+
+                    //实现光照
+                    //吸收系数
+                    fixed3 albedo = texColor.rgb * _Color.rgb;
+                    //环境光
+                    fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
+                    //漫反射
+                    fixed3 diffuse = _LightColor0.rgb * albedo * max(0,dot(worldNormal,worldLightDir));
+                    return fixed4(ambient + diffuse,texColor.a * _AlphaScale);
+               }
+               ENDCG
+           }
         }
-        Zwrite Off
-        LOD 200
-
-        CGPROGRAM
-        // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard fullforwardshadows
-
-        // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 3.0
-
-        sampler2D _MainTex;
-
-        struct Input
-        {
-            float2 uv_MainTex;
-        };
-
-        half _Glossiness;
-        half _Metallic;
-        fixed4 _Color;
-
-        // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-        // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-        // #pragma instancing_options assumeuniformscaling
-        UNITY_INSTANCING_BUFFER_START(Props)
-            // put more per-instance properties here
-        UNITY_INSTANCING_BUFFER_END(Props)
-
-        void surf (Input IN, inout SurfaceOutputStandard o)
-        {
-            // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
-            o.Albedo = c.rgb;
-            // Metallic and smoothness come from slider variables
-            o.Metallic = _Metallic;
-            o.Smoothness = _Glossiness;
-            o.Alpha = c.a;
-        }
-        ENDCG
-    }
-    FallBack "Diffuse"
+            Fallback "Transparent/Cutout/VertexLit"
 }

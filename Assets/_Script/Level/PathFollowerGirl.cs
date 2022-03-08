@@ -9,6 +9,7 @@ public class PathFollowerGirl : GameEntity
     public class Node
     {
         public Vector3 Pos;
+        public string CurrentClip;
         public float Distance;
     }
 
@@ -18,11 +19,12 @@ public class PathFollowerGirl : GameEntity
         public float Distance { get; set; } = 0f;
         public float MaxDistance { get; set; }
 
-        public void Add(Vector3 pos)
+        public void Add(Vector3 pos,string currentClip)
         {
             var node = new Node()
             {
-                Pos = pos
+                Pos = pos,
+                CurrentClip = currentClip
             };
             var lastNode = Paths.Last();
             if (lastNode != null)
@@ -100,7 +102,7 @@ public class PathFollowerGirl : GameEntity
     public void LateUpdate()
     {
         if (Target == null || IsDead) return;
-        FollowPath.Add(Target.position);
+        FollowPath.Add(Target.position,Player.CurrentClip);
         var lastPos = transform.position;
         var pos = FollowPath.GetPos(KeepDistance);
         transform.position = pos;

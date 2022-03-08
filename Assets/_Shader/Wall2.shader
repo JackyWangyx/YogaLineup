@@ -12,7 +12,7 @@
         Tags 
         {
             "RenderType"="Opaque"
-            "Queue"="Transparent"
+            "Queue"="AlphaTest"
         }
         Zwrite Off
         LOD 200

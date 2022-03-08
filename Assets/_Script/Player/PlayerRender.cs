@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerRender : PlayerBase
 {
     public Transform RenderTrans;
-    public Transform GirlListTrans;
 
     [SubPoolInstance] public GameObject RenderInstance { get; set; }
 
