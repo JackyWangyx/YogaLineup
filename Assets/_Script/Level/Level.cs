@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 public class Level : GameEntity
 {
     public int PlayerCount = 1;
+    public Transform BackGround;
     public List<LevelBlock> BlockList;
     public List<ItemBase> ItemList { get; set; }
     public Dictionary<Type, List<ItemBase>> ItemDic { get; set; }
@@ -16,6 +17,8 @@ public class Level : GameEntity
     protected override void Awake()
     {
         base.Awake();
+        if (BackGround != null)
+            Instantiate(BackGround, new Vector3(0, -3, -100), Quaternion.identity);
     }
 
     public void Init()

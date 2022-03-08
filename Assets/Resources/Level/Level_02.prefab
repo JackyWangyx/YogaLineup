@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCount: 1
+  BackGround: {fileID: 449962, guid: 58c25a420e6882147886b21744a277c7, type: 3}
   BlockList:
   - {fileID: 5544521688552719528, guid: ab51679fe393c934ca106c226fe50293, type: 3}
   - {fileID: 3210313509215749129, guid: 32c53ebae135feb46b55077f2ef78b22, type: 3}
