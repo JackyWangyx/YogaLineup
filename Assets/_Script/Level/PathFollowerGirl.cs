@@ -29,7 +29,8 @@ public class PathFollowerGirl : GameEntity
             var lastNode = Paths.Last();
             if (lastNode != null)
             {
-                var dis = Vector3.Distance(lastNode.Pos, node.Pos);
+                //var dis = Vector3.Distance(lastNode.Pos, node.Pos);
+                var dis = Mathf.Abs((lastNode.Pos - node.Pos).z);
                 node.Distance = dis;
                 Distance += dis;
             }
