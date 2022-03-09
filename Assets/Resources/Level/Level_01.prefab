@@ -44,6 +44,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCount: 1
+  BackGround: {fileID: 0}
   BlockList:
   - {fileID: 5544521688552719528, guid: ab51679fe393c934ca106c226fe50293, type: 3}
-  - {fileID: 3210313509215749129, guid: aa30809192c7974479ea378046b83134, type: 3}
+  - {fileID: 3210313509215749129, guid: 32c53ebae135feb46b55077f2ef78b22, type: 3}
+  - {fileID: 3210313509215749129, guid: 32c53ebae135feb46b55077f2ef78b22, type: 3}
+  - {fileID: 3210313509215749129, guid: 32c53ebae135feb46b55077f2ef78b22, type: 3}
+  - {fileID: 3210313509215749129, guid: 32c53ebae135feb46b55077f2ef78b22, type: 3}
+  - {fileID: 3210313509215749129, guid: 32c53ebae135feb46b55077f2ef78b22, type: 3}
+  - {fileID: 3210313509215749129, guid: 32c53ebae135feb46b55077f2ef78b22, type: 3}
+  - {fileID: 3210313509215749129, guid: 32c53ebae135feb46b55077f2ef78b22, type: 3}
+  - {fileID: 3210313509215749129, guid: 32c53ebae135feb46b55077f2ef78b22, type: 3}
+  - {fileID: 3210313509215749129, guid: 32c53ebae135feb46b55077f2ef78b22, type: 3}
+  - {fileID: 3210313509215749129, guid: 32c53ebae135feb46b55077f2ef78b22, type: 3}
