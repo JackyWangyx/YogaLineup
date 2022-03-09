@@ -119,7 +119,7 @@ public class PathFollowerGirl : GameEntity
         if (Player.State.EnableRun && !IsDead)
         {
             string yogaStr = Player.Control._yogaList[Player.Control._targetIndex];
-            if (CurrentClip != "")
+            if (!string.IsNullOrEmpty(CurrentClip))
                 Animator.ResetTrigger(CurrentClip);
             Animator.SetTrigger(yogaStr);
             CurrentClip = yogaStr;
