@@ -18,6 +18,7 @@ public class PathFollowerGirl : GameEntity
         public List<Node> Paths { get; set; } = new List<Node>();
         public float Distance { get; set; } = 0f;
         public float MaxDistance { get; set; }
+        public Transform Target { get; set; }
 
         public void Add(Vector3 pos,string currentClip)
         {
@@ -72,7 +73,9 @@ public class PathFollowerGirl : GameEntity
             }
 
             var firstNode = Paths.First();
-            if (firstNode == null) return Vector3.zero;
+            var targetP = Target.position;
+            targetP.z -= MaxDistance;
+            if (firstNode == null) return targetP;
             return firstNode.Pos;
         }
 
@@ -96,7 +99,8 @@ public class PathFollowerGirl : GameEntity
     {
         FollowPath = new Path()
         {
-            MaxDistance = MaxDistance
+            MaxDistance = MaxDistance,
+            Target = this.Target
         };
     }
 
