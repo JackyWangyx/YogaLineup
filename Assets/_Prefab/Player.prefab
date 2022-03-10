@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a385d0d1bb71afb4b8efa551bba052c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GirlSpawnInterval: 0.2
   RenderTrans: {fileID: 4905476629042704939}
   GirlListTrans: {fileID: 4608610869306913717}
 --- !u!114 &787850366784649138
