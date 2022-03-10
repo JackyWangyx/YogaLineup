@@ -100,7 +100,7 @@ public class PathFollowerGirl : GameEntity
         };
     }
 
-    public void LateUpdate()
+    public void Update()
     {
         if (Target == null || IsDead) return;
         FollowPath.Add(Target.position,Player.CurrentClip);
