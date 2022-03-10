@@ -19,7 +19,8 @@ public class GirlFollow : GameEntity
     public void Run()
     {
         var speed = Player.Move.MoveSpeed * Player.State.SpeedMultiply * DeltaTime;
-        TransPos.y = Level.Level.GetPositionY(Player.Move.PathFollower.Distance + speed + TransPos.z);
+        var pos = Level.Level.GetPositionY(Player.Move.PathFollower.Distance + TransPos.z);
+        TransPos.y = pos.y;
         if (Mathf.Abs(Target.localPosition.x - RendererTrans.localPosition.x) <= 0.05f)
         {
             TransPos.x = Target.localPosition.x;
@@ -31,6 +32,7 @@ public class GirlFollow : GameEntity
             TransPos.x = posX;
         }
         RendererTrans.localPosition = TransPos;
+        RendererTrans.SetPositionZ(pos.z);
 
         if (Player.State.EnableRun)
         {

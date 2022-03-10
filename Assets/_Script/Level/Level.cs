@@ -93,7 +93,7 @@ public class Level : GameEntity
     /// </summary>
     /// <param name="length"></param>
     /// <returns></returns>
-    public float GetPositionY(float length)
+    public Vector3 GetPositionY(float length)
     {
         var blockLength = 0f;
         foreach(var block in BlockInsList)
@@ -107,13 +107,14 @@ public class Level : GameEntity
                 var pos = Vector3.zero;
                 var fl = 0f;
                 (bo, pos, fl) = block.Path.GetPositionByDistance(length);
-                var resultY = pos.y - Player.transform.localPosition.y;
-                return resultY;
+                //var resultY = pos.y - Player.transform.localPosition.y;
+                pos.y -= Player.transform.localPosition.y;
+                return pos;
             }
             else
                 blockLength += block.Length;
         }
-        return 0;
+        return Vector3.zero;
     }
 
     public void InitPlayer()
