@@ -117,7 +117,11 @@ public class PlayerControlPath : PlayerControl
                 //var nowX = _scale * _yogaIndex;
                 //var length = Mathf.Abs(_scale * _targetIndex - lastX);
                 //Animator.speed = Mathf.Lerp(0f, 10f, length / Move.TurnLerpSpeed) + 0.3f;
-                Play(yogaStr);
+                if (!string.IsNullOrEmpty(CurrentClip))
+                    Animator.ResetTrigger(CurrentClip);
+                Animator.SetTrigger(yogaStr);
+                CurrentClip = yogaStr;
+                //Play(yogaStr);
                 //Animator.Play(yogaStr);
                 //Animator.SetTrigger(yogaStr);
                 //lastX = nowX;
