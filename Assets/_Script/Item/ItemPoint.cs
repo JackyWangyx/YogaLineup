@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ItemPoint : ItemBase<Player>
 {
+    [BoxGroup("Point")] public List<Transform> GirlList;
     [BoxGroup("Point")] public int AddValue;
     [BoxGroup("Point")] public float MultiplyValue = 1f;
     [BoxGroup("Point")] public float StopTime = 0f;
@@ -52,7 +53,7 @@ public class ItemPoint : ItemBase<Player>
         if (diff < 0 && target.State.IsInvincible) return;
         target.State.ChangePoint(diff);
 
-        target.Render.AddRender(Player.State.YoGaGirlPrefab, Player.Data.Size, AddValue);
+        target.Render.AddRender(GirlList, Player.Data.Size, AddValue);
         if (StopTime > 0)
             Player.Move.Stop(StopTime);
 

@@ -8,17 +8,22 @@ public class GirlFollow : GameEntity
     //private Transform Target => Player.Render.RenderTrans;
     private Transform Target;
     private Vector3 TransPos;
+    private bool IsStart;
 
     public void Init(float LengthForPlayer,Transform target)
     {
         TransPos = Vector3.zero;
         TransPos.z = LengthForPlayer;
         Target = target;
+        IsStart = true;
     }
 
     public void Run()
     {
-        var speed = Player.Move.MoveSpeed * Player.State.SpeedMultiply * DeltaTime;
+        if (!IsStart)
+            return;
+
+        //var speed = Player.Move.MoveSpeed * Player.State.SpeedMultiply * DeltaTime;
         var pos = Level.Level.GetPositionY(Player.Move.PathFollower.Distance + TransPos.z);
         TransPos.y = pos.y;
         if (Mathf.Abs(Target.localPosition.x - RendererTrans.localPosition.x) <= 0.05f)

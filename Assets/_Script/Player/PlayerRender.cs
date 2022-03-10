@@ -1,4 +1,5 @@
 ﻿using Aya.Extension;
+using Aya.TweenPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,13 +9,11 @@ public class PlayerRender : PlayerBase
     public float GirlSpawnInterval = 0.5f;
     public Transform RenderTrans;
     public Transform GirlListTrans;
-    private float lastWaitTime;
 
     [SubPoolInstance] public GameObject RenderInstance { get; set; }
 
     public override void InitComponent()
     {
-        lastWaitTime = 0;
         Game.YogaGirlList.Clear();
         RenderTrans.SetLocalPositionX(0f);
         RefreshRender(State.Point);
@@ -84,7 +83,7 @@ public class PlayerRender : PlayerBase
         }
     }
 
-    public void AddRender(GameObject prefab, float Size, int value)
+    public void AddRender(List<Transform> girlList, float Size, int value)
     {
         var IsAdd = value > 0 ? true : false;
         var direction = Game.PlayerFirst ? -1 : 1;
@@ -92,23 +91,26 @@ public class PlayerRender : PlayerBase
         {
             for(var i = 0; i < value; i++)
             {
-                var waitTime = i * GirlSpawnInterval;
-                lastWaitTime += waitTime;
-                if (lastWaitTime > 0 && waitTime == 0)
-                    lastWaitTime += GirlSpawnInterval;
-                this.ExecuteDelay(() =>
-                {
-                    lastWaitTime -= waitTime;
-                    var TransZ = Game.YogaGirlList.Count * Size + Size;
-                    TransZ *= direction;
-                    var girl = GamePool.Spawn(prefab, GirlListTrans);
-                    var target = Player.Render.RenderTrans;
-                    if (Game.YogaGirlList.Count > 0)
-                        target = Game.YogaGirlList.Last().transform;
-                    var follow = girl.GetOrAddComponent<GirlFollow>();
-                    follow.Init(TransZ, target);
-                    Game.YogaGirlList.Add(follow);
-                }, lastWaitTime);
+                var TransZ = Game.YogaGirlList.Count * Size + Size;
+                TransZ *= direction;
+                var girl = girlList[i];
+                girl.rotation = Quaternion.identity;
+                girl.SetParent(GirlListTrans);
+                var target = Player.Render.RenderTrans;
+                if (Game.YogaGirlList.Count > 0)
+                    target = Game.YogaGirlList.Last().transform;
+                var spawnPos = Player.Render.RenderTrans.transform.localPosition;
+                spawnPos.z += TransZ;
+                var follow = girl.GetOrAddComponent<GirlFollow>();
+                Game.YogaGirlList.Add(follow);
+                //string yogaStr = Player.Control._yogaList[Player.Control._targetIndex];
+                follow.Animator.SetTrigger("Yoga15");
+                follow.CurrentClip = "Yoga15";
+                UTween.Position(girl, girl.localPosition, spawnPos, 0.5f, SpaceMode.Local)
+                    .SetOnStop(() =>
+                    {
+                        follow.Init(TransZ, target);
+                    });
             }
         }
         else
