@@ -35,7 +35,11 @@ public class GirlFollow : GameEntity
         if (Player.State.EnableRun)
         {
             string yogaStr = Player.Control._yogaList[Player.Control._targetIndex];
-            Play(yogaStr);
+            if (!string.IsNullOrEmpty(CurrentClip))
+                Animator.ResetTrigger(CurrentClip);
+            Animator.SetTrigger(yogaStr);
+            CurrentClip = yogaStr;
+            //Play(yogaStr);
         }
     }
 }

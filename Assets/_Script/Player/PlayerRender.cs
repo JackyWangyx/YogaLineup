@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerRender : PlayerBase
 {
     public Transform RenderTrans;
+    public Transform GirlListTrans;
 
     [SubPoolInstance] public GameObject RenderInstance { get; set; }
 
@@ -88,15 +89,16 @@ public class PlayerRender : PlayerBase
             {
                 var TransZ = Game.YogaGirlList.Count * Size + Size;
                 TransZ *= direction;
-                var girl = GamePool.Spawn(prefab, Game.GirlListTran);
+                var girl = GamePool.Spawn(prefab, GirlListTrans);
                 var target = Player.Render.RenderTrans;
                 if (Game.YogaGirlList.Count > 0)
                     target = Game.YogaGirlList.Last().transform;
-                var follow = girl.GetOrAddComponent<PathFollowerGirl>();
-                follow.Target = target;
-                follow.KeepDistance = Size;
-                follow.MaxDistance = Size + 0.5f;
-                follow.Init();
+                var follow = girl.GetOrAddComponent<GirlFollow>();
+                follow.Init(TransZ, target);
+                //follow.Target = target;
+                //follow.KeepDistance = Size;
+                //follow.MaxDistance = Size + 0.5f;
+                //follow.Init();
                 //var GirlFollow = girl.GetComponentInChildren<PathFollowerGirl>();
                 Game.YogaGirlList.Add(follow);
             }
@@ -117,7 +119,7 @@ public class PlayerRender : PlayerBase
 
                 var Ins = girl.gameObject;
                 this.ExecuteDelay(() => { GamePool.DeSpawn(Ins); }, 1f);
-                girl.IsDead = true;
+                //girl.IsDead = true;
                 girl.Play("Yoga11");
                 Destroy(girl, 1f);
                 Player.Move.PathFollower.Distance -= Size;
@@ -129,7 +131,7 @@ public class PlayerRender : PlayerBase
                 var target = Player.Render.RenderTrans;
                 if (index > 0)
                     target = Game.YogaGirlList[index - 1].transform;
-                girl.Target = target;
+                //girl.Target = target;
                 index++;
             }
             Player.transform.position = nowPos;

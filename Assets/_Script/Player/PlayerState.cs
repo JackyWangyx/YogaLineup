@@ -9,7 +9,7 @@ public class PlayerState : PlayerBase
     /// <summary>
     /// 不包括本体的少女列表
     /// </summary>
-    [NonSerialized] public List<PathFollowerGirl> YogaGirlList = new List<PathFollowerGirl>();
+    [NonSerialized] public List<GirlFollow> YogaGirlList = new List<GirlFollow>();
 
     // Health
     [NonSerialized] public int Hp;

@@ -11,7 +11,7 @@ public class GameManager : GameEntity<GameManager>
     [FoldoutGroup("Player")] public Player PlayerPrefab;
     public new Player Player { get; set; }
     public new List<Player> PlayerList { get; set; } = new List<Player>();
-    public List<PathFollowerGirl> YogaGirlList => Player.State.YogaGirlList;
+    public List<GirlFollow> YogaGirlList => Player.State.YogaGirlList;
     [HideInInspector]
     public Transform GirlListTran;
 
