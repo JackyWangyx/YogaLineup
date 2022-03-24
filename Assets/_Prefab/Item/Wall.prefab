@@ -174,6 +174,7 @@ MonoBehaviour:
   AnimatorDataList: []
   Girl: {fileID: 3189347542066251924}
   AnimationScale: 0.292
+  GirlShader: {fileID: 3644725820591590267}
   references:
     version: 1
 --- !u!1001 &3189347542840651344
@@ -614,6 +615,12 @@ GameObject:
 --- !u!4 &1360232565414088988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4513261029687623500, guid: fd6114c19d595e543a2887a7b5ac2258,
+    type: 3}
+  m_PrefabInstance: {fileID: 3189347542840651344}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3644725820591590267 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2222100235029996843, guid: fd6114c19d595e543a2887a7b5ac2258,
     type: 3}
   m_PrefabInstance: {fileID: 3189347542840651344}
   m_PrefabAsset: {fileID: 0}
