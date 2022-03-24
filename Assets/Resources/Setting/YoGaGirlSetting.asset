@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cc8931cd0a8949489fda3ac8de2c883, type: 3}
   m_Name: YoGaGirlSetting
   m_EditorClassIdentifier: 
-  GirlFlowScale: 0.5
+  GirlFlowScale: 10

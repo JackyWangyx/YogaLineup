@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class PlayerControl : PlayerBase
 {
+    public float AnimationScale { get; set; }
     [HideInInspector]
     public List<string> _yogaList = new List<string>();
     [HideInInspector]

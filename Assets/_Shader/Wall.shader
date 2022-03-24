@@ -1,77 +1,135 @@
-﻿Shader "Custom/Wall"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/Wall"
 {
-    Properties
-    {
-        _MainTex("Texture", 2D) = "white" {}
-        _Color("Main Tint",Color) = (1,1,1,1)
-            //透明度参考值
-            _AlphaScale("Alpha Cutoff",Range(0,1)) = 1
-    }
-        SubShader
+
+    Properties {
+ _MainTex ("Albedo (RGB)", 2D) = "white" {}
+ _OutLineWidth("width", float) = 1.2//定义一个变量
+        _Outline ("Outline", Range(0, 1)) = 0.1
+        _OutlineColor ("Outline Color", Color) = (0, 0, 0, 1)
+ }
+ SubShader {
+		
+        Pass 
         {
-            Tags {"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
-
-            Pass
+            Blend SrcAlpha OneMinusSrcAlpha
+            Stencil
             {
-                Tags {"LightMode" = "ForwardBase"}
+                Ref 1
+                Comp Always
+                Pass Replace
+            }
 
-                ZWrite Off
-                Blend SrcAlpha OneMinusSrcAlpha
+            CGPROGRAM
 
-                CGPROGRAM
-                #pragma vertex vert
-                #pragma fragment frag
+            #pragma vertex vert
+            #pragma fragment frag
 
-                #include "UnityCG.cginc"
-                #include "Lighting.cginc"
+            float4 vert (float4 v : POSITION) : SV_POSITION 
+            {       
+                return UnityObjectToClipPos(v); 
+            }
 
-                fixed4 _Color;
-                sampler2D _MainTex;
-                float4 _MainTex_ST;
-                fixed _AlphaScale;
+            float4 frag() : SV_Target 
+            { 
+                return float4(1, 1, 1, 0);
+            }
 
-                struct a2v
-                {
-                    float4 vertex : POSITION;
-                    float3 normal : NORMAL;
-                    float2 texcoord : TEXCOORD0;
-                };
-
-                struct v2f
-                {
-                    float4 pos : SV_POSITION;
-                    float3 worldNormal : TEXCOORD0;
-                    float3 worldPos : TEXCOORD1;
-                    float2 uv : TEXCOORD2;
-                };
-
-                v2f vert(a2v v)
-                {
-                    v2f o;
-                    o.pos = UnityObjectToClipPos(v.vertex);
-                    o.worldNormal = UnityObjectToWorldNormal(v.normal);
-                    o.worldPos = mul(unity_ObjectToWorld,v.vertex).xyz;
-                    o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);
-                    return o;
-                }
-
-                fixed4 frag(v2f i) : SV_Target
-                {
-                    fixed3 worldNormal = normalize(i.worldNormal);
-                    fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
-                    fixed4 texColor = tex2D(_MainTex,i.uv);
-
-                    //实现光照
-                    //吸收系数
-                    fixed3 albedo = texColor.rgb * _Color.rgb;
-                    //环境光
-                    fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo;
-                    //漫反射
-                    fixed3 diffuse = _LightColor0.rgb * albedo * max(0,dot(worldNormal,worldLightDir));
-                    return fixed4(ambient + diffuse,texColor.a * _AlphaScale);
-               }
-               ENDCG
-           }
+            ENDCG
         }
-            Fallback "Transparent/Cutout/VertexLit"
+        Pass 
+        {
+            Stencil
+            {
+                Ref 1
+                Comp NotEqual
+            }
+
+            CGPROGRAM
+
+            #pragma vertex vert
+            #pragma fragment frag
+
+            float _Outline;
+            fixed4 _OutlineColor;
+
+            struct a2v 
+            {
+                float4 vertex : POSITION;
+                float3 normal : NORMAL;
+            }; 
+
+            struct v2f 
+            {
+                float4 pos : SV_POSITION;
+            };
+
+            v2f vert (a2v v) 
+            {
+                v2f o;
+
+                float4 pos = mul(UNITY_MATRIX_MV, v.vertex); 
+                float3 normal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);  
+                normal.z = -0.5;
+                pos = pos + float4(normalize(normal), 0) * _Outline;
+                o.pos = mul(UNITY_MATRIX_P, pos);
+
+                return o;
+            }
+
+            float4 frag(v2f i) : SV_Target 
+            { 
+                return float4(_OutlineColor.rgb, 1);               
+            }
+
+            ENDCG
+        }
+  
+ Pass
+ {
+            Blend SrcAlpha OneMinusSrcAlpha
+            //ZWrite Off
+ //ZTest Always
+ CGPROGRAM
+ #pragma vertex vert
+ #pragma fragment frag
+ #include "UnityCG.cginc"
+  
+ struct appdata {
+ float4 vertex:POSITION;
+ float2 uv:TEXCOORD0;
+ };
+  
+ struct v2f
+ {
+ float2 uv :TEXCOORD0;
+ float4 vertex:SV_POSITION;
+ };
+  
+  
+ v2f vert(appdata v)
+ {
+ v2f o;
+ o.vertex = UnityObjectToClipPos(v.vertex);
+ o.uv = v.uv;
+ return o;
+ }
+  
+ sampler2D _MainTex;
+  
+ fixed4 frag(v2f i) :SV_Target
+ {
+ fixed4 col = tex2D(_MainTex, i.uv);
+ //return fixed4(0, 0, 1, 1);//返回蓝色，因为再次渲染会把第一个颜色覆盖掉
+ col.a = 0;
+ return col;
+ }
+ ENDCG
+ }
+ } 
+ FallBack "Diffuse"
 }

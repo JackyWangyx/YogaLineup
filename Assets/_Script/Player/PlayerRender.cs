@@ -14,6 +14,12 @@ public class PlayerRender : PlayerBase
 
     public override void InitComponent()
     {
+        foreach (var girl in Game.YogaGirlList)
+        {
+            girl.transform.SetParent(Level.Level.transform);
+            girl.transform.localPosition = new Vector3(1000f, 0, 0);
+            GamePool.DeSpawn(girl);
+        }
         Game.YogaGirlList.Clear();
         RenderTrans.SetLocalPositionX(0f);
         RefreshRender(State.Point);
@@ -96,20 +102,23 @@ public class PlayerRender : PlayerBase
                 var girl = girlList[i];
                 girl.rotation = Quaternion.identity;
                 girl.SetParent(GirlListTrans);
-                var target = Player.Render.RenderTrans;
+                GirlFollow target = null;
                 if (Game.YogaGirlList.Count > 0)
-                    target = Game.YogaGirlList.Last().transform;
+                    target = Game.YogaGirlList.Last().transform.GetOrAddComponent<GirlFollow>();
                 var spawnPos = Player.Render.RenderTrans.transform.localPosition;
                 spawnPos.z += TransZ;
                 var follow = girl.GetOrAddComponent<GirlFollow>();
                 Game.YogaGirlList.Add(follow);
                 //string yogaStr = Player.Control._yogaList[Player.Control._targetIndex];
-                follow.Animator.SetTrigger("Yoga15");
-                follow.CurrentClip = "Yoga15";
+                //follow.Animator.SetTrigger("Yoga15");
+                //follow.CurrentClip = "Yoga15";
                 UTween.Position(girl, girl.localPosition, spawnPos, 0.5f, SpaceMode.Local)
                     .SetOnStop(() =>
                     {
-                        follow.Init(TransZ, target);
+                        if (target == null)
+                            follow.Init(TransZ);
+                        else
+                            follow.Init(TransZ, target);
                     });
             }
         }

@@ -20,6 +20,7 @@ public class PlayerControlPath : PlayerControl
     public override void InitComponent()
     {
         _yogaList.Clear();
+        AnimationScale = 0.5f;
     }
 
     public override void UpdateImpl(float deltaTime)
@@ -70,11 +71,20 @@ public class PlayerControlPath : PlayerControl
             }
         }
 
-        turnX = Mathf.Clamp(turnX, State.TurnRange.x, State.TurnRange.y);
-        turnX = Mathf.Lerp(Self.Render.RenderTrans.localPosition.x, turnX, Move.TurnLerpSpeed * deltaTime);
-        _turnPower = Mathf.Abs(Self.Render.RenderTrans.localPosition.x - turnX);
-        Self.Render.RenderTrans.SetLocalPositionX(turnX);
-        UpdateYoga();
+        if (Input.GetMouseButton(0))
+        {
+            turnX = Mathf.Clamp(turnX, State.TurnRange.x, State.TurnRange.y);
+            //turnX = Mathf.Lerp(AnimationScale, turnX, Move.TurnLerpSpeed * deltaTime);
+            var Fx = turnX;
+            float range = State.TurnRange.y - State.TurnRange.x;
+            Fx -= State.TurnRange.x;
+            Fx /= 10f;
+            Animator.Play("Idle", 0, Fx);
+            AnimationScale = Fx;
+        }
+        //_turnPower = Mathf.Abs(Self.Render.RenderTrans.localPosition.x - turnX);
+        //Self.Render.RenderTrans.SetLocalPositionX(turnX);
+        //UpdateYoga();
     }
 
     public void RunGirlList()
@@ -99,7 +109,7 @@ public class PlayerControlPath : PlayerControl
         _scale = range / _yogaList.Count;
         int index = (int)Mathf.Floor(_yogaList.Count / 2);
         _targetIndex = index;
-        StartCoroutine(YogaControl());
+        //StartCoroutine(YogaControl());
     }
 
     public IEnumerator YogaControl()
@@ -117,9 +127,9 @@ public class PlayerControlPath : PlayerControl
                 //var nowX = _scale * _yogaIndex;
                 //var length = Mathf.Abs(_scale * _targetIndex - lastX);
                 //Animator.speed = Mathf.Lerp(0f, 10f, length / Move.TurnLerpSpeed) + 0.3f;
-                if (!string.IsNullOrEmpty(CurrentClip))
-                    Animator.ResetTrigger(CurrentClip);
-                Animator.SetTrigger(yogaStr);
+                //if (!string.IsNullOrEmpty(CurrentClip))
+                    //Animator.ResetTrigger(CurrentClip);
+                //Animator.SetTrigger(yogaStr);
                 CurrentClip = yogaStr;
                 //Play(yogaStr);
                 //Animator.Play(yogaStr);
@@ -139,6 +149,7 @@ public class PlayerControlPath : PlayerControl
     {
         float yogaF = Mathf.Clamp(Self.Render.RenderTrans.GetLocalPositionX(), State.TurnRange.x, State.TurnRange.y);
         yogaF -= State.TurnRange.x;
+        Animator.Play("Idle", 0, yogaF / 10f);
         int index = (int)Mathf.Floor(yogaF / _scale);
         if (index >= _yogaList.Count)
             index = _yogaList.Count - 1;

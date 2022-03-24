@@ -16,6 +16,7 @@ public class Player : PlayerBase
     {
         InitAllComponent();
         Control.InitYoga();
+        Animator.speed = 0;
 
         Trans.position = Vector3.zero;
         Trans.forward = Vector3.forward;
