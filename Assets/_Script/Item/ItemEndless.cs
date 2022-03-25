@@ -23,7 +23,7 @@ public class ItemEndless : ItemBase<Player>
         base.Init();
         foreach (var girl in GirlList)
         {
-            GamePool.DeSpawn(girl.gameObject);
+            Destroy(girl.gameObject);
         }
         GirlList.Clear();
         StrList.Clear();
@@ -75,7 +75,7 @@ public class ItemEndless : ItemBase<Player>
         {
             var str = StrList[i];
             var trans = transList[i];
-            var girl = GamePool.Spawn(Girl, trans);
+            var girl = Instantiate(Girl, trans);
             girl.Animator.speed = 0;
             girl.Animator.Play(str, 0, 1f);
             GirlList.Add(girl);

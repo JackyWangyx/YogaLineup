@@ -18,7 +18,7 @@ public class PlayerRender : PlayerBase
         {
             girl.transform.SetParent(Level.Level.transform);
             girl.transform.localPosition = new Vector3(1000f, 0, 0);
-            Destroy(girl);
+            Destroy(girl.gameObject);
         }
         Game.YogaGirlList.Clear();
         RenderTrans.SetLocalPositionX(0f);
@@ -108,14 +108,20 @@ public class PlayerRender : PlayerBase
                 var spawnPos = Player.Render.RenderTrans.transform.localPosition;
                 spawnPos.z += TransZ;
                 var follow = girl.GetOrAddComponent<GirlFollow>();
+                follow.IsStart = false;
                 Game.YogaGirlList.Add(follow);
                 //string yogaStr = Player.Control._yogaList[Player.Control._targetIndex];
                 //follow.Animator.SetTrigger("Yoga15");
                 //follow.CurrentClip = "Yoga15";
-                UTween.Position(girl, girl.localPosition, spawnPos, 0.5f, SpaceMode.Local)
+                follow.Animator.speed = 1;
+                follow.Animator.Play("Run");
+                follow.Animator.transform.eulerAngles = new Vector3(0f, 180f, 0f);
+                UTween.Position(girl, girl.localPosition, spawnPos, 1f, SpaceMode.Local)
                     .SetOnStop(() =>
                     {
                         follow.Init(TransZ, target);
+                        follow.Animator.speed = 0;
+                        follow.Animator.transform.eulerAngles = new Vector3(0f, 90f, 0f);
                     });
             }
         }
@@ -138,10 +144,9 @@ public class PlayerRender : PlayerBase
                 {
                     Ins.transform.SetParent(Level.Level.transform);
                     Ins.transform.localPosition = new Vector3(1000f, 0, 0);
-                    GamePool.DeSpawn(Ins);
+                    Destroy(Ins);
                 }, 1f);
                 //girl.IsDead = true;
-                Destroy(girl, 1f);
                 Game.YogaGirlList.Remove(girl);
                 Player.Move.PathFollower.Distance -= Size;
                 Player.Move.PathFollower.BlockDistance -= Size;

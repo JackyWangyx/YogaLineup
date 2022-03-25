@@ -9,7 +9,7 @@ public class GirlFollow : GameEntity
     public float AnimationScale { get; set; }
     private GirlFollow Target;
     private Vector3 TransPos;
-    private bool IsStart;
+    public bool IsStart { get; set; }
 
     public void Init(float LengthForPlayer)
     {
