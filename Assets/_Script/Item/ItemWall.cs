@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemWall : ItemBreakable
+public class ItemWall : ItemBase<Player>
 {
     public GirlFollow Girl;
     [Range(0f, 1f)]

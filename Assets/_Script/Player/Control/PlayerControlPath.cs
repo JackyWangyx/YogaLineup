@@ -81,9 +81,9 @@ public class PlayerControlPath : PlayerControl
             Fx /= 10f;
             Animator.Play("Idle", 0, Fx);
             AnimationScale = Fx;
+            //_turnPower = Mathf.Abs(Self.Render.RenderTrans.localPosition.x - turnX);
+            //Self.Render.RenderTrans.SetLocalPositionX(turnX);
         }
-        //_turnPower = Mathf.Abs(Self.Render.RenderTrans.localPosition.x - turnX);
-        //Self.Render.RenderTrans.SetLocalPositionX(turnX);
         //UpdateYoga();
     }
 

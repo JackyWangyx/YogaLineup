@@ -46,7 +46,8 @@ namespace Aya.Events
         {
             if (ListenOnlyActive)
             {
-                EventListener.Register();
+                if (EventListener != null)
+                    EventListener.Register();
             }
         }
 
@@ -54,13 +55,15 @@ namespace Aya.Events
         {
             if (ListenOnlyActive)
             {
-                EventListener.DeRegister();
+                if (EventListener != null)
+                    EventListener.DeRegister();
             }
         }
 
         protected virtual void OnDestroy()
         {
-            EventListener.DeRegister();
+            if (EventListener != null)
+                EventListener.DeRegister();
         }
        
         #endregion

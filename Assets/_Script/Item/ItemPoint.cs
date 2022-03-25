@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using Aya.Extension;
 
 public class ItemPoint : ItemBase<Player>
 {
@@ -59,6 +60,7 @@ public class ItemPoint : ItemBase<Player>
             var girl = GirlList[i];
             girl.transform.SetParent(transform);
             girl.localPosition = CachePosList[i];
+            girl.GetComponentInChildren<Animator>().transform.eulerAngles = new Vector3(0f, 90f, 0f);
         }
     }
 

@@ -172,17 +172,10 @@ MonoBehaviour:
   VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
-  EnableBreak: 0
-  ExplodeForce: 0
-  ExplodeCenter: {x: 0, y: 0, z: 0}
-  ExplodeRange: 0
-  NormalTrans: {fileID: 0}
-  BrokenTrans: {fileID: 0}
-  BrokenList: []
   Girl: {fileID: 3189347542066251924}
   AnimationScale: 0.292
   StopTime: 1
-  GirlShader: {fileID: 3644725820591590267}
+  GirlShader: {fileID: 6356501018116560022}
   references:
     version: 1
 --- !u!1001 &3189347542840651344
@@ -306,6 +299,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668727564189968844, guid: fd6114c19d595e543a2887a7b5ac2258,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668727564189968844, guid: fd6114c19d595e543a2887a7b5ac2258,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668727564189968844, guid: fd6114c19d595e543a2887a7b5ac2258,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2758287366632178747, guid: fd6114c19d595e543a2887a7b5ac2258,
         type: 3}
@@ -562,6 +570,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 8391337839663987398, guid: fd6114c19d595e543a2887a7b5ac2258,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8391337839663987398, guid: fd6114c19d595e543a2887a7b5ac2258,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8654ec46e9ff22042bafaf4320611bd7, type: 2}
     - target: {fileID: 8468284918719161191, guid: fd6114c19d595e543a2887a7b5ac2258,
         type: 3}
       propertyPath: m_Layer
@@ -626,9 +644,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3189347542840651344}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &3644725820591590267 stripped
+--- !u!137 &6356501018116560022 stripped
 SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2222100235029996843, guid: fd6114c19d595e543a2887a7b5ac2258,
+  m_CorrespondingSourceObject: {fileID: 8391337839663987398, guid: fd6114c19d595e543a2887a7b5ac2258,
     type: 3}
   m_PrefabInstance: {fileID: 3189347542840651344}
   m_PrefabAsset: {fileID: 0}

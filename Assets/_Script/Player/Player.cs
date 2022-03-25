@@ -17,6 +17,7 @@ public class Player : PlayerBase
         InitAllComponent();
         Control.InitYoga();
         Animator.speed = 0;
+        Animator.transform.eulerAngles = new Vector3(0f, 90f, 0f);
 
         Trans.position = Vector3.zero;
         Trans.forward = Vector3.forward;

@@ -374,6 +374,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 855917508384576532, guid: e070ecc726a31ba49beb988f8b2eecc7,
+        type: 3}
+      propertyPath: Rainbow
+      value: 
+      objectReference: {fileID: 1302431835741758723, guid: 58583d3fe32a82d46a5a80522890d036,
+        type: 3}
     - target: {fileID: 3260612145767445378, guid: e070ecc726a31ba49beb988f8b2eecc7,
         type: 3}
       propertyPath: m_Name

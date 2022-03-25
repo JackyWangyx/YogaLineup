@@ -9,6 +9,7 @@ public class Level : GameEntity
     public int PlayerCount = 1;
     public Transform BackGround;
     public List<LevelBlock> BlockList;
+    public ItemEndless Rainbow;
     public List<ItemBase> ItemList { get; set; }
     public Dictionary<Type, List<ItemBase>> ItemDic { get; set; }
 
@@ -29,9 +30,11 @@ public class Level : GameEntity
     }
 
     #region Item
-    
+
+    public int RainbowIndex { get; set; }
     public void InitItem()
     {
+        RainbowIndex = 0;
         ItemList = transform.GetComponentsInChildren<ItemBase>(true).ToList();
         foreach (var item in ItemList)
         {
