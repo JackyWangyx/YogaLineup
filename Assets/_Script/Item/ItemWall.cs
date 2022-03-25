@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemWall : ItemBase<Player>
+public class ItemWall : ItemBreakable
 {
     public GirlFollow Girl;
     [Range(0f, 1f)]
     public float AnimationScale;
+    public float StopTime;
     public SkinnedMeshRenderer GirlShader;
     private bool CanGo;
 
@@ -21,6 +22,14 @@ public class ItemWall : ItemBase<Player>
 
     public override void OnTargetEffect(Player target)
     {
+        if (target.transform.position.z > transform.position.z)
+            return;
+
+        if (!CanGo)
+        {
+            target.Render.AddRender(null, Player.Data.Size, -1);
+            Player.Move.Stop(StopTime);
+        }
     }
 
     public void Update()

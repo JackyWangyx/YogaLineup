@@ -18,7 +18,7 @@ public class PlayerRender : PlayerBase
         {
             girl.transform.SetParent(Level.Level.transform);
             girl.transform.localPosition = new Vector3(1000f, 0, 0);
-            GamePool.DeSpawn(girl);
+            Destroy(girl);
         }
         Game.YogaGirlList.Clear();
         RenderTrans.SetLocalPositionX(0f);
@@ -115,10 +115,7 @@ public class PlayerRender : PlayerBase
                 UTween.Position(girl, girl.localPosition, spawnPos, 0.5f, SpaceMode.Local)
                     .SetOnStop(() =>
                     {
-                        if (target == null)
-                            follow.Init(TransZ);
-                        else
-                            follow.Init(TransZ, target);
+                        follow.Init(TransZ, target);
                     });
             }
         }
@@ -137,21 +134,26 @@ public class PlayerRender : PlayerBase
                 Game.YogaGirlList.Remove(girl);
 
                 var Ins = girl.gameObject;
-                this.ExecuteDelay(() => { GamePool.DeSpawn(Ins); }, 1f);
+                this.ExecuteDelay(() =>
+                {
+                    Ins.transform.SetParent(Level.Level.transform);
+                    Ins.transform.localPosition = new Vector3(1000f, 0, 0);
+                    GamePool.DeSpawn(Ins);
+                }, 1f);
                 //girl.IsDead = true;
-                girl.Play("Yoga11");
                 Destroy(girl, 1f);
+                Game.YogaGirlList.Remove(girl);
                 Player.Move.PathFollower.Distance -= Size;
                 Player.Move.PathFollower.BlockDistance -= Size;
             }
             var index = 0;
             foreach(var girl in Game.YogaGirlList)
             {
-                var target = Player.Render.RenderTrans;
+                GirlFollow target = null;
                 if (index > 0)
-                    target = Game.YogaGirlList[index - 1].transform;
-                //girl.Target = target;
+                    target = Game.YogaGirlList[index - 1];
                 index++;
+                girl.Init(index * Size, target);
             }
             Player.transform.position = nowPos;
         }

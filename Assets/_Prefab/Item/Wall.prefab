@@ -172,8 +172,16 @@ MonoBehaviour:
   VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
+  EnableBreak: 0
+  ExplodeForce: 0
+  ExplodeCenter: {x: 0, y: 0, z: 0}
+  ExplodeRange: 0
+  NormalTrans: {fileID: 0}
+  BrokenTrans: {fileID: 0}
+  BrokenList: []
   Girl: {fileID: 3189347542066251924}
   AnimationScale: 0.292
+  StopTime: 1
   GirlShader: {fileID: 3644725820591590267}
   references:
     version: 1
