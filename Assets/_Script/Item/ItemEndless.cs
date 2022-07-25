@@ -61,9 +61,9 @@ public class ItemEndless : ItemBase<Player>
         else if (Index >= 15)
             count = 4;
         else if (Index >= 10)
-            count = 3;
+            count = 1;
         else if (Index >= 5)
-            count = 2;
+            count = 1;
         UpdateAnimation(count);
     }
 

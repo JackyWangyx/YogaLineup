@@ -170,8 +170,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4564816257885365416}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: 2.5, z: 0}
-  m_LocalScale: {x: 3, y: 5, z: 1}
+  m_LocalPosition: {x: -3.12, y: 2.5, z: 0}
+  m_LocalScale: {x: 3.1787908, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 3784399782202492118}
   m_RootOrder: 1
@@ -199,6 +199,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -223,6 +224,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &8897896983724450011
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -263,8 +265,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4886988415783597621}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5, y: 2.5, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalPosition: {x: 2.52, y: 2.5, z: 0}
+  m_LocalScale: {x: 4.1484337, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 3784399782202492118}
   m_RootOrder: 0
@@ -292,6 +294,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -316,6 +319,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &2844277362787492058
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -356,7 +360,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5282050468767446709}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 2.5, z: 0}
+  m_LocalPosition: {x: -0.53999996, y: 2.5, z: 0}
   m_LocalScale: {x: 2, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 3784399782202492118}
@@ -385,6 +389,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -409,6 +414,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &8726828251891501771
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -536,7 +542,7 @@ MonoBehaviour:
   VibrationType: -1
   TweenAnimationList: []
   AnimatorDataList: []
-  AddValue: -1
+  GirlList: []
   MultiplyValue: 1
   StopTime: 0.5
   Text: {fileID: 0}
@@ -651,7 +657,7 @@ PrefabInstance:
     - target: {fileID: 4513261029687623500, guid: fd6114c19d595e543a2887a7b5ac2258,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1
+      value: -0.54
       objectReference: {fileID: 0}
     - target: {fileID: 4513261029687623500, guid: fd6114c19d595e543a2887a7b5ac2258,
         type: 3}
