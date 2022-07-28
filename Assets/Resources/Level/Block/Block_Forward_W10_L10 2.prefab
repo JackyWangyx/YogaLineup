@@ -362,6 +362,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3189347542756588287, guid: b63cdb4682b9e444aaaf8874d050445d,
         type: 3}
+      propertyPath: CheckRange
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3189347542756588287, guid: b63cdb4682b9e444aaaf8874d050445d,
+        type: 3}
       propertyPath: AnimationScale
       value: 0.4
       objectReference: {fileID: 0}

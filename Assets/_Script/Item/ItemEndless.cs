@@ -37,7 +37,8 @@ public class ItemEndless : ItemBase<Player>
     public List<GirlFollow> RemoveList { get; set; }
     public override void OnTargetEffect(Player target)
     {
-        for(var i = 0; i < GirlList.Count; i++)
+        Camera.Switch("Finish");
+        for (var i = 0; i < GirlList.Count; i++)
         {
             if (Game.YogaGirlList.Count <= 0)
             {
