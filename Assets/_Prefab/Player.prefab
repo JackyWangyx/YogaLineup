@@ -84,8 +84,8 @@ MonoBehaviour:
   KeepUp: 1
   MoveSpeed: 10
   RotateSpeed: 10
-  TurnSpeed: 10
-  TurnLerpSpeed: 10
+  TurnSpeed: 5
+  TurnLerpSpeed: 5
 --- !u!114 &7825335347768186455
 MonoBehaviour:
   m_ObjectHideFlags: 0

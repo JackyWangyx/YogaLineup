@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd9328272c4070449365e1e598bfd39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 15
+  Width: 10
   Start: {fileID: 5897512678121058222}
   End: {fileID: 3466532176257546455}
 --- !u!1 &887970490681711684
