@@ -10,6 +10,8 @@ public class ItemWall : ItemBase<Player>
     public float AnimationScale;
     public float StopTime;
     public SkinnedMeshRenderer GirlShader;
+    [Tooltip("判断通过距离")]
+    public float CheckRange = 0.05f;
     private bool CanGo;
 
     public override void Init()
@@ -41,7 +43,7 @@ public class ItemWall : ItemBase<Player>
             return;
         }
         var distance = Mathf.Abs(Player.Control.AnimationScale - AnimationScale);
-        if (distance <= 0.05f)
+        if (distance <= CheckRange)
         {
             CanGo = true;
             GirlShader.materials[0].SetColor("_OutlineColor", Color.green);
