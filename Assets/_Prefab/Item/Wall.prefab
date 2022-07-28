@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3189347542066251924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2422498956049035791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69f40317d221fcd4695b6476ca449adb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3189347542350635934
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,10 +56,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1e5a9fd2984310a4f9062c31b20247bb, type: 2}
+  - {fileID: 2100000, guid: d13bc9f37fcd7714988b049a54e3e26c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,6 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &3189347542350635935
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -650,3 +640,15 @@ SkinnedMeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 3189347542840651344}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3189347542066251924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2422498956049035791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f40317d221fcd4695b6476ca449adb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
