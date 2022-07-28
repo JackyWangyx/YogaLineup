@@ -16,7 +16,8 @@ public class ItemWall : ItemBase<Player>
     {
         base.Init();
         CanGo = false;
-        Girl.Animator.speed = 0;
+        if (Girl)
+            Girl.Animator.speed = 0;
         UpdateAnimation();
     }
 
@@ -34,6 +35,11 @@ public class ItemWall : ItemBase<Player>
 
     public void Update()
     {
+        if (Girl == null)
+        {
+            CanGo = false;
+            return;
+        }
         var distance = Mathf.Abs(Player.Control.AnimationScale - AnimationScale);
         if (distance <= 0.05f)
         {
@@ -50,6 +56,7 @@ public class ItemWall : ItemBase<Player>
     [Button("Test")]
     public void UpdateAnimation()
     {
+        if (Girl == null) return;
         Girl.Animator.speed = 0;
         Girl.Animator.Play("Idle", 0, AnimationScale);
     }

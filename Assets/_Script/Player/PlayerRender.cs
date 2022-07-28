@@ -115,14 +115,18 @@ public class PlayerRender : PlayerBase
                 //follow.CurrentClip = "Yoga15";
                 follow.Animator.speed = 1;
                 follow.Animator.Play("Run");
-                follow.Animator.transform.eulerAngles = new Vector3(0f, 180f, 0f);
-                UTween.Position(girl, girl.localPosition, spawnPos, 1f, SpaceMode.Local)
-                    .SetOnStop(() =>
-                    {
-                        follow.Init(TransZ, target);
-                        follow.Animator.speed = 0;
-                        follow.Animator.transform.eulerAngles = new Vector3(0f, 90f, 0f);
-                    });
+                //follow.Animator.transform.eulerAngles = new Vector3(0f, 180f, 0f);
+                girl.localPosition = spawnPos;
+                follow.Init(TransZ, target);
+                follow.Animator.speed = 0;
+                follow.Animator.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+                //UTween.Position(girl, girl.localPosition, spawnPos, 1f, SpaceMode.Local)
+                //    .SetOnStop(() =>
+                //    {
+                //        follow.Init(TransZ, target);
+                //        follow.Animator.speed = 0;
+                //        follow.Animator.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+                //    });
             }
         }
         else
@@ -135,7 +139,7 @@ public class PlayerRender : PlayerBase
                     Player.Lose();
                     return;
                 }
-                var girl = Game.YogaGirlList[0];
+                var girl = Game.YogaGirlList.Last();
                 nowPos = girl.transform.position;
                 Game.YogaGirlList.Remove(girl);
 
@@ -158,7 +162,7 @@ public class PlayerRender : PlayerBase
                 if (index > 0)
                     target = Game.YogaGirlList[index - 1];
                 index++;
-                girl.Init(index * Size, target);
+                girl.Init(index * Size * direction, target);
             }
             Player.transform.position = nowPos;
         }

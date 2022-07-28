@@ -16,6 +16,7 @@ public class ItemEndless : ItemBase<Player>
     {
         GirlList = new List<GirlFollow>();
         StrList = new List<string>();
+        RemoveList = new List<GirlFollow>();
     }
 
     public override void Init()
@@ -25,10 +26,15 @@ public class ItemEndless : ItemBase<Player>
         {
             Destroy(girl.gameObject);
         }
+        foreach(var girl in RemoveList)
+        {
+            GamePool.DeSpawn(girl);
+        }
         GirlList.Clear();
         StrList.Clear();
     }
 
+    public List<GirlFollow> RemoveList { get; set; }
     public override void OnTargetEffect(Player target)
     {
         for(var i = 0; i < GirlList.Count; i++)
@@ -49,6 +55,7 @@ public class ItemEndless : ItemBase<Player>
                         girl.Animator.transform.localPosition = Vector3.zero;
                     });
             Game.YogaGirlList.Remove(girl);
+            RemoveList.Add(girl);
         }
     }
 
@@ -61,9 +68,9 @@ public class ItemEndless : ItemBase<Player>
         else if (Index >= 15)
             count = 4;
         else if (Index >= 10)
-            count = 1;
+            count = 3;
         else if (Index >= 5)
-            count = 1;
+            count = 2;
         UpdateAnimation(count);
     }
 

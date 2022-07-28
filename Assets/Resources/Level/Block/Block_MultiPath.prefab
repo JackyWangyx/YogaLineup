@@ -659,7 +659,7 @@ MonoBehaviour:
   TweenAnimationList: []
   AnimatorDataList: []
   SwitchPath: 1
-  SwitchPathIndex: 1
+  SwitchPathIndex: 0
   LimitRange: 1
   Range: {x: 0, y: 7.5}
   KeepDirection: 1
@@ -1979,7 +1979,7 @@ MonoBehaviour:
   TweenAnimationList: []
   AnimatorDataList: []
   SwitchPath: 1
-  SwitchPathIndex: 0
+  SwitchPathIndex: 1
   LimitRange: 1
   Range: {x: -7.5, y: 0}
   KeepDirection: 1

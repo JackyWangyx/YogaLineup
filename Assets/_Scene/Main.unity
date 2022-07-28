@@ -456,17 +456,17 @@ PrefabInstance:
     - target: {fileID: 4874666060787816208, guid: e070ecc726a31ba49beb988f8b2eecc7,
         type: 3}
       propertyPath: StartRandIndex
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4874666060787816208, guid: e070ecc726a31ba49beb988f8b2eecc7,
-        type: 3}
-      propertyPath: TestLevelIndex
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4874666060787816208, guid: e070ecc726a31ba49beb988f8b2eecc7,
         type: 3}
+      propertyPath: TestLevelIndex
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874666060787816208, guid: e070ecc726a31ba49beb988f8b2eecc7,
+        type: 3}
       propertyPath: RandList.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4874666060787816208, guid: e070ecc726a31ba49beb988f8b2eecc7,
         type: 3}
@@ -497,6 +497,12 @@ PrefabInstance:
       propertyPath: RandList.Array.data[4]
       value: 
       objectReference: {fileID: 9188239360322120038, guid: 45b517299a9d1eb42ba0e7cd02e24da7,
+        type: 3}
+    - target: {fileID: 4874666060787816208, guid: e070ecc726a31ba49beb988f8b2eecc7,
+        type: 3}
+      propertyPath: RandList.Array.data[5]
+      value: 
+      objectReference: {fileID: 9188239360322120038, guid: bc6fb2b0bdf09514c9f0d07d1a9d8e5b,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e070ecc726a31ba49beb988f8b2eecc7, type: 3}
