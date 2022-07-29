@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Aya.Extension;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Tabtale.TTPlugins;
 
 public class GameManager : GameEntity<GameManager>
 {
@@ -29,6 +30,11 @@ public class GameManager : GameEntity<GameManager>
     protected override void Awake()
     {
         base.Awake();
+
+        // Initialize CLIK Plugin
+        TTPCore.Setup();
+        // Your code here
+
         Time.timeScale = 1f;
         GamePhase = GamePhaseType.None;
         CurrentPhase = null;

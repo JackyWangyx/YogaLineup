@@ -142,6 +142,8 @@ public class PlayerRender : PlayerBase
                 var girl = Game.YogaGirlList.Last();
                 nowPos = girl.transform.position;
                 Game.YogaGirlList.Remove(girl);
+                girl.Animator.speed = 1;
+                girl.Animator.Play("Fall");
 
                 var Ins = girl.gameObject;
                 this.ExecuteDelay(() =>
