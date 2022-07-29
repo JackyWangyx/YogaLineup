@@ -31,9 +31,7 @@ public class GameManager : GameEntity<GameManager>
     {
         base.Awake();
 
-        // Initialize CLIK Plugin
-        TTPCore.Setup();
-        // Your code here
+        SDKUtil.ClikInit(); 
 
         Time.timeScale = 1f;
         GamePhase = GamePhaseType.None;

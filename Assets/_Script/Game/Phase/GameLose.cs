@@ -9,6 +9,7 @@ public class GameLose : GamePhaseHandler
     public override void Enter(params object[] args)
     {
         Camera.Switch("Finish");
+        SDKUtil.ClikLevelFail();
         UI.ShowWindow<UILose>();
         Dispatch(GameEvent.Lose);
     }

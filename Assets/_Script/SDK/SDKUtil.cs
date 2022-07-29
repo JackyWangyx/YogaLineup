@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Aya.AD;
 using Aya.Analysis;
+using Tabtale.TTPlugins;
 #if UNITY_IOS
 using Unity.Advertisement.IosSupport;
 #endif
@@ -13,6 +15,34 @@ public static class SDKUtil
         AnalysisManager.Instance.Init();
         ADManager.Init();
          ADManager.Instance.ShowBanner();
+    }
+
+    public static void ClikInit()
+    {
+        // Initialize CLIK Plugin
+        TTPCore.Setup();
+        // Your code here
+    }
+
+    public static void ClikLevelStart()
+    {
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("LevelStart", "Level" + GameManager.Ins.Save.LevelIndex);
+        TTPGameProgression.FirebaseEvents.MissionStarted(GameManager.Ins.Save.LevelIndex, parameters);
+    }
+
+    public static void ClikLevelFail()
+    {
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("LevelFail", "Level" + GameManager.Ins.Save.LevelIndex);
+        TTPGameProgression.FirebaseEvents.MissionFailed(parameters);
+    }
+
+    public static void ClikLevelComplete()
+    {
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("LevelComplete", "Level" + GameManager.Ins.Save.LevelIndex);
+        TTPGameProgression.FirebaseEvents.MissionComplete(parameters);
     }
 
     public static void RequestTrackingPermission()

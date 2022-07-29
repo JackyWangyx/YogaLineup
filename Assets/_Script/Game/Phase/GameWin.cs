@@ -9,6 +9,7 @@ public class GameWin : GamePhaseHandler
     public override void Enter(params object[] args)
     {
         Camera.Switch("Finish");
+        SDKUtil.ClikLevelComplete();
         UI.ShowWindow<UIWin>();
         Dispatch(GameEvent.Win);
     }

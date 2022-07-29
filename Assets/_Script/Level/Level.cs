@@ -27,6 +27,7 @@ public class Level : GameEntity
         InitBlocks();
         InitItem();
         InitPlayer();
+        SDKUtil.ClikLevelStart();
     }
 
     #region Item
