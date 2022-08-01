@@ -145,7 +145,7 @@ MonoBehaviour:
     m_Bits: 1024
   DeSpawnMode: 0
   DeActiveRender: 0
-  EffectMode: 1
+  EffectMode: 0
   EffectCount: 1
   EffectInterval: 1
   Conditions: []
@@ -164,7 +164,7 @@ MonoBehaviour:
   AnimatorDataList: []
   Girl: {fileID: 3189347542066251924}
   AnimationScale: 0.292
-  StopTime: 1
+  StopTime: 0.3
   GirlShader: {fileID: 6356501018116560022}
   CheckRange: 0.05
   references:

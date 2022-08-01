@@ -139,7 +139,7 @@ public class PlayerRender : PlayerBase
                     Player.Lose();
                     return;
                 }
-                var girl = Game.YogaGirlList.Last();
+                var girl = Game.YogaGirlList.First();
                 nowPos = girl.transform.position;
                 Game.YogaGirlList.Remove(girl);
                 girl.Animator.speed = 1;
