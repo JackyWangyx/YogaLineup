@@ -39,7 +39,7 @@ public class GirlFollow : GameEntity
         TransPos.y = pos.y;
         if (Target != null)
         {
-            if (Mathf.Abs(Target.AnimationScale - AnimationScale) <= 0.005f)
+            if (Mathf.Abs(Target.AnimationScale - AnimationScale) <= 0.001f)
             {
                 AnimationScale = Target.AnimationScale;
             }
